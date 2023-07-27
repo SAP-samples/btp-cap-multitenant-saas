@@ -1,0 +1,40 @@
+{
+    "requires": {
+        "multitenancy": true,
+        "toggles": true,
+        "extensibility": true,
+        "cds.xt.ExtensibilityService": {
+            "element-prefix": [
+                "x_"
+            ],
+            "extension-allowlist": [
+                {
+                    "for": [
+                        "*"
+                    ]
+                }
+            ]
+        },
+        "hana": {
+            "kind": "hana-cloud",
+            "vcap": {
+                "name": "hana",
+                "tags": [
+                    "hana"
+                ],
+                "plan": "hdi-shared",
+                "label": "hana"
+            }
+        },
+        "db": {
+            "kind": "hana-cloud",
+            "vcap": {
+                "label": "service-manager",
+                "plan": "container"
+            }
+        },
+        "auth": {
+            "kind": "xsuaa"
+        }
+    }
+}

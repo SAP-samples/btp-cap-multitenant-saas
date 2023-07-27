@@ -1,0 +1,132 @@
+{
+    "tenant-mode": "shared",
+    "foreign-scope-references": [
+        "xs_authorization.read",
+        "xs_authorization.write",
+        "xs_user.read",
+        "xs_user.write",
+        "xs_idp.read",
+        "xs_idp.write"
+    ],
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.mtcallback",
+            "description": "SaaS Provisioning",
+            "grant-as-authority-to-apps": [
+                "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+            ]
+        },
+        {
+            "name": "$XSAPPNAME.mtdeployment",
+            "description": "SaaS Model Upgrade"
+        },
+        {
+            "name": "$XSAPPNAME.MtxDiagnose",
+            "description": "SaaS Diagnose"
+        },
+        {
+            "name": "uaa.user",
+            "description": "UAA"
+        }
+        ,
+        {
+            "name": "$XSAPPNAME.Member",
+            "description": "Member"
+        },
+        {
+            "name": "$XSAPPNAME.Admin",
+            "description": "Administrator"
+        }
+        ,
+        {
+            "name": "$XSAPPNAME.cds.ExtensionDeveloper",
+            "description": "Develop Extensions"
+        }
+    ],
+    "role-templates": [
+        {
+            "name": "Token_Exchange",
+            "description": "UAA Token Exchange",
+            "scope-references": [
+                "uaa.user"
+            ]
+        }
+        ,
+        {
+            "name": "Member",
+            "description": "Member",
+            "scope-references": [
+                "$XSAPPNAME.Member"
+            ]
+        },
+        {
+            "name": "Admin",
+            "description": "Administrator",
+            "scope-references": [
+                "$XSAPPNAME.Admin",
+                "xs_authorization.read",
+                "xs_authorization.write",
+                "xs_user.read",
+                "xs_user.write",
+                "xs_idp.read",
+                "xs_idp.write"
+            ]
+        }
+        ,
+        {
+            "name": "SaaSAdmin",
+            "description": "SaaS Administrator",
+            "scope-references": [
+                "$XSAPPNAME.mtcallback",
+                "$XSAPPNAME.mtdeployment",
+                "$XSAPPNAME.MtxDiagnose"
+            ]
+        },
+        {
+            "name": "ExtensionDeveloper",
+            "description": "Extension Developer",
+            "scope-references": [
+                "$XSAPPNAME.cds.ExtensionDeveloper"
+            ]
+        },
+        {
+            "name": "UserManagementAdmin",
+            "description": "Manage authorizations, trusted identity providers, and users.",
+            "default-role-name": "User and Role Administrator",
+            "scope-references": [
+                "xs_authorization.read",
+                "xs_authorization.write",
+                "xs_user.read",
+                "xs_user.write",
+                "xs_idp.read",
+                "xs_idp.write"
+            ]
+        },
+        {
+            "name": "UserManagementAuditor",
+            "description": "Read-only access for authorizations, trusted identity providers, and users.",
+            "default-role-name": "User and Role Auditor",
+            "scope-references": [
+                "xs_authorization.read",
+                "xs_user.read",
+                "xs_idp.read"
+            ]
+        }
+    ]
+    ,
+    "authorities": [
+        "$XSAPPNAME.mtcallback",
+        "$XSAPPNAME.mtdeployment",
+        "$XSAPPNAME.MtxDiagnose",
+        "$XSAPPNAME.cds.ExtensionDeveloper"
+    ]
+    ,
+    "oauth2-configuration": {
+        "token-validity": 3600,
+        "redirect-uris": [
+            "http://localhost:5000",
+            "http://*.localhost:5000/**",
+            "http*://*.cfapps.*.hana.ondemand.com/**"
+        ]
+    }
+}

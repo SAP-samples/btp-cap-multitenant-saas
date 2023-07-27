@@ -1,0 +1,7 @@
+{{- $defaultParameters := dict "init_data" (
+        include "template-value" ( 
+            dict "value" .Values.destination.parameters.init_data "context" . 
+        ) | fromYaml
+    )
+}}
+{{- include "cap.service-instance" (mergeOverwrite ( dict "defaultParameters" $defaultParameters "useDefaults" true ) . ) }}

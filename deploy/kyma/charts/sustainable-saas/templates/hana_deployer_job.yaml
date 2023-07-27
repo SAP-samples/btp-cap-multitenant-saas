@@ -1,0 +1,49 @@
+#
+# HANA single-tenant DB deployment
+#
+{{- if .Values.hana_deployer }}
+  {{- if or (not (hasKey .Values.hana_deployer "enabled")) .Values.hana_deployer.enabled }}
+{{- $ := merge (dict "root" . "name" "hana-deployer") .Values.hana_deployer . }}
+{{- template "cap.expect" (list . "hana_deployer.bindings.hana" "hana_deployer.image.repository") }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-hana-deployer
+  labels: {{- include "cap.labels" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "post-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+  namespace: {{ .Release.Namespace }}
+spec:
+  backoffLimit: 4
+  template:
+    metadata:
+      labels:
+        {{- include "cap.labels" $ | nindent 8 }}
+        sidecar.istio.io/inject: "false"
+    spec:
+      restartPolicy: Never
+      {{- include "cap.imagePullSecrets" $ | nindent 6 -}}
+      volumes:
+        {{- include "cap.sapcp.bindingsVolumes" $ | nindent 10 }}
+      containers:
+      - name: hana-deployer
+        image: {{ include "cap.image" $ }}
+        imagePullPolicy: {{ include "cap.imagePullPolicy" $ }}
+        env:
+        {{- range $k, $v := .Values.hana_deployer.env }}
+        - name: {{ $k }}
+          value: {{ $v | quote }}
+        {{- end }}
+        - name: SERVICE_BINDING_ROOT
+          value: /bindings
+        - name: EXIT
+          value: 'true'
+        volumeMounts:
+          {{- include "cap.sapcp.bindingsVolumeMounts" $ | nindent 10 }}
+        resources:
+          {{- toYaml .Values.hana_deployer.resources | nindent 10 }}
+---
+{{ include "cap.sapcp.bindings" $ }}
+{{ end }}
+{{ end }}

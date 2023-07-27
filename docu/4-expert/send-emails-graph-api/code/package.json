@@ -1,0 +1,16 @@
+{
+    "name": "azure-mail",
+    "version": "1.0.0",
+    "description": "Send e-mails using Microsoft Graph",
+    "main": "index.js",
+    "dependencies": {
+        "@microsoft/microsoft-graph-client": "^3.0.2",
+        "@azure/identity": "^2.1.0",
+        "isomorphic-fetch": "^3.0.0"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "",
+    "license": "ISC"
+}

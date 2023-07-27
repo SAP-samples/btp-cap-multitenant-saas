@@ -1,0 +1,142 @@
+{
+    "configuration":{
+        "actions": [
+            {
+                "type": "EMAIL",
+                "name": "send-email",
+                "state": "ENABLED",
+                "properties": {
+                    "destination": "recipient@example.org",
+                    "useHtml": "false"
+                }
+            },
+            {
+                "type": "STORE",
+                "name": "tmp-store",
+                "state": "ENABLED"
+            }
+        ],
+        "conditions": [
+            {
+                "name": "Audit-App-Crash",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "app.crash",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "Audit-App-Update",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "audit.app.update",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "mta-category",
+                "mandatory": false,
+                "propertyKey": "category",
+                "predicate": "EQUALS",
+                "propertyValue": "NOTIFICATION",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "Audit-App-Stop",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "CONTAINS",
+                "propertyValue": "audit.app.stop",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "Audit-App-Process-Crash",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "audit.app.process.crash",
+                "labels": [],
+                "description": "audit.app.process.crash"
+            },
+            {
+                "name": "Audit-App-Start",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "audit.app.start",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "mta-deployment",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "DEPLOYMENT",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "mta-undeployment",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "UNDEPLOYMENT",
+                "labels": [],
+                "description": ""
+            },
+            {
+                "name": "Alert-App-Generic",
+                "mandatory": false,
+                "propertyKey": "eventType",
+                "predicate": "EQUALS",
+                "propertyValue": "alert.app.generic",
+                "labels": [],
+                "description": ""
+            }
+        ],
+        "subscriptions": [
+            {
+                "name": "MTA",
+                "conditions": [
+                    "mta-deployment",
+                    "mta-undeployment"
+                ],
+                "actions": [
+                    "tmp-store",
+                    "send-email"
+                ],
+                "state": "ENABLED"
+            },
+            {
+                "name": "App-Audit",
+                "conditions": [
+                    "Audit-App-Process-Crash",
+                    "Audit-App-Stop",
+                    "Audit-App-Crash",
+                    "Audit-App-Update"
+                ],
+                "actions": [
+                    "tmp-store",
+                    "send-email"
+                ],
+                "state": "ENABLED"
+            },
+            {
+                "name": "App-Alerts",
+                "conditions": [
+                    "Alert-App-Generic"
+                ],
+                "actions": [
+                    "tmp-store",
+                    "send-email"
+                ],
+                "state": "ENABLED"
+            }
+        ]
+    }
+}

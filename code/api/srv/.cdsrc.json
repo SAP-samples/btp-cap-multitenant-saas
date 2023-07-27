@@ -1,0 +1,19 @@
+{
+    "requires": {
+        "multitenancy": true,
+        "cds.xt.ExtensibilityService": false,
+        "cds.xt.ModelProviderService": false,
+        "cds.xt.DeploymentService": false,
+        "cds.xt.SaasProvisioningService": false,
+        "db": {
+            "kind": "hana-cloud",
+            "vcap": {
+                "label": "service-manager",
+                "plan": "container"
+            }
+        },
+        "auth": {
+            "kind": "xsuaa"
+        }
+    }
+}

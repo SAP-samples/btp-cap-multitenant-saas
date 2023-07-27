@@ -1,0 +1,15 @@
+{{- if .Values.apim }}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ .Release.Name }}-apim
+  labels: {{- include "susaas-api.labels" . | nindent 4 }}
+spec:
+  host: {{ .Values.apim.host }}
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: {{ .Values.apim.port | default 443  }}
+      tls:
+        mode: SIMPLE
+{{- end }}

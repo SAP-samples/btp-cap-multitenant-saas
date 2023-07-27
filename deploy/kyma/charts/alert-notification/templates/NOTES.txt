@@ -1,0 +1,3 @@
+Thank you for installing {{ .Chart.Name }} version {{ .Chart.Version }}.
+
+The release "{{ .Release.Name }}" is installed in namespace "{{ .Release.Namespace }}".

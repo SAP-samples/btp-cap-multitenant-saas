@@ -1,0 +1,55 @@
+@xsuaaHostname = <<uaa.url - field from Service Binding>>
+@btpXsuaaClient = <<uaa.clientid - field from Service Binding>>
+@btpXsuaaSecret = <<uaa.clientsecret - field from Service Binding>>
+@apiEndpointBtp = <<apiUrl (!not uaa.apiUrl!) - field from Service Binding>>
+
+
+##########################################
+# Get SAP XSUAA token 
+##########################################
+
+# @name getXsuaaToken
+
+POST {{xsuaaHostname}}/oauth/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic {{btpXsuaaClient}}:{{btpXsuaaSecret}}
+
+client_id={{btpXsuaaClient}}
+&client_secret={{btpXsuaaSecret}}
+&grant_type=client_credentials
+
+
+##########################################
+# Call CAP endpoint (BTP)
+##########################################
+
+@access_token = {{getXsuaaToken.response.body.$.access_token}}
+
+# @name uploadRecyclingMaterialsBtp
+POST {{apiEndpointBtp}}/rest/api/bulkUpsertRecyclingMaterials
+Authorization: Bearer {{access_token}}
+Content-type: application/json
+
+{
+      "recyclingMaterials" : [
+            {"product_ID":"HT-1000","material":"MT10000001","materialName":"Aluminium","weightShare":14,"recycleShare":23},
+            {"product_ID":"HT-1000","material":"MT20000008","materialName":"Plastic","weightShare":34,"recycleShare":30},
+            {"product_ID":"HT-1001","material":"MT10000001","materialName":"Aluminium","weightShare":10,"recycleShare":23},
+            {"product_ID":"HT-1001","material":"MT20000008","materialName":"Plastic","weightShare":44,"recycleShare":39},
+            {"product_ID":"HT-1002","material":"MT10000001","materialName":"Aluminium","weightShare":21,"recycleShare":40},
+            {"product_ID":"HT-1002","material":"MT20000008","materialName":"Plastic","weightShare":28,"recycleShare":38},
+            {"product_ID":"HT-1003","material":"MT10000001","materialName":"Aluminium","weightShare":32,"recycleShare":43},
+            {"product_ID":"HT-1003","material":"MT20000008","materialName":"Plastic","weightShare":38,"recycleShare":56},
+            {"product_ID":"HT-1055","material":"MT10000001","materialName":"Aluminium","weightShare":8,"recycleShare":75},
+            {"product_ID":"HT-1055","material":"MT20000008","materialName":"Plastic","weightShare":63,"recycleShare":15},
+            {"product_ID":"HT-1056","material":"MT10000001","materialName":"Aluminium","weightShare":12,"recycleShare":56},
+            {"product_ID":"HT-1056","material":"MT20000008","materialName":"Plastic","weightShare":63,"recycleShare":12},
+            {"product_ID":"HT-1060","material":"MT10000001","materialName":"Aluminium","weightShare":3,"recycleShare":3},
+            {"product_ID":"HT-1060","material":"MT20000008","materialName":"Plastic","weightShare":69,"recycleShare":11},
+            {"product_ID":"HT-1063","material":"MT10000001","materialName":"Aluminium","weightShare":23,"recycleShare":10},
+            {"product_ID":"HT-1063","material":"MT20000008","materialName":"Plastic","weightShare":61,"recycleShare":28},
+            {"product_ID":"HT-1120","material":"MT10000001","materialName":"Aluminium","weightShare":22,"recycleShare":15},
+            {"product_ID":"HT-1120","material":"MT20000008","materialName":"Plastic","weightShare":70,"recycleShare":33}
+      ]
+}

@@ -1,0 +1,4 @@
+specVersion: "2.5"
+metadata:
+  name: sap.susaas.ui.admin.users
+type: application

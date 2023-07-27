@@ -1,0 +1,18 @@
+{{- if and .Values.expose.enabled ( not .Values.apim ) }}
+apiVersion: gateway.kyma-project.io/v1beta1
+kind: APIRule
+metadata:
+  name: {{ include "susaas-api.fullname" . }}
+  labels: {{- include "susaas-api.labels" . | nindent 4 }}
+spec:
+  gateway: {{ .Values.global.gateway | default "kyma-system/kyma-gateway" }}
+  host: {{ printf "%s.%s" ( include "susaas-api.exposeHost" . ) $.Values.global.domain }}
+  rules:
+  - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+    path: /.*
+    accessStrategies:
+      - handler: allow
+  service:
+    name: {{ include "susaas-api.fullname" . }}
+    port: {{ .Values.port }}
+{{- end }}

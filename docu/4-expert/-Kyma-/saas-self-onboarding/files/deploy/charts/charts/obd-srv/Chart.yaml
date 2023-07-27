@@ -1,0 +1,6 @@
+apiVersion: v2
+name: obd-srv
+description: A Helm chart for srv
+kubeVersion: ">= 1.21"
+type: application
+version: 0.1.0

@@ -1,0 +1,517 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "required": [
+        "global",
+        "srv",
+        "router",
+        "broker"
+    ],
+    "properties": {
+        "global": {
+            "$id": "#/properties/global",
+            "title": "Helm global values",
+            "description": "For more information, see https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#global-chart-values",
+            "type": "object",
+            "required": [
+                "domain"
+            ],
+            "properties": {
+                "imagePullSecret": {
+                    "$id": "#/properties/global/imagePullSecret",
+                    "title": "Image Pull Secret configuration",
+                    "description": "For more information, see https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/",
+                    "additionalProperties": false,
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "title": "Secret name",
+                            "description": "Name of the Kubernetes Secret, used as an image pull secret (must be of type kubernetes.io/dockerconfigjson). Can't be used with the `dockerconfigjson` option.",
+                            "$ref": "#/definitions/KubernetesName"
+                        }
+                    }
+                },
+                "domain": {
+                    "$id": "#/properties/global/domain",
+                    "title": "Domain Name",
+                    "description": "Full-qualified domain name used to access applications in your Kyma cluster",
+                    "type": "string",
+                    "pattern": "[0-9a-z][0-9a-z-.]*"
+                }
+            }
+        },
+        "srv": {
+            "$id": "#/properties/srv",
+            "description": "Deployment"
+        },
+        "router": {
+            "$id": "#/properties/router",
+            "description": "Deployment"
+        },
+        "broker": {
+            "$id": "#/properties/broker",
+            "description": "Deployment"
+        },
+        "api": {
+            "$id": "#/properties/api",
+            "description": "Deployment"
+        },
+        "auditlog": {
+            "$id": "#/properties/auditlog",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "destinations": {
+            "$id": "#/properties/destinations",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "connectivity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "serviceOfferingName",
+                "servicePlanName",
+                "configMapName",
+                "secretName"
+            ],
+            "properties": {
+                "fullnameOverride": {
+                    "type": "string",
+                    "pattern": "[0-9a-z][0-9a-z-.]*",
+                    "maxLength": 63,
+                    "description": "If present then this will be used instead of the generated name"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Service instance will be created (default: true)"
+                },
+                "serviceOfferingName": {
+                    "type": "string",
+                    "default": "connectivity",
+                    "description": "Technical service offering name from service catalog"
+                },
+                "servicePlanName": {
+                    "type": "string",
+                    "default": "connectivity_proxy",
+                    "description": "Technical service plan name from service catalog"
+                },
+                "parameters": {
+                    "type": "object",
+                    "description": "Some services support the provisioning of additional configuration parameters during the instance creation. For the list of supported parameters, check the documentation of the particular service offering."
+                },
+                "config": {
+                    "type": "string",
+                    "description": "File name of JSON configuration file in chart folder. Values from the file will be copied and placed in the parameters for the service instance. If both parameters and config are specified, the values in parameters override those read from config."
+                },
+                "configMapName": {
+                    "type": "string",
+                    "description": "Required to add additional connection information, compared to what is available from the service binding."
+                },
+                "secretName": {
+                    "type": "string",
+                    "description": "Required to add additional connection information."
+                }
+            }
+        },
+        "event_mesh": {
+            "$id": "#/properties/event_mesh",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "hana_deployer": {
+            "$id": "#/properties/hana_deployer",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "image",
+                "bindings",
+                "resources"
+            ],
+            "properties": {
+                "image": {
+                    "$id": "#/properties/hana_deployer/image",
+                    "$ref": "#/definitions/Image"
+                },
+                "bindings": {
+                    "$id": "#/properties/hana_deployer/bindings",
+                    "$ref": "#/definitions/Bindings"
+                },
+                "resources": {
+                    "$id": "#/properties/hana_deployer/resources",
+                    "$ref": "#/definitions/Resources"
+                },
+                "env": {
+                    "$id": "#/properties/hana_deployer/env",
+                    "description": "Key-value map of environment variables, which should be added to the Pod spec.",
+                    "type": "object",
+                    "patternProperties": {
+                        "^[-._a-zA-Z][-._a-zA-Z0-9]*$": {
+                            "$comment": "regex above copied from https://github.com/kubernetes/kubernetes/blob/ea0764452222146c47ec826977f49d7001b0ea8c/staging/src/k8s.io/apimachinery/pkg/util/validation/validation.go#L402",
+                            "not": {
+                                "type": ["null", "object", "array"]
+                            }
+                        }
+                    },
+                    "additionalProperties": false,
+                    "default": {}
+                }
+            }
+        },
+        "html5_apps_deployer": {
+            "$id": "#/properties/html5_apps_deployer",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "image",
+                "bindings",
+                "resources",
+                "cloudService"
+            ],
+            "properties": {
+                "image": {
+                    "$id": "#/properties/html5_apps_deployer/image",
+                    "$ref": "#/definitions/Image"
+                },
+                "bindings": {
+                    "$id": "#/properties/html5_apps_deployer/bindings",
+                    "$ref": "#/definitions/Bindings"
+                },
+                "resources": {
+                    "$id": "#/properties/html5_apps_deployer/resources",
+                    "$ref": "#/definitions/Resources"
+                },
+                "env": {
+                    "$id": "#/properties/html5_apps_deployer/env",
+                    "description": "Key-value map of environment variables, which should be added to the Pod spec.",
+                    "type": "object",
+                    "patternProperties": {
+                        "^[-._a-zA-Z][-._a-zA-Z0-9]*$": {
+                            "$comment": "regex above copied from https://github.com/kubernetes/kubernetes/blob/ea0764452222146c47ec826977f49d7001b0ea8c/staging/src/k8s.io/apimachinery/pkg/util/validation/validation.go#L402",
+                            "not": {
+                                "type": ["null", "object", "array"]
+                            }
+                        }
+                    },
+                    "additionalProperties": false,
+                    "default": {}
+                },
+                "backendDestinations": {
+                    "$id": "#/properties/html5_apps_deployer/backendDestinations",
+                    "title": "Backend Destinations for HTML5 Application",
+                    "type": "object",
+                    "patternProperties": {
+                        "^[-._a-zA-Z][-._a-zA-Z0-9]*$": {
+                            "description": "Name of the backend Destination",
+                            "required": [
+                                "service"
+                            ],
+                            "properties": {
+                                "service": {
+                                    "type": "string",
+                                    "description": "Target Kubernetes service"
+                                },
+                                "path": {
+                                    "type": "string",
+                                    "description": "This path will be appended to the URL"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cloudService": {
+                    "$id": "#/properties/html5_apps_deployer/cloudService",
+                    "type": "string",
+                    "description": "Name for your business service (unique per subaccount)"
+                }
+            }
+        },
+        "html5_apps_repo_host": {
+            "$id": "#/properties/html5_apps_repo_host",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "html5_apps_repo_runtime": {
+            "$id": "#/properties/html5_apps_repo_runtime",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "xsuaa": {
+            "$id": "#/properties/xsuaa",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "service_manager": {
+            "$id": "#/properties/service_manager",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "hdi_container": {
+            "$id": "#/properties/hdi_container",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "saas_registry": {
+            "$id": "#/properties/saas_registry",
+            "$ref": "#/definitions/ServiceInstance"
+        },
+        "cis_central": {
+            "$id": "#/properties/cis_central",
+            "$ref": "#/definitions/ServiceInstance"
+        }
+    },
+    "definitions": {
+        "KubernetesName": {
+            "type": "string",
+            "$comment": "running `kubectl create secret generic invalid_name` will print this regex",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+        },
+        "ServiceInstance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "serviceOfferingName",
+                "servicePlanName"
+            ],
+            "properties": {
+                "fullnameOverride": {
+                    "type": "string",
+                    "pattern": "[0-9a-z][0-9a-z-.]*",
+                    "maxLength": 63,
+                    "description": "If present then this will be used instead of the generated name"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Service instance will be created (default: true)"
+                },
+                "serviceOfferingName": {
+                    "type": "string",
+                    "description": "Technical service offering name from service catalog"
+                },
+                "servicePlanName": {
+                    "type": "string",
+                    "description": "Technical service plan name from service catalog"
+                },
+                "environment": {
+                    "type": "string",
+                    "description": "Technical service plan id from service catalog"
+                },
+                "parameters": {
+                    "type": "object",
+                    "description": "Some services support the provisioning of additional configuration parameters during the instance creation. For the list of supported parameters, check the documentation of the particular service offering."
+                },
+                "config": {
+                    "type": "string",
+                    "description": "File name of JSON configuration file in chart folder. Values from the file will be copied and placed in the parameters for the service instance. If both parameters and config are specified, the values in parameters override those read from config."
+                }
+            }
+        },
+        "Image": {
+            "title": "Image configuration",
+            "type": "object",
+            "required": [
+                "repository"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "repository": {
+                    "title": "Repository of the image",
+                    "description": "Should also include the image name (i.e. everything before the `:` sign).",
+                    "type": "string",
+                    "pattern": "^[\\w-./:]*[@sha256]*$"
+                },
+                "tag": {
+                    "title": "Image tag",
+                    "description": "Image tag without the name (everything after the `:` sign, potentially including the `@sha256` section at the end).",
+                    "type": "string",
+                    "pattern": "^((?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])(?:(?:\\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))+)?(?::[0-9]+)?/)?[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?(?:(?:/[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?)+)?)(?::([\\w][\\w.-]{0,127}))?(?:@([A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][[:xdigit:]]{32,}))?$"
+                }
+            }
+        },
+        "Bindings": {
+            "$id": "#/properties/bindings",
+            "title": "Service Binding configuration",
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[-._a-zA-Z][-._a-zA-Z0-9]*$": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "required": [
+                                "fromSecret"
+                            ],
+                            "properties": {
+                                "fromSecret": {
+                                    "description": "Name of a Kubernetes Secret, with the binding content, compliant to the SAP Kubernetes Service Binding spec",
+                                    "$ref": "#/definitions/KubernetesName"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "serviceInstanceName": {
+                                    "description": "Name of a BTP Operator Service Instance, created by the `service-instance` Helm chart. Can't be used with the `serviceInstanceFullname` option.",
+                                    "$ref": "#/definitions/KubernetesName"
+                                },
+                                "serviceInstanceFullname": {
+                                    "description": "Full name of a BTP Operator Service Instance. Can't be used with the `serviceInstanceName` option.",
+                                    "$ref": "#/definitions/KubernetesName"
+                                },
+                                "externalName": {
+                                    "description": "The name for the service binding in SAP BTP",
+                                    "type": "string"
+                                },
+                                "secretName": {
+                                    "description": "The name of the secret where the credentials are stored.",
+                                    "$ref": "#/definitions/KubernetesName"
+                                },
+                                "parameters": {
+                                    "description": "Some services support the provisioning of additional configuration parameters during the bind request. For the list of supported parameters, check the documentation of the particular service offering.",
+                                    "type": "object"
+                                },
+                                "parametersFrom": {
+                                    "description": "List of sources to populate parameters.",
+                                    "type": "array",
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "type": "object",
+                                                "description": "Kubernetes Secret as a parameters source.",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "secretKeyRef": {
+                                                        "type": "object",
+                                                        "additionalProperties": false,
+                                                        "required": [
+                                                            "name",
+                                                            "key"
+                                                        ],
+                                                        "properties": {
+                                                            "name": {
+                                                                "description": "Name of a Secret.",
+                                                                "$ref": "#/definitions/KubernetesName"
+                                                            },
+                                                            "key": {
+                                                                "description": "Key in that Secret, which contains a string that represents the json to include in the set of parameters to be sent to the broker.",
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "object",
+                                                "description": "Kubernetes Config Map as a parameters source.",
+                                                "additionalProperties": false,
+                                                "properties": {
+                                                    "configMapKeyRef": {
+                                                        "type": "object",
+                                                        "additionalProperties": false,
+                                                        "required": [
+                                                            "name",
+                                                            "key"
+                                                        ],
+                                                        "properties": {
+                                                            "name": {
+                                                                "description": "Name of a Config Map",
+                                                                "$ref": "#/definitions/KubernetesName"
+                                                            },
+                                                            "key": {
+                                                                "description": "Key in that Config Map, which contains a string that represents the json to include in the set of parameters to be sent to the broker.",
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "credentialsRotationPolicy": {
+                                    "description": "Holds automatic credentials rotation configuration. For more details, see https://github.com/SAP/sap-btp-service-operator#spec-1",
+                                    "type": "object"
+                                }
+                            },
+                            "dependencies": {
+                                "serviceInstanceName": {
+                                    "not": {
+                                        "required": [
+                                            "serviceInstanceFullname"
+                                        ]
+                                    }
+                                },
+                                "serviceInstanceFullname": {
+                                    "not": {
+                                        "required": [
+                                            "serviceInstanceName"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "Resources": {
+            "title": "Pod resources configuration",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "requests",
+                "limits"
+            ],
+            "properties": {
+                "requests": {
+                    "type": "object",
+                    "description": "Minimal required resources for the application to operate, that will be reserved.",
+                    "additionalProperties": false,
+                    "required": [
+                        "cpu",
+                        "memory"
+                    ],
+                    "properties": {
+                        "cpu": {
+                            "description": "CPU resource units, as described here https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu",
+                            "type": [
+                                "string",
+                                "number"
+                            ]
+                        },
+                        "ephemeral-storage": {
+                            "description": "Size of the local ephemeral storage, measured in bytes. For more info, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#local-ephemeral-storage",
+                            "type": "string"
+                        },
+                        "memory": {
+                            "description": "Amount of memory, mesaured in bytes. For more info, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory",
+                            "type": "string"
+                        }
+                    }
+                },
+                "limits": {
+                    "type": "object",
+                    "description": "If a process tries to use more resources than specified in the limits, the system kernel terminates the process that attempted the allocation, with an out of memory (OOM) error.",
+                    "additionalProperties": false,
+                    "required": [
+                        "memory"
+                    ],
+                    "properties": {
+                        "cpu": {
+                            "description": "CPU resource units, as described here https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu",
+                            "type": [
+                                "string",
+                                "number"
+                            ]
+                        },
+                        "ephemeral-storage": {
+                            "description": "Size of the local ephemeral storage, measured in bytes. For more info, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#local-ephemeral-storage",
+                            "type": "string"
+                        },
+                        "memory": {
+                            "description": "Amount of memory, mesaured in bytes. For more info, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

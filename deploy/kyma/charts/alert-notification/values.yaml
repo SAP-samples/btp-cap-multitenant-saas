@@ -1,0 +1,28 @@
+global:
+  imagePullSecret: {}
+
+# SAP Alert Notification Service 
+alert_notification:
+  fullnameOverride: alert-notification
+  serviceOfferingName: alert-notification
+  servicePlanName: free
+  parameters:
+    configuration:
+      actions:
+      - name: send-email
+        properties:
+          destination: john.doe@example.com
+        state: ENABLED
+        type: EMAIL
+      conditions:
+      - name: Alert-App-Generic
+        predicate: EQUALS
+        propertyKey: eventType
+        propertyValue: alert.app.generic
+      subscriptions:
+      - actions:
+        - send-email
+        conditions:
+        - Alert-App-Generic
+        name: App-Alerts
+        state: ENABLED

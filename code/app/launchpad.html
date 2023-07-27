@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sustainable SaaS</title>
+
+  <script id="sap-ui-shellhome">
+    window.location.href = window.location.href.indexOf('#') === -1 ? window.location.href + '#Shell-home' : window.location.href;
+  </script>
+
+  <script id="sap-ui-flpconfig">  
+    window["sap-ushell-config"] = {
+      defaultRenderer: "fiori2",
+      renderers: {
+        fiori2: {
+          componentData: {
+            config: {
+              search: "hidden",
+            },
+          },
+        },
+      },
+      services: {
+        LaunchPage: {
+          adapter: {
+            config: {
+              catalogs: [],
+              groups: [
+                {
+                  id: "MyHome",
+                  title: "My Home",
+                  isPreset: false,
+                  isVisible: true,
+                  isGroupLocked: false,
+                  tiles: []
+                },
+                {
+                  id: "SusaasUser",
+                  title: "Susaas User",
+                  isPreset: false,
+                  isVisible: true,
+                  isGroupLocked: false,
+                  tiles: [
+                    {
+                      id: "ViewProjects",
+                      tileType: "sap.ushell.ui.tile.StaticTile",
+                      properties: {
+                        title: "View Projects",
+                        targetURL: "#Projects-view",
+                        icon: "sap-icon://collaborate"
+                      }
+                    },
+                    {
+                      id: "ManageAssessments",
+                      tileType: "sap.ushell.ui.tile.StaticTile",
+                      properties: {
+                        title: "Manage Assessments",
+                        targetURL: "#Assessments-manage",
+                        icon: "sap-icon://simulate"
+                      }
+                    },
+                    {
+                      id: "ViewHelp",
+                      tileType: "sap.ushell.ui.tile.StaticTile",
+                      properties: {
+                        title: "View Help",
+                        targetURL: "#Help-view",
+                        icon: "sap-icon://sys-help",
+                        "info": "Available soon"
+                      }
+                    }
+                  ]
+                },
+                {
+                  id: "SusaasAdmin",
+                  title: "Susaas Admin",
+                  isPreset: false,
+                  isVisible: true,
+                  isGroupLocked: false,
+                  tiles: [
+                    {
+                      id: "ManageProjects",
+                      tileType: "sap.ushell.ui.tile.StaticTile",
+                      properties: {
+                        title: "Manage Projects",
+                        targetURL: "#Projects-manage",
+                        icon: "sap-icon://manager"
+                      }
+                    },
+                    {
+                      id: "ManageUsers",
+                      tileType: "sap.ushell.ui.tile.StaticTile",
+                      properties: {
+                        title: "Manage Users",
+                        targetURL: "#Users-manage",
+                        icon:"sap-icon://user-settings"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        NavTargetResolution: {
+          config: {
+            enableClientSideTargetResolution: true
+          }
+        },
+        ClientSideTargetResolution: {
+          adapter: {
+            config: {
+              inbounds: {
+                ViewProjects: {
+                  semanticObject: "Projects",
+                  action: "view",
+                  title: "View Projects",
+                  signature: {
+                    parameters: {},
+                    additionalParameters: "allowed"
+                  },
+                  navigationMode: "embedded",
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=sap.susaas.ui.public.projects",
+                    url: "/ui-public-projects/webapp"
+                  }
+                },
+                ManageAssessments: {
+                  semanticObject: "Assessments",
+                  action: "manage",
+                  title: "Manage Assessments",
+                  signature: {
+                    parameters: { id:{ renameTo: "ID" } },
+                    additionalParameters: "allowed"
+                  },
+                  navigationMode: "embedded",
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=sap.susaas.ui.public.assessments",
+                    url: "/ui-public-assessments/webapp"
+                  }
+                },
+                CreateAssessments: {
+                  semanticObject: "Assessments",
+                  action: "create",
+                  title: "Create Assessments",
+                  signature: {
+                    parameters: {
+                      preferredMode: {
+                        defaultValue: {
+                            value: "create",
+                            format: "plain"
+                        }
+                      },
+                      project_ID:{  renameTo: "project_ID" }
+                    },
+                    additionalParameters: "allowed"
+                  },
+                  navigationMode: "embedded",
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=sap.susaas.ui.public.assessments",
+                    url: "/ui-public-assessments/webapp"
+                  }
+                },
+                ManageProjects: {
+                  semanticObject: "Projects",
+                  action: "manage",
+                  title: "Manage Projects",
+                  signature: {
+                    parameters: { },
+                    additionalParameters: "allowed"
+                  },
+                  navigationMode: "embedded",
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=sap.susaas.ui.admin.projects",
+                    url: "/ui-admin-projects/webapp"
+                  }
+                },
+                ManageUsers: {
+                  semanticObject: "Users",
+                  action: "manage",
+                  title: "Manage Users",
+                  signature: {
+                    parameters: { },
+                    additionalParameters: "ignored"
+                  },
+                  navigationMode: "embedded",
+                  resolutionResult: {
+                    applicationType: "SAPUI5",
+                    additionalInformation: "SAPUI5.Component=sap.susaas.ui.admin.users",
+                    url: "/ui-admin-users/webapp"
+                  }
+                }
+              }
+            }
+          }
+        },
+        UserInfo: {
+          adapter: {
+              config: {
+                  "themes": [{
+                      id: "sap_fiori_3",
+                      "name": "Fiori 3"
+                  }, {
+                      id: "sap_fiori_3_dark",
+                      "name": "Fiori 3 Dark"
+                  }, {
+                      id: "sap_belize",
+                      "name": "Belize"
+                  }, {
+                      id: "base",
+                      "name": "Base"
+                  }, {
+                      id: "sap_hcb",
+                      "name": "High Contrast"
+                  }]
+              }
+          }
+        }
+      }
+    };
+  </script>
+  <script 
+    id="sap-ui-bootstrap" 
+    src="https://ui5.sap.com/1.108.4/resources/sap-ui-core.js"
+    data-sap-ui-libs="sap.m, sap.ushell, sap.ui.layout, sap.ui.core, sap.fe.core, sap.fe.templates"
+    data-sap-ui-theme="sap_horizon" 
+    data-sap-ui-compatVersion="edge"
+    data-sap-ui-async="true" 
+    data-sap-ui-frameOptions="trusted"
+    data-sap-ui-oninit="startFlp"
+    data-sap-ui-flexibilityServices=""
+    data-sap-ui-language="en"
+  ></script>
+  <script id="sap-ui-flpstart">
+    function startFlp() {
+      sap.ui.require(["sap/ushell/services/Container"], function () {
+        sap.ushell.bootstrap("local").then(function () {
+          sap.ushell.Container.createRenderer('fiori2', true).then(
+            function(oRenderer){ oRenderer.placeAt("content") }
+          );
+        });
+      });
+    }
+  </script>
+
+</head>
+<body class="sapUiBody" id="content"></body>
+</html>

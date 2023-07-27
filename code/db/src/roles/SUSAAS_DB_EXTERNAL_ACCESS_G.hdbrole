@@ -1,0 +1,12 @@
+{
+    "role": {
+        "name": "susaas.db::EXTERNAL_ACCESS_G#",
+        "schema_privileges": [
+            {
+                "privileges_with_grant_option": [
+                    "SELECT"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "SUSAAS_COMMON_SHARED": {
+        "target": {
+            "object": "SUSAAS_COMMON_SHARED",
+            "schema.configure": "com-hdi-container/schema"
+        }
+    }
+}

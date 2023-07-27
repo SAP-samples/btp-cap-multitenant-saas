@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "susaas-router.fullname" . }}
+  labels: {{- include "susaas-router.labels" . | nindent 4 }}
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels: {{- include "susaas-router.selectorLabels" . | nindent 6 }}
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: istio-ingressgateway
+        namespaceSelector:
+          matchLabels:
+            name: istio-system
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/name: oathkeeper
+            app.kubernetes.io/instance: ory
+        namespaceSelector:
+          matchLabels:
+            name: kyma-system

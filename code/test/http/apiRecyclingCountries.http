@@ -1,0 +1,55 @@
+@xsuaaHostname = <<uaa.url - field from Service Binding>>
+@btpXsuaaClient = <<uaa.clientid - field from Service Binding>>
+@btpXsuaaSecret = <<uaa.clientsecret - field from Service Binding>>
+@apiEndpointBtp = <<apiUrl (!not uaa.apiUrl!) - field from Service Binding>>
+
+
+##########################################
+# Get SAP XSUAA token 
+##########################################
+
+# @name getXsuaaToken
+
+POST {{xsuaaHostname}}/oauth/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic {{btpXsuaaClient}}:{{btpXsuaaSecret}}
+
+client_id={{btpXsuaaClient}}
+&client_secret={{btpXsuaaSecret}}
+&grant_type=client_credentials
+
+
+##########################################
+# Call CAP endpoint (BTP)
+##########################################
+
+@access_token = {{getXsuaaToken.response.body.$.access_token}}
+
+# @name uploadRecyclingCountriesBtp
+POST {{apiEndpointBtp}}/rest/api/bulkUpsertRecyclingCountries
+Authorization: Bearer {{access_token}}
+Content-type: application/json
+
+{
+      "recyclingCountries" : [
+            {"product_ID":"HT-1000","country_code":"DE","eolRecyclability":54},
+            {"product_ID":"HT-1000","country_code":"JP","eolRecyclability":20},
+            {"product_ID":"HT-1000","country_code":"US","eolRecyclability":15},
+            {"product_ID":"HT-1001","country_code":"DE","eolRecyclability":54},
+            {"product_ID":"HT-1001","country_code":"JP","eolRecyclability":20},
+            {"product_ID":"HT-1001","country_code":"US","eolRecyclability":15},
+            {"product_ID":"HT-1002","country_code":"DE","eolRecyclability":54},
+            {"product_ID":"HT-1003","country_code":"DE","eolRecyclability":54},
+            {"product_ID":"HT-1055","country_code":"DE","eolRecyclability":54},
+            {"product_ID":"HT-1055","country_code":"DK","eolRecyclability":61},
+            {"product_ID":"HT-1056","country_code":"DE","eolRecyclability":54},
+            {"product_ID":"HT-1056","country_code":"UK","eolRecyclability":57},
+            {"product_ID":"HT-1060","country_code":"JP","eolRecyclability":20},
+            {"product_ID":"HT-1060","country_code":"US","eolRecyclability":15},
+            {"product_ID":"HT-1063","country_code":"DK","eolRecyclability":61},
+            {"product_ID":"HT-1063","country_code":"JP","eolRecyclability":20},
+            {"product_ID":"HT-1063","country_code":"US","eolRecyclability":15},
+            {"product_ID":"HT-1120","country_code":"DE","eolRecyclability":54}
+      ]
+}

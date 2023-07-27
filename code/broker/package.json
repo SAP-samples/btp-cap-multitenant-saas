@@ -1,0 +1,19 @@
+{
+  "name": "susaas-broker",
+  "version": "1.0.0",
+  "description": "Service Broker Application ( @sap/sbf )",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node start.js",
+    "init": "npx gen-catalog-ids"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sap/sbf": "^6.5.8"
+  },
+  "engines": {
+    "node": "^18.x"
+  }
+}

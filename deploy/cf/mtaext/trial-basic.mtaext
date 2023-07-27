@@ -1,0 +1,21 @@
+ID: susaas.trial
+_schema-version: 3.2.0
+version: 1.0.0
+extends: susaas
+
+modules:
+  - name: susaas-api-sb
+    properties:
+      SBF_BROKER_CREDENTIALS_HASH:  >
+        {
+          "broker-user": "<paste your hash credentials here>"
+        }
+
+resources:
+  - name: susaas-alert-notification
+    parameters:
+      service-plan: standard
+  - name: susaas-credstore
+    parameters:
+      service-plan: trial
+  

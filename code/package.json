@@ -1,0 +1,160 @@
+{
+  "name": "susaas",
+  "version": "0.0.1",
+  "repository": "https://github.com/sap-samples/btp-cap-multitenant-susaas",
+  "license": "Apache License 2.0",
+  "description": "Sustainable SaaS",
+  "engines": {
+    "node": "^18.x"
+  },
+  "type": "module",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.18.0",
+    "@sap_oss/alert-notification-client": "^1.4.0",
+    "@sap/cds": "^6.8.4",
+    "@sap/cds-mtxs": "^1.8.4",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/hana-client": "^2.15.19",
+    "@sap/xsenv": "^3.4.0",
+    "@sap/xssec": "^3.2.17",
+    "axios": "^0.27.2",
+    "cds-swagger-ui-express": "^0.5.0",
+    "cfenv": "^1.2.4",
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.7",
+    "node-jose": "^2.2.0",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@sap/cds-common-content": "^1.2.0",
+    "@sap/html5-repo-mock": "^2.1.1",
+    "@sap/sbf": "^6.5.2",
+    "@sap/ui5-builder-webide-extension": "^1.1.8",
+    "@sap/ux-specification": "^1.96.4",
+    "@sap/approuter": "^14.2.1",
+    "@sap/html5-app-deployer": "^5.0.0",
+    "@ui5/cli": "^3.1.2",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "mbt": "^1.2.18",
+    "mocha": "^10.2.0",
+    "shx": "^0.3.4",
+    "sqlite3": "^5.1.6",
+    "ui5-task-zipper": "^0.5.1"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "----------------------": "",
+    "-Local/Hybrid-Testing-": "",
+    "/--------------------/": "",
+    "test": "mocha --timeout 20000",
+    "---API-Service---": "",
+    "api:watch": "cds watch api",
+    "api:mtx": "cds watch api --profile local-with-mtx",
+    "api:hybrid": "(cd api && cds watch --profile hybrid)",
+    "---Backend-Service---": "",
+    "srv:watch": "cds watch srv",
+    "srv:mtx": "cds watch srv --profile local-with-mtx",
+    "srv:hybrid": "(cd srv && cds watch --profile hybrid)",
+    "---Service-Broker---": "",
+    "broker:hybrid": "cds bind --exec npm run broker:run",
+    "broker:run": "(cd broker && cds bind --exec --profile hybrid npm start)",
+    "---HTML5-Mock-Repo---": "",
+    "mock:watch": "cds bind --exec npm run mock:run:watch",
+    "mock:hybrid": "cds bind --exec npm run mock:run:hybrid",
+    "mock:run:watch": "(cd router && cds bind --exec --profile development node ../node_modules/@sap/html5-repo-mock/index.js)",
+    "mock:run:hybrid": "(cd router && cds bind --exec --profile hybrid node ../node_modules/@sap/html5-repo-mock/index.js)",
+    "---Application-Router---": "",
+    "router:hybrid": "cds bind --exec npm run router:run",
+    "router:run": "(cd router && cds bind --exec --profile hybrid node ../node_modules/@sap/approuter/approuter.js)",
+    "---MISC---": "",
+    "cleanup-gen": "npx --yes rimraf -r ./gen",
+    "cleanup-modules": "npx --yes rimraf ./**/node_modules && npx --yes rimraf ./node_modules "
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
+    },
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
+    },
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "hana": {
+      "deploy-format": "hdbtable"
+    },
+    "build": {
+      "tasks": [
+        {
+          "for": "hana",
+          "options": {
+            "model": [
+              "db",
+              "db/hana",
+              "api/srv",
+              "srv/srv",
+              "@sap/cds-mtxs/db/extensions"
+            ]
+          }
+        },
+        {
+          "for": "nodejs",
+          "src": "srv/srv",
+          "dest": "srv",
+          "options": {
+            "model": [
+              "srv/srv",
+              "@sap/cds-mtxs/srv/bootstrap",
+              "@sap/cds-mtxs/srv/extensibility-service"
+            ]
+          }
+        },
+        {
+          "for": "nodejs",
+          "src": "api/srv",
+          "dest": "api",
+          "options": {
+            "model": "api/srv"
+          }
+        },
+        {
+          "for": "mtx",
+          "src": "srv/srv",
+          "dest": "srv"
+        },
+        {
+          "for": "hana",
+          "src": "db-com",
+          "options": {
+            "model": "db-com"
+          }
+        }
+      ]
+    }
+  },
+  "sapux": [
+    "app/ui-admin-projects",
+    "app/ui-admin-users",
+    "app/ui-public-assessments",
+    "app/ui-public-flp",
+    "app/ui-public-projects"
+  ]
+}

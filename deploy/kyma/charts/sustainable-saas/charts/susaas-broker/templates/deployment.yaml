@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: {{- include "susaas-broker.labels" . | nindent 4 }}
+  name: {{ include "susaas-broker.fullname" . }}
+spec:
+  selector:
+    matchLabels: {{- include "susaas-broker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "susaas-broker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if (include "susaas-broker.imagePullSecretName" .) }}
+      imagePullSecrets:
+        - name: {{ include "susaas-broker.imagePullSecretName" . }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountToken | default false }}
+      serviceAccountName: {{ .Values.serviceAccount.enabled  | ternary ( include "susaas-broker.fullname" . ) "default" }}
+      containers:
+      - image: {{ include "susaas-broker.imageName" . }}
+        name: {{ include "susaas-broker.name" . }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.port }}
+          protocol: TCP
+        envFrom:
+        {{- range $secretName := .Values.envSecretNames }}
+        - secretRef:
+            name: {{ $secretName }}
+        {{- end }}
+        {{- range $secretName := .Values.envSecretNamesTpl }}
+        - secretRef:
+            name: {{ tpl $secretName $ }}
+        {{- end }}
+        env:
+        {{- if .Values.bindings }}
+        - name: SERVICE_BINDING_ROOT
+          value: /bindings
+        {{- end }}
+        - name: PORT
+          value: {{ .Values.port | quote }}
+        - name: TMPDIR
+          value: /tmp
+        {{- $envVars := (include "susaas-broker.processEnv" .Values.env | fromJson ) }}
+        {{- if not (eq (len $envVars.vars) 0) }}
+        {{- $envVars.vars | toYaml | nindent 8}}
+        {{- end }}
+        {{- if not $envVars.appName}}
+        - name: APPLICATION_NAME
+          value: {{ include "susaas-broker.fullname" . }}
+        {{- end }}
+        {{- if not $envVars.appURI}}
+        - name: APPLICATION_URI
+          value: {{ include "susaas-broker.applicationUri" . }}
+        {{- end }}
+        {{- if .Release.Namespace }}
+        - name: KYMA_NAMESPACE
+          value: {{ .Release.Namespace }}
+        {{- end }}
+        - name: SBF_SERVICE_CONFIG
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "susaas-broker.fullname" . }}-config
+              key: serviceConfigs
+        - name: SBF_CATALOG_FILE
+          value: "/etc/config/catalog.json"
+        livenessProbe:
+        {{- if .Values.health_check.liveness.path }}
+          httpGet:
+            path: {{ .Values.health_check.liveness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+        readinessProbe:
+        {{- if .Values.health_check.readiness.path }}
+          httpGet:
+            path: {{ .Values.health_check.readiness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+        startupProbe:
+        {{- if .Values.health_check.liveness.path }}
+          httpGet:
+            path: {{ .Values.health_check.liveness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+          failureThreshold: {{ div (add1 .Values.startupTimeout) 2 }}
+          periodSeconds: 2
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        {{- range $volume := .Values.additionalVolumes }}
+        - name: {{ $volume.name | quote }}
+          {{- toYaml $volume.volumeMount  | nindent 10 }}
+        {{- end }}
+        - name: {{ include "susaas-broker.fullname" . }}-catalog
+          mountPath: "/etc/config"
+          readOnly: true
+        {{- include "susaas-broker.serviceMounts" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+      {{- if .Values.ha.enabled }}
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels: {{- include "susaas-broker.selectorLabels" . | nindent 12 }}
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+      {{- end }}
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      {{- include "susaas-broker.serviceVolumes" . | nindent 6 }}
+      {{- range $volume := .Values.additionalVolumes }}
+      -
+        {{- omit $volume "volumeMount" | toYaml  | nindent 8 }}
+      {{- end }}
+      - name: {{ include "susaas-broker.fullname" . }}-catalog
+        configMap: 
+          name: {{ include "susaas-broker.fullname" . }}-catalog

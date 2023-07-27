@@ -1,0 +1,137 @@
+global:
+  imagePullSecret: {}
+  domain: # see domain in Config Map kube-system/shoot-info or custom domain (e.g. sap-demo.com) 
+  shootName: # see shootName in Config Map kube-system/shoot-info
+  gateway: # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. onboarding/demo-gateway)
+  platformIdp: # provide the platform IdP details
+    origin: # provide the origin key of the platform Idp (e.g. sapdemo-platform)
+    url: # # provide the host of the platform Idp (sapdemo.accounts.ondemand.com)
+  # If necessary, override essential dependencies required in subcharts
+  # Required in case you e.g., provide a fullNameOverride or a custom exposed host
+  srv:
+    fullName: # leave empty to apply default logic - $Release.Name-srv (e.g. obd-srv)
+    port: # leave empty to apply default value - 8080
+  router:
+    name: # leave empty to apply default logic - router
+    fullName: # leave empty to apply default logic - $Release.Name-router
+  # Provide details auf SaaS application to be deployed
+  saasRelease: # leave empty to apply default value - susaas
+  saasRouter: # leave empty to apply default value - router
+
+# Onboarding Service Workload
+srv:
+  port: 8080
+  bindings:
+    identity:
+      # Only enable if Cloud Identity Service instance is enabled in Umbrella Chart 
+      enabled: true 
+      serviceInstanceName: identity
+      # SAP IAS binding requires X.509 certificate based credentials
+      parameters:
+        credential-type: X509_GENERATED
+      credentialsRotationPolicy:
+        enabled: true
+        rotatedBindingTTL: 1h
+        rotationFrequency: 24h
+  image:
+    # Provide your Backend Service Docker Image repository
+    repository: <<namespace>>/obd-srv
+    tag: latest
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      ephemeral-storage: 1G
+      cpu: 500m
+      memory: 500M
+
+
+# Onboarding Application Router Workload
+router:
+  bindings:
+    html5-apps-repo:
+      serviceInstanceName: html5-repo-runtime
+    identity:
+      serviceInstanceName: identity
+      # SAP IAS binding requires X.509 certificate based credentials
+      parameters:
+        credential-type: X509_GENERATED
+      credentialsRotationPolicy:
+        enabled: true
+        rotatedBindingTTL: 1h
+        rotationFrequency: 24h
+  image:
+    # Provide your Application Router Docker Image repository
+    repository: <<namespace>>/obd-router
+    tag: latest
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+      cpu: 300m
+    requests:
+      ephemeral-storage: 1G
+      cpu: 300m
+      memory: 500M
+  parameters:
+    destinations: |
+      [{
+        "name": "obd-api",
+        "forwardAuthToken": true,
+        "url": "{{ printf "http://%s:%s" ( default ( printf "%s-%s" .Release.Name "srv" ) .Values.global.srv.fullName ) (default 8080 .Values.global.srv.port | toString ) }}"
+      }]
+
+# HTML5 Apps Deployer Job
+# Deploys the UI modules to the HTML5 App Repository
+html5_apps_deployer:
+  cloudService: obd
+  image:
+    # Provide your HTML5 Apps Deployer Docker Image repository
+    repository: <<namespace>>/obd-html5-deployer
+    tag: latest
+  bindings:
+    html5-apps-repo:
+      serviceInstanceName: html5-repo-host
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500M
+    requests:
+      cpu: 300m
+      memory: 500M
+
+# SAP HTML5 Application Repository
+# Storing the SaaS application UI modules
+html5_repo_host:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-host
+
+
+# SAP HTML5 Application Repository
+# Allows access to the SaaS applicaiton UI modules 
+html5_repo_runtime:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-runtime
+
+
+# SAP Cloud Identity Service Instance
+# Provides an SAP IAS integration for central user management
+identity:
+  serviceOfferingName: identity
+  servicePlanName: application
+  parameters:
+    # Unique display dame as usually only one SAP IAS instance per customer
+    display-name: 'SaaS Onboarding ({{.Release.Name}}-{{.Release.Namespace}}-{{.Values.global.shootName}})'
+    oauth2-configuration:
+      # Redirect and logout URIs filled with dummy values as not required for authentication
+      redirect-uris:
+        - 'https://{{ printf "onboarding-%s-%s.%s" ( default "susaas" .Values.global.saasRelease ) .Release.Namespace $.Values.global.domain }}/login/callback?authType=ias'
+        - 'https://{{ printf "%s-%s.%s" ( default "susaas" .Values.global.saasRelease ) .Release.Namespace $.Values.global.domain }}/login/callback?authType=ias'
+      post-logout-redirect-uris: 
+        - 'https://{{ printf "onboarding-%s-%s.%s" ( default "susaas" .Values.global.saasRelease ) .Release.Namespace $.Values.global.domain }}/logout/**'
+        - 'https://{{ printf "%s-%s.%s" ( default "susaas" .Values.global.saasRelease ) .Release.Namespace $.Values.global.domain }}/logout/**'
+      grant-types: ["authorization_code"]
+      credential-types: ["binding-secret", "x509"]
+    xsuaa-cross-consumption: false
+    multi-tenant: false

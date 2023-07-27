@@ -1,0 +1,6 @@
+
+{{- $defaultParameters := dict "parameters" (
+        include "template-value" ( dict "value" .Values.xsuaa.parameters "context" . ) | fromYaml
+    )
+}}
+{{- include "cap.service-instance" ( mergeOverwrite ( dict "defaultParameters" $defaultParameters.parameters "useDefaults" true )  . ) }}

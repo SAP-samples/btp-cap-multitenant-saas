@@ -1,0 +1,175 @@
+class ZSUSAAS_CL_UPLOAD definition
+  public
+  create public .
+
+public section.
+
+  methods GET_HTTP_CLIENT
+    importing
+      !IV_RFCDEST type RFCDEST
+      !IV_URL_PATH type STRING
+    returning
+      value(RO_HTTP_CLIENT) type ref to IF_HTTP_CLIENT .
+  methods POST_DATA_TO_API
+    importing
+      !IV_DATA type STRING
+    exporting
+      !EV_ERROR_FLAG type ABAP_BOOLEAN
+      !EV_RESPONSE_TEXT type STRING
+      !EV_REASON type STRING
+      !EV_CODE type STRING .
+  methods CLOSE_CONNECTION .
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+
+    CONSTANTS mc_status_code_success TYPE i VALUE '204' ##NO_TEXT.
+    DATA mo_http_client TYPE REF TO if_http_client .
+    DATA mo_oauth2_client TYPE REF TO if_oauth2_client .
+    DATA mv_flag_http_client TYPE abap_boolean .
+ENDCLASS.
+
+
+
+CLASS ZSUSAAS_CL_UPLOAD IMPLEMENTATION.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZSUSAAS_CL_UPLOAD->CLOSE_CONNECTION
+* +-------------------------------------------------------------------------------------------------+
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  METHOD CLOSE_CONNECTION.
+    IF mo_http_client IS BOUND .
+      mo_http_client->close( ).
+    ENDIF.
+  ENDMETHOD.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZSUSAAS_CL_UPLOAD->GET_HTTP_CLIENT
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] IV_RFCDEST                     TYPE        RFCDEST
+* | [--->] IV_URL_PATH                    TYPE        STRING
+* | [<-()] RO_HTTP_CLIENT                 TYPE REF TO IF_HTTP_CLIENT
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  METHOD GET_HTTP_CLIENT.
+
+    IF mo_http_client IS NOT BOUND.
+
+      cl_http_client=>create_by_destination(
+        EXPORTING
+          destination              = iv_rfcdest
+        IMPORTING
+          client                   = mo_http_client
+        EXCEPTIONS
+          argument_not_found         = 1
+          destination_not_found      = 2
+          destination_no_authority   = 3
+          plugin_not_active          = 4
+          internal_error             = 5
+          oa2c_set_token_error       = 6
+          oa2c_missing_authorization = 7
+          oa2c_invalid_config        = 8
+          oa2c_invalid_parameters    = 9
+          oa2c_invalid_scope         = 10
+          oa2c_invalid_grant         = 11
+          OTHERS                     = 12 ).
+
+      IF sy-subrc <> 0.
+        " Implement suitable error handling here
+      ELSE.
+        mo_http_client->request->set_content_type( content_type = 'application/json' ).
+        mo_http_client->request->set_header_field( name  = '~request_method' value =  'POST' ).
+        mo_http_client->request->set_header_field( name  = '~request_uri' value = iv_url_path ).
+      ENDIF.
+
+    ENDIF.
+
+    IF mo_oauth2_client IS NOT BOUND.
+      DATA lv_oauth2_profile TYPE oa2c_profile.
+
+      CALL FUNCTION 'RFC_READ_HTTP_DESTINATION'
+        EXPORTING
+          destination             = iv_rfcdest
+          authority_check         = abap_false
+        IMPORTING
+          oauth_profile           = lv_oauth2_profile
+        EXCEPTIONS
+          authority_not_available = 1
+          destination_not_exist   = 2
+          information_failure     = 3
+          internal_failure        = 4
+          no_http_destination     = 5
+          OTHERS                  = 6.
+
+      IF sy-subrc <> 0.
+        " Implement suitable error handling here
+      ELSE.
+        mo_oauth2_client = cl_oauth2_client=>create( lv_oauth2_profile ).
+        mo_oauth2_client->execute_cc_flow( ).
+      ENDIF.
+
+      mo_oauth2_client->set_token( io_http_client = mo_http_client ).
+
+    ENDIF.
+    ro_http_client = mo_http_client.
+  ENDMETHOD.
+
+
+* <SIGNATURE>---------------------------------------------------------------------------------------+
+* | Instance Public Method ZSUSAAS_CL_UPLOAD->POST_DATA_TO_API
+* +-------------------------------------------------------------------------------------------------+
+* | [--->] IV_DATA                        TYPE        STRING
+* | [<---] EV_ERROR_FLAG                  TYPE        ABAP_BOOLEAN
+* | [<---] EV_RESPONSE_TEXT               TYPE        STRING
+* | [<---] EV_REASON                      TYPE        STRING
+* | [<---] EV_CODE                        TYPE        STRING
+* +--------------------------------------------------------------------------------------</SIGNATURE>
+  METHOD POST_DATA_TO_API.
+    IF mo_http_client IS BOUND.
+
+      mo_http_client->request->set_cdata( data = iv_data ).
+
+      mo_http_client->send(
+          EXCEPTIONS
+            http_communication_failure = 1
+            http_invalid_state         = 2
+            http_processing_failed     = 3
+            http_invalid_timeout       = 4
+            OTHERS                     = 5
+      ).
+
+      IF sy-subrc <> 0.
+        " Implement suitable error handling here
+        ev_error_flag = abap_true.
+        RETURN.
+      ENDIF.
+
+      mo_http_client->receive(
+        EXCEPTIONS
+         http_communication_failure = 1
+         http_invalid_state         = 2
+         http_processing_failed     = 3
+         OTHERS                     = 4
+      ).
+
+      IF sy-subrc <> 0.
+        " Implement suitable error handling here
+        ev_error_flag = abap_true.
+        RETURN.
+      ENDIF.
+
+      mo_http_client->response->get_status(
+        IMPORTING
+          reason = DATA(lv_reason)
+          code = DATA(lv_return_code) ).
+
+      IF lv_return_code <> mc_status_code_success.
+        ev_error_flag = abap_true.
+        ev_reason = lv_reason.
+        ev_code   = lv_return_code.
+        ev_response_text = mo_http_client->response->get_cdata( ).
+      ENDIF.
+
+    ENDIF.
+  ENDMETHOD.
+ENDCLASS.

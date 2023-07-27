@@ -1,0 +1,432 @@
+_schema-version: '3.2'
+ID: susaas
+version: 0.0.1
+
+parameters:
+  enable-parallel-deployments: true
+  autoscalerMinInstance: 1
+  autoscalerMaxInstance: 2
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        ### Deployment w/o csv sample files ###
+        - npx -p @sap/cds-dk cds build --profile production
+
+        ### Deployment w/ csv sample files ###
+        #- npx -p @sap/cds-dk cds build --profile production,csv
+
+modules:
+  # --------------------- APPROUTER MODULE ---------------------
+  - name: susaas
+  # ------------------------------------------------------------
+    type: approuter.nodejs
+    path: app/approuter
+    build-parameters:
+      builder: npm-ci
+      ignore: [ 'node_modules/', 'default-env.json', 'manifest*.yml' ]
+    parameters:
+      app-name: susaas-${space}
+      disk-quota: 256MB
+      memory: 128MB
+      tenant-separator: '-'
+      app-domain: ${app-name}.${default-domain}
+      keep-existing-routes: true
+    properties:
+      TENANT_HOST_PATTERN: '^(.*)${tenant-separator}${app-domain}'
+    requires:
+      - name: susaas-destination
+      - name: susaas-html5-repo-runtime
+      - name: susaas-uaa
+      - name: susaas-srv-api
+      - name: susaas-theming
+    provides:
+      - name: susaas-approuter
+        properties:
+           app-url: ${default-url}
+           application: ${app-name}
+           tenant-separator: ${tenant-separator}
+           app-domain: ${app-domain}
+
+  # --------------------- WEBAPP DEPLOYER ----------------------
+  - name: webapp_deployer
+  # ------------------------------------------------------------
+    type: com.sap.application.content
+    path: app/deployer
+    requires:
+      - name: susaas-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - name: susaas-ui
+          artifacts:
+            - susaasui.zip
+          target-path: resources/
+
+  # --------------------- UI MODULE ----------------------------
+  - name: susaas-ui
+  # ------------------------------------------------------------
+    type: html5
+    path: app/uimodule
+    build-parameters:
+      build-result: dist
+      builder: custom
+      ignore: [ 'node_modules/', 'mta_archives/',  'default-env.json', 'manifest*.yml' ]
+      commands:
+        - npm ci
+        - npm run build:cf
+      supported-platforms: []
+
+  # --------------------- SERVER MODULE ------------------------
+  - name: susaas-srv
+  # ------------------------------------------------------------
+    type: nodejs
+    path: gen/srv
+    build-parameters:
+      builder: npm-ci
+      ignore: ['node_modules/', 'default-*.json', 'manifest*.yml']
+    parameters:
+      app-name: susaas-srv-${space}
+      memory: 256MB
+      disk-quota: 1024MB
+    properties:
+      tenantSeparator: ~{susaas-approuter/tenant-separator}
+      appDomain: ~{susaas-approuter/app-domain}
+      brokerName: ~{susaas-api-sb-srv/app-name}
+      srvUrl: 'https://${app-name}.${default-domain}'
+      brokerUrl: ~{susaas-api-sb-srv/srv-url}
+      approuterUrl: ~{susaas-approuter/app-url}
+      appName: ~{susaas-approuter/application}
+    requires:
+      - name: susaas-uaa
+      - name: susaas-credstore
+        parameters:
+          config:
+            authorization:
+              default_permissions:
+                - read
+                - decrypt
+                - encrypt
+                - list
+      - name: susaas-logging
+      - name: susaas-registry
+      - name: susaas-service-manager
+      - name: susaas-destination
+      - name: susaas-cis-central
+      - name: susaas-html5-repo-runtime
+      - name: susaas-alert-notification
+      - name: susaas-api-sb-srv
+      - name: susaas-approuter
+      - name: susaas-theming
+      - name: susaas-autoscaler
+        parameters:
+          config:
+            instance_min_count: 1
+            instance_max_count: 2
+            scaling_rules:
+            - {"metric_type": "memoryutil","threshold": 80,"operator": ">=","adjustment": "+1"}
+            - {"metric_type": "memoryutil","threshold": 60,"operator": "<","adjustment": "-1"}
+            - {"metric_type": "cpu","threshold": 80,"operator": ">=","adjustment": "+1"}
+            - {"metric_type": "cpu","threshold": 30,"operator": "<","adjustment": "-1"}
+      - name: susaas-com-hdi-container
+        group: SERVICE_REPLACEMENTS
+        properties:
+           key: susaas-com-hdi-container
+           service: '~{susaas-com-container-name}'
+    provides:
+      - name: susaas-srv-api
+        properties:
+          srv-url: ${default-url}
+
+   # --------------------- COMMON DB MODULE --------------------
+  - name: susaas-db-com
+  # ------------------------------------------------------------
+    type: hdb
+    path: gen/db-com
+    build-parameters:
+      ignore: ['node_modules/', 'default-*.json', 'manifest*.yml']
+    parameters:
+      app-name: susaas-db-com-${space}
+      memory: 256MB
+      disk-quota: 1024MB
+    requires:
+      - name: susaas-com-hdi-container
+
+  # ----------- BROKER MODULE (OSBAPI Implementation) ----------
+  - name: susaas-api-sb
+  # ------------------------------------------------------------
+    type: nodejs
+    path: broker/
+    build-parameters:
+      builder: npm-ci
+      ignore: ['node_modules/', 'default-*.json', 'manifest*.yml']
+    parameters:
+      app-name: susaas-api-sb-${space}
+      memory: 64MB
+      disk-quota: 265MB
+    properties:
+      SBF_BROKER_CREDENTIALS_HASH:  >
+        {
+          "broker-user": "<paste your hash credentials here>"
+        }
+    requires:
+      - name: susaas-api-uaa
+      - name: susaas-api-srv-api
+        properties:
+          SBF_SERVICE_CONFIG:
+              Sustainable SaaS API:
+                extend_credentials:
+                  shared:
+                    apiUrl: ~{srv-url}
+                extend_xssecurity:
+                  per_plan:
+                    default: 
+                      authorities: 
+                      - $XSMASTERAPPNAME.plan_default
+                    premium: 
+                      authorities: 
+                      - $XSMASTERAPPNAME.plan_premium
+                extend_catalog:
+                  metadata:
+                     displayName : Sustainable SaaS API ${space}
+          SBF_ENABLE_AUDITLOG: false
+    provides:
+      - name: susaas-api-sb-srv
+        properties:
+          app-name: ${app-name}
+          srv-url: ${default-url}
+
+  # --------------------- API MODULE ---------------------------
+  - name: susaas-api-srv
+  # ------------------------------------------------------------
+    type: nodejs
+    path: gen/srv-api
+    parameters:
+      app-name: susaas-api-srv-${space}
+      memory: 256MB
+      disk-quota: 1024MB
+    build-parameters:
+      builder: npm-ci
+      ignore: [ 'node_modules/', 'default-env.json', 'manifest*.yml' ]
+    requires:
+      - name: susaas-service-manager
+      - name: susaas-api-uaa
+    provides:
+      - name: susaas-api-srv-api
+        properties:
+          srv-url: ${default-url}
+
+resources:
+  # ----------------------- UAA SERVICE ------------------------
+  - name: susaas-uaa
+  # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: susaas-approuter
+    properties:
+      XSAPPNAME: ${xsuaa-app}
+    parameters:
+      service: xsuaa
+      service-name: ${space}-susaas-uaa
+      service-plan: application
+      path: ./configs/xs-security.json
+      xsuaa-app: ~{susaas-approuter/application}
+      config:
+        xsappname: ${xsuaa-app}
+        role-collections:
+          - name: Susaas Member (${space}) 
+            description: Member Access
+            role-template-references: 
+              - '$XSAPPNAME.Member'
+              - '$XSAPPNAME.Token_Exchange'
+          - name: Susaas Administrator (${space})
+            description: Administrator Access
+            role-template-references: 
+              - '$XSAPPNAME.Admin'
+              - '$XSAPPNAME.SaaSAdmin'
+              - '$XSAPPNAME.UserManagementAdmin'
+              - '$XSAPPNAME.Token_Exchange'
+          - name: Susaas Extension Developer (${space})
+            description: Extension Developer Access
+            role-template-references: 
+              - '$XSAPPNAME.ExtensionDeveloper'
+              - '$XSAPPNAME.Token_Exchange'
+
+  # ----------------- CREDENTIAL STORE  -----------------------
+  - name: susaas-credstore
+  # -----------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: credstore
+      service-name: ${space}-susaas-credstore
+      service-plan: free
+
+  # --------------------- REGISTRY SERVICE ---------------------
+  - name: susaas-registry
+  # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: susaas-uaa
+      - name: susaas-srv-api
+      - name: susaas-approuter
+    parameters:
+      service: saas-registry
+      service-name: ${space}-susaas-registry
+      service-plan: application
+      config:
+        xsappname: ~{susaas-uaa/XSAPPNAME}
+        appName: ~{susaas-approuter/application}-${org}
+        displayName: Sustainable SaaS ${space}
+        description: Sustainable SaaS Application
+        category: SaaS Multitenant Apps
+        appUrls:
+          onSubscription: ~{susaas-srv-api/srv-url}/-/cds/saas-provisioning/tenant/{tenantId}
+          onSubscriptionAsync: false
+          onUnSubscriptionAsync: false
+          getDependencies: ~{susaas-srv-api/srv-url}/-/cds/saas-provisioning/dependencies
+        appPlans:
+          - name: default
+            description: Sustainable SaaS default plan
+
+  # ------------------- SERVICE MANAGER SERVICE ----------------
+  - name: susaas-service-manager
+  # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    requires:
+     - name: susaas-uaa
+    parameters:
+       service: service-manager
+       service-name: ${space}-susaas-service-manager
+       service-plan: container
+       polling_timeout_seconds: 240
+       config:
+         acquireTimeoutMillis: max
+         polling_timeout_seconds: 480
+
+  # ---------------- APPLICATION LOGGING SERVICE ---------------
+  - name: susaas-logging
+  # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-name: ${space}-susaas-logging
+      service-plan: lite
+
+  # ----------------- COMMON DB HDI CONAINER -------------------
+  - name: susaas-com-hdi-container
+  # ------------------------------------------------------------
+    type: com.sap.xs.hdi-container
+    parameters:
+      service-name: ${space}-susaas-com-hdi-container
+    properties:
+      susaas-com-container-name: '${service-name}' 
+
+  # ----------------- DESTINATION SERVICE ----------------------
+  - name: susaas-destination
+  # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: susaas-srv-api
+    parameters:
+      service-plan: lite
+      service-name: ${space}-susaas-destination
+      service: destination
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+        init_data:
+          instance:
+            existing_destinations_policy: ignore
+            destinations:
+              - Name: SUSAAS_NORTHWIND
+                Description: SusaaS Northwind
+                URL: https://services.odata.org/v4/Northwind/Northwind.svc
+                Type: HTTP
+                ProxyType: Internet
+                Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+              - Name: susaas-srv-api
+                Description: SusaaS Service API
+                URL: ~{susaas-srv-api/srv-url}
+                Type: HTTP
+                ProxyType: Internet
+                Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                forwardAuthToken: true
+
+  # ----------------- HTML REPO HOST SERVICE (Be Used by UI) ---------  
+  - name: susaas-html5-repo-host
+  # -----------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-host
+      service-name: ${space}-susaas-html5-repo-host
+      service: html5-apps-repo
+      config:
+        sizeLimit: 2
+
+  # ----------------- HTML REPO RUNTIME SERVICE(Be Used by UI) -------
+  - name: susaas-html5-repo-runtime
+  # ------------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-runtime
+      service-name: ${space}-susaas-html5-repo-runtime
+      service: html5-apps-repo
+
+  # ----------------- AUTOSCALER  ------------------------------------   
+  - name: susaas-autoscaler
+  # ------------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: autoscaler
+      service-name: ${space}-susaas-autoscaler
+      service-plan: standard
+
+  # ----------------- ALERT NOTIFICATION  ---------------------------- 
+  - name: susaas-alert-notification
+  # ------------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: alert-notification
+      service-name: ${space}-susaas-alert-notification
+      service-plan: free
+      path: ./configs/alert-notif.json
+
+  # ----------------- CLOUD MANAGEMENT SERVICE - CENTRAL -------------
+  - name: susaas-cis-central
+  # ------------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    requires:
+     - name: susaas-uaa
+    parameters:
+      service: cis
+      service-name: ${space}-susaas-cis-central
+      service-plan: central
+
+  # ----------------- XSUAA - BROKER ---------------------------------
+  - name: susaas-api-uaa
+  # ------------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-name: ${space}-susaas-api-uaa
+      service-plan: broker
+      xsuaa-app: susaas-api-${space}
+      config:
+        xsappname: ${xsuaa-app}
+    properties:
+      xsuaa-app: ${xsuaa-app}
+
+  # ----------------- THEMEING ---------------------------------
+  - name: susaas-theming
+  # ------------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: theming
+      service-plan: standard
+ 
+    

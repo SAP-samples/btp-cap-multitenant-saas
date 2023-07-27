@@ -1,0 +1,63 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns:m="sap.m" xmlns="sap.suite.ui.microchart" xmlns:l="sap.ui.layout">
+	<m:HBox class="sapUiContentPadding" width="auto" wrap="Wrap" justifyContent="SpaceBetween">
+		<m:VBox class="sapUiContentPadding" width="auto">
+			<m:Label design="Bold" text="Weight Share"/>
+			<m:VBox 
+				items="{
+					path: 'materialSplits'
+				}" 
+				class="sapUiContentPadding" width="auto" wrap="Wrap" justifyContent="SpaceBetween">
+				<m:VBox alignItems="Stretch" alignContent="Stretch" justifyContent="Center">
+					<m:Label text="{materialType}"/>
+					<BulletMicroChart 
+						id="bulletMicroChart1"
+						minValue="0"
+						maxValue="100"
+						scale="%"
+						width="100%">
+							<actual>
+								<BulletMicroChartData value="{weightShare}" color="Neutral"/>
+							</actual>
+					</BulletMicroChart>
+				</m:VBox>
+				<m:layoutData>
+					<m:FlexItemData growFactor="1" />
+				</m:layoutData>
+			</m:VBox>
+			<m:layoutData>
+				<m:FlexItemData growFactor="1" />
+			</m:layoutData>
+		</m:VBox>
+		<m:VBox class="sapUiContentPadding" width="auto">
+			<m:Label design="Bold" text="Share Recylced"/>
+			<m:VBox 
+				items="{
+					path: 'materialSplits'
+				}" 
+				class="sapUiContentPadding" width="auto" wrap="Wrap" justifyContent="SpaceBetween">
+				<m:VBox>
+					<m:Label text="{materialType}"/>
+					<BulletMicroChart 
+						id="bulletMicroChart2"
+						minValue="0"
+						maxValue="100"
+						scale="%"
+						width="100%">
+							<actual>
+								<BulletMicroChartData 
+									value="{shareRecycled}" 
+									color='{= ${shareRecycled} >= 60 ? "Good" : 
+											${shareRecycled} >= 30 ? "Critical" : "Error"}'/>
+							</actual>
+					</BulletMicroChart>
+				</m:VBox>
+				<m:layoutData>
+					<m:FlexItemData growFactor="1" />
+				</m:layoutData>
+			</m:VBox>
+			<m:layoutData>
+				<m:FlexItemData growFactor="1" />
+			</m:layoutData>
+		</m:VBox>
+	</m:HBox>
+</core:FragmentDefinition>

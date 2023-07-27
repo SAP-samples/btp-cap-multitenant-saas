@@ -1,0 +1,45 @@
+ID: susaas.trial
+_schema-version: 3.2.0
+version: 1.0.0
+extends: susaas
+
+modules:
+  - name: susaas-api-sb
+    properties:
+      SBF_BROKER_CREDENTIALS_HASH:  >
+        {
+          "broker-user": "<paste your hash credentials here>"
+        }
+  - name: susaas-srv
+    requires:
+      - name: susaas-ias-app
+        parameters:
+          config: 
+             credential-type: X509_GENERATED
+
+resources:
+  - name: susaas-alert-notification
+    parameters:
+      service-plan: standard
+  - name: susaas-credstore
+    parameters:
+      service-plan: trial
+  - name: susaas-ias-app
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: susaas-router-api
+    parameters:
+      service: identity
+      service-name: ${space}-susaas-ias-app
+      service-plan: application
+      config:
+        display-name: Susaas-${space}-${org}
+        oauth2-configuration:
+          redirect-uris:
+            - https://*.~{susaas-router-api/app-domain}/login/callback?authType=ias
+          post-logout-redirect-uris: 
+            - https://*.~{susaas-router-api/app-domain}/logout/**
+          grant-types: ["authorization_code"]
+          credential-types: ["binding-secret","x509"]
+        xsuaa-cross-consumption: false
+        multi-tenant: false

@@ -1,0 +1,65 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "command": "cds bind --exec cds run --profile hybrid:srv",
+            "name": "cds run",
+            "request": "launch",
+            "type": "node-terminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "command": "npm run srv:hybrid",
+            "name": "cds srv hybrid",
+            "request": "launch",
+            "type": "node-terminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "command": "npm run api:hybrid",
+            "name": "cds api hybrid",
+            "request": "launch",
+            "type": "node-terminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "command": "cds watch --profile local-with-mtx",
+            "name": "cds watch local (with mtx)",
+            "request": "launch",
+            "type": "node-terminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "command": "cds watch",
+            "name": "cds watch local",
+            "request": "launch",
+            "type": "node-terminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "name": "Attach to a Cloud Foundry Instance on Port 9229",
+            "port": 9229,
+            "request": "attach",
+            "type": "node",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/home/vcap/app",
+            "autoAttachChildProcesses": false,
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+        }
+    ]
+}

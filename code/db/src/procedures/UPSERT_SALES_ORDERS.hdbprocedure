@@ -1,0 +1,82 @@
+PROCEDURE "SUSAAS_DB_UPSERT_SALES_ORDERS" (IN salesOrders NCLOB, OUT result "SUSAAS_DB_SALESORDERS")
+  LANGUAGE SQLSCRIPT
+  SQL SECURITY INVOKER
+  AS
+BEGIN
+  -- Store uploaded JSON in a table variable
+  jsonValues = SELECT TO_NVARCHAR(:salesOrders) as JSON FROM DUMMY;
+
+  -- Create a new temporary table which is used by the JSON_TABLE function
+  CREATE LOCAL TEMPORARY TABLE #JSON_VALUES AS (SELECT * FROM :jsonValues AS JSON);
+  
+  -- Use JSON_TABLE function to map uploaded JSON to a table which is used for UPSERT
+  UPSERT "SUSAAS_DB_SALESORDERS" SELECT * FROM JSON_TABLE(#JSON_VALUES.JSON, '$.salesOrders[*]' 
+    COLUMNS(
+      SO NVARCHAR(100) PATH '$.so',
+      SOITEMPOS NVARCHAR(10) PATH '$.soItemPos',
+      LIFECYCLESTATUS NVARCHAR(1) PATH '$.lifecycleStatus',
+      BILLINGSTATUS NVARCHAR(1) PATH '$.billingStatus',
+      DELIVERYSTATUS NVARCHAR(1) PATH '$.deliveryStatus',
+      GROSSAMOUNT DECIMAL PATH '$.grossAmount',
+      TAXAMOUNT DECIMAL PATH '$.taxAmount',
+      NETAMOUNT DECIMAL PATH '$.netAmount',
+      QUANTITY DECIMAL PATH '$.quantity',
+      QUANTITYUNIT NVARCHAR(3) PATH '$.quantityUnit',
+      DELIVERYDATE TIMESTAMP PATH '$.deliveryDate',
+      PRODUCT_ID NVARCHAR(10) PATH '$.product_ID',
+      CATEGORY NVARCHAR(40) PATH '$.category',
+      BPROLE NVARCHAR(3) PATH '$.bpRole',
+      BPID NVARCHAR(10) PATH '$.bpId',
+      COMPANYNAME NVARCHAR(80) PATH '$.companyName',
+      TEXT NVARCHAR(255) PATH '$.text',
+      ITEMATPSTATUS NVARCHAR(1) PATH '$.itemAtpStatus',
+      FIRSTNAME NVARCHAR(40) PATH '$.firstName',
+      LASTNAME NVARCHAR(40) PATH '$.lastName',
+      OVERALLSTATUS NVARCHAR(1) PATH '$.overallStatus',
+      CURRENCY_CODE NVARCHAR(3) PATH '$.currency_code',
+      COUNTRY_CODE NVARCHAR(3) PATH '$.country_code',
+      LANGUAGE_CODE NVARCHAR(14) PATH '$.language_code'
+    )
+  );
+  
+  -- Drop the temporary table
+  DROP TABLE #JSON_VALUES;
+  result = SELECT * FROM "SUSAAS_DB_SALESORDERS";
+
+END;
+
+  /*
+    DECLARE sql_str STRING;
+    DECLARE cols NVARCHAR(50000);
+  */
+
+
+  /*CREATE ROW TABLE JSON_VALUE AS (SELECT '{
+    "salesOrders" : [
+      {
+            "so": "0200000000", "soItemPos": "0000000010", "lifecycleStatus": "N", "billingStatus": "P", "deliveryStatus": "P", 
+            "currencyCode": "ARS", "grossAmount": 254.70, "taxAmount": 254.70, "netAmount": 200.00,
+            "quantity": 1, "quantityUnit": "EA", "deliveryDate": "2022-07-07T07:00:00.000+01:00", "product": "HT-1210", "category": "HD Players",
+            "bpRole": "02", "BpId": "0100000087", "companyName": "South American IT Company", "text": "Play Movie HD", "itemAtpStatus" : "P", "country": "AR", "firstName": "EPM",
+            "lastName": "User", "overallStatus": "P", "language": "E"
+      },
+      {
+            "so": "0200000000", "soItemPos": "0000000020", "lifecycleStatus": "N", "billingStatus": "P", "deliveryStatus": "P", 
+            "currencyCode": "ARS", "grossAmount": 300.70, "taxAmount": 300.70, "netAmount": 240.00,
+            "quantity": 1, "quantityUnit": "EA", "deliveryDate": "2022-07-07T07:00:00.000+01:00", "product": "HT-2001", "category": "Blu-Ray Player",
+            "bpRole": "02", "BpId": "0100000087", "companyName": "South American IT Company", "text": "Play Movie HD", "itemAtpStatus" : "P", "country": "AR", "firstName": "EPM",
+            "lastName": "User", "overallStatus": "P", "language": "E"
+      }
+    ]
+  }' as JSON FROM DUMMY);*/
+
+
+  /*SELECT STRING_AGG(COLUMN_VALUE, ',') 
+  FROM ( 
+    SELECT 'RN FOR ORDINALITY' as COLUMN_VALUE from DUMMY 
+    UNION SELECT COLUMN_NAME || ' ' || DATA_TYPE_NAME || '(' || LENGTH || ') PATH ''$.' || LOWER(COLUMN_NAME) || '''' as COLUMN_VALUE 
+    FROM TABLE_COLUMNS 
+    WHERE "TABLE_NAME" = 'SUSAAS_DB_SALESORDERS'
+  );*/
+
+  --EXECUTE IMMEDIATE 'SELECT JT.* FROM JSON_TABLE(T1.B, ''$.salesOrders[*]'' COLUMNS(' || :cols || ')) AS JT';

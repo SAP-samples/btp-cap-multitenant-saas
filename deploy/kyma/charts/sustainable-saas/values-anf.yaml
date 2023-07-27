@@ -1,0 +1,6 @@
+# Backend Service Workload
+srv:
+  bindings:
+    alert-notification:
+      # As Alert Notification is unique per namespace, serviceInstanceFullname is used
+      serviceInstanceFullname: alert-notification

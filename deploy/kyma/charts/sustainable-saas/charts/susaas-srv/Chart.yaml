@@ -1,0 +1,6 @@
+apiVersion: v2
+name: susaas-srv
+description: A Helm chart for susaas srv
+kubeVersion: ">= 1.21"
+type: application
+version: 0.1.0

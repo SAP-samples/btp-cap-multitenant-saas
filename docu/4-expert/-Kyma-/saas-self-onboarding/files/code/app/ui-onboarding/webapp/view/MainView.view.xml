@@ -1,0 +1,61 @@
+<mvc:View 
+    controllerName="sap.susaas.ui.onboarding.controller.MainView" 
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    displayBlock="true">
+    <Page id="page" showHeader="false" >
+        <content>
+            <Panel width="auto" class="sapUiResponsiveMargin">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Tenant Overview"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>
+                    <List id="list" items="{ path: 'viewModel>/aTenants', templateShareable: false }" noDataText="No tenant available yet!" >
+                        <items>
+                            <CustomListItem>
+                                <HBox>
+                                    <Button text="Tenant Access" type="Emphasized" press="onPressAccessTenant" class="sapUiResponsiveMargin"/>
+                                    <Button visible="{= ${viewModel>platformIdpUrl} ? true : false }" text="Platform Access" type="Emphasized" press="onPressAccessPlatform" class="sapUiResponsiveMargin"/>
+                                </HBox>
+                            </CustomListItem>
+                        </items>
+                    </List>
+                </content>
+            </Panel>
+            <Panel width="auto" class="sapUiResponsiveMargin">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Tenant On-/Offboarding"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <content>
+                    <VBox width="auto">
+                        <HBox width="auto" alignItems="Center" alignContent="Center">
+                            <Button enabled="{= ( !${viewModel>/oStatus/sProcess} &amp;&amp; !${viewModel>/bHasTenant} ) ? true : false }" type="Success" text="Trigger Onboarding" press="onPressOnboarding" class="sapUiResponsiveMargin" />
+                            <ObjectStatus
+                                id="ostOnboarding"
+                                class="sapUiResponsiveMargin"
+                                text="Onboarding process running"
+                                inverted="true"
+                                state="Information"
+                                visible="{= ( ${viewModel>/oStatus/sProcess} === 'onboarding' ) ? true : false }"/>
+                        </HBox>
+                        <HBox width="auto" alignItems="Center" alignContent="Center">
+                            <Button enabled="{= ( !${viewModel>/oStatus/sProcess} &amp;&amp; ${viewModel>/bHasTenant} ) ? true : false }" type="Negative" text="Trigger Offboarding" press="onPressOffboarding" class="sapUiResponsiveMargin" />
+                            <ObjectStatus
+                                id="ostOffboarding"
+                                class="sapUiResponsiveMargin"
+                                text="Offboarding process running"
+                                inverted="true"
+                                state="Information"
+                                visible="{= ( ${viewModel>/oStatus/sProcess} === 'offboarding' ) ? true : false }"/>
+                        </HBox>
+                    </VBox>
+                </content>
+            </Panel>
+        </content>
+    </Page>
+</mvc:View>

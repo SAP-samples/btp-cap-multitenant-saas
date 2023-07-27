@@ -1,0 +1,13 @@
+{
+    "role": {
+        "name": "COM_EXTERNAL_ACCESS",
+        "object_privileges": [
+            { 
+                "name":"SUSAAS_COMMON_SHARED", 
+                "type":"TABLE", 
+                "privileges":[ "SELECT" ], 
+                "privileges_with_grant_option":[] 
+            }
+        ]
+    }
+}

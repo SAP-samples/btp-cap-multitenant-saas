@@ -1,0 +1,23 @@
+{
+  "services": [
+    {
+      "name": "Sustainable SaaS API",
+      "description": "API for Sustainable SaaS App",
+      "bindable": true,
+      "plans": [
+        {
+          "name": "trial",
+          "description": "Trial Plan"
+        },
+        {
+          "name": "default",
+          "description": "Standard Plan"
+        },
+        {
+          "name": "premium",
+          "description": "Premium Plan"
+        }
+      ]
+    }
+  ]
+}

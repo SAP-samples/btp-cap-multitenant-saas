@@ -1,0 +1,53 @@
+global:
+  imagePullSecret: {}
+  image: {}
+  partOf: susaas
+  component: api
+  domain:
+  gateway: 
+
+port: 5000
+
+serviceAccount:
+  enabled: false # If true, own serviceAccount (<<ReleaseName>>-api) used by pod, otherwise "default" serviceAccount
+  automountToken: false # If true, token of the assigned serviceAccount (default or fullname) automounted
+
+image: {}
+imagePullSecret: {}
+additionalVolumes: []
+
+
+ha: # High-Availability
+  enabled: true
+  pdb: # Pod Disruption Budget
+    minAvailable: 1 
+
+hpa: # Horizontal Pod Autoscaler
+  enabled: true
+  minReplicaCount: 1 # To use High-Availibility set minReplicaCount to at least 2
+  maxReplicaCount: 3
+  cpuTargetAverageUtilization: 80 # Either choose Target Average Utilization or Value
+  cpuTargetAverageValue:
+
+health_check:
+  liveness:
+    path: /healthz
+  readiness:
+    path: /healthz
+
+startupTimeout: 30
+
+resources:
+  limits:
+    ephemeral-storage: 
+    memory: 
+    cpu: 
+  requests:
+    ephemeral-storage: 
+    cpu: 
+    memory: 
+
+expose: 
+  enabled: true # If true, your workload will be exposed via Istio Ingressgateway
+
+serviceKeys: {}

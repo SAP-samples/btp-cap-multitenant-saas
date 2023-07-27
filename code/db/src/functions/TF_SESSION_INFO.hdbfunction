@@ -1,0 +1,32 @@
+FUNCTION "SUSAAS_DB_TF_SESSION_INFO" ( )
+  RETURNS TABLE (
+    ITEM   NVARCHAR(512),
+    VALUE  NVARCHAR(512)
+  )
+  LANGUAGE SQLSCRIPT
+  AS
+  BEGIN
+    return
+        select 'SESSION_USER' as ITEM, session_user as VALUE from "DUMMY"
+        UNION ALL
+        select 'XS_APPLICATIONUSER' as ITEM, SESSION_CONTEXT('XS_APPLICATIONUSER') as VALUE from "DUMMY"
+        UNION ALL
+        select 'APPLICATION' as ITEM, SESSION_CONTEXT('APPLICATION') as VALUE from "DUMMY"
+        UNION ALL
+        select 'APPLICATION_USER' as ITEM, SESSION_CONTEXT('APPLICATIONUSER') as VALUE from "DUMMY"
+        UNION ALL
+        select 'APPLICATION_VERSION' as ITEM, SESSION_CONTEXT('APPLICATIONVERSION') as VALUE from "DUMMY"
+        UNION ALL
+        select 'DRIVER_VERSION' as ITEM, SESSION_CONTEXT('DRIVERVERSION') as VALUE from "DUMMY"
+        UNION ALL
+        select 'PROTOCOL_VERSION' as ITEM, SESSION_CONTEXT('PROTOCOL_VERSION') as VALUE from "DUMMY"
+        UNION ALL
+        select 'CURRENT_CONNECTION' as ITEM, TO_NVARCHAR(current_connection) as VALUE from "DUMMY"
+        UNION ALL
+        select 'CURRENT_USER' as ITEM, current_user as VALUE from "DUMMY"
+        UNION ALL
+        select 'CURRENT_SCHEMA' as ITEM, current_schema as VALUE from "DUMMY"
+        UNION ALL
+        select 'CURRENT_TIMESTAMP' as ITEM, TO_NVARCHAR(current_timestamp) as VALUE from "DUMMY"
+        ;
+  END;

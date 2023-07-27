@@ -1,0 +1,14 @@
+apiVersion: v2
+name: obd
+description: SaaS Onboarding
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+dependencies:
+  - name: obd-srv
+    alias: srv
+    version: 0.1.0
+  - name: obd-router
+    alias: router
+    version: 0.1.0
+

@@ -1,0 +1,120 @@
+{
+    "folders": {
+        "app": "../app"
+    },
+    "requires": {
+        " ---------------------": "---",
+        "--- MTXs Settings ----": "---",
+        "--------------------- ": "---",
+        "[hybrid]": {
+            "multitenancy": true,
+            "extensibility": true,
+            "toggles": true,
+            "cds.xt.ExtensibilityService": {
+                "element-prefix": [
+                    "x_"
+                ],
+                "extension-allowlist": [
+                    {
+                        "for": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "[local-with-mtx]": {
+            "multitenancy": true,
+            "extensibility": true,
+            "toggles": true
+        },
+        "[development]": {
+            "multitenancy": false,
+            "extensibility": false,
+            "toggles": false
+        },
+        "------------------ ": "---",
+        "--- DB Settings ---": "---",
+        " ------------------": "---",
+        "db": {
+            "[hybrid]": {
+                "kind": "hana",
+                "vcap": {
+                    "label": "service-manager",
+                    "plan": "container"
+                }
+            },
+            "[local-with-mtx]": {
+                "kind": "sql-mt",
+                "beta": {
+                    "sqlMigration": "true"
+                }
+            },
+            "[development]": {
+                "kind": "sql"
+            }
+        },
+        "-------------------- ": "---",
+        "--- Auth Settings ---": "---",
+        " --------------------": "---",
+        "auth": {
+            "[hybrid]": {
+                "kind": "xsuaa"
+            },
+            "[local-with-mtx]": {
+                "kind": "mock",
+                "users": {
+                    "alice": {
+                        "tenant": "t1",
+                        "roles": [
+                            "Admin",
+                            "cds.Subscriber",
+                            "cds.ExtensionDeveloper"
+                        ]
+                    },
+                    "carol": {
+                        "tenant": "t1",
+                        "roles": [
+                            "Member"
+                        ]
+                    },
+                    "bob": {
+                        "tenant": "t1-ext",
+                        "roles": [
+                            "Admin",
+                            "cds.Subscriber",
+                            "cds.ExtensionDeveloper"
+                        ]
+                    }
+                }
+            },
+            "[development]": {
+                "kind": "mock",
+                "users": {
+                    "alice": {
+                        "roles": [
+                            "Admin",
+                            "Member"
+                        ]
+                    },
+                    "carol": {
+                        "roles": [
+                            "Member"
+                        ]
+                    }
+                }
+            }
+        },
+        "---------------------- ": "---",
+        "--- Model Settings ----": "---",
+        " ----------------------": "---",
+        "db-ext": {
+            "[local-with-mtx]": {
+                "model": ["../db/sqlite", "../test"]
+            },
+            "[development]": {
+                "model": ["../db/sqlite", "../test"]
+            }
+        }
+    }
+}

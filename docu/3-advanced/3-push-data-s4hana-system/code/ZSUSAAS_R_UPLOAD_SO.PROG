@@ -1,0 +1,64 @@
+*&---------------------------------------------------------------------*
+*& Report ZSUSAAS_R_UPLOAD_SO
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zsusaas_r_upload_so.
+
+TYPES: ty_name_mapping TYPE /ui2/cl_json=>name_mapping,
+       test            TYPE timstmp.
+
+DATA: lv_rfc_dest      TYPE rfcdest VALUE 'SUSAAS_PUSH_API',
+      lv_json          TYPE string,
+      lv_id_str        TYPE string,
+      lt_sales         TYPE STANDARD TABLE OF zsusaas_s_so_upl,
+      lt_name_mappings TYPE HASHED TABLE OF ty_name_mapping WITH UNIQUE KEY abap.
+
+
+DATA(mo_http_util) = NEW zsusaas_cl_upload( ).
+DATA(lo_http_client) = mo_http_util->get_http_client( iv_rfcdest = lv_rfc_dest iv_url_path = '/rest/api/bulkUpsertSalesOrders').
+
+lt_name_mappings = VALUE #(
+    ( abap = 'SO_ID' json = 'so' ) ( abap = 'LIFECYCLE_STATUS' json = 'lifecycleStatus' ) ( abap = 'BILLING_STATUS' json = 'billingStatus' )
+    ( abap = 'SO_ITEM_POS' json = 'soItemPos' ) ( abap = 'CURRENCY_CODE' json = 'currency_code' ) ( abap = 'GROSS_AMOUNT' json = 'grossAmount' )
+    ( abap = 'TAX_AMOUNT' json = 'taxAmount' ) ( abap = 'NET_AMOUNT' json = 'netAmount' ) ( abap = 'QUANTITY' json = 'quantity' )
+    ( abap = 'QUANTITY_UNIT' json = 'quantityUnit' ) ( abap = 'DELIVERY_DATE' json = 'deliveryDate' ) ( abap = 'PRODUCT_ID' json = 'product_ID' )
+    ( abap = 'CATEGORY' json = 'category' ) ( abap = 'BP_ROLE' json = 'bpRole' ) ( abap = 'BP_ID' json = 'bpId' )
+    ( abap = 'COMPANY_NAME' json = 'companyName' ) ( abap = 'TEXT' json = 'text' ) ( abap = 'ITEM_ATP_STATUS' json = 'itemAtpStatus' )
+    ( abap = 'COUNTRY' json = 'country_code' ) ( abap = 'FIRST_NAME' json = 'firstName' ) ( abap = 'LAST_NAME' json = 'lastName' )
+    ( abap = 'OVERALL_STATUS' json = 'overallStatus' ) ( abap = 'LANGUAGE' json = 'language_code' ) ( abap = 'DELIVERY_STATUS' json = 'deliveryStatus' )
+).
+
+SELECT DISTINCT
+    so_id, lifecycle_status, billing_status, delivery_status, so_item_pos, currency_code,
+    gross_amount, tax_amount, net_amount, quantity, quantity_unit, delivery_date, product_id,
+    category, bp_role, bp_id, company_name, text, country, first_name, last_name, overall_status, language
+  FROM EPM_V_SALES_DATA
+  INTO CORRESPONDING FIELDS OF TABLE @lt_sales
+  WHERE language = 'E'.
+
+
+lv_json = /ui2/cl_json=>serialize(
+  data = lt_sales
+  ts_as_iso8601 = 'X'
+  compress = abap_true
+  pretty_name = /ui2/cl_json=>pretty_mode-none
+  name_mappings = lt_name_mappings
+).
+
+mo_http_util->post_data_to_api(
+  EXPORTING
+    iv_data = | \{ "salesOrders" : { lv_json } \} |
+  IMPORTING
+    ev_error_flag = DATA(lv_resp_error)
+    ev_response_text = DATA(lv_response_text)
+    ev_reason = DATA(lv_reason)
+    ev_code = DATA(lv_code) ).
+
+IF lv_code <> 200.
+  MESSAGE | Error during upload! { lv_response_text } |  TYPE 'I' DISPLAY LIKE 'E'.
+ELSE.
+  MESSAGE 'Data successfully uploaded!' TYPE 'S'.
+ENDIF.
+
+mo_http_util->close_connection( ).

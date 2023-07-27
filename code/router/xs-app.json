@@ -1,0 +1,21 @@
+{
+    "welcomeFile": "/sapsusaasuipublicflp/",
+    "authenticationMethod": "route",
+    "logout": {
+      "logoutEndpoint": "/logout"
+    },
+    "routes": [
+      {
+        "source": "^/user-api(.*)",
+        "target": "$1",
+        "service": "sap-approuter-userapi",
+        "authenticationType": "xsuaa"
+      },
+      {
+        "source": "^(/.*)$",
+        "target": "$1",
+        "service": "html5-apps-repo-rt",
+        "authenticationType": "xsuaa"
+      }
+    ]
+  }

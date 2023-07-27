@@ -1,0 +1,11 @@
+Thank you for installing {{ .Chart.Name }} version {{ .Chart.Version }}.
+
+The release "{{ .Release.Name }}" is installed in namespace "{{ .Release.Namespace }}".
+
+Your services are available at:
+{{- $root := . }}
+{{- range $name := include "cap.deploymentNames" . | split ";" }}
+  {{- $deployment := (get $root.Values $name) }}
+  {{- $ := merge (dict "name" $name "deployment" $deployment) $root }}
+  - https://{{ include "cap.deploymentHostFull" $ }}
+{{- end }}

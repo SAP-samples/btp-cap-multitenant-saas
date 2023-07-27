@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "susaas-broker.fullname" . }}
+  labels: {{- include "susaas-broker.labels" . | nindent 4 }}
+spec:
+  policyTypes:
+    - Ingress
+  podSelector:
+    matchLabels: {{- include "susaas-broker.selectorLabels" . | nindent 6 }}
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: istio-ingressgateway
+          namespaceSelector:
+            matchLabels:
+              name: istio-system

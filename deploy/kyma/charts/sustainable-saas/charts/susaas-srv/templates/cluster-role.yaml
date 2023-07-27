@@ -1,0 +1,20 @@
+# Permissions for onboarding process
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "susaas-srv.fullname" . }}
+  labels: {{- include "susaas-srv.labels" . | nindent 4 }}
+rules:
+- apiGroups: ["gateway.kyma-project.io"]
+  resources: ["apirules"]
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:  ["gateway.kyma-project.io"]
+  resources: ["apirules/status"]
+  verbs: ["get"]

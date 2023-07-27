@@ -1,0 +1,37 @@
+---
+general:
+  buildTool: 'mta'
+
+stages:
+  Build:
+    mavenExecuteStaticCodeChecks: false
+    npmExecuteLint: true
+
+  Additional Unit Tests:
+    karmaExecuteTests: false
+
+  Release:
+    cloudFoundryDeploy: true
+
+steps:
+  npmExecuteLint:
+    failOnError: true
+
+  mtaBuild:
+    platform: 'CF'
+  
+  cloudFoundryDeploy:
+    cfCredentialsId: cf-credentials
+    apiEndpoint: '<cf-api>'
+    org: '<cf-org>'
+    space: '<cf-space>'
+    mtaDeployParameters: '-f --version-rule ALL'
+    mtaExtensionDescriptor: '<relative-path-of-the-mtaext-file>'
+    mtaExtensionCredentials: 
+      susaas-sb-credentials: susaas-sb-credentials
+    
+
+# tmsUpload:  # only relevant once you finish the SAP Cloud Transport Management Expert Scope chapter
+#   nodeName: 'QA'
+#   credentialsId: 'tms'
+#   customDescription: 'TMS Upload'

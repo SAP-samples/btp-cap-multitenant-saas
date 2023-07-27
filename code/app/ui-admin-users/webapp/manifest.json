@@ -1,0 +1,147 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "sap.susaas.ui.admin.users",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "catalog/AdminService/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.108.4",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.ui.layout": {},
+                "sap.fe.core": {},
+                "sap.fe.templates": {},
+                "sap.m": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "UsersList",
+                    "target": "UsersList"
+                },
+                {
+                    "pattern": "Users({key}):?query:",
+                    "name": "UsersObjectPage",
+                    "target": "UsersObjectPage"
+                }
+            ],
+            "targets": {
+                "UsersList": {
+                    "type": "Component",
+                    "id": "UsersList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Users",
+                            "variantManagement": "None",
+                            "navigation": {
+                                "Users": {
+                                    "detail": {
+                                        "route": "UsersObjectPage"
+                                    }
+                                }
+                            },
+                            "initialLoad": true
+                        }
+                    }
+                },
+                "UsersObjectPage": {
+                    "type": "Component",
+                    "id": "UsersObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "variantManagement": "None",
+                            "entitySet": "Users",
+                            "allowDeepLinking": true,
+                            "sectionLayout": "Tabs"
+                        }
+                    }
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {}
+            }
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}

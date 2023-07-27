@@ -1,0 +1,16 @@
+{{- if .Values.apim }}
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ .Release.Name }}-apim
+  labels: {{- include "susaas-api.labels" . | nindent 4 }}
+spec:
+  hosts: 
+    - {{ .Values.apim.host }}
+  location: MESH_EXTERNAL
+  ports:
+  - number: {{ .Values.apim.port | default 443 }}
+    name: https
+    protocol: TLS
+  resolution: DNS
+{{- end }}

@@ -1,0 +1,61 @@
+*&---------------------------------------------------------------------*
+*& Report ZSUSAAS_R_UPLOAD_PRODUCTS
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zsusaas_r_upload_products.
+
+TYPES: ty_name_mapping TYPE /ui2/cl_json=>name_mapping,
+       test            TYPE timstmp.
+
+DATA: lv_rfc_dest      TYPE rfcdest VALUE 'SUSAAS_PUSH_API',
+      lv_json          TYPE string,
+      lv_id_str        TYPE string,
+      lt_products      TYPE STANDARD TABLE OF zsusaas_s_products_upl,
+      lt_name_mappings TYPE HASHED TABLE OF ty_name_mapping WITH UNIQUE KEY abap.
+
+
+DATA(mo_http_util) = NEW zsusaas_cl_upload( ).
+DATA(lo_http_client) = mo_http_util->get_http_client( iv_rfcdest = lv_rfc_dest iv_url_path = '/rest/api/bulkUpsertProducts').
+
+lt_name_mappings = VALUE #(
+    ( abap = 'PRODUCT_ID' json = 'ID' ) ( abap = 'TYPE_CODE' json = 'typeCode' ) ( abap = 'CATEGORY' json = 'category' ) ( abap = 'SUPPLIER_ID' json = 'supplierId' )
+    ( abap = 'TAX_TARIF_CODE' json = 'taxTarifCode' ) ( abap = 'MEASURE_UNIT' json = 'measureUnit' ) ( abap = 'WEIGHT_MEASURE' json = 'weightMeasure' )
+    ( abap = 'WEIGHT_UNIT' json = 'weightUnit' ) ( abap = 'CURRENCY_CODE' json = 'currency_code' ) ( abap = 'PRICE' json = 'price' )
+    ( abap = 'LANGU' json = 'language_code' ) ( abap = 'TEXT' json = 'text' )
+).
+
+SELECT DISTINCT
+    products~product_id, products~type_code, products~category, products~supplier_id, products~tax_tarif_code, products~measure_unit,
+    products~weight_measure, products~weight_unit, products~currency_code, products~price, texts~langu, texts~text
+  FROM EPM_V_PROD as products
+    LEFT OUTER JOIN EPM_V_PROD_TXT as texts
+    ON products~product_id = texts~product_id
+  INTO CORRESPONDING FIELDS OF TABLE @lt_products
+  WHERE texts~langu = 'E'.
+
+
+lv_json = /ui2/cl_json=>serialize(
+  data = lt_products
+  ts_as_iso8601 = 'X'
+  compress = abap_true
+  pretty_name = /ui2/cl_json=>pretty_mode-none
+  name_mappings = lt_name_mappings
+).
+
+mo_http_util->post_data_to_api(
+  EXPORTING
+    iv_data = | \{ "products" : { lv_json } \} |
+  IMPORTING
+    ev_error_flag = DATA(lv_resp_error)
+    ev_response_text = DATA(lv_response_text)
+    ev_reason = DATA(lv_reason)
+    ev_code = DATA(lv_code) ).
+
+IF lv_code <> 200.
+  MESSAGE | Error during upload! { lv_response_text } |  TYPE 'I' DISPLAY LIKE 'E'.
+ELSE.
+  MESSAGE 'Data successfully uploaded!' TYPE 'S'.
+ENDIF.
+
+mo_http_util->close_connection( ).

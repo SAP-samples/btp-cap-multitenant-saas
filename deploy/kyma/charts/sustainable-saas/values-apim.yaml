@@ -1,0 +1,24 @@
+# SaaS API Workload
+api:
+  # Service Key required for secure SAP API Management integration
+  serviceKeys:
+    xsuaa-apim:
+      serviceInstanceName: xsuaa-api
+  # Settings for SAP API Management integration
+  apim:
+    # SAP API Management runtime host w/o "https://" or port
+    host: sap-demo.prod.apimanagement.eu10.hana.ondemand.com
+    # Port of SAP API Management runtime host
+    port: 443
+    # Path of API Proxy in SAP API Management
+    path: susaas-api
+    # Provide details of the API XSUAA Service Instance
+    # Those details can be found in the respective Kyma Secret
+    # The Secret is created for the xsuaa-apim serviceKey
+    xsuaa: 
+      # Provide the XSUAA tenant host without https://
+      # e.g., sap-demo.authentication.us20.hana.ondemand.com
+      host: sap-demo.authentication.us20.hana.ondemand.com
+      # Provide the xsappname of your API XSUAA Service Instance 
+      # Add the prefix "sb-" to the xsappname like, sb-susaas-api-default
+      sub: sb-susaas-api-default

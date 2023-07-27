@@ -1,0 +1,14 @@
+{
+    "com-hdi-container": {
+        "object_owner": {
+            "container_roles": [
+                "COM_EXTERNAL_ACCESS#"
+            ]
+        },
+        "application_user": {
+            "container_roles": [
+                "COM_EXTERNAL_ACCESS"
+            ]
+        }
+    }
+}

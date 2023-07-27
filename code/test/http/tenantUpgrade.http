@@ -1,0 +1,38 @@
+@xsuaaUrl = <url from XSUAA Service Key>
+@xsuaaClientId = <clientid from XSUAA Service Key>
+@xsuaaClientSecret = <clientsecret from XSUAA Service Key>
+@srvUrl = <susaas-srv url from provider subaccount>
+
+@tenantId= <tenant id from consumer subaccount>
+
+
+##########################################
+# Get SAP XSUAA token 
+##########################################
+
+# @name getXsuaaToken
+
+POST {{xsuaaUrl}}/oauth/token
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic {{xsuaaClientId}}:{{xsuaaClientSecret}}
+
+?client_id={{xsuaaClientId}}
+&client_secret={{xsuaaClientSecret}}
+&grant_type=client_credentials
+
+
+################################################
+# Call CAP endpoint (BTP) For DB Model Upgrade
+################################################
+
+@access_token = {{getXsuaaToken.response.body.$.access_token}}
+
+# @name upgradeTenantDBModel
+POST {{srvUrl}}/-/cds/deployment/upgrade
+Authorization: Bearer {{access_token}}
+Content-type: application/json
+
+{ "tenant": "{{tenantId}}"  }
+
+##########################################

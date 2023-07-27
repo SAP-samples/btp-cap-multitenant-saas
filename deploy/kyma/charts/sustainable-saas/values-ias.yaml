@@ -1,0 +1,34 @@
+# Backend Service Workload
+srv:
+  bindings:
+    identity:
+      # Only enable if Cloud Identity Service instance is enabled in Umbrella Chart 
+      serviceInstanceName: identity
+      # SAP IAS binding requires X.509 certificate based credentials
+      parameters:
+        credential-type: X509_GENERATED
+      credentialsRotationPolicy:
+        enabled: true
+        rotatedBindingTTL: 1h
+        rotationFrequency: 24h
+
+# SAP Cloud Identity Service Instance
+# Provides an SAP IAS integration for central user management
+identity:
+  serviceOfferingName: identity
+  servicePlanName: application
+  parameters:
+    # Unique display dame as usually only one SAP IAS instance per customer
+    display-name: 'SusaaS ({{.Release.Name}}-{{.Release.Namespace}}-{{.Values.global.shootName}})'
+    oauth2-configuration:
+      # Redirect and logout URIs filled with dummy values as not required for authentication
+      redirect-uris:
+        - 'https://*.{{ include "cap.deploymentHostFull" ( merge ( dict "name" "router" "deployment" .Values.router ) . ) }}/login/callback?authType=ias'
+        - 'https://{{ include "cap.deploymentHostFull" ( merge ( dict "name" "router" "deployment" .Values.router ) . ) }}/login/callback?authType=ias'
+      post-logout-redirect-uris: 
+        - 'https://*.{{ include "cap.deploymentHostFull" ( merge ( dict "name" "router" "deployment" .Values.router ) . ) }}/logout/**'
+        - 'https://{{ include "cap.deploymentHostFull" ( merge ( dict "name" "router" "deployment" .Values.router ) . ) }}/logout/**'
+      grant-types: ["authorization_code"]
+      credential-types: ["binding-secret", "x509"]
+    xsuaa-cross-consumption: false
+    multi-tenant: false

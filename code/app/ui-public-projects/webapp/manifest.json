@@ -1,0 +1,226 @@
+{
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "sap.susaas.ui.public.projects",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "subTitle": "{{appSubTitle}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "catalog/PublicService/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds" : {},
+            "outbounds": {
+                "ManageAssessments": {
+					"semanticObject": "Assessments",
+					"action": "manage",
+					"parameters": {
+                        "ID": {
+                            "value": {
+                                "value": "{ID}"
+                            }
+                        }
+                    }
+				},
+                "CreateAssessments": {
+					"semanticObject": "Assessments",
+					"action": "create",
+					"parameters": {
+                        "project_ID": {
+                            "value": {
+                                "value": "{ID}"
+                            }
+                        }
+                    }
+				}
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.108.4",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.ui.layout": {},
+                "sap.fe.core": {},
+                "sap.fe.templates": {},
+				"sap.m": {}
+			}
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "ProjectsListReport",
+                    "target": "ProjectsListReport"
+                },
+                {
+                    "pattern": "Projects({ID}):?query:",
+                    "name": "ProjectsObjectPage",
+                    "target": "ProjectsObjectPage"
+                }
+            ],
+            "targets": {
+                "ProjectsListReport": {
+                    "type": "Component",
+                    "id": "ProjectsListReport",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Projects",
+                            "variantManagement": "None",
+                            "enhanceI18n": "i18n/customI18N.properties",
+                            "navigation": {
+                                "Projects": {
+                                    "detail": {
+                                        "route": "projectsObjectPage"
+                                    }
+                                }
+                            },
+                            "initialLoad": true,
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable",
+                                        "selectionMode": "Multi"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "ProjectsObjectPage": {
+                    "type": "Component",
+                    "id": "ProjectsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Projects",
+                            "enhanceI18n": "i18n/customI18N.properties",
+                            "sectionLayout": "Tabs",
+                            "variantManagement": "None",
+                            "showRelatedApps": false,
+                            "navigation": {
+                                "assessments": {
+                                    "detail": {
+                                        "outbound": "ManageAssessments" 
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "assessments/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable",
+                                        "enablePaste": false,
+                                        "enableFullScreen": true,
+                                        "editableHeaderContent": false,
+                                        "showRelatedApps": true,
+                                        "enableMassEdit": false,
+                                        "enableExport": true
+                                        
+                                    }
+                                },
+                                "members/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable",
+                                        "enableFullScreen": true,
+                                        "editableHeaderContent": false,
+                                        "showRelatedApps": true,
+                                        "enableMassEdit": true,
+                                        "enableExport": true
+                                    }
+                                }
+                            },
+                            "content": {
+                                "header": {
+                                    "anchorBarVisible": true,
+                                    "visible": true
+                                }
+                            },
+                            "editableHeaderContent": false
+                        }
+                    }
+                }
+            }
+        },
+        "extends": {
+			"extensions": {
+				"sap.ui.controllerExtensions": {
+					"sap.fe.templates.ObjectPage.ObjectPageController": {
+						"controllerName": "sap.susaas.ui.public.projects.ext.controller.OPExtend"
+					}
+				}
+			}
+		},
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": [],
+        "archeType": "transactional"
+    }
+}
