@@ -9,11 +9,11 @@
   },
   "type": "module",
   "dependencies": {
+    "@cap-js-community/odata-v2-adapter": "^1.11.4",
     "@kubernetes/client-node": "^0.18.0",
     "@sap_oss/alert-notification-client": "^1.4.0",
     "@sap/cds": "^7.0.3",
     "@sap/cds-mtxs": "^1.9.2",
-    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/hana-client": "^2.15.19",
     "@sap/xsenv": "^3.4.0",
     "@sap/xssec": "^3.2.17",
