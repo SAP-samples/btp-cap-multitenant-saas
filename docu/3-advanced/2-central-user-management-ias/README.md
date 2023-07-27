@@ -1,5 +1,8 @@
 # Central user management using SAP Identity Authentication Service
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 In this part of the tutorial, you will learn how you as a SaaS Provider can set up a central user management using SAP Identity Authentication Service (SAP IAS). This makes your solution independent from SAP ID Service, which requires users of your SaaS consumers to sign up for an SAP-managed user account. Using SAP IAS you can manage (register, unregister, reset passwords, ...) all SaaS Consumer users in a central place. 
 
 - [Central user management using SAP Identity Authentication Service](#central-user-management-using-sap-identity-authentication-service)
@@ -57,8 +60,8 @@ The usage of SAP IAS provides signification advantages for your SaaS application
 
 In case you already have an existing trust between SAP XSUAA of Provider Subaccount and your SAP IAS tenant, there are only a few additional steps to take when setting up a new Consumer account.
 
-* Set up your central SAP IAS tenant as a trusted IdP in your Consumer Subaccounts. <br>
-* Disable the creation of shadow users in the SAP IAS trust configurations. <br>
+* Set up your central SAP IAS tenant as a trusted IdP in your Consumer Subaccounts.
+* Disable the creation of shadow users in the SAP IAS trust configurations. 
 
 > **Important** - Make sure that the shadow user creation is **also disabled in your Provider Subaccount**! 
 
@@ -74,17 +77,17 @@ In case you don't have an SAP IAS tenant or you haven't configured it as a trust
 
 2.3. If there is no SAP IAS tenant available for your customer account, you can create a new tenant from your Provider Subaccount or any other subaccount. Please switch to **Instances and Subscriptions** in the **Services** section and create a new service instance of type **Cloud Identity Service** with service plan **default**. 
 
-[<img src="./images/IAS_SetupIAS.png" width="600" />](./images/IAS_SetupIAS.png?raw=true)
+[<img src="./images/IAS_SetupIAS.png" width="400" />](./images/IAS_SetupIAS.png?raw=true)
 
 > **Important** - If you're missing this service or service plan, please make sure to add it to your subaccount entitlements. While the **default (Application)** service plan will create a new SAP IAS tenant, the **application** service plan will create a new application registration in an SAP IAS tenant configured as a trusted IdP to the respective subaccount.
-> [<img src="./images/IAS_EntConfig.png" width="600" />](./images/IAS_EntConfig.png?raw=true)
+> [<img src="./images/IAS_EntConfig.png" width="400" />](./images/IAS_EntConfig.png?raw=true)
 
 
 2.4. Decide if you want to set up a productive or test tenant of SAP Identity Authentication and click on **Create** to trigger the setup. 
 
 2.5. You or your SAP BTP Global Account administrator will receive a mail with instructions on how to initialize your new SAP IAS tenant once it is provisioned. The initial admin user can create further users or admins in SAP IAS. 
 
-[<img src="./images/IAS_ActivationMail.png" width="300" />](./images/IAS_ActivationMail.png?raw=true)
+[<img src="./images/IAS_ActivationMail.png" width="400" />](./images/IAS_ActivationMail.png?raw=true)
 
 2.6. Once the IAS tenant is provisioned, it will also appear in the configuration popup of your **Trust Configuration** and you can finish the trust set up in your Consumer and Provider Subaccounts.
 
@@ -97,17 +100,18 @@ In case you don't have an SAP IAS tenant or you haven't configured it as a trust
 
 Right after setting up the trust between your SAP IAS instance and your **Provider** and **consumer** subaccounts, please disable the **Automated Creation of Shadow Users** in the **Trust Configuration** of your SAP IAS trust settings. This is a one-time action, which you need to apply for each new Subscriber tenant!
 
-[<img src="./images/IAS_ShadowUser01.png" width="300" />](./images/IAS_ShadowUser01.png?raw=true)
+[<img src="./images/IAS_ShadowUser01.png" width="500" />](./images/IAS_ShadowUser01.png?raw=true)
 
-[<img src="./images/IAS_ShadowUser02.png" width="300" />](./images/IAS_ShadowUser02.png?raw=true)
+[<img src="./images/IAS_ShadowUser02.png" width="400" />](./images/IAS_ShadowUser02.png?raw=true)
 
 An Automated creation of shadow users would result in a setup in which each and every SAP IAS user can authenticate to each Consumer Subaccount. As your central SAP IAS instance contains the users of all consumers, this is not desirable! Instead, we will create the subaccount-specific shadow users upon user creation in the SaaS in-app user management. While this is a bit more coding an maintenance effort, it provides a much more reliable and secure setup.
+
 
 **Configure trusted domains in SAP IAS**
 
 To allow an automated forwarding of users to the respective tenant SaaS instances after registration in SAP IAS, you need to add your SaaS application domain as a trusted domain in the SAP IAS **Tenant Settings**. Therefore, please login to SAP Identity Authentication Service as an Administrator and follow the screenshots below. SAP IAS will only allow redirects to domains which have been explicitly whitelisted in the Tenant Settings.
 
-[<img src="./images/IAS_TrustedDomain01.png" width="300" />](./images/IAS_TrustedDomain01.png?raw=true)
+[<img src="./images/IAS_TrustedDomain01.png" width="500" />](./images/IAS_TrustedDomain01.png?raw=true)
 
 **Kyma**
 
@@ -123,7 +127,7 @@ If required for increased security, don't use your Cloud Foundry or Kyma subdoma
 
 ## 4. Update your application deployment
 
-To enable the Central User Management leveraging SAP Identity Authentication Service in your environment, please make sure to update your application deployment accordingly. For this advanced feature, an additional Service Instance is required, generating a new application registration in your trusted SAP IAS tenant. Furthermore, this Service Instance will be bound to your backend application and allows you to programmatically interact with SAP IAS (e.g., to create new SaaS users).
+To enable the Central User Management leveraging SAP Identity Authentication Service in your environment, please make sure to update your application deployment accordingly. For this advanced feature, an additional Service Instance is required, generating a new application registration in your trusted SAP IAS tenant. Furthermore, this Service Instance will be bound to your backend application and allows you to programmatically interact with SAP IAS (e.g., to create new SaaS Consumer users).
 
 ### Kyma
 
@@ -133,9 +137,8 @@ By adding the **values-ias.yaml** file to your deployment or upgrade command, a 
 
 ```sh
 cd deploy/kyma
-helm upgrade susaas \
-  ./charts/sustainable-saas -n <KymaNamespace> \
-  -f ./charts/sustainable-saas/values.yaml \
+helm upgrade susaas ./charts/sustainable-saas -n <KymaNamespace> \
+  -f ./charts/sustainable-saas/values-private.yaml \
   -f ./charts/sustainable-saas/values-ias.yaml # <-- Merged with values-private.yaml file
 ```
 
@@ -159,7 +162,7 @@ identity:
   servicePlanName: application
   externalName: default-susaas-identity
   parameters:
-    display-name: SusaaS (susaas-default-c9ff5e0)
+    display-name: SusaaS (susaas-default-a1b2c3)
     multi-tenant: false
     oauth2-configuration:
       credential-types:
@@ -168,20 +171,20 @@ identity:
       grant-types:
       - authorization_code
       post-logout-redirect-uris:
-      - https://*.susaas-router-default.sap-demo.com/logout/**
+      - https://*.susaas-router-default.a1b2c3.kyma.ondemand.com/logout/**
       redirect-uris:
-      - https://*.susaas-router-default.sap-demo.com/login/callback?authType=ias
+      - https://*.susaas-router-default.a1b2c3.kyma.ondemand.com/login/callback?authType=ias
 ```
 
 Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
 
 ```yaml 
 # SAP Cloud Identity Service Instance Binding
-# Creates a binding between the above Service Instance and your SaaS Backend Service
+# Creates a binding between the Service Instance and the SaaS Backend Service
 srv:
   bindings:
     identity:
-      serviceInstanceName: release-name-identity
+      serviceInstanceName: susaas-identity
       parameters: 
         credential-type: X509_GENERATED
       credentialsRotationPolicy: 
@@ -190,8 +193,7 @@ srv:
         rotationFrequency: 24h
 ```
 
-
-There are no changes required in the application logic, as the availability of the SAP Cloud Identity Service Binding is determined at runtime. Consequently, different logic is executed. 
+There are no changes required in the application logic, as the availability of the SAP Cloud Identity Service Binding is determined at runtime. If a Service Binding is identified, different logic is being executed. 
 
 **/code/srv/srv/utils/user-management.js**
 
@@ -225,7 +227,9 @@ class UserManagement {
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-By adding a different Deployment Descriptor extension file (**mtaext**)file to your **mbt build** or **cf deploy** command, a new **Cloud Identity** Service Instance of type **application** is created upon deployment to your Cloud Foundry environment. Before running the following commands, please open the respective mtaext sample file (depending on your environment) in the *deploy/cf/mtaext* directory. Update the **Service Broker Credential Hash** placeholder and save as a new file adding the **-private** file name extension again (to ensure the credentials not committed to GitHub!). Check the following screenshot to get an idea how your *mtaext* directory should be looking like!
+By adding a different Deployment Descriptor extension file (**mtaext**) file to your **mbt build** or **cf deploy** command, a new **Cloud Identity** Service Instance of type **application** is created upon deployment to your Cloud Foundry environment. 
+
+Before running the following commands, please open the respective **advanced** *mtaext* sample file (depending on your environment) in the *deploy/cf/mtaext* directory. Update the **Service Broker Credential Hash** placeholder and save as a new file adding the **-private** file name extension again (to ensure the credentials are not committed to GitHub!). Check the following screenshot to get an idea how your **advanced** *mtaext* file and the respective directory should be looking like!
 
 [<img src="./images/APP_Mtaext_Dir.png" width="500" />](./images/APP_Mtaext_Dir.png?raw=true)
 
@@ -237,14 +241,14 @@ mbt build -e ./mtaext/free-advanced-private.mtaext
 cf deploy
 ```
 
-Once the deployment is finished, you are good to go and the integration with SAP Identity Authentication should be working as expected. In your **Service Instances** you should now see a new instance of type **identity** and plan **application**, which has a **Service Binding** to your Backend Service. 
+Once the deployment has finished, you are good to go and the integration with SAP Identity Authentication should be working as expected. In your **Service Instances** you should now see a new instance of type **identity** and plan **application**, which has a **Service Binding** to your Backend Service. 
 
 [<img src="./images/IAS_InstanceCf.png" width="700" />](./images/IAS_InstanceCf.png?raw=true)
 
 
 **Details**
 
-Below, you can find the Service Instance definition (which is part of the Deployment Descriptor Extension file) of the SAP Cloud Identity Service Instance being created.
+Below, you can find the Service Instance definition (which is part of the Deployment Descriptor Extension) of the SAP Cloud Identity Service Instance being created.
 
 ```yaml 
 # SAP Cloud Identity Service Instance
@@ -282,7 +286,7 @@ Besides the new Service Instance, also a new Service Binding between the **SaaS 
              credential-type: X509_GENERATED
 ```
 
-Like Kyma scenario, also in case of Cloud Foundry, there are no changes required in the application logic, as the availability of the SAP Cloud Identity Service Binding is determined at runtime. Consequently, different logic is executed. 
+Like in the Kyma scenario, also in case of Cloud Foundry, there are no changes required in the application logic, as the availability of the SAP Cloud Identity Service Binding is determined at runtime. Consequently, different logic is being executed. 
 
 **/code/srv/srv/utils/user-management.js**
 
@@ -425,7 +429,7 @@ Before testing the SAP IAS integration, please double check whether your meet th
 - Domain of your SaaS application added as trusted domain in SAP IAS ([click here](#3-configure-the-xsuaa-and-ias-settings))
 - Application deployment updated with new Service Instance and Service Binding ([click here](#4-update-your-application-deployment))
 - Basic understanding of the registration and login flow ([click here](#5-understand-the-architecture-and-login-flow))
-- Existing Tenant Subaccount with Sustainable SaaS Subscription ([click here](../../2-basic/5-subscribe-consumer-subaccount/README.md))
+- Existing Tenant Subaccount with Sustainable SaaS Subscription ([click here](../../2-basic/4-subscribe-consumer-subaccount/README.md))
 
 All set? Great - then let's check whether the SAP IAS Integration works as expected! 
 

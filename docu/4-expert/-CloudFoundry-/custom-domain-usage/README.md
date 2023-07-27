@@ -1,31 +1,43 @@
 # Custom Domain Usage
 
+- ### **Kyma** ❌
+- ### **Cloud Foundry** ✅
+
 In this part of the mission you will learn how to configure a custom domain for your SaaS application consumers. The topic of custom domain usage is very comprehensive and we can only cover certain sample scenarios. Depending on your requirements as a SaaS provider and the demand of your customers, things can get complicated quickly! 
-<<<<<<< Updated upstream
 
-1. [Introduction](#1-Introduction)
-2. [SSL certificates](#2-SSL-certificates)
-3. [Domain considerations](#3-Domain-considerations)
-4. [Custom Domain Service](#4-Custom-Domain-Service)
-5. [CNAME record in DNS](#5-CNAME-record-in-DNS)
-6. [Custom Domain Route Mapping](#6-Custom-Domain-Route-Mapping)
-7. [Multi region intelligent routing](#7-Multi-region-intelligent-routing)
-8. [Further Information](#8-Further-Information)
+- [Custom Domain Usage](#custom-domain-usage)
+  - [1. Introduction](#1-introduction)
+  - [2. SSL certificates](#2-ssl-certificates)
+  - [3. Domain considerations](#3-domain-considerations)
+    - [Number of SaaS applications](#number-of-saas-applications)
+    - [Dev/Test/.../Production stages](#devtestproduction-stages)
+    - [Multi region deployment](#multi-region-deployment)
+    - [Dash or dot based (region/stage) separation](#dash-or-dot-based-regionstage-separation)
+    - [Consumer domain](#consumer-domain)
+    - [Summary](#summary)
+  - [4. Custom Domain Service](#4-custom-domain-service)
+  - [5. CNAME record in DNS](#5-cname-record-in-dns)
+  - [6. Custom Domain Route Mapping](#6-custom-domain-route-mapping)
+  - [7. Multi region intelligent routing](#7-multi-region-intelligent-routing)
+  - [8. Further Information](#8-further-information)
 
-So, in this part of the **Expert Scope**, you will learn how to get from the default cfapps domain (e.g., **abc-7k7tmze3-susaas.cfapps.eu10...**), to a SaaS domain based on your custom domain (e.g., **abc-7k7tmze3.susaas.sap-demo.com**) to a proper consumer-specific custom domain (e.g., **abc.susaas.sap-demo.com**) using the Custom Domain Service. If you want to set up the sample scenario with your own custom domain, please make sure to to use the correct MTA extension descriptor file ([click here](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/blob/advanced/configs/deployment/free-tier-domain.mtaext)). Search for the placeholder \<your domain\> and replace it with your desired wildcard domain configured in the Custom Domain Service as you can see in the sample screenshot below. 
+So, in this part of the **Expert Features**, you will learn how to get from the default cfapps domain (e.g., **abc-7k7tmze3-susaas.cfapps.eu10...**), to a SaaS domain based on your custom domain (e.g., **abc-7k7tmze3.susaas.sap-demo.com**) to a proper consumer-specific custom domain (e.g., **abc.susaas.sap-demo.com**) using the Custom Domain Service. 
+
+If you want to set up the sample scenario with your own custom domain, please make sure to to use the correct MTA extension descriptor file provided in the *files* directory ([click here](./files/free-basic-domain.mtaext)) of this **Expert Feature**. Search for the placeholder \<your domain\> and replace it with your desired wildcard domain configured in the Custom Domain Service as you can see in the sample screenshot below. 
 
 [<img src="./images/CDS_Mtaext.png" width="400" />](./images/CDS_Mtaext.png?raw=true)
 
-Then go ahead with the build and deployment as explained in the **Basic** and **Advanced** scope. 
+Place the file in your */deploy/cf/mtaext* directory adding the **-private** filename suffix. Then go ahead with the build and deployment as explained in the **Basic** and **Advanced** Features. 
 
 ```
-$ cf deploy mta_archives/susaas_0.0.1.mtar -e ./configs/deployment/free-tier-domain.mtaext
+mbt build -e ./mtaext/free-basic-domain-private.mtaext
+cf deploy mta_archives/susaas_0.0.1.mtar 
 ```
 
 
 ## 1. Introduction
 
-The SaaS application in our **Basic** and **Advanced Scope**, uses the default cfapps domains offered by SAP in the different regions like **cfapps.eu10.hana.ondemand.com**. The resulting consumer subdomains look similar to the following in the sample scenario:
+The SaaS application in our **Basic** and **Advanced Features**, uses the default cfapps domains offered by SAP in the different regions like **cfapps.eu10.hana.ondemand.com**. The resulting consumer subdomains look similar to the following in the sample scenario:
 
 * **abc-8db8a40e**-susaas-test.cfapps.eu10.hana.ondemand.com
 * **abc-7k7tmze3**-susaas.cfapps.eu10.hana.ondemand.com
@@ -42,7 +54,7 @@ As the consumer-specific hostname is build based on the consumer's subaccount su
 
 [<img src="./images/SubDom_dyn.png" width="300" />](./images/SubDom_dyn.png?raw=true)
 
-Okay, so how can the above setup be improved to achieve an enterprise-ready setup with a fully flexible consumer subdomain based on a custom domain owned by the provider like **susaas.com** or **susaas.sap-demo.com**? Well, This is exactly what you will learn in this part of the **Expert Scope**.
+Okay, so how can the above setup be improved to achieve an enterprise-ready setup with a fully flexible consumer subdomain based on a custom domain owned by the provider like **susaas.com** or **susaas.sap-demo.com**? Well, This is exactly what you will learn in this part of the **Expert Features**.
 
 > **Important** - The [**SAP Custom Domain Service**](https://discovery-center.cloud.sap/serviceCatalog/custom-domain?service_plan=custom-domain) can only be added as **paid plan** in **PAYG** or **CPEA** accounts. Please check the respective pricing details ([click here](https://discovery-center.cloud.sap/serviceCatalog/custom-domain?service_plan=custom-domain&region=all&commercialModel=cloud&tab=service_plan)) before adding and using this service in your SAP BTP account. 
 
@@ -686,346 +698,3 @@ Please use the following links to find further information on the topics above:
 * [Let's Encrypt](https://letsencrypt.org/)
 * [GitHub - Route Multi-Region Traffic to SAP BTP Services Intelligently](https://github.com/SAP-samples/btp-services-intelligent-routing)
 * [Microsoft - Traffic Manager documentation](https://learn.microsoft.com/en-us/azure/traffic-manager/)
-=======
-
-
-
-
-## 1. Introduction
-
-The SaaS application in our **Basic** and **Advanced Scope**, uses the default domains offered by SAP in the different regions like **cfapps.eu10.hana.ondemand.com**. The resulting consumer subdomains look similar to the following in the sample scenario:
-
-* **abc-7k7tmze3**-susaas[-dev/test].cfapps.eu10.hana.ondemand.com
-* **xyz-9v5lartu**-susaas[-dev/test].cfapps.eu10.hana.ondemand.com
-
-As the consumer-specific hostname is build based on the consumer's subaccount subdomain (e.g., abc-7k7tmze3), the resulting full qualified domain name doesn't look very nice as this subdomain by default contains a random ID. This ID is generated when keeping the recommended default values while setting up a new consumer subaccount. 
-
-> **Important** - We **do not** recommend to change the subaccount subdomain upon setup to e.g., **abc** by removing the auto-generated ID. This will block the **abc** subdomain in the whole region! While this might work in some scenario, you will e.g., face issues when trying to create a subaccount subdomain for popular company names as these subdomains might already be taken!
-
-**Don't do this!**
-
-[<img src="./images/SubDom_fix.png" width="300" />](./images/SubDom_fix.png)
-
-**Please do this instead!**
-
-[<img src="./images/SubDom_dyn.png" width="300" />](./images/SubDom_dyn.png)
-
-
-Okay, so how can the above setup be improved to achieve an enterprise-ready setup with a fully flexible consumer subdomain based on a custom domain owned by the provider like **abc[-dev/test].susaas.com** or **xyz[-dev/test].susaas.com**. 
-
-Well, This is exactly what you will learn in this part of the **Expert Scope**.
-
-> **Important** - The [**SAP Custom Domain Service**](https://discovery-center.cloud.sap/serviceCatalog/custom-domain?service_plan=custom-domain) can only be added as **paid plan** in **PAYG** or **CPEA** accounts. Please check the respective pricing details ([click here](https://discovery-center.cloud.sap/serviceCatalog/custom-domain?service_plan=custom-domain&region=all&commercialModel=cloud&tab=service_plan)) before adding and using this service in your SAP BTP account. 
-
-
-## 2. SSL certificates 
-
-While the service name resonates differently, the Custom Domain service is charging you based on the number of activated SSL certificates. A single SSL certificate can be used to secure traffic of multiple domains or subdomains. Therefore, please make yourself familiar with some background knowledge on SSL certificates using your favorite search engine before setting up your Custom Domain service instance. It might save you a bunch of money!
-
-In case of a SaaS solution on SAP BTP, you as a SaaS provider should try to run your application with a minimal number of SSL certificates that cover your custom domain requirements. Especially the usage of multi-domain certificates or SAN certificates, can be useful in many scenarios. 
-
-Below you can see some samples of SSL certificate types issued for one or multiple (wildcard) domains. 
-
-
-**Single-Domain SSL Certificate**
-
-Enabling a secure connection for a dedicated single domain or subdomain. 
-
->susaas.com
-
-
-**Wildcard SSL Certificate**
-
-Enabling a secure connection for a random number of subdomains of a dedicated domain. Does not secure the domain itself. 
-
-> *.susaas.com<br>
-
-> **Hint** - Supports same level subdomains only. For securing a sub-level subdomain, a new certificate is required. For example **.eu.susaas.com* would require a new wildcard certificate. 
-
-
-**Multi-Domain SSL Certificate**
-
-Enabling a secure connection for several dedicated domains. Also known as SAN certificate. Cannot include wildcard subdomains. 
-
->susaas.com <br>
-eu.susaas.com <br>
-us.susaas.com
-
-
-**Multi-Domain Wildcard SSL Certificate**
-
-Enabling a secure connection for a random number of subdomains. Also known as SAN wildcard certificate.
-
->*.susaas.com<br>
-*.eu.susaas.com<br>
-*.us.susaas.com
-
-> **Hint** - Keep in mind - a wildcard certificate only secures all subdomains on the same level but not on sub-levels. For example **.dev.eu.susaas.com would* require a new certificate. 
-
-
-**Further Multi-Domain SSL Certificate options**
-
-Also combinations of multiple subdomains and dedicated domains are possible in multi-domain certificates. <br>
-
-> susaas.com<br>
-*.susaas.com<br>
-*.eu.susaas.com<br>
-*.dev.eu.susaas.com
-
-
-Depending on your requirements, costs for an SSL certificate can quickly increase, whereas a single-domain SSL certificate is the cheapest option, while a multi-domain SSL certificate is the most expensive but powerful solution. Make sure you understand your setup when it comes to Custom Domain requirements in development, test and production landscapes. Also when providing your solution in different regions, you might need further subdomains and certificates. 
-
-So in the end it's up to you to calculate and decide for your own approach based on the costs and expected effort. 
-
-## 3. Things to consider
-
-When using a custom domain, for your SaaS scenario, there's a few things to consider. Please make sure to choose the correct setup for your requirements, as later changes might lead to unexpected URL changes for your existing consumers. 
-
-Also keep in mind, the following list of considerations is not independent. You will probably end up in a mix of these points based on your landscape. 
-
-> **Hint** - While for most of the scenarios, a dash-based separation might look like a more cost efficient solution, make sure you're clear on the negative side-effects. Especially with many consumers, the DNS maintenance will be a huge effort compared to the usage of dot-based separation and an additional certifiacte. 
-
-Okay lets check some of the things you should consider before setting up your custom domain. 
-
-### Number of SaaS applications
-
-[<img src="./images/CD_Apps.png" width="500" />](./images/CD_Apps.png)
-
-The number of certificates required, heavily depends on the number of SaaS applications you want to use in your landscape. Let's assume the following scenario where you only have one SaaS app in your subaccount:
-
-* *.app.com
-
-This leaves you with the requirement for one single SSL certificate. Okay, but how does this look in case of three different SaaS applications? 
-
-* *.123.app.com or *.123-app.com
-* *.456.app.com or *.456-app.com
-* *.789.app.com or *.789-app.com
-
-Now you suddenly need three wildcard certificates or a SAN certificate including all of these domains. So you need to keep in mind how many apps you might deploy in your provider subaccount in the future and decide how to differentiate between them on a domain-basis.  
-
-> **Hint** - Things can be cheaper using a dash as app separator, but it will in increase the effort on your side. In this case, one certificate for ***.app.com** is sufficient, but the maintenance effort on the DNS side will increase! <br>
->* *-123.app.com
->* *-456.app.com
->* *-789.app.com<br>
->
-> Wildcard CNAMEs like **\*.123.app.com** pointing to the **123 app** cannot be used anymore! Every customer needs it's own CNAME record for every app. Find more details below.
-
-<br> 
-
-### Dev/Test/.../Production stages
-
-Depending on your setup, you will need at least two stages in a development landscape which are Development and Production. It is not advisable to directly deploy and modify an application in a productive environment. 
-
-Well, what does that mean from a certificate perspective? Let's take a scenario with three stages. For sure, you can use different domains or subdomains for these stages:
-
-* *.dev.susaas.com or *.dev-susaas.com (Dev) 
-* *.test.susaas.com or *.test-susaas.com (Test) 
-* *.susaas.com (Prod)
-
-That means, three wildcard certificates are required or one SAN certificate containing all three wildcard domains. An alternative, would be the following approach:
-
-* *-susaas-dev.cfapps.eu10.hana.ondemand.com (Dev)
-* *-susaas-test.cfapps.eu10.hana.ondemand.com (Test)
-* *.susaas.com (Prod)
-
-As you can see, for the Dev and Test stage, we just simply kept the default **\*.cfapps** domain, which any SAP BTP user can use for free. The only job we have to do, is making sure that we have a clear application and landscape identifiert in our hostname. Only for the production environment, we're using a nice and shiny domain, so we end up with requiring only one single certificate for **\*.susaas.com**. 
-
-[<img src="./images/CD_Stages.png" width="500" />](./images/CD_Stages.png)
-
-*Sample Setup for two stages*
-
-For sure, if your customer wants to have a test account, the URL won't be super intuitive compared to a productive tenant. If you want to achieve this, and you consumers cannot live with the default domain, you could think about the following:
-
-* *-susaas-dev.cfapps.eu10.hana.ondemand.com (Dev)
-* *.test.susaas.com (Test) or  *.test-susaas.com (Test)
-* *.susaas.com (Prod)
-
-This would at least save you a wildcard certificate for the development landscape and you end up with two wildcard domains only. By the way, the following setups are not possible or recommended! 
-
-* >**\*.susaas-dev**.cfapps.eu10.hana.ondemand.com<br>
-  Not possible, as no further wildcard subdomains can be created for the default **cfapps** domain. Only SAP can create additional subdomains here. 
-* > **\*-dev**.cfapps.eu10.hana.ondemand.com<br>
-  Not recommended, as you might want to create routes for multiple apps in your provider subaccount in the future. Always include an application separator when using the default domain. 
-* > **\*-susaas**.cfapps.eu10.hana.ondemand.com <br>
-  Not recommended, as routes in a certain region are unique! You will not be able to create routes for other stages in a similar fashion! Always include the stage separator when using the default domain! Only exception - When the production landscape is also using the default domain, you can skip the stage separator here. 
-
-So make up your thoughts how many stages you're gonna use in your landscape and which of these landscapes shall receive it's own custom domain. Don't forget, each wildcard certificate will cost you extra money.  
-
-> **Hint** - Again, things can be cheaper using a dash as stage separator, but it will again increase the effort on your side. In this case, one certificate for ***.susaas.com** is sufficient, but the maintenance effort on the DNS side will increase! <br>
->* *-dev.susaas.com
->* *-test.susaas.com
->* *.susaas.com
->
-> Wildcard CNAMEs like **\*.dev.susaas.com** pointing to the Dev stage on the cannot be used anymore! Every customer needs it's own CNAME record for every stage. Find more details below.
-
-<br> 
-
-### Multi region deployment
-
-If you decide to run your application in multiple regions around the globe, you should make sure to understand the influence in the Custom Domain requirements. While a custom Domain can be shared in Subaccounts of a Global Account within a certain region (e.g., eu10), this is not possbile across regions (e.g., from eu10 to us20). Let's assume the following scenario:
-
-* *.eu10.susaas.com
-* *.us10.susaas.com
-* *.ap20.susaas.com
-
-In case you want to separate your regional domains by a dot, that means you will need three different wildcard certificates for that scenario. Additionally, SAP will charge you a Custom Domain fee in each region you're using. 
-
-> **Hint** - Once again, things can be cheaper using a dash as stage separator, but it will again increase the effort on your side. In this case, one certificate for **\*.susaas.com** is sufficient, but the maintenance effort on the DNS side will increase! <br>
->* *-eu10.susaas.com
->* *-us10.susaas.com
->* *-ap20.susaas.com
->
-> Wildcard CNAMEs like **\*.eu10.susaas.com** pointing to the **eu10 landscape** cannot be used anymore! Every customer needs it's own CNAME record for every landscape. Find more details below.
-
-<br>
-
-### Dash or dot based (region/stage) separation
-
-The format of your target domains heavily influences your number of required SSL certificates. To save on the cost of certificates, it can also be useful to use dashes to separate regions or landscapes instead of using separate subdomain levels. Check the following samples to see how to reduce the number of wildcard certificates required by using dashes instead of subdomains and a single wildcard certificate.
-
-| 3 wildcard certificates   | 1 wildcard certificate  |
-|---|---|
-| \<consumer\>.susaas.com <br> \<consumer\>.test.susaas.com <br> \<consumer\>.dev.susaas.com  | \<consumer\>.susaas.com <br> \<consumer\>-test.susaas.com <br> \<consumer\>-dev.susaas.com  |
-| *.susaas.com <br> *.test.susaas.com <br> *.dev.susaas.com | *.susaas.com |
-
-| 3 wildcard certificates   | 1 wildcard certificate <br> |
-|---|---|
-| \<consumer\>.eu.susaas.com <br> \<consumer\>.us.susaas.com <br> \<consumer\>.ap.susaas.com  | \<consumer\>-eu.susaas.com <br> \<consumer\>-us.susaas.com <br> \<consumer\>-ap.susaas.com  |
-| *.eu.susaas.com <br> *.us.susaas.com <br> *.ap.susaas.com | *.susaas.com |
-
-Using subdomains instead of dashes to separate stages or regions might **easy the maintenance** from a provider perspective, but it will **increase the costs** of your required Multi-Domain Wildcard SSL Certificate. Let me give you one sample. 
-
-Let's assume you deployed your SaaS application to the eu10 and us20 region. Your sample customers ABC and XYZ subscribe to the app in both regions. 
-
-**Scenario 1 - Subdomain per region**
-
->* eu10 - abc.eu10.susaas.com<br>
->* eu10 - xyz.eu10.susaas.com<br>
->* us20 - abc.us20.susaas.com<br>
->* us20 - xyz.us20.susaas.com<br>
-
-On-time **CNAME records** in your DNS zone<br>
->* *.eu10.susaas.com -> api.cf.eu10.hana.ondemand.com<br>
->* *.us20.susaas.com -> api.cf.us20.hana.ondemand.com
-
-Easy setup, requiring only two simple wildcard CNAME records pointing to the different regions. A bit more expensive, as two wildcard certificates will be required. 
-
-[<img src="./images/CD_Dot.png" width="500" />](./images/CD_Dot.png)
-
-*Sample Setup using a subdomain-based region separation*
-
-**Scenario 2 - Regions separated by dash**
-
->* eu10 - abc-eu10.susaas.com<br>
->* eu10 - xyz-eu10.susaas.com<br>
->* us20 - abc-us20.susaas.com<br>
->* us20 - xyz-us20.susaas.com<br>
-
-Required CNAME records in your DNS zone
-
->* abc-eu10.susaas.com -> api.cf.eu10.hana.ondemand.com<br>
->* xyz-eu10.susaas.com -> api.cf.eu10.hana.ondemand.com<br>
->* abc-us20.susaas.com -> api.cf.us20.hana.ondemand.com<br>
->* xyz-us20.susaas.com -> api.cf.us20.hana.ondemand.com<br>
-
-More complicated setup, requiring **region AND customer specific CNAME records** pointing to the different customer domains in the different regions. Cheaper as only one certificate is required. 
-
-[<img src="./images/CD_Dash.png" width="500" />](./images/CD_Dash.png)
-
-*Sample setup using a dash-based region separation*
-
-<br>
-
-**Scenario 1 vs Scenario 2**
-
-So what you see is quite obvious! In case of dash-usage, you cannot provide simple wildcard CNAME records in your DNS zone. Instead, you need to maintain all customer routes manually. This process might be automated by respective APIs of your DNS provider but still, it's more effort compared to using wildcard records. On the other side you can save the money for an additional SSL certificate in each region. 
-
-> **Important** - The number in both scenarios doubles, by each region you want to equip with it's own stages like abc-test-eu10.susaas.com or abc.test.eu10.susaas.com. Means you have four certificates to pay for or 8 CNAME records to maintain.
-
-So all not trivial and the setup completely depends on the effort you want to spend in maintaining CNAME records and the money in your pocket for wildcard certificates. Okay, so are you ready for the final confusion and a little piece of brilliancy? Read the expert-scenario
-
-<br>
-
-**Expert scenario - Dot separation**
-
-You might also combine the dot-separated regional approach with an additional wildcard domain on your app's top level. This is especially useful for customers, that don't want to have the region on the application's domain. 
-
->* eu10 - abc.eu10.susaas.com<br>
-> ------- abc.susaas.com
->* us20 - abc.us20.susaas.com<br>
-> ------- abc.susaas.com
-
-Making the consumer's tenant available in different regions using the same domain (e.g., abc.susaas.com), allows you to implement smart routing mechanisms as a SaaS provider. You could e.g., route customers coming from the US always to the us20 region whereas EU customer are routed to the eu10 region. 
-
-This all happens without the consumer users even noticing it. They will always access the application using abc.susaas.com. Still, if they want access to a dedicated region, the can also call the region specific URL at any time. 
-
-This setup requires a bit more effort, as two route mappings need to be created for each customer requiring a smart routing approach.
-
-[<img src="./images/CD_DotExpert.png" width="500" />](./images/CD_DotExpert.png)
-
-*Sample expert setup using subdomain-based region separation*
-
-<br>
-
-**Expert scenario - Dash separation**
-
-In a dash-based approach, this is already possible without an additional certificate as you anyway only have one certificate for the *.susaas.com domain. 
-
-From an effort perspective, also in this setup two route mappings need to be created for each customer requiring a smart routing approach
-
->* eu10 - abc-eu10.susaas.com<br>
-> ------- abc.susaas.com
->* us20 - abc-us20.susaas.com<br>
-> ------- abc.susaas.com
-
-[<img src="./images/CD_DashExpert.png" width="500" />](./images/CD_DashExpert.png)
-
-*Sample expert setup using dash-based region separation*
-
-<br>
-
-### Consumer domain
-
-Using a consumer's own domain like **abc.com** and providing the users access to your SaaS application via **susaas.abc.com** is also possible, but not recommended. In this case, you will need to create a new custom domain in your provider subaccount like **susaas.abc.com** and send a Certificate Signing Request (CSR) to your consumer. 
-
-The consumer needs to sign this CSR using a trusted Certification Authority and send it back to you! Then you can activate the certificate for your consumer and map it to his SaaS instance. While this is technically possible, you will sooner or later face issues when offering this option to your consumers. 
-
-These issues for example start with the required certificate rotations, as certificates have a fixed validity end date. While you can manage that for one or two consumers, it will be a lot of effort in case of a hundred consumers. CSRs will need to be created again and again for each of these consumers and you need to make sure to upload the new signed certificates in time! Also from a cost perspective, each new certificate will cause costs on the SAP BTP side, which you need to cross-charge to your consumers. 
-
-Unfortunately, as of today consumers cannot share their own custom domain (which might already be registered in SAP BTP) with you as a SaaS provider. This has security related reasons and it is not yet forseeable, if a solution can be provided from a long term perspective. 
-
-As of now, we recommend to provide your customers a subdomain of your provider's custom domain, until a potential solution is in place. 
-
-<br>
-
-### Domain blocking
-
-A risk that comes with using your own provider domain for all your consumers can be seen in the following scenario. Let's assume you have a customer abc in the ap20 region. 
-
-* abc-ap20.susaas.com
-
-This consumer now uses your SaaS application, to store or transmit data which from a regulatory perspective may not be communicated via the internet in a certain country. Or your consumer even uses the SaaS application for any illegal content. This might lead to a situation, in which the access to a whole domain will be blocked by regulatory bodies in a country. That means, that no consumer in that country will be able to access your application anymore! 
-
-The only way to overcome this risk, is to use customer's own domains, which is currently not possible yet.
-
-<br>
-
-### Summary
-
-Okay, wow that was a lot of content to digest. In case there's more questionmarks then answers now, don't worry. It's not an easy topic. Just go through the chapter which you've read once again and things might become clearer. 
-
-<br>
-
-## 4. Custom Domain Service
-
-Okay, so let's get started with setting up the Custom Domain service in your provider subaccount. 
-
-3.1. To setup a custom domain in your SAP BTP provider subaccount, please add the respective entitlement in your SAP BTP Cockpit. Make sure to use the **standard (Application)** plan, as the *custom_domains* plan is deprecated and will not receive future updates. 
-
-[<img src="./images/CusDom_Plans.png" width="500" />](./images/CusDom_Plans.png)
-
-3.2. After adding the entitlement to your subaccount, please subscribe to the 
-
-
-
->>>>>>> Stashed changes

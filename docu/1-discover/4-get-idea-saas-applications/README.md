@@ -4,7 +4,7 @@ This part of the tutorial is to explain the ideas and advantages of **Software a
 
 SaaS applications are part of our daily life and not just in a B2B world but also in B2C environments. If you think of subscription services like Office365 which is used by a lot of private customers, this is a perfect example of Software as a Service in which Microsoft provides you the well-known Microsoft Office tools as web applications (and as a desktop version if you like). All you need to do is sign up for an account and you're ready to go. No installation, configuration, or updates are required. So let's see how the idea of SaaS evolved throughout the last years. 
 
-[<img src="./images/SaaS_IaaSPaaSSaaS.png" width="500" />](./images/SaaS_IaaSPaaSSaaS.png?raw=true)
+[<img src="./images/SaaS_IaaSPaaSSaaS.png" width="400" />](./images/SaaS_IaaSPaaSSaaS.png?raw=true)
 
 While 15 years ago, most SAP customers hosted ECC systems on their servers, this paradigm is shifting. Especially with affordable offerings of hyperscaler companies like Amazon, Microsoft, or Google, it becomes more and more lucrative for businesses to outsource the hosting of their systems like SAP S/4HANA to infrastructure providers. These **Infrastructure as a Service** providers can offer cheap alternatives by hosting thousands of servers in their data centers, and also taking away the pain of handling low-level infrastructure tasks like Network or Storage requirements. While IaaS is a huge business and gives companies across the globe great flexibility in designing their IT landscape, it still requires a comparable high effort for a lot of scenarios that can be standardized. 
 

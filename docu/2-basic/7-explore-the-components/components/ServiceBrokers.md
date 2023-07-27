@@ -1,5 +1,8 @@
 # Deep Dive into Service Brokers
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
 This part of the tutorial will explain the details of the SaaS API backing service implementation together with a dedicated service broker since both components are working hand in hand to provide a multitenant SaaS API. 
 
 - [Deep Dive into Service Brokers](#deep-dive-into-service-brokers)

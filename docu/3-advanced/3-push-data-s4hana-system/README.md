@@ -1,5 +1,8 @@
 # Push data from SAP S/4HANA system
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 A feature that will make your SaaS application even more valuable to your SaaS consumers, is an integration with other SAP solutions. This will allow your consumers to make use of their own data within your SaaS service offering and gain real business value out of it. For sure a SaaS solution can always offer an Excel upload or an online interface for maintaining tenant-specific data, but an automated backend integration is more than just a nice to have especially when dealing with constantly changing data sets. 
 
 In this part of the tutorial, you will learn how your SaaS consumers can connect an ABAP-based backend like SAP S/4HANA with their Consumer Tenant SaaS instance and push data into their Tenant database container in an automated fashion. 
@@ -21,7 +24,7 @@ In this part of the tutorial, you will learn how your SaaS consumers can connect
   - [11. Further Information](#11-further-information)
 
 
-> **Important** - The CAP payload size limitation for this sample has been increased to 50 MB. Please check the *server.js* file ([click here](../../../code/api/server.js)) to remove or modify this setting if required. Keep in mind that when using SAP API Management, different file size limits apply and you will need to using streaming features to upload larger files. 
+> **Important** - The CAP payload size limitation for this sample has been increased to 50 MB. Please check the *server.js* file ([click here](../../../code/api/srv/server.js)) to remove or modify this setting if required. Keep in mind that when using SAP API Management, different file size limits apply and you will need to using streaming features to upload larger files. 
 
 
 ## 1. Architecture

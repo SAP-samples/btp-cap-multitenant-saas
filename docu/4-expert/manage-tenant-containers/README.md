@@ -1,12 +1,16 @@
 # Manage Tenant Database Containers
 
-In this part of the **Expert Scope** you will learn how to access and manage tenant database containers. In this sample scenario, you will be accessing a respective tenant database container with a user that is assigned administrative permissions for the underlying database schema like **CREATE ANY, SELECT, EXECUTE, or DROP** SQL permissions. 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
 
-1. [Introduction](#1-Introduction)
-2. [Prerequisites](#2-Prerequisites)
-3. [Get the database container credentials](#3-Get-the-database-container-credentials)
-4. [Access the tenant database container](#4-Access-the-tenant-database-container)
-5. [Further Information](#5-Further-Information)
+In this part of the **Expert Features** you will learn how to access and manage tenant database containers. In this sample scenario, you will be accessing a respective tenant database container with a user that is assigned administrative permissions for the underlying database schema like **CREATE ANY, SELECT, EXECUTE, or DROP** SQL permissions. 
+
+- [Manage Tenant Database Containers](#manage-tenant-database-containers)
+  - [1. Introduction](#1-introduction)
+  - [2. Prerequisites](#2-prerequisites)
+  - [3. Get the database container credentials](#3-get-the-database-container-credentials)
+  - [4. Access the tenant database container](#4-access-the-tenant-database-container)
+  - [5. Further information](#5-further-information)
 
 Please also check out the blog post by Andrew Lunde which is part of the **Further Information** section ([click here](./README.md#5-further-information)). It provides even more details and different approaches on how to interact with containers managed by the so-called SAP Service Manager. 
 

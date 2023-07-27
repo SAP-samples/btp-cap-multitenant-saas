@@ -1,5 +1,8 @@
 # Unsubscribe from a Consumer Subaccount
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
 > **Important** - If you are planning to setup the **Advanced Version** next, please consider this part of the tutorial optional!
 
 If a subaccount is subscribed to our multitenant SaaS sample application and created a service instance for the related SaaS API, the subaccount will resemble the below screenshot. 
@@ -31,7 +34,9 @@ The following steps show you how to unsubscribe from the SaaS application and ho
 
 ## 2. Check successful Unsubscription
 
-Please check, whether the Sustainable SaaS API Service Broker has unregistered successfully. The **Sustainable SaaS API Service Broker** is automatically unregistered when unsubscribing from the Sustainable SaaS application in a Consumer Subaccount. Consequently, the Sustainable SaaS API Service should not be visible in a Consumer Subaccount anymore, when a new service instance creation attempt is made from that subaccount. As you can see below, the **Sustainable SaaS API** Service is not visible anymore.
+Please check, whether the **Sustainable SaaS API Service Broker** has unregistered successfully. The **Sustainable SaaS API Service Broker** is automatically unregistered when unsubscribing from the Sustainable SaaS application in a Consumer Subaccount. 
+
+Consequently, the **Sustainable SaaS API Service** should not be visible in the Consumer Subaccount anymore, when a new service instance creation attempt is made from that subaccount. As you can see below, the **Sustainable SaaS API** Service is not visible anymore, but only the actual SaaS application itself. 
 
 [<img src="./images/check-broker-unregister.png" width="700"/>](./images/check-broker-unregister.png?raw=true)
 

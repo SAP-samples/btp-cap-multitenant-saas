@@ -1,5 +1,8 @@
 # Introduction to the Expert Features
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 > **Important** - The **Expert Features** contain selected additional components that can be applied to the Basic **or** the Advanced Version of the SaaS application. Most chapters of the **Expert Features** are still being actively worked on! Feel free to browse the available sections to get an idea of what to expect once published. Some of the chapters already contain useful content while others will be uploaded during the next weeks and months.
 
 In the [Basic Version](../../2-basic/0-introduction-basic-version/README.md) we have provided you the core elements required for a Software as a Service (SaaS) application based on the **SAP BTP, Cloud Foundry** and **Kyma Runtime**. In the [Advanced Version](../../3-advanced/0-introduction-advanced-version/README.md) we covered further highly relevant topics when it comes to enterprise-readiness of your SaaS application going beyond a test scenario usage. The idea of **Expert Feature** tutorials builds on momentum of the Basic and Advanced Version and showcase a variety of additional SaaS Provider and Subscriber requirements.
@@ -20,7 +23,7 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 > **Hint** - Most Expert Feature topics can also be done in **Trial** accounts (see exclusions below), although we recommend to use one of the account types mentioned above (PAYG or CPEA).
 
 
-**Expert Features for all SAP BTP accounts**
+**Expert Features for all SAP BTP accounts using free service plans**
 
 **Kyma & Cloud Foundry**
 
@@ -42,15 +45,12 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 * Using the SAP Theme Designer - ([Cloud Foundry](../-CloudFoundry-/using-sap-theme-designer/README.md))
 * Configure SAP Transport Management - ([Cloud Foundry](../-CloudFoundry-/configure-transport-management/README.md))
 
-**Cloud Foundry**
 
-* Custom domain usage - ([Cloud Foundry](../-CloudFoundry-/custom-domain-usage/README.md))
-
-
-**Expert Features for non-Trial SAP BTP accounts**
+**Expert Features for non-Trial SAP BTP accounts and paid scenarios**
 
 **Cloud Foundry**
 
 * Multiple SAP HANA Cloud instances - ([Cloud Foundry](../-CloudFoundry-/multiple-hana-cloud/README.md))
 * Deployment to multiple regions - ([Cloud Foundry](../-CloudFoundry-/deploy-multiple-regions/README.md))
+* Custom domain usage - ([Cloud Foundry](../-CloudFoundry-/custom-domain-usage/README.md)) - ! Paid scenario !
 

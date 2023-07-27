@@ -1,5 +1,8 @@
 # Explore the application components
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
 After you have deployed the sample application the following components will be available in the Cloud Foundry environment or respectively  the Kyma Cluster of your SAP BTP Provider Subaccount.
 
 - [Explore the application components](#explore-the-application-components)

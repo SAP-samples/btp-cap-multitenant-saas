@@ -1,6 +1,9 @@
 # Advanced Version Introduction
 
-The **Basic** and **Advanced Version** of the sample application require the same setup, which means you have to get started with the **Basic** Version, before challenging yourself with the Advanced Version. The **Expert Features** contain additional components and tutorials that can be applied to both the Basic **and** Advanced Version.
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
+The **Advanced Version** of the sample application requires a certain **Basic** setup, which means you have to get started with the **Basic Version**, before challenging yourself with the Advanced Version. The **Expert Features** contain additional components and tutorials that can be applied to both the Basic **and** Advanced Version.
 
 In the [Basic Version](../../2-basic/0-introduction-basic-version/README.md) we provided you with the core elements required for a **Cloud Foundry** or **Kyma-based** Software as a Service (SaaS) application on SAP Business Technology Platform (SAP BTP). The idea of the **Advanced Version** is about taking all the features implemented in the **Basic Version** and extending them to the next level with other great services provided by SAP BTP. This will take you one step closer to an enterprise-read SaaS application
 
@@ -22,9 +25,9 @@ Take a look at the following architectures to get an idea of the Advanced Versio
 
 ## 1. Step-by-Step Guide
 
-For completing the **Advanced Version** of this tutorial please run through the steps described in the following Readme documents. 
+For completing the **Advanced Version** of this tutorial please run through the steps described in the following Readme documents. If not stated differently, the respective step-by-step tutorial will cover both runtimes. 
 
-1. **Understand repository changes** compared to the Basic Version. ➜ ([click here](../1-understand-repo-structure/README.md))
+1. **Prepare the Provider Subaccount** by adding additional entitlements. ➜ ([click here](../1-prepare-provider-subaccount/README.md))
 2. Set up the **Central User Management** feature using **SAP Identity Authentication Service** (SAP IAS). ➜ ([click here](../2-central-user-management-ias/README.md))
 3. Configure an SAP S/4HANA system for an **automated sample data push**. ➜ ([click here](../3-push-data-s4hana-system/README.md))
 4. Integrate **SAP API Management** for API management and monitoring. ➜ ([Kyma](../4-kyma-integrate-api-management/README.md)) ([Cloud Foundry](../4-cf-integrate-api-management/README.md))
@@ -38,7 +41,7 @@ The **Advanced Version** provides the sample implementation of a CAP-based multi
 
 - basic enterprise application features like
     - **Alert Notification Service** informing you about issues with your application like a crash or errors during Tenant onboarding.
-    - **Horizontal Autoscaling** which is scaling your SaaS application components in case of increased workload by your SaaS tenants.
+    - **Autoscaling** which is scaling your SaaS application components in case of increased workload by your SaaS tenants.
     - **HTML5 Application Repository** storing and serving your static application content making your app more resilient.
 - important components for SaaS usage like
     - **SAP HANA Cloud** allowing you to use the powerful container concept for Tenant separation on the same database.
@@ -48,14 +51,14 @@ The **Advanced Version** provides the sample implementation of a CAP-based multi
     - **application** plan which handles the XSUAA-based application authentication and authorization of all tenants.
     - **broker** plan which takes care of the XSUAA-based API access security requirements for all tenants.
 - additional enterprise readiness features like an
-    - (*) **SAP Cloud Identity** services for handling in-app user management operations on SAP Identity Authentication Service.
+    - (*) **SAP Cloud Identity** services for handling a Central User Management and In-App user management operations on SAP Identity Authentication Service.
     - (*) **SAP S/4HANA push** example which enables consumers to push business data from their On-Premises systems in a certain format.
     - (*) **SAP API Management** setup which allows SaaS Providers to add enterprise API qualities to the API endpoints provided to subscribers.
 
 
 ## 3. Advanced Version Result
 
-As a result of this Advanced tutorial, you have a SaaS application running in a Cloud Foundry environment or Kyma Cluster of your own SAP BTP Subaccount which 
+As a result of this Advanced tutorial, you have a SaaS application running in the **Cloud Foundry** environment or **Kyma Cluster** of your own SAP BTP Subaccount.
 
 > (*) indicates that the feature is only available in the Advanced Version, all other features are also available in Basic Version.
 

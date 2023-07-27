@@ -1,5 +1,8 @@
 # Helm Charts 
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ❌
+
 This part of the tutorial contains a brief documentation on the topic of Helm and how it is being used in the context of our Sustainable SaaS sample application. Helm is an extremely powerful tool set simplifying the automated definition of Kubernetes/Kyma resources and the subsequent deployment to your Cluster. 
 
 Given the sheer complexity of Helm, this tutorial will only cover certain basic aspects that will simplify starting your own learning journey. Once you start adapting the templates based on your own needs, there will be no shortcut but a deep-dive into the official documentation is inevitable.

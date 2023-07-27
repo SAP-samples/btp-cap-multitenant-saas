@@ -1,33 +1,36 @@
 # Setup CI/CD for your Project
 
-In this part of the **Expert Scope** you will learn how to set up the **SAP Continuous Integration and Delivery (CI/CD)** service to handle all your DevOps-related tasks like automated tests, builds, and deployments of your code changes to speed up your development and delivery cycles.
+- ### **Kyma** ❌
+- ### **Cloud Foundry** ✅
 
+In this part of the **Expert Features** you will learn how to set up the **SAP Continuous Integration and Delivery (CI/CD)** service to handle all your DevOps-related tasks like automated tests, builds, and deployments of your code changes to speed up your development and delivery cycles.
 
-1. [Introduction](#1-Introduction)
-2. [Setup SAP CI/CD Service](#2Setup-SAP-CI/CD-Service)
-3. [Provide SAP BTP credentials](#3-Provide-SAP-BTP-credentials)
-4. [Provide GitHub credentials](#4-Provide-GitHub-credentials)
-5. [Provide Service Broker credentials](#5-Provide-Service-Broker-credentials)
-6. [Add your repository](#6-Add-your-repository)
-7. [Create a GitHub Webhook](#7-Create-a-GitHub-Webhook)
-8. [Add the Webhook to GitHub](#8-Add-the-Webhook-to-GitHub)
-9. [Configure a CI/CD Job](#9-Configure-a-CI/CD-Job)
-10. [Create the pipeline files](#10-Create-the-pipeline-files)
-11. [Push and test](#11-Push-and-test)
-12. [Additional Unit Tests](#12-Additional-Unit-Tests)
-13. [Enhance your pipeline](#13-Enhance-your-pipeline)
-14. [Further Information](#14-Further-Information)
+- [Setup CI/CD for your Project](#setup-cicd-for-your-project)
+  - [1. Introduction](#1-introduction)
+  - [2. Setup SAP CI/CD Service](#2-setup-sap-cicd-service)
+  - [3. Provide SAP BTP credentials](#3-provide-sap-btp-credentials)
+  - [4. Provide GitHub credentials](#4-provide-github-credentials)
+  - [5. Provide Service Broker credentials](#5-provide-service-broker-credentials)
+  - [6. Add your repository](#6-add-your-repository)
+  - [7. Create a GitHub Webhook](#7-create-a-github-webhook)
+  - [8.  Add the Webhook to GitHub](#8--add-the-webhook-to-github)
+  - [9. Configure a CI/CD Job](#9-configure-a-cicd-job)
+  - [10. Create the pipeline files](#10-create-the-pipeline-files)
+  - [11. Push and test](#11-push-and-test)
+  - [12. Additional Unit Tests](#12-additional-unit-tests)
+  - [13. Enhance your pipeline](#13-enhance-your-pipeline)
+  - [14. Further Information](#14-further-information)
 
 
 ## 1. Introduction
 
-In the following part of the **Expert Scope**, you will learn how to set up an SAP CI/CD service instance in your SAP BTP environment. You will enhance your existing project with some additional files allowing an automated build and deployment of your SaaS application to a Cloud Foundry space of your choice. 
+In the following part of the **Expert Features**, you will learn how to set up an SAP CI/CD service instance in your SAP BTP environment. You will enhance your existing project with some additional files allowing an automated build and deployment of your SaaS application to a Cloud Foundry space of your choice. 
 
 To understand the basics of Continuous Integration and Delivery, please start reading the official **SAP Help** documentation ([click here](https://help.sap.com/docs/CONTINUOUS_DELIVERY/f3d64e9188f242ffb7873da5dfad4278/618ca03fdca24e56924cc87cfbb7673a.html?locale=en-US)).
 
 [<img src="./images/CICD_Basics01.png" width="300" />](./images/CICD_Basics01.png?raw=true)
 
-Continue with the most important **Concepts**, to understand the differences between **Jobs and Builds** or the concepts of **Pipelines, Stages, and Steps**, as we will use these words throughout this part of the **Expert Scope**. You can find great explanations in the official SAP Help documentation ([click here](https://help.sap.com/docs/CONTINUOUS_DELIVERY/f3d64e9188f242ffb7873da5dfad4278/707017c681aa4bc09d0279f08115dcae.html?locale=en-US))
+Continue with the most important **Concepts**, to understand the differences between **Jobs and Builds** or the concepts of **Pipelines, Stages, and Steps**, as we will use these words throughout this part of the **Expert Features**. You can find great explanations in the official SAP Help documentation ([click here](https://help.sap.com/docs/CONTINUOUS_DELIVERY/f3d64e9188f242ffb7873da5dfad4278/707017c681aa4bc09d0279f08115dcae.html?locale=en-US))
 
 [<img src="./images/CICD_Basics02.png" width="400" />](./images/CICD_Basics02.png?raw=true)
 
@@ -91,6 +94,7 @@ The **SAP CI/CD Service** gives you access to a selected set of the **Project "P
 
 [<img src="./images/CICD_Setup05.png" width="400" />](./images/CICD_Setup05.png?raw=true)
 
+
 ## 4. Provide GitHub credentials
 
 4.1. In the **Credentials** menu, click on **+**.
@@ -143,11 +147,11 @@ Instead of pushing your hashed API Service Broker credentials to GitHub, the cre
 
 6.1. Navigate to the **Repository** tab in the CI/CD Service and click on **+** to add your repository.
 
-6.2. Provide a name for your repository like **btp-cf-cap-multitenant-susaas**.
+6.2. Provide a name for your repository like **btp-cap-multitenant-saas**.
 
 6.3. Enter the **Repository URL** of your **forked** GitHub repository. 
 
-> **Hint** - https://github.com/**YourUser**/btp-cf-cap-multitenant-susaas
+> **Hint** - https://github.com/**YourUser**/btp-cap-multitenant-saas
 
 6.4. Select your GitHub credentials (**git-credentials**) created in previous steps and click **Add**.
 
@@ -175,7 +179,7 @@ In this and the next step, you will read the so-called Webhook Data of the repos
 
 ## 8.  Add the Webhook to GitHub
 
-8.1. In your GitHub repository (https://github.com/**YourUser**/btp-cf-cap-multitenant-susaas) go to the **Settings** tab.
+8.1. In your GitHub repository (https://github.com/**YourUser**/btp-cap-multitenant-saas) go to the **Settings** tab.
 
 8.2. From the navigation pane, choose **Hooks/Webhooks**.
 
@@ -199,15 +203,15 @@ In this and the next step, you will read the so-called Webhook Data of the repos
 
 9.1. In the **Jobs** tab of the CI/CD service, choose **+** to create a new job.
 
-9.2. As **Job Name**, enter a name for your job for example **susaas-basic** or **susaas-advanced** depending on which branch you want to deploy.
+9.2. As **Job Name**, enter a name for your job for example **susaas-basic** or **susaas-advanced** depending on which Version you want to deploy.
 
 9.3. From the **Repository** dropdown, select the configured repository.
 
-9.4. As **Branch**, provide the GitHub branch from which you want to receive push events (**basic** or **advanced**).
+9.4. As **Branch**, provide the GitHub **main** branch to receive push events (**basic** or **advanced**).
 
 9.5. As **Pipeline**, choose **SAP Cloud Application Programming Model**.
 
-> **Hint** - You can find the stages and steps of this pipeline in the official SAP Help documentation ([click here](https://help.sap.com/docs/CONTINUOUS_DELIVERY/f3d64e9188f242ffb7873da5dfad4278/bfe48a4b12ed41868f92fa564829f752.html?locale=en-US)).
+> **Hint** - You can find the stages and steps of this pipeline in the official SAP Help documentation ([click here](https://help.sap.com/docs/continuous-integration-and-delivery/f3d64e9188f242ffb7873da5dfad4278/configure-sap-cloud-application-programming-model-job-in-your-repository?locale=en-US)).
 
 9.6. Keep the default values in the BUILD RETENTION section.
 
@@ -226,18 +230,16 @@ In this and the next step, you will read the so-called Webhook Data of the repos
 
 [<img src="./images/CICD_RepoStructure.png" width="200" />](./images/CICD_RepoStructure.png?raw=true)
 
-10.2. Place the provided [free-tier-cicd.mtaext](./files/free-tier-cicd.mtaext) file in the root of your project or add it to the *./configs/deployment/* directory. 
+10.2. Place the provided [free-basic-cicd.mtaext](./files/free-basic-cicd.mtaext) file to the *./deploy/cf/mtaext* directory. 
 
-> **Hint** - Take the [trial-cicd.mtaext](./files/trial-cicd.mtaext) file in case of SAP BTP Trial usage. 
+> **Hint** - Take the [trial-basic-cicd.mtaext](./files/trial-basic-cicd.mtaext) file in case of SAP BTP Trial usage. 
 
 10.3. Update the **config.yaml** file in the *.pipline* directory and adjust the values of the **cloudFoundryDeploy** step based on your own environment/setup. Below you can find a sample configuration.
-
 
 * apiEndpoint - The API endpoint of your Cloud Foundry region
 * org - The target Cloud Foundry organization
 * space - The target Cloud Foundry space
 * mtaExtensionDescriptor - The relative path to which you saved the **mtaext file**. 
-
 
 [<img src="./images/CICD_ConfigSample.png" width="400" />](./images/CICD_ConfigSample.png?raw=true)
 

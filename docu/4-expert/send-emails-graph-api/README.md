@@ -1,5 +1,8 @@
 # Send e-mails using Microsoft Graph
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 In this tutorial, you will learn how to send e-mails from your SaaS application using the Microsoft Graph API and Exchange Online. This can be useful in scenarios requiring automated messages sent to users from within your application. This is just one approach how to programmatically send e-mails using popular Microsoft services. Alternatively, you might think about configuring a destination to your SMTP server or using similar services offered by other providers like AWS Simple Email Service (SES) or SendGrid. 
 
 - [Send e-mails using Microsoft Graph](#send-e-mails-using-microsoft-graph)

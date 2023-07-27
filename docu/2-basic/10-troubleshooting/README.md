@@ -1,5 +1,8 @@
 # Troubleshooting
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
 In this section of the **Basic Version** you can find troubleshooting information that might help you in case of errors or issues. The content of this section will be continuously enhanced in the future. 
 
 - [Troubleshooting](#troubleshooting)
@@ -45,7 +48,9 @@ resources:
 
 2.1. Make sure that you unregistered all Service Brokers before you delete your consumer subaccount. If you face the error below when trying to delete a tenant subaccount probably the reason is you still have **registered Service Brokers** in your tenant subaccount. 
 
-[<img src="./images/subaccount-delete-error.png" width="600"/>](./images/subaccount-delete-error.png?raw=true)
+> **Important** - Please do **not** use the subaccount force-delete option, if there a Service Broker is still registered in the respective subaccount!
+
+[<img src="./images/subaccount-delete-error.png" width="400"/>](./images/subaccount-delete-error.png?raw=true)
 
 To be able to fix that issue you need to run the command in your terminal with the help of BTP CLI.
 
@@ -60,4 +65,4 @@ Then run the command below to unregister from your Service Broker:
 btp unregister services/broker --name <nameofyourbroker> --url <brokerurl> --user broker-user --password <brokerpassword>  --subaccount <subaccountId>
 ```
 
-2.2. In case you removed your Service Broker application in the provider subaccount, you will not be able to delete an abandoned Service Broker registration in your consumer subaccounts. In that case, make sure to deploy your solution incl. the Service Broker application again before manually attempting to unregister the Service Broker as described in 2.1.
+2.2. In case you already removed/uninstalled/undeployed your Service Broker application in the provider subaccount, you will not be able to delete an abandoned Service Broker registration in your consumer subaccounts. In that case, make sure to deploy your solution incl. the Service Broker application again before manually attempting to unregister the Service Broker as described in 2.1.

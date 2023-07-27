@@ -19,6 +19,7 @@ steps:
 
   mtaBuild:
     platform: 'CF'
+    source: ./deploy/cf/
   
   cloudFoundryDeploy:
     cfCredentialsId: cf-credentials
@@ -31,7 +32,7 @@ steps:
       susaas-sb-credentials: susaas-sb-credentials
     
 
-# tmsUpload:  # only relevant once you finish the SAP Cloud Transport Management Expert Scope chapter
+# tmsUpload:  # only relevant once you finish the SAP Cloud Transport Management Expert Feature chapter
 #   nodeName: 'QA'
 #   credentialsId: 'tms'
 #   customDescription: 'TMS Upload'

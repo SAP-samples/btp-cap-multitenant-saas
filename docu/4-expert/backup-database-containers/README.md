@@ -1,15 +1,21 @@
 # Backup SAP HANA Cloud Database Containers
 
-This part of the **Expert Scope** explains how to export and import SAP HANA Cloud HDI (HANA Deployment Infrastructure) containers in a SaaS scenario. This can be useful to back up your subscriber data on a regular basis. Please be aware that the import process will overwrite the content of your target container. For this reason also make sure, not to apply incompatible database changes between the backup and import of a container. 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
 
-Before approaching this part of the **Expert Scope**, please make sure to set up a new HDI Container Group Administrator first as described in the following part of the Expert Scope ([Manage Tenant Database Containers](../manage-tenant-containers/README.md)) and use the respective user for the steps below.
+> **Hint** - This Expert Feature requires refactoring and some screenshots and steps might be outdated. 
 
-1. [Introduction](#1-Introduction)
-2. [Prerequisites](#2-Prerequisites)
-3. [Export an existing container](#3-Export-an-existing-container)
-4. [Import into an existing container](#4-Import-into-an-existing-container)
-5. [Dependencies and privileges](#5-Dependencies-and-privileges)
-6. [Further Information](#6-Further-Information)
+This part of the **Expert Features** explains how to export and import SAP HANA Cloud HDI (HANA Deployment Infrastructure) containers in a SaaS scenario. This can be useful to back up your subscriber data on a regular basis. Please be aware that the import process will overwrite the content of your target container. For this reason also make sure, not to apply incompatible database changes between the backup and import of a container. 
+
+Before approaching this part of the **Expert Features**, please make sure to set up a new HDI Container Group Administrator first as described in the following part of the Expert Features ([Manage Tenant Database Containers](../manage-tenant-containers/README.md)) and use the respective user for the steps below.
+
+- [Backup SAP HANA Cloud Database Containers](#backup-sap-hana-cloud-database-containers)
+  - [1. Introduction](#1-introduction)
+  - [2. Prerequisites](#2-prerequisites)
+  - [3. Export an existing container](#3-export-an-existing-container)
+  - [4. Import into an existing container](#4-import-into-an-existing-container)
+  - [5. Dependencies and privileges](#5-dependencies-and-privileges)
+  - [6. Further Information](#6-further-information)
 
 In this sample use-case we assume the following backup scenario. If your scenario is different from the following assumptions, please test your requirements in a sandbox system first, before deleting any tenant database containers! In general, we recommend testing all backup-related steps before applying them in a productive environment!
 
@@ -32,7 +38,7 @@ As an alternative to a manual export, please also consider an automated technica
 
 ## 2. Prerequisites
 
-Before approaching this part of the **Expert Scope**, please make sure to set up a new HDI Container Group Administrator first as described in the following part of the Expert Scope ([Manage Tenant Database Containers](../manage-tenant-containers/README.md)). 
+Before approaching this part of the **Expert Features**, please make sure to set up a new HDI Container Group Administrator first as described in the following part of the Expert Features ([Manage Tenant Database Containers](../manage-tenant-containers/README.md)). 
 
 - The tables in the schema of the exported container must not be larger than 2GB.
 - The exporting user needs to be an Admin of your container's HDI Container Group. 

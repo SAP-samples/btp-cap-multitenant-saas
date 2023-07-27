@@ -1,5 +1,10 @@
 # Integrate SAP API Management
 
+- ### **Kyma** ❌
+- ### **Cloud Foundry** ✅
+
+**Important** - This part of the tutorial is required for **Cloud Foundry** deployments only!
+
 As your SaaS application contains an API that allows the SaaS consumers to interact programmatically with their tenant database containers, you need to ensure that your API endpoints are properly managed and monitored. For this purpose, you should implement features like rate limiting to prevent e.g., DoS attacks. Furthermore, you can ensure fair usage of the resources among your consumers by e.g., setting up a quota depending on the chosen plan. A premium consumer might be eligible to send more requests per second than a standard consumer. Proper monitoring of your API will help you to analyze performance issues and to identify problems of your consumers. 
 
 In this part of the mission, you will learn how to ensure that each and every request to your SaaS API is first going through SAP API Management, which will be the dedicated standard solution provided by SAP for all API-related requirements. 
@@ -21,7 +26,7 @@ In this part of the mission, you will learn how to ensure that each and every re
 
 ## 1. Architecture
 
-SAP API Management is a new component in the central part of the **Advanced Scope** architecture. While in the Basic Scope, the API calls were directly accessing the CAP-based API service, now all requests will be passing through this additional component, giving you great flexibility in how to handle your in and outbound API traffic. 
+SAP API Management is a new component in the central part of the **Advanced Version** architecture. While in the Basic Version, the API calls were directly accessing the CAP-based API service, now all requests will be passing through this additional component, giving you great flexibility in how to handle your in and outbound API traffic. 
 
 See the relevant part of the solution architecture below (click to enlarge):
 
@@ -60,15 +65,14 @@ cf brs `<API service domain>` `<route service>` --hostname `<API service hostnam
 
 cf brs `<API service domain>` `<route service>` --hostname `<API service hostname>` -c "{\"api_name\":\"`<API-Proxy name>`\"}"
 
+>**Sample**<br>
+>cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service --hostname dev-susaas-api-srv -c '{\"api_name\":\"SusaaS-API-Proxy\"}'
+
 * **route service** - The name of your route-service instance created in the [last step](./README.md#3-apim-as-route-service).
 * **API-Proxy name** - You're free to choose the name of your API-Proxy in API Management.
 * **API service domain** - The domain of your API service like *cfapps.eu10.hana.ondemand.com*.
 * **API service hostname** - The hostname of your API service returned by the *cf apps* CLI command. <br>
 [<img src="./images/API_Hostname.png" width="500" />](./images/API_Hostname.png?raw=true)
-
-
->**Sample**<br>
->cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service --hostname dev-susaas-api-srv -c '{\"api_name\":\"SusaaS-API-Proxy\"}'
 
 > **Important** - The command might differ depending on your cf CLI version. You can use *cf brs --help* to find the correct command related to your cf CLI version. Also make sure to change the change the API service domain in case of Custom Domain usage.
 

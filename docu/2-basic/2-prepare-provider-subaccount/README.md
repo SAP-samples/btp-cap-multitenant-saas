@@ -1,6 +1,9 @@
 # Prepare the Provider Subaccount
 
-In this chapter, you will learn how to prepare your SAP BTP Provider Subaccount for the deployment of the sample SaaS solution by assigning the required entitlements and setting up the foundational components. This includes a SAP HANA Cloud instance which you need to share with your Cloud Foundry environment or your Kyma Cluster before deployment. 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
+In this chapter, you will learn how to prepare your SAP BTP Provider Subaccount for the deployment of the sample SaaS solution by assigning the required entitlements and setting up the foundational components. This includes a SAP HANA Cloud instance which you need to share with your **Cloud Foundry** environment or your **Kyma Cluster** before deployment. 
 
 - [Prepare the Provider Subaccount](#prepare-the-provider-subaccount)
   - [1. Prerequisites for Provider Subaccount](#1-prerequisites-for-provider-subaccount)
@@ -92,7 +95,9 @@ If you need assistance assigning entitlements to your Provider Subaccount, you m
 
 > **Hint** - To learn more about SAP HANA Cloud in general, please check the following Learning Journey (https://learning.sap.com/learning-journey/provision-and-administer-databases-in-sap-hana-cloud).
 
-If not available yet, please create a SAP HANA Cloud instance in your Provider subaccount or share an existing SAP HANA Cloud from any other subaccount within the same SAP BTP region (e.g., eu10). Any SAP HANA Cloud instance in the same region as your Cloud Foundry environment or Kyma Cluster, can be enabled for usage within your Provider subaccount. Once you created the SAP HANA Cloud instance, please map it with your Cloud Foundry environment or Kyma Cluster using the **Instance Mapping** feature. You can either map the SAP HANA Cloud instance with all namespaces in the Kyma Cluster or provide a dedicated namespace name. Same applies for Cloud Foundry, where you can map the SAP HANA Cloud instance to a whole Organization or a specific Space. 
+If not available yet, please create a SAP HANA Cloud instance in your Provider subaccount or share an existing SAP HANA Cloud from any other subaccount within the same SAP BTP region (e.g., eu10). Any SAP HANA Cloud instance in the same region as your Cloud Foundry environment or Kyma Cluster, can be enabled for usage within your Provider subaccount. 
+
+Once you created the SAP HANA Cloud instance, please map it with your Cloud Foundry environment or Kyma Cluster using the **Instance Mapping** feature. You can either map the SAP HANA Cloud instance with all namespaces in the Kyma Cluster or provide a dedicated namespace name. Same applies for Cloud Foundry, where you can map the SAP HANA Cloud instance to a whole Organization or a specific Space. 
 
 **Kyma** 
 
@@ -111,6 +116,10 @@ More information on how to share your SAP HANA Cloud instance with your Cloud Fo
 
 ## 4. SAP Alert Notification Technical User
 
+**Kyma**
+
+For the Kyma environment, this step is not required as no lifecycle events are send by the sample application using the Alert Notification Service. 
+
 **Cloud Foundry**
 
 If you are using the Cloud Foundry Runtime, please add a dedicated Technical User as a Space Auditor to the Cloud Foundry Space of your Provider Subaccount. This user is required by SAP Alert Notification to inform you about lifecycle events of your SaaS application. You can find a list of users per region in the official SAP Help documentaton ([click here](https://help.sap.com/docs/ALERT_NOTIFICATION/5967a369d4b74f7a9c2b91f5df8e6ab6/4255e6064ea44f20a540c5ae0804500d.html?locale=en-US)).
@@ -118,10 +127,6 @@ If you are using the Cloud Foundry Runtime, please add a dedicated Technical Use
 For **us10** region, please add for example **sap_cp_us10_ans@sap.com** as a Space Auditor. 
 
 [<img src="./images/Space_TechUser.png" width="500"/>](./images/Space_TechUser.png?raw=true)
-
-**Kyma**
-
-For the Kyma environment, this step is not required as no lifecycle events are send by the sample application using the Alert Notification Service. 
 
 
 ## 5. Limitations of free and trial services plans

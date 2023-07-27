@@ -1,5 +1,8 @@
 # Subscribe a Tenant Subaccount
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
 In this part of the tutorial, you will learn how to subscribe your first Tenant Subaccount and how to create a first administrator user for your Subscriber Tenant.
 
 - [Subscribe a Tenant Subaccount](#subscribe-a-tenant-subaccount)
@@ -39,11 +42,13 @@ In this part of the tutorial, you will learn how to subscribe your first Tenant 
 
 1.6. In the Kyma scenario, you can now define a **custom subdomain** for your Subscriber Tenant. Please make sure to understand this feature before making use of it. If you leave this field blank, the URL of your Subscriber Tenant will be created in the following format.
 
-**\<SubaccountSubdomain\>-\<ReleaseName\>-router-\<Namespace\>.\<ShootName\>.kyma.ondemand.com**
+**\<SubaccountSubdomain\>-\<ReleaseName\>-router-\<Namespace\>.\<ShootName\>.kyma.ondemand.com**<br>
+e.g., subscriber-c3b2a1-susaas-router-default.a1b2c3.kyma.ondemand.com
 
 While this may result in long and inconvenient URLs for your subscribers, the uniqueness of the generated subdomain is ensured when following this format. If you decide to provide a custom subdomain, the resulting URL will have the following format (as long as you are not using a custom domain).
 
-**\<CustomDomain\>.\<ShootName\>.kyma.ondemand.com**
+**\<CustomDomain\>.\<ShootName\>.kyma.ondemand.com** <br>
+e.g., subscriber.a1b2c3.kyma.ondemand.com
 
 In this sample, we did not implement a check for the uniqueness of the value provided. It is in your responsibility to ensure, not to double-assign the same custom subdomain to your subscribers! 
 

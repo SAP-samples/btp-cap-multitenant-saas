@@ -1,6 +1,9 @@
 # HDI Container Administration
 
-> **Hint** - This topic will be refactored! Some screenshots or features might appear different based on latest version updates. 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
+> **Hint** - This Expert Feature requires refactoring and some screenshots and steps might be outdated.
 
 In this part of the **Expert Features** you will learn how to set up a new HDI Container Group Administrator for your SaaS HDI containers. This user will be able to administrate Tenant database containers (e.g., create or import backups, use the HDI Container API, ...). 
 

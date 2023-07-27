@@ -1,5 +1,8 @@
 # Prepare the Provider Subaccount
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 In this chapter, you will learn how to prepare your SAP BTP Provider Subaccount for the deployment of the SaaS solution by assigning the additional entitlements required for the **Advanced Version**.
 
 - [Prepare the Provider Subaccount](#prepare-the-provider-subaccount)
@@ -14,7 +17,7 @@ In this chapter, you will learn how to prepare your SAP BTP Provider Subaccount 
 
 As already mentioned, also the **Advanced Version** of this tutorial can be deployed to any SAP BTP environment using **Free (Tier) service plans** of your own **Pay-as-you-Go** (PAYG) or **CPEA** account. A tutorial how to setup a PAYG account (allowing you to use all Free Tier service plans) can be found in the [Tutorial Navigator](https://developers.sap.com/tutorials/btp-free-tier-account.html). A deployment to **Trial** Accounts is also possible, though it is not recommended due to limited resource availability (e.g., 14 days in case of Kyma).
 
-Please make sure you successfully set up the **Basic Version** of this tutorial before you get started with the **Advanced Version**. All entitlements listed in the Basic Version details ([click here](../../2-basic/2-prepare-provider-subaccount/README.md)) are also required for the Advanced Version.
+**Important** - Please make sure you successfully set up the **Basic Version** of this tutorial before you get started with the **Advanced Version**. All entitlements listed in the Basic Version details ([click here](../../2-basic/2-prepare-provider-subaccount/README.md)) are also required for the Advanced Version.
 
 
 ## 2. Entitlements for Advanced Version
@@ -46,7 +49,7 @@ Depending on which of the Advanced Version features you would like to set up, th
 
 If you want to test the automated data push feature from an existing SAP solution, the sample setup requires a SAP solution that contains the Enterprise Procurement Model (EPM) model. The EPM is a demo application that integrates many SAP NetWeaver technologies that are used by SAP S/4HANA applications. It is based on a common business process model and follows the business object (BO) paradigm to support well-defined business logic.
 
-In this sample application you will learn how to [push data from the EPM module to the SaaS API](../7-push-data-s4hana-system/README.md) to migrate your business data to the multitenant business application for the sustainability calculations. You can use all **SAP S/4HANA** releases and also any other SAP systems which has an **SAP NetWeaver** stack version higher than 7.3. since these versions, all contain the EPM module by default. 
+In this sample application you will learn how to [push EPM sample data to the SaaS API](../3-push-data-s4hana-system/README.md) to migrate your business data to the multitenant business application for the sustainability calculations. You can use all **SAP S/4HANA** releases and also any other SAP systems which has an **SAP NetWeaver** stack version higher than 7.3. since these versions, all contain the EPM module by default. 
 
 > **Important** - This steps described in this tutorial assume that you are using **at least the 2021** version of SAP S/4HANA. Some features (like the **OAuth Settings** in SM59) are only available since the SAP S/4HANA 2021 release. If your system is based on an older release, you need to invest some coding effort to implement the respective OAuth flows in ABAP yourself. Please check the community for blogs and tutorials on **Configuring OAuth 2.0 and Creating an ABAP Program That Uses OAuth 2.0 Client API**, which should give you a good idea how to set up a Client Credential flow in ABAP. 
 

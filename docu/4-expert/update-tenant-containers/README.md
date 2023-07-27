@@ -1,6 +1,9 @@
 # Update tenant database containers
 
-In this part of the mission, you will learn how to distribute data model changes to your tenant database containers using API calls.
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
+In this part of the **Expert Features**, you will learn how to distribute data model changes to your tenant database containers using API calls.
 
 - [Update tenant database containers](#update-tenant-database-containers)
   - [1. Prerequisites](#1-prerequisites)
@@ -26,6 +29,7 @@ In this part of the mission, you will learn how to distribute data model changes
 
 
 ## 2. Introduction 
+
 On your journey with your multitenant application, at some point, you will probably need to **update** your CDS model while you are having active subscribed consumer subaccounts to your application.
 
 When you as a developer have added or removed a field from your CDS model, it is not automatically reflected to tenant's HDI container automatically after deployment. You need to send a request to your multitenant CAP application re-deploy the latest changes to the tenant’s HDI container and that is what you will learn on this section.

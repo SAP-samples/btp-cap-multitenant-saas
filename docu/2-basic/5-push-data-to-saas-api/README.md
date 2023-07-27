@@ -1,5 +1,8 @@
 # Push data to the SaaS API
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ✅
+
 The SaaS sample application is equipped with a built-in SaaS API, that your subscribers can use, to push data to their Tenant database containers or to modify existing data. In this part of the tutorial, you will learn how to connect to this API endpoint as a SaaS Tenant and push some sample data. 
 
 - [Push data to the SaaS API](#push-data-to-the-saas-api)

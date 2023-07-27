@@ -1,0 +1,28 @@
+ID: susaas.freetier
+_schema-version: 3.2.0
+version: 1.0.0
+extends: susaas
+
+modules:
+  - name: susaas
+    parameters:
+      tenant-separator: '.'
+      app-domain: '<your domain>'
+      routes:
+        - route: ${default-url}
+        - route: '*.${app-domain}'
+  - name: susaas-api-sb
+    properties:
+      SBF_BROKER_CREDENTIALS_HASH:  >
+        {
+          "broker-user": "<paste your hash credentials here>"
+        }
+
+resources:
+  - name: susaas-uaa
+    parameters:
+      config:
+        oauth2-configuration:
+          redirect-uris:
+            - https://*.<your domain>/**
+            - http://*.localhost:5000/**

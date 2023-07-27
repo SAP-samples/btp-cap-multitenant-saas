@@ -1,5 +1,8 @@
 # Local and hybrid development
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 In this part of the **Expert Features** you will learn how to use the local and hybrid development features of CAP. This will simplify the development process and let's you implement new features in a local environment with and without multitenancy enable. 
 
 - [Local and hybrid development](#local-and-hybrid-development)
@@ -549,4 +552,4 @@ Select the service instance and open your service binding credentials. Copy the 
 
 > **Hint** - You might consider copying the http file and renaming it to api-test-hybrid-private.http first. This ensures that your credentials are not committed to GitHub. 
 
-You can use the [http file](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/blob/basic/http/api-test-hybrid.http), to send the requests one by one.
+You can use the [http file](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/blob/main/code/http/api-test-hybrid.http), to send the requests one by one.

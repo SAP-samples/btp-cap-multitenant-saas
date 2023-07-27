@@ -1,6 +1,9 @@
 # Deployment to multiple SAP BTP regions
 
-This part of the **Expert Scope** will provide a high-level overview for SaaS providers planning to deploy their solution to multiple SAP BTP regions, including options for intelligent traffic routing. Offering your SaaS application in multiple SAP BTP regions has some great advantages which we will briefly discuss in the following chapter. 
+- ### **Kyma** ❌
+- ### **Cloud Foundry** ✅
+
+This part of the **Expert Features** will provide a high-level overview for SaaS providers planning to deploy their solution to multiple SAP BTP regions, including options for intelligent traffic routing. Offering your SaaS application in multiple SAP BTP regions has some great advantages which we will briefly discuss in the following chapter. 
 
 1. [Introduction](#1-Introduction)
 2. [Multi Region Scenario](#2-Multi-Region-Scenario)
@@ -147,7 +150,7 @@ Especially in the case of mult-region deployments, it is important to have an un
 
 Using custom domains is also essential in case of failover scenarios. For these scenarios, you usually provide your consumers a single point of entry like **subscriber.susaas.com**. The actual failover from **subscriber.eu10.susaas.com** to **subscriber.eu20.susaas.com** is happening in the background without the user even noticing. 
 
-To get a proper understanding of the Custom Domain service and how to set up scenarios like the one above, please check the respective **Expert Scope** chapter on [Custom Domain Usage](../custom-domain-usage/README.md). Below you can see sample route mappings of a consumer named **subscriber** in two regions (eu10 and eu20). 
+To get a proper understanding of the Custom Domain service and how to set up scenarios like the one above, please check the respective **Expert Features** chapter on [Custom Domain Usage](../custom-domain-usage/README.md). Below you can see sample route mappings of a consumer named **subscriber** in two regions (eu10 and eu20). 
 
 [<img src="./images/MR_MultiReg01.png" width="400" />](./images/MR_MultiReg01.png?raw=true)
 

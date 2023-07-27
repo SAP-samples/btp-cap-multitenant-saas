@@ -1,5 +1,8 @@
 # Template Details
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ❌
+
 This chapter provides detailed information on the various Helm templates and corresponding Kyma and Kubernetes resources. If you are new to Helm and have not checked out the provided introduction yet, we strongly recommend to read the respective [Helm Charts](./HelmCharts.md) chapter first. While the subsequent [Resource Overview](./ResourceOverview.md) chapter describes the general purpose of the different Kyma and Kubernetes resource types, in this part of the tutorial, we cover the scenario-related usage of the various components.
 
 - [Template Details](#template-details)

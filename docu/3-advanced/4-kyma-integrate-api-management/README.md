@@ -1,5 +1,10 @@
 # Integrate SAP API Management
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ❌
+
+**Important** - This part of the tutorial is required for **Kyma** deployments only!
+
 As your SaaS application contains an API that allows your Subscriber to interact programmatically with their Tenant database containers, you need to ensure that your API endpoints are properly managed and monitored. For this purpose, you should implement features like **Rate Limiting** to prevent DoS attacks. Furthermore, you can ensure fair usage of the resources among your consumers by setting up a **Quota** based on the chosen service plan. A premium Subscriber can be eligible to send more requests per second than a standard Consumer. Proper monitoring of your API will help you analyze performance issues and to identify problems of your consumers. 
 
 In this part of the tutorial, you will learn how to ensure that each and every request targeting your SaaS API is passing through SAP API Management first. SAP API Management (as part of SAP Integration Suite), is SAP's standard cloud software offering for all API-related requirements. 
@@ -31,18 +36,21 @@ SAP API Management is a new component in the central part of the **Advanced Vers
 
 ## 2. Prerequisites
 
-For this setup, please make sure you have an SAP API Management tenant up and running. As SAP API Management is a capability of **SAP Integration Suite**, please subscribe to SAP Integration Suite and activate the respective **API Management** feature. Check the following SAP Help documentation to find a detailed step-by-step guide ([click here](https://help.sap.com/docs/SAP_CLOUD_PLATFORM_API_MANAGEMENT/66d066d903c2473f81ec33acfe2ccdb4/f6eb4332cd5144ef91f4a84cc614ba1c.html?locale=en-US)). As part of this documentation, we cannot provide additional details on the setup process of SAP Integration Suite. 
+For this setup, please make sure you have an SAP API Management tenant up and running. As SAP API Management is a capability of **SAP Integration Suite**, please subscribe to SAP Integration Suite and activate the respective **API Management** feature. Check the following SAP Help documentation to find a detailed step-by-step guide ([click here](https://help.sap.com/docs/sap-api-management/sap-api-management/setting-up-api-management-capability-from-integration-suite?locale=en-US)). As part of this documentation, we cannot provide additional details on the setup process of SAP Integration Suite. 
 
 [<img src="./images/API_IntegrationSuite.png" width="500" />](./images/API_IntegrationSuite.png?raw=true)
 
 
 ## 3. Integration Setup
 
-While Cloud Foundry offers a very convenient integration option using so-called **Route Services** (directly intercepting the traffic targeting your API), in Kyma we need to setup the necessary routing ourself. As already covered in the introductory Kyma chapters ([see here](../../2-basic/8-kyma-resources-helm/README.md)), any request targeting our Kyma API Service is initially routed to **SAP API Management**, where relevant API Rules (Rate Limiting, Quotas) are being checked. 
+While Cloud Foundry offers a very convenient integration option using so-called **Route Services** (directly intercepting the traffic targeting your API), in Kyma we need to setup the necessary routing ourself. As already covered in the introductory Kyma chapters ([see here](../../2-basic/7-kyma-resources-helm/README.md)), any request targeting our Kyma API Service is initially routed to **SAP API Management**, where relevant API Rules (Rate Limiting, Quotas) are being checked. 
 
-Only if those rules are passed, the traffic is send back to Kyma and routed to the actual API Service workloads. The relevant SAP API Management instance details for this routing have to be maintained in the *values.yaml* file of the Umbrella Helm Chart. 
+Only if those rules are passed, the traffic is send back to Kyma and routed to the actual API Service workloads. The relevant SAP API Management instance details for this routing have to be maintained in an additional *values-apim.yaml* file. 
 
-3.1. Below you can see a sample-configuration, containing all details required for the integration on the Kyma side. You can maintain your own environment specific credentials in the *deploy/kyma/charts/sustainable-saas/values-apim.yaml* file. Just make sure to create a copy of the file first and add **-private** to the filename, so that your environment specific details are not being pushed to GitHub.
+3.1. Below you can see a sample-configuration, containing all details required for the integration on the Kyma side. You can maintain your own environment specific credentials in the *deploy/kyma/charts/sustainable-saas/values-apim.yaml* file ([click here](../../../deploy/kyma/charts/sustainable-saas/values-apim.yaml)). 
+
+> **Important** - Just make sure to create a copy of the file first and add **-private** to the filename, so that your environment specific details are not being pushed to GitHub. Your repository should look like the following. 
+> [<img src="./images/API_RepoStruct.png" width="500" />](./images/API_RepoStruct.png?raw=true)
 
 ```yaml
 api:
@@ -68,7 +76,7 @@ api:
       sub: sb-<ReleaseName>-api-<Namespace>
 ```
 
-3.2. After **configuring** the integration scenario in your **values-apim.yaml** file, run another **helm upgrade** to apply the changes toghether with your basic **values.yaml** file.
+3.2. After **configuring** the integration scenario in your **values-apim-private.yaml** file, run another **helm upgrade** to apply the changes together with your basic **values-private.yaml** file.
 
 ```sh
 helm upgrade <ReleaseName> -n <Namespace> \
@@ -84,7 +92,9 @@ helm upgrade susaas -n susaas \
   -f ./charts/sustainable-saas/values-apim-private.yaml 
 ```
 
-In case you deployed the Central User Management Feature using SAP Identity Authentication Service before, and would also like to keep it in your deployment, please don't forget to add the respective values.yaml file. 
+In case you deployed the Central User Management Feature using SAP Identity Authentication Service before, and would also like to keep it in your deployment, please don't forget to add the respective values-ias.yaml file. 
+
+> **Hint** - As the SAP Identity Authentication Service Integration does not contain confidential or environment specific data, no **-private** suffix is required in this case. 
 
 **Sample**
 
@@ -95,16 +105,18 @@ helm upgrade susaas -n susaas \
   -f ./charts/sustainable-saas/values-apim-private.yaml 
 ```
 
-
 3.3. Switch over to **SAP API Management** to configure the missing integration parts and to upload our **sample API Proxy**. 
 
-3.4. First of all, you need to store the respective XSUAA Client Credentials (part of the mentioned Kyma Secret) in SAP API Management. To do so, please open the **Configure** menu and select **APIs**. Switch to the **Key Value Maps** tab and click on **Create**.
+3.4. First of all, you need to store valid XSUAA Client Credentials in SAP API Management. To do so, please open the **Configure** menu and select **APIs**. Switch to the **Key Value Maps** tab and click on **Create**.
 
 [<img src="./images/API_KeyValue01.png" width="500" />](./images/API_KeyValue01.png?raw=true)
 
 3.5. Create a new Key Value Map named **susaas-api** containing the **Client Id** and **Token Endpoint** of your XSUAA Service Instance. 
 
-> **Hint** - You can find the required details in your **\<ReleaseName\>-api-xsuaa-apim** Kyma Secret, which was created during the *helm upgrade*.
+> **Hint** - You can find the required details in your **\<ReleaseName\>-api-xsuaa-apim** Kyma Secret, which was created during the *helm upgrade*. Either get the Secret details via the Kyma Dashboard or using the following kubectl commands. <br>
+> > ```kubectl get secret <ReleaseName>-api-xsuaa-apim -o jsonpath='{.data.clientid}' | base64 --decode```<br>
+> > ```kubectl get secret <ReleaseName>-api-xsuaa-apim -o jsonpath='{.data.clientsecret}' | base64 --decode```<br>
+> > ```kubectl get secret <ReleaseName>-api-xsuaa-apim -o jsonpath='{.data.url}' | base64 --decode```<br>
 > [<img src="./images/API_SecretDetails.png" width="500" />](./images/API_SecretDetails.png?raw=true)
 
 - clientId: **clientid** property of Kyma Secret
@@ -112,14 +124,14 @@ helm upgrade susaas -n susaas \
 - tokenEndpoint: **url** property of Kyma Secret (**without https://**)
   > Example -> sap-demo.authentication.us20.hana.ondemand.com
 
-[<img src="./images/API_KeyValue02.png" width="500" />](./images/API_KeyValue02.png?raw=true)
+  [<img src="./images/API_KeyValue02.png" width="500" />](./images/API_KeyValue02.png?raw=true)
 
 3.6. Create a second **Key Value Map** named **susaas-api-key** containing the **Client Secret** of your XSUAA Service Instance. Enable encryption for this Key Value Map before you save it. 
 
 - clientSecret : **clientsecret** property of the aforementioned Kyma Secret.
   > Example -> ac4f13bc-a1b2-c3d4-e5f6-38e067544oayNBjvt=
 
-[<img src="./images/API_KeyValue03.png" width="500" />](./images/API_KeyValue03.png?raw=true)
+  [<img src="./images/API_KeyValue03.png" width="500" />](./images/API_KeyValue03.png?raw=true)
 
 3.7. As the provided sample **API Proxy** contains an additional monitoring features (like tracking the XSUAA Zone ID of the client as well as the requested OData entity), please add those additional **Dimensions** in the **Monitoring** section of your SAP API Management instance. Therefore, please switch to the **APIs** section of the **Monitoring** menu and click on **+ Add**.
 
@@ -135,25 +147,25 @@ helm upgrade susaas -n susaas \
 
 3.9. Return to the **Design** environment and upload the provided sample **APIProxy.zip** file, which you can find in the **files** subfolder ([click here](./files/)) of this tutorial.
 
-[<img src="./images/API_Upload01.png" width="500" />](./images/API_Upload01.png?raw=true)
-[<img src="./images/API_Upload02.png" width="500" />](./images/API_Upload02.png?raw=true)
+[<img src="./images/API_Upload01.png" height="200" />](./images/API_Upload01.png?raw=true)
+[<img src="./images/API_Upload02.png" height="200" />](./images/API_Upload02.png?raw=true)
 
 3.10. Once uploaded, please open the susaas-api **API Proxy** definition and update the **Target Endpoint** with your Kyma API Service URI (e.g., susaas-api-default.a1b2c3d4.kyma.ondemand.com) as you can see in the following screenshots. 
 
 > **Hint** - If you are using a **custom domain** in your Kyma environment, please also use in this context (e.g., susaas-api-default.sap-demo.com).
 
-[<img src="./images/API_Proxy01.png" width="300" />](./images/API_Proxy01.png?raw=true)
-[<img src="./images/API_Proxy03.png" width="300" />](./images/API_Proxy03.png?raw=true)
+[<img src="./images/API_Proxy01.png" height="150" />](./images/API_Proxy01.png?raw=true)
+[<img src="./images/API_Proxy03.png" height="150" />](./images/API_Proxy03.png?raw=true)
 
-[<img src="./images/API_Proxy04.png" width="300" />](./images/API_Proxy04.png?raw=true)
-[<img src="./images/API_Proxy05.png" width="300" />](./images/API_Proxy05.png?raw=true)
+[<img src="./images/API_Proxy04.png" height="150" />](./images/API_Proxy04.png?raw=true)
+[<img src="./images/API_Proxy05.png" height="150" />](./images/API_Proxy05.png?raw=true)
 
 3.11. Save your changes and deploy the **API Proxy** as shown in the following screenshots. 
 
-[<img src="./images/API_Proxy06.png" width="300" />](./images/API_Proxy06.png?raw=true)
-[<img src="./images/API_Proxy07.png" width="300" />](./images/API_Proxy07.png?raw=true)
+[<img src="./images/API_Proxy06.png" height="150" />](./images/API_Proxy06.png?raw=true)
+[<img src="./images/API_Proxy07.png" height="150" />](./images/API_Proxy07.png?raw=true)
 
-[<img src="./images/API_Proxy08.png" width="300" />](./images/API_Proxy08.png?raw=true)
+[<img src="./images/API_Proxy08.png" height="150" />](./images/API_Proxy08.png?raw=true)
 
 This is it - From now on, all requests targeting your Kyma API Service workloads will be routed through SAP API Management to enforce policies like **Rate Limiting** or **Quotas**. If the policies checks are passed, the request is returning to Kyma and is served by our API Service **Target Endpoint**. In the next chapter, we will provide you with a sneak peak of what is happening under the hood of this architecture.
 
@@ -296,7 +308,7 @@ While you are an expert for the theoretical concept now, let's face the school o
 
 ## 5. API Policy Deep Dive
 
-The API Policies of our sample API Proxy are primarily based on SAP API Management Standard features. In the following section of the tutorial, you will learn how to set up some of the used API Policies yourself. This includes a Spike Arrest component for rate limiting and different Quotas based on the plan (standard/premium) selected by a Subscriber. 
+The API Policies of our sample API Proxy are primarily based on SAP API Management Standard features. In the following section of the tutorial, you will learn how to set up some of the used API Policies yourself. This includes a Spike Arrest component for rate limiting and different Quotas based on the plan (trial/standard/premium) selected by a Subscriber. 
 
 > **Important** - The following steps have already been completed in the sample API Proxy which you deployed in the beginning of this tutorial (**APIProxy.zip**). If you want to redo the following part of the step-by-step guide, feel free to remove the existing API Proxy and upload the **APIProxyPolicies.zip**. Otherwise, just follow along and try to reflect the steps and components in your existing API Proxy.  
 
@@ -346,7 +358,7 @@ The Spike Arrest Policy allows you to throttle the number of requests processed 
 <Rate>1ps</Rate> instead of <Rate>30pm</Rate>
 ```
 
-[<img src="./images/API_SpikeArrest02.png" width="600" />](./images/API_SpikeArrest02.png?raw=true)
+[<img src="./images/API_SpikeArrest02.png" width="400" />](./images/API_SpikeArrest02.png?raw=true)
 
 
 ### 5.3. API Quota Policies

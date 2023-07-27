@@ -1,21 +1,29 @@
 # Setup SAP Cloud Transport Management
 
-In this part of the **Expert scope** you will learn how to set up the **SAP Cloud Transport Management** service for continuous deployment of your SaaS solution to further SAP BTP subaccounts like a Test oder Production environment.
+- ### **Kyma** ❌
+- ### **Cloud Foundry** ✅
 
-1. [Introduction](#1-Introduction)
-2. [Setup SAP Cloud Transport Management](#2-Setup-SAP-Cloud-Transport-Management)
-3. [Assign User Roles and Permissions](#3-Assign-User-Roles-and-Permissions)
-4. [Configuring the TMS Landscape](#4-Configuring-the-TMS-Landscape)
-5. [Connect to CI/CD Pipeline](#5-Connect-to-CI/CD-Pipeline)
-6. [Import queue of Cloud Transport Management](#6-Import-queue-of-Cloud-Transport-Management)
-7. [Further Information](#7-Further-Information)
+> **Hint** - This Expert Feature requires refactoring and some screenshots and steps might be outdated. 
+
+In this part of the **Expert Features** you will learn how to set up the **SAP Cloud Transport Management** service for continuous deployment of your SaaS solution to further SAP BTP subaccounts like a Test oder Production environment.
+
+- [Setup SAP Cloud Transport Management](#setup-sap-cloud-transport-management)
+  - [1. Introduction](#1-introduction)
+  - [2. Setup SAP Cloud Transport Management](#2-setup-sap-cloud-transport-management)
+  - [3. Assign User Roles and Permissions](#3-assign-user-roles-and-permissions)
+  - [4. Configuring the TMS Landscape](#4-configuring-the-tms-landscape)
+    - [Create Transport Destinations](#create-transport-destinations)
+    - [Use the Transport Landscape Wizard](#use-the-transport-landscape-wizard)
+  - [5. Connect to CI/CD Pipeline](#5-connect-to-cicd-pipeline)
+  - [6. Import queue of Cloud Transport Management](#6-import-queue-of-cloud-transport-management)
+  - [7. Further information](#7-further-information)
 
 
 ## 1. Introduction
 
 As soon as you have a release candidate of your app version in form of a fully qualified archive, you want to propagate it to your test or production subaccount. You can do it either fully automated as part of a pipeline – ideally based on the Continuous Integration best practices or pipeline templates or with a standardized, enterprise-ready change management process, if you desire more control especially of your production environment – using our cloud-based **SAP Cloud Transport Management** service. 
 
-In the following part of the **Expert Scope** we will show how to combine SAP CI/CD service & SAP Cloud Transport Management service combining the best of both worlds.
+In the following part of the **Expert Features** we will show how to combine SAP CI/CD service & SAP Cloud Transport Management service combining the best of both worlds.
 
 We can differentiate - 
 

@@ -12,13 +12,8 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        ### Deployment w/o csv sample files ###
         - npm install --include=dev --prefix=../../code
-        - npx -p @sap/cds-dk@6.8.3 cds build -in ../../code --profile production
-
-        ### Deployment w/ csv sample files ###
-        #- npm install --include=dev --prefix=../../code
-        #- npx -p @sap/cds-dk cds build --profile production,csv
+        - npx -p @sap/cds-dk@7 cds build -in ../../code --profile production
 
 modules:
   # --------------------- APPROUTER MODULE ---------------------

@@ -1,11 +1,15 @@
 # Use multiple SAP HANA Cloud instances
 
-In this part of the **Expert Scope** you will get an ideo how to set up a scenario in which you do not want to share the same SAP HANA Cloud instance among all your SaaS consumers but require separate SAP HANA Cloud instances for selected or all your customers. This might for example be required for legal reasons concerning data privacy regulations. 
+- ### **Kyma** ❌
+- ### **Cloud Foundry** ✅
 
-> **Important** - This part of of the Expert Scope has been added based on a question in the SAP Community. As the approach has not been tested extensively by our team, please make sure to test your setup end-to-end including the whole lifecycle of the container managed by the Service Manager - Create, Update, Delete!
+In this part of the **Expert Features** you will get an ideo how to set up a scenario in which you do not want to share the same SAP HANA Cloud instance among all your SaaS consumers but require separate SAP HANA Cloud instances for selected or all your customers. This might for example be required for legal reasons concerning data privacy regulations. 
 
-1. [Setup Steps](#1-Setup-Steps)
-2. [Further Details](#2-Further-Details)
+> **Important** - This part of of the Expert Features has been added based on a question in the SAP Community. As the approach has not been tested extensively by our team, please make sure to test your setup end-to-end including the whole lifecycle of the container managed by the Service Manager - Create, Update, Delete!
+
+- [Use multiple SAP HANA Cloud instances](#use-multiple-sap-hana-cloud-instances)
+  - [1. Setup Steps](#1-setup-steps)
+  - [2. Further Details](#2-further-details)
 
 > **Important** - The following scenario assumes that your SaaS application is running in the **same SAP BTP Region** and **SAP BTP Global Account** as the consumer-specific SAP HANA Cloud instances. Scenarios with SAP HANA Cloud instances running in other SAP BTP Regions are not supported by the approach below. For access requirements across SAP BTP Regions or SAP BTP Global Accounts, please consider manually connecting to the SAP HANA Cloud instances from within your application logic using the **@sap/hdbext** npm package. You might store the credentials of each consumer's SAP HANA Cloud instance in a Secure Store and read it when connecting from your application logic. 
 

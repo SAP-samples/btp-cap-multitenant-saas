@@ -1,5 +1,8 @@
 # SaaS Consumer Extensibility
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ✅
+
 In this part of the mission you will learn how SaaS consumers can extend their SaaS subscriptions with their own **data model extensions** and **user interface extensions** using dedicated **CAP extensibility** features. 
 
 - [SaaS Consumer Extensibility](#saas-consumer-extensibility)

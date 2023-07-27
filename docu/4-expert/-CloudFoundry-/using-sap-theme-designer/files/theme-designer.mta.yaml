@@ -3,6 +3,7 @@ ID: susaas
 version: 0.0.1
 
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
   autoscalerMinInstance: 1
   autoscalerMaxInstance: 2
@@ -11,21 +12,19 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        ### Deployment w/o csv sample files ###
-        - npx -p @sap/cds-dk cds build --profile production
-
-        ### Deployment w/ csv sample files ###
-        #- npx -p @sap/cds-dk cds build --profile production,csv
+        - npm install --include=dev --prefix=../../code
+        - npx -p @sap/cds-dk@7 cds build -in ../../code --profile production
 
 modules:
   # --------------------- APPROUTER MODULE ---------------------
   - name: susaas
   # ------------------------------------------------------------
     type: approuter.nodejs
-    path: app/approuter
+    path: ../../code/router
     build-parameters:
-      builder: npm-ci
-      ignore: [ 'node_modules/', 'default-env.json', 'manifest*.yml' ]
+      builder: custom
+      commands: []
+      ignore: [ '.DS_Store', 'node_modules/', 'default-env.json', 'manifest*.yml' ]
     parameters:
       app-name: susaas-${space}
       disk-quota: 256MB
@@ -42,18 +41,20 @@ modules:
       - name: susaas-srv-api
       - name: susaas-theming
     provides:
-      - name: susaas-approuter
+      - name: susaas-router-api
         properties:
            app-url: ${default-url}
            application: ${app-name}
            tenant-separator: ${tenant-separator}
            app-domain: ${app-domain}
 
+
+
   # --------------------- WEBAPP DEPLOYER ----------------------
-  - name: webapp_deployer
+  - name: susaas-app-deployer
   # ------------------------------------------------------------
     type: com.sap.application.content
-    path: app/deployer
+    path: ../../code/app/html5-deployer
     requires:
       - name: susaas-html5-repo-host
         parameters:
@@ -61,45 +62,108 @@ modules:
     build-parameters:
       build-result: resources
       requires:
-        - name: susaas-ui
-          artifacts:
-            - susaasui.zip
-          target-path: resources/
+      - name: sapsusaasuipublicflp
+        target-path: resources/
+        artifacts:
+        - sapsusaasuipublicflp.zip
+      - name: sapsusaasuiadminprojects
+        target-path: resources/
+        artifacts:
+          - sapsusaasuiadminprojects.zip
+      - name: sapsusaasuiadminusers
+        target-path: resources/
+        artifacts:
+        - sapsusaasuiadminusers.zip
+      - name: sapsusaasuipublicprojects
+        target-path: resources/
+        artifacts:
+        - sapsusaasuipublicprojects.zip
+      - name: sapsusaasuipublicassessments
+        target-path: resources/
+        artifacts:
+        - sapsusaasuipublicassessments.zip
 
-  # --------------------- UI MODULE ----------------------------
-  - name: susaas-ui
+
+  # --------------------- UI MODULES ----------------------------
+  #
   # ------------------------------------------------------------
+  - name: sapsusaasuipublicflp
     type: html5
-    path: app/uimodule
+    path: ../../code/app/ui-public-flp
     build-parameters:
       build-result: dist
       builder: custom
-      ignore: [ 'node_modules/', 'mta_archives/',  'default-env.json', 'manifest*.yml' ]
+      ignore: [ 'node_modules/',  'default-env.json', 'manifest*.yml' ]
       commands:
-        - npm ci
-        - npm run build:cf
+      - npm run build
       supported-platforms: []
+  
+  - name: sapsusaasuiadminprojects
+    type: html5
+    path: ../../code/app/ui-admin-projects
+    build-parameters:
+      build-result: dist
+      builder: custom
+      ignore: [ 'node_modules/',  'default-env.json', 'manifest*.yml' ]
+      commands:
+      - npm run build
+      supported-platforms: []
+    
+  - name: sapsusaasuiadminusers
+    type: html5
+    path: ../../code/app/ui-admin-users
+    build-parameters:
+      build-result: dist
+      builder: custom
+      ignore: [ 'node_modules/',  'default-env.json', 'manifest*.yml' ]
+      commands:
+      - npm run build
+      supported-platforms: []
+  
+  - name: sapsusaasuipublicprojects
+    type: html5
+    path: ../../code/app/ui-public-projects
+    build-parameters:
+      build-result: dist
+      builder: custom
+      ignore: [ 'node_modules/',  'default-env.json', 'manifest*.yml' ]
+      commands:
+      - npm run build
+      supported-platforms: []
+  
+  - name: sapsusaasuipublicassessments
+    type: html5
+    path: ../../code/app/ui-public-assessments
+    build-parameters:
+      build-result: dist
+      builder: custom
+      ignore: [ 'node_modules/',  'default-env.json', 'manifest*.yml' ]
+      commands:
+        - npm run build
+      supported-platforms: []
+
 
   # --------------------- SERVER MODULE ------------------------
   - name: susaas-srv
   # ------------------------------------------------------------
     type: nodejs
-    path: gen/srv
+    path: ../../code/gen/srv
     build-parameters:
-      builder: npm-ci
-      ignore: ['node_modules/', 'default-*.json', 'manifest*.yml']
+      builder: npm
+      ignore: [ '.DS_Store', 'node_modules/', 'default-*.json', 'manifest*.yml']
     parameters:
       app-name: susaas-srv-${space}
       memory: 256MB
       disk-quota: 1024MB
+      command: node ./node_modules/@sap/cds/bin/cds-serve
     properties:
-      tenantSeparator: ~{susaas-approuter/tenant-separator}
-      appDomain: ~{susaas-approuter/app-domain}
+      tenantSeparator: ~{susaas-router-api/tenant-separator}
+      appDomain: ~{susaas-router-api/app-domain}
       brokerName: ~{susaas-api-sb-srv/app-name}
       srvUrl: 'https://${app-name}.${default-domain}'
       brokerUrl: ~{susaas-api-sb-srv/srv-url}
-      approuterUrl: ~{susaas-approuter/app-url}
-      appName: ~{susaas-approuter/application}
+      approuterUrl: ~{susaas-router-api/app-url}
+      appName: ~{susaas-router-api/application}
     requires:
       - name: susaas-uaa
       - name: susaas-credstore
@@ -114,12 +178,12 @@ modules:
       - name: susaas-logging
       - name: susaas-registry
       - name: susaas-service-manager
+      - name: susaas-service-manager-admin
       - name: susaas-destination
-      - name: susaas-cis-central
       - name: susaas-html5-repo-runtime
       - name: susaas-alert-notification
       - name: susaas-api-sb-srv
-      - name: susaas-approuter
+      - name: susaas-router-api
       - name: susaas-theming
       - name: susaas-autoscaler
         parameters:
@@ -134,20 +198,20 @@ modules:
       - name: susaas-com-hdi-container
         group: SERVICE_REPLACEMENTS
         properties:
-           key: susaas-com-hdi-container
-           service: '~{susaas-com-container-name}'
+           key: com-hdi-container
+           service: '~{com-container-name}'
     provides:
       - name: susaas-srv-api
         properties:
           srv-url: ${default-url}
 
-   # --------------------- COMMON DB MODULE --------------------
+  # --------------------- COMMON DB MODULE ---------------------
   - name: susaas-db-com
   # ------------------------------------------------------------
     type: hdb
-    path: gen/db-com
+    path: ../../code/gen/db-com
     build-parameters:
-      ignore: ['node_modules/', 'default-*.json', 'manifest*.yml']
+      ignore: [ '.DS_Store', 'node_modules/', 'default-*.json', 'manifest*.yml']
     parameters:
       app-name: susaas-db-com-${space}
       memory: 256MB
@@ -155,62 +219,66 @@ modules:
     requires:
       - name: susaas-com-hdi-container
 
+
   # ----------- BROKER MODULE (OSBAPI Implementation) ----------
   - name: susaas-api-sb
   # ------------------------------------------------------------
     type: nodejs
-    path: broker/
+    path: ../../code/broker/
     build-parameters:
-      builder: npm-ci
-      ignore: ['node_modules/', 'default-*.json', 'manifest*.yml']
+      builder: custom
+      commands: []
+      ignore: [ '.DS_Store', 'node_modules/', 'default-*.json', 'manifest*.yml']
     parameters:
       app-name: susaas-api-sb-${space}
-      memory: 64MB
-      disk-quota: 265MB
+      memory: 128MB
+      disk-quota: 512MB
     properties:
-      SBF_BROKER_CREDENTIALS_HASH:  >
-        {
-          "broker-user": "<paste your hash credentials here>"
-        }
+      SBF_ENABLE_AUDITLOG: false
+      SBF_CATALOG_FILE: ./catalog.json
+      SBF_SERVICE_CONFIG:
+          Sustainable SaaS API:
+            extend_credentials:
+              shared:
+                apiUrl: ~{srv-url}
+            extend_xssecurity:
+              per_plan:
+                trial: 
+                  authorities: 
+                  - $XSMASTERAPPNAME.plan_trial
+                default: 
+                  authorities: 
+                  - $XSMASTERAPPNAME.plan_default
+                premium: 
+                  authorities: 
+                  - $XSMASTERAPPNAME.plan_premium
+            extend_catalog:
+              name : ~{susaas-api-uaa/xsuaa-app}
+              metadata:
+                  displayName : Sustainable SaaS API ${space}
     requires:
       - name: susaas-api-uaa
       - name: susaas-api-srv-api
-        properties:
-          SBF_SERVICE_CONFIG:
-              Sustainable SaaS API:
-                extend_credentials:
-                  shared:
-                    apiUrl: ~{srv-url}
-                extend_xssecurity:
-                  per_plan:
-                    default: 
-                      authorities: 
-                      - $XSMASTERAPPNAME.plan_default
-                    premium: 
-                      authorities: 
-                      - $XSMASTERAPPNAME.plan_premium
-                extend_catalog:
-                  metadata:
-                     displayName : Sustainable SaaS API ${space}
-          SBF_ENABLE_AUDITLOG: false
     provides:
       - name: susaas-api-sb-srv
         properties:
           app-name: ${app-name}
           srv-url: ${default-url}
 
+
   # --------------------- API MODULE ---------------------------
   - name: susaas-api-srv
   # ------------------------------------------------------------
     type: nodejs
-    path: gen/srv-api
+    path: ../../code/gen/api
     parameters:
       app-name: susaas-api-srv-${space}
       memory: 256MB
       disk-quota: 1024MB
+      command: node ./node_modules/@sap/cds/bin/cds-serve
     build-parameters:
-      builder: npm-ci
-      ignore: [ 'node_modules/', 'default-env.json', 'manifest*.yml' ]
+      builder: npm
+      ignore: [ '.DS_Store', 'node_modules/', 'default-env.json', 'manifest*.yml' ]
     requires:
       - name: susaas-service-manager
       - name: susaas-api-uaa
@@ -225,15 +293,16 @@ resources:
   # ------------------------------------------------------------
     type: org.cloudfoundry.managed-service
     requires:
-      - name: susaas-approuter
+      - name: susaas-router-api
     properties:
+      xsuaa-app: ${xsuaa-app}
       XSAPPNAME: ${xsuaa-app}
     parameters:
       service: xsuaa
       service-name: ${space}-susaas-uaa
       service-plan: application
-      path: ./configs/xs-security.json
-      xsuaa-app: ~{susaas-approuter/application}
+      path: ./config/xs-security.json
+      xsuaa-app: susaas-${space}-${org}
       config:
         xsappname: ${xsuaa-app}
         role-collections:
@@ -263,6 +332,9 @@ resources:
       service: credstore
       service-name: ${space}-susaas-credstore
       service-plan: free
+      config: 
+         authentication:
+              type: basic
 
   # --------------------- REGISTRY SERVICE ---------------------
   - name: susaas-registry
@@ -271,14 +343,14 @@ resources:
     requires:
       - name: susaas-uaa
       - name: susaas-srv-api
-      - name: susaas-approuter
+      - name: susaas-router-api
     parameters:
       service: saas-registry
       service-name: ${space}-susaas-registry
       service-plan: application
       config:
-        xsappname: ~{susaas-uaa/XSAPPNAME}
-        appName: ~{susaas-approuter/application}-${org}
+        xsappname: ~{susaas-uaa/xsuaa-app}
+        appName: ~{susaas-uaa/xsuaa-app}
         displayName: Sustainable SaaS ${space}
         description: Sustainable SaaS Application
         category: SaaS Multitenant Apps
@@ -288,8 +360,12 @@ resources:
           onUnSubscriptionAsync: false
           getDependencies: ~{susaas-srv-api/srv-url}/-/cds/saas-provisioning/dependencies
         appPlans:
+          - name: trial
+            description: Sustainable SaaS trial plan
           - name: default
             description: Sustainable SaaS default plan
+          - name: premium
+            description: Sustainable SaaS premium plan
 
   # ------------------- SERVICE MANAGER SERVICE ----------------
   - name: susaas-service-manager
@@ -305,6 +381,16 @@ resources:
        config:
          acquireTimeoutMillis: max
          polling_timeout_seconds: 480
+
+
+  # -------------- SERVICE MANAGER SERVICE ADMIN ---------------
+  - name: susaas-service-manager-admin
+  # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+       service: service-manager
+       service-name: ${space}-susaas-service-manager-admin
+       service-plan: subaccount-admin
 
   # ---------------- APPLICATION LOGGING SERVICE ---------------
   - name: susaas-logging
@@ -322,7 +408,7 @@ resources:
     parameters:
       service-name: ${space}-susaas-com-hdi-container
     properties:
-      susaas-com-container-name: '${service-name}' 
+      com-container-name: '${service-name}' 
 
   # ----------------- DESTINATION SERVICE ----------------------
   - name: susaas-destination
@@ -339,15 +425,8 @@ resources:
         version: 1.0.0
         init_data:
           instance:
-            existing_destinations_policy: ignore
+            existing_destinations_policy: update
             destinations:
-              - Name: SUSAAS_NORTHWIND
-                Description: SusaaS Northwind
-                URL: https://services.odata.org/v4/Northwind/Northwind.svc
-                Type: HTTP
-                ProxyType: Internet
-                Authentication: NoAuthentication
-                HTML5.DynamicDestination: true
               - Name: susaas-srv-api
                 Description: SusaaS Service API
                 URL: ~{susaas-srv-api/srv-url}
@@ -356,6 +435,14 @@ resources:
                 Authentication: NoAuthentication
                 HTML5.DynamicDestination: true
                 forwardAuthToken: true
+              - Name: SUSAAS_NORTHWIND
+                Description: SusaaS Northwind
+                URL: https://services.odata.org/v4/Northwind/Northwind.svc
+                Type: HTTP
+                ProxyType: Internet
+                Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+              
 
   # ----------------- HTML REPO HOST SERVICE (Be Used by UI) ---------  
   - name: susaas-html5-repo-host
@@ -394,18 +481,7 @@ resources:
       service: alert-notification
       service-name: ${space}-susaas-alert-notification
       service-plan: free
-      path: ./configs/alert-notif.json
-
-  # ----------------- CLOUD MANAGEMENT SERVICE - CENTRAL -------------
-  - name: susaas-cis-central
-  # ------------------------------------------------------------------
-    type: org.cloudfoundry.managed-service
-    requires:
-     - name: susaas-uaa
-    parameters:
-      service: cis
-      service-name: ${space}-susaas-cis-central
-      service-plan: central
+      path: ./config/alert-notif.json
 
   # ----------------- XSUAA - BROKER ---------------------------------
   - name: susaas-api-uaa
@@ -415,7 +491,7 @@ resources:
       service: xsuaa
       service-name: ${space}-susaas-api-uaa
       service-plan: broker
-      xsuaa-app: susaas-api-${space}
+      xsuaa-app: susaas-api-${space}-${org}
       config:
         xsappname: ${xsuaa-app}
     properties:
@@ -428,5 +504,3 @@ resources:
     parameters:
       service: theming
       service-plan: standard
- 
-    

@@ -1,5 +1,8 @@
 # Resource Overview
 
+- ### **Kyma** ✅ 
+- ### **Cloud Foundry** ❌
+
 This SaaS sample application makes use of various Kubernetes as well as custom Kyma resource definitions. In this chapter, you will get a brief introduction to the various resources and links where to find further valuable information if required. 
 
 While you can find comprehensive details for all of these resources online, in this part of the tutorial, we try to explain the purpose of the components in relation to the given scenario - using our own words. So please understand, that our explanations might not necessarily match the official documentation content for all resources. If you find any inconsistencies, feel free to provide adjustments or recommendations using a pull request.
