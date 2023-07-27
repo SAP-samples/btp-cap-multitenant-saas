@@ -28,3 +28,4 @@ _out
 # exclude sample file
 !default-*.sample.json
 !APIProxy*.zip
+Makefile

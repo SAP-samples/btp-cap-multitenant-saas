@@ -11,8 +11,8 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.18.0",
     "@sap_oss/alert-notification-client": "^1.4.0",
-    "@sap/cds": "^6.8.4",
-    "@sap/cds-mtxs": "^1.8.4",
+    "@sap/cds": "^7.0.3",
+    "@sap/cds-mtxs": "^1.9.2",
     "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
     "@sap/hana-client": "^2.15.19",
     "@sap/xsenv": "^3.4.0",
@@ -26,13 +26,13 @@
     "passport": "^0.6.0"
   },
   "devDependencies": {
+    "@sap/approuter": "^14.2.1",
     "@sap/cds-common-content": "^1.2.0",
+    "@sap/html5-app-deployer": "^5.0.0",
     "@sap/html5-repo-mock": "^2.1.1",
     "@sap/sbf": "^6.5.2",
     "@sap/ui5-builder-webide-extension": "^1.1.8",
     "@sap/ux-specification": "^1.96.4",
-    "@sap/approuter": "^14.2.1",
-    "@sap/html5-app-deployer": "^5.0.0",
     "@ui5/cli": "^3.1.2",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",

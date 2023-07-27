@@ -1,4 +1,4 @@
-import approuter from '@sap/approuter';
+const approuter = require("@sap/approuter")
 
 const ar = approuter();
 

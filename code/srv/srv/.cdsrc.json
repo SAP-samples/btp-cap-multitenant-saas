@@ -31,7 +31,13 @@
             "vcap": {
                 "label": "service-manager",
                 "plan": "container"
-            }
+            },
+            "pool": {
+                "acquireTimeoutMillis": 10000,
+                "min": 0,
+                "max": 10,
+                "fifo": true
+              }
         },
         "auth": {
             "kind": "xsuaa"
