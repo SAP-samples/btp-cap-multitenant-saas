@@ -2,6 +2,22 @@
 general:
   buildTool: 'mta'
 
+service:
+  stages:
+    Build:
+      credentialVariables:
+        - name: "Catalog"
+          credentialId: "susaas-catalog"
+        - name: "XsSecurity"
+          credentialId: "susaas-xs-security"
+        - name: "AlertNotif"
+          credentialId: "susaas-alert-notif"
+      runFirst:
+        command: >
+          echo "$Catalog" > ./code/broker/catalog-private.json &&
+          echo "$XsSecurity" > ./deploy/cf/config/xs-security-private.json &&
+          echo "$AlertNotif" > ./deploy/cf/config/alert-notif-private.json
+
 stages:
   Build:
     mavenExecuteStaticCodeChecks: false
@@ -19,15 +35,18 @@ steps:
 
   mtaBuild:
     platform: 'CF'
-    source: ./deploy/cf/
-  
+    source: './deploy/cf/'
+    extensions: '<relative-path-of-the-mtaext-file>'
+    ##### e.g., './mtaext/free-basic-cicd.mtaext'
+    
   cloudFoundryDeploy:
-    cfCredentialsId: cf-credentials
+    cfCredentialsId: susaas-cf-credentials
     apiEndpoint: '<cf-api>'
     org: '<cf-org>'
     space: '<cf-space>'
     mtaDeployParameters: '-f --version-rule ALL'
     mtaExtensionDescriptor: '<relative-path-of-the-mtaext-file>'
+    ################# e.g., './deploy/cf/mtaext/free-basic-cicd.mtaext'
     mtaExtensionCredentials: 
       susaas-sb-credentials: susaas-sb-credentials
     

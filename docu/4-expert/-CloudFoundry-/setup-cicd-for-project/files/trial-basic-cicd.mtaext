@@ -1,4 +1,4 @@
-ID: susaas.trial.cicd
+ID: susaas.basic.cicd
 _schema-version: 3.2.0
 version: 1.0.0
 extends: susaas
@@ -10,11 +10,16 @@ modules:
         {
           "broker-user": "<%= susaas-sb-credentials %>"
         }
+      SBF_CATALOG_FILE: ./catalog-private.json
 
 resources:
-  - name: susaas-alert-notification
+  - name: susaas-uaa
     parameters:
+      path: ./config/xs-security-private.json
+  - name: susaas-alert-notification
+    parameters: 
       service-plan: standard
+      path: ./config/alert-notif-private.json
   - name: susaas-credstore
     parameters:
       service-plan: trial
