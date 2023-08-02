@@ -1,0 +1,35 @@
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: susaas-cicd-sa
+  namespace: susaas
+  labels:
+    app.kubernetes.io/name: susaas-cicd-sa
+automountServiceAccountToken: false
+secrets:
+  - name: susaas-cicd-sa-token
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  annotations:
+    kubernetes.io/service-account.name: susaas-cicd-sa
+  name: susaas-cicd-sa-token
+  labels:
+    app.kubernetes.io/name: susaas-cicd-sa-token
+data: {}
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: susaas-cicd-sa-crb
+subjects:
+  - kind: ServiceAccount
+    name: susaas-cicd-sa
+    namespace: susaas
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin

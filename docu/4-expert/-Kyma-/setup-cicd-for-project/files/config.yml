@@ -1,0 +1,78 @@
+general:
+  buildTool: "docker"
+  containerRegistryUrl: "https://registry.hub.docker.com"
+  containerImageName: "susaas-srv"
+  containerImageTag: "latest"
+
+service:
+  stages:
+    Release:
+      credentialVariables:
+        - name: "GitToken"
+          credentialId: "susaas-git-cred"
+        - name: "GitApi"
+          credentialId: "susaas-git-api"
+      runFirst:
+        command: |
+        
+          # Disable debug mode (turn off echo for all commands and variables)
+          set +x
+          
+          # Install necessary packages
+          apk add --update --no-cache curl jq
+          
+          # Trigger the GitHub workflow using dispatch event
+          curl -L -X POST -H "Authorization: Bearer $GitToken_password" -H "Accept: application/vnd.github+json" -s "$GitApi/dispatches" -d '{ "event_type": "sap-cicd-build" }'
+          # Wait 5 seconds so that workflow run is triggered 
+          sleep 5
+          
+          # Retrieve the most recent run of the workflow which was just triggered
+          response=$(curl -s -H "Authorization: Bearer $GitToken_password" -H "Accept: application/vnd.github+json" -s "$GitApi/actions/workflows/main.yml/runs?per_page=1&order=desc&sort=created")
+          run_id=$(echo "$response" | jq -r '.workflow_runs[0].id')
+          
+          # Display the run_id of the most recent run for verification (optional)
+          echo "Run ID of the most recent run: $run_id"
+          
+          # Poll the status of the workflow until it completes
+          while true; do
+            # Get the details of the workflow run using the run_id
+            response=$(curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GitToken_password" -s "$GitApi/actions/runs/$run_id")
+          
+            # Extract the status and conclusion of the workflow run using jq
+            status=$(echo "$response" | jq -r '.status')
+            conclusion=$(echo "$response" | jq -r '.conclusion')
+            
+            # Check if the workflow run has completed
+            if [ "$status" = "completed" ]; then
+              echo "Workflow build is completed with conclusion: ${conclusion}"
+              exit 0
+            else
+              echo "Workflow build is still running with status: ${status}"
+            fi
+            
+            # Wait for 60 seconds before checking the status again
+            sleep 60
+          done
+
+          # Enable debug mode (echo commands and variables) again
+          set -x
+          
+  Release:
+      kubeConfigSecretTextCredentialsId: "susaas-kube-config"
+      helmValuePath: "./deploy/kyma/charts/sustainable-saas/values.yaml"
+      helmValueSecret: "susaas-kyma-values-yaml"
+
+stages:
+  Build:
+    kanikoExecute: false
+  Acceptance:
+    kubernetesDeploy: false
+  Release:
+    kubernetesDeploy: true                        
+    deployTool: "helm3"
+    namespace: "<Namespace>"  
+    #### e.g., "default"
+    chartPath: "./deploy/kyma/charts/sustainable-saas"
+    deploymentName: "<ReleaseName>"
+    ######### e.g., "susaas-prod"
+    force: true

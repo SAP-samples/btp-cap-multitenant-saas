@@ -11,7 +11,7 @@ alert_notification:
       actions:
       - name: send-email
         properties:
-          destination: john.doe@example.com
+          destination: 
         state: ENABLED
         type: EMAIL
       conditions:

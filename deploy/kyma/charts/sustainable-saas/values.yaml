@@ -1,5 +1,5 @@
 global:
-  imagePullSecret: {}
+  imagePullSecret: {} # provide the details of a container registry image pull secret (if required)
   domain:  # see domain in Config Map kube-system/shoot-info or custom domain (e.g. sap-demo.com) 
   shootName:  # see shootName in Config Map kube-system/shoot-info
   gateway: # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. susaas/demo-gateway)
@@ -29,8 +29,8 @@ router:
       serviceInstanceName: html5-repo-runtime
   image:
     # Provide your Application Router Docker Image repository
-    repository: <<namespace>>/susaas-router
-    tag: latest
+    repository: 
+    tag: 
   resources:
     limits:
       ephemeral-storage: 1G
@@ -62,8 +62,8 @@ srv:
       serviceInstanceName: html5-repo-runtime
   image:
     # Provide your Backend Service Docker Image repository
-    repository: <<namespace>>/susaas-srv
-    tag: latest
+    repository: 
+    tag: 
   resources:
     limits:
       ephemeral-storage: 1G
@@ -83,8 +83,8 @@ api:
       serviceInstanceName: sm-container
   image:
     # Provide your API Service Docker Image repository
-    repository: <<namespace>>/susaas-api
-    tag: latest
+    repository: 
+    tag: 
   resources:
     limits:
       ephemeral-storage: 1G
@@ -103,8 +103,8 @@ broker:
       serviceInstanceName: xsuaa-api
   image:
     # Provide your API Service Broker Docker Image repository
-    repository: <<namespace>>/susaas-broker
-    tag: latest
+    repository: 
+    tag: 
   resources:
     limits:
       ephemeral-storage: 1G
@@ -124,7 +124,7 @@ broker:
         description: Standard Plan
         # Leave empty to generate new ID on Helm installation
         # ! Should be static in productive scenarios !
-        planId:  
+        planId:
       - name: premium
         description: Premium Plan
         # Leave empty to generate new ID on Helm installation
@@ -142,8 +142,8 @@ broker:
 hana_deployer:
   image:
     # Provide your HDI Container Deployer Docker Image repository
-    repository: <<namespace>>/susaas-db-com
-    tag: latest
+    repository: 
+    tag: 
   bindings:
     hana:
       serviceInstanceName: com-hdi-container
@@ -162,7 +162,7 @@ html5_apps_deployer:
   cloudService: susaas
   image:
     # Provide your HTML5 Apps Deployer Docker Image repository
-    repository: <<namespace>>/susaas-html5-deployer
+    repository: 
     tag: latest
   bindings:
     html5-apps-repo:
@@ -205,9 +205,89 @@ xsuaa:
         role-template-references: 
           - '$XSAPPNAME.ExtensionDeveloper'
           - '$XSAPPNAME.Token_Exchange'
-  # Rest of the configuration settings (Scopes, Role Templates) in json file
-  config: xs-security.json
-
+    scopes:
+      - name: "$XSAPPNAME.mtcallback"
+        description: SaaS Provisioning
+        grant-as-authority-to-apps:
+          - "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      - name: "$XSAPPNAME.mtdeployment"
+        description: SaaS Model Upgrade
+      - name: "$XSAPPNAME.MtxDiagnose"
+        description: SaaS Diagnose
+      - name: uaa.user
+        description: UAA
+      - name: "$XSAPPNAME.Member"
+        description: Member
+      - name: "$XSAPPNAME.Admin"
+        description: Administrator
+      - name: "$XSAPPNAME.cds.ExtensionDeveloper"
+        description: Develop Extensions
+    attributes: []
+    role-templates:
+      - name: Token_Exchange
+        description: UAA Token Exchange
+        scope-references: ["uaa.user"]
+      - name: Member
+        description: Member
+        scope-references: ["$XSAPPNAME.Member"]
+      - name: Admin
+        description: Administrator
+        scope-references:
+        - "$XSAPPNAME.Admin"
+        - xs_authorization.read
+        - xs_authorization.write
+        - xs_user.read
+        - xs_user.write
+        - xs_idp.read
+        - xs_idp.write
+      - name: SaaSAdmin
+        description: SaaS Administrator
+        scope-references:
+        - "$XSAPPNAME.mtcallback"
+        - "$XSAPPNAME.mtdeployment"
+        - "$XSAPPNAME.MtxDiagnose"
+      - name: ExtensionDeveloper
+        description: Extension Developer
+        scope-references: ["$XSAPPNAME.cds.ExtensionDeveloper"]
+      - name: UserManagementAdmin
+        description: Manage authorizations, trusted identity providers, and users.
+        default-role-name: User and Role Administrator
+        scope-references:
+        - xs_authorization.read
+        - xs_authorization.write
+        - xs_user.read
+        - xs_user.write
+        - xs_idp.read
+        - xs_idp.write
+      - name: UserManagementAuditor
+        description: Read-only access for authorizations, trusted identity providers, and users.
+        default-role-name: User and Role Auditor
+        scope-references:
+        - xs_authorization.read
+        - xs_user.read
+        - xs_idp.read
+    foreign-scope-references:
+      - xs_authorization.read
+      - xs_authorization.write
+      - xs_user.read
+      - xs_user.write
+      - xs_idp.read
+      - xs_idp.write
+    authorities:
+      - "$XSAPPNAME.mtcallback"
+      - "$XSAPPNAME.mtdeployment"
+      - "$XSAPPNAME.MtxDiagnose"
+      - "$XSAPPNAME.cds.ExtensionDeveloper"
+      - "$XSAPPNAME.cds.Subscriber"
+      - "$XSAPPNAME.cds.UIFlexDeveloper"
+    oauth2-configuration:
+      token-validity: 900
+      redirect-uris: 
+        - http://*.localhost:5000/**
+        - http://localhost:5000/**
+      credential-types:
+        - binding-secret
+        - x509
 
 # SAP XSUAA Instance (for SaaS API)
 # XSUAA instance for SaaS API based on broker service plan

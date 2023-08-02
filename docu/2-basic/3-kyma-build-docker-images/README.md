@@ -82,24 +82,28 @@ cd deploy/kyma
 2.2. Run an initial **npm install**. This will install all required dependencies for the build processes and also for local testing in the *code* directory.
 
 ```sh
+# Run in ./deploy/kyma # 
 npm install --include=dev --prefix=../../code
 ```
 
 Alternatively, you can also run the following npm script.
 
 ```sh
+# Run in ./deploy/kyma # 
 npm run install
 ```
 
 2.3. Execute the **cds build --production** command to trigger a new production build of the available CAP components (Shared Data Model, Tenant Data Model, Backend Service, API Service). You can change the version of the package by attaching it with an additional "@"-sign like "@sap/cds-dk@6.8.3". 
 
 ```sh
-npx -p @sap/cds-dk cds build -in ../../code --profile production
+# Run in ./deploy/kyma # 
+npx -p @sap/cds-dk@7 cds build -in ../../code --profile production
 ```
 
 Alternatively, you can also run the following npm script.
 
 ```sh
+# Run in ./deploy/kyma # 
 npm run build
 ```
 
@@ -108,6 +112,7 @@ npm run build
 > **Hint** - This build process, will use the official [UI5 Tools](https://sap.github.io/ui5-tooling/stable/) to build your applications and copies them into the *code/app/html5-deployer/resources* directory for deployment. 
 
 ```sh
+# Run in ./deploy/kyma # 
 npm run ui:apps
 ```
 
@@ -138,16 +143,21 @@ These components will be containerized in Docker Images in the following steps. 
 > **Hint** - Using devices with ARM chips (e.g., Apple M1) the build process involving Cloud Native Buildpacks might take several minutes. Please do not immediately cancel the build if things appear to be stuck, but wait some time for the process to continue (especially while the SBOM is being generated)!
 
 ```sh
-cd deploy/kyma
+# Run in ./deploy/kyma # 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:all
+
+# Example
+npx cross-env IMAGE_PREFIX=sapdemo npm run build:all
 ```
 
 Alternatively, you can also build the Docker Images separately by running the component specific npm scripts. Check the *package.json* file to find all available scripts.
 
 ```sh
+# Run in ./deploy/kyma # 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:srv
-npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:api
-...
+
+# Example
+npx cross-env IMAGE_PREFIX=sapdemo npm run build:srv
 ```
 
 Once the process is finished, your Docker Images are ready to be pushed to the Container Registry of your choice. Before doing this, let us briefly check what has happened under the hood to build your Docker Images.
@@ -215,7 +225,7 @@ Therefore, we created a tiny Dockerfile which is using the official SAP Docker I
 ```Dockerfile
 # Image based on SAP provided sapse/approuter image
 # Make sure to update the Docker Image version regularly
-FROM sapse/approuter:13.1.1
+FROM sapse/approuter:x.x.x
 
 # Create an app directory (in case not there yet)
 RUN mkdir -p /app
@@ -291,7 +301,7 @@ Similar to the Application Router, the Dockerfile residing in the *code/app/html
 ```Dockerfile
 # Image based on SAP provided sapse/html5-app-deployer image
 # Make sure to update the Docker Image version regularly
-FROM sapse/html5-app-deployer:4.2.3
+FROM sapse/html5-app-deployer:x.x.x
 
 # Create the app directory (in case not there yet)
 RUN mkdir -p /app
@@ -342,7 +352,11 @@ After all your Docker Images are build using **Cloud Native Buildpacks** or **SA
 > **Hint** - If you use e.g. DockerHub as a Container Registry, please put in your **username** (e.g., johndoe) as Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace\>** (e.g. ghcr.io/johndoe). All generated Docker Images will be automatically prefixed with this label!
 
 ```sh
+# Run in ./deploy/kyma # 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:all
+
+# Example
+npx cross-env IMAGE_PREFIX=sapdemo npm run push:all
 ```
 
 As an alternative to pushing all Docker Images at once, you can again push images separately by running the component specific npm script.
@@ -350,9 +364,11 @@ As an alternative to pushing all Docker Images at once, you can again push image
 > **Hint** - This can be useful if you e.g., updated only a single Docker Image and will save you some time. 
 
 ```sh
+# Run in ./deploy/kyma # 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:srv
-npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:api
-...
+
+# Example
+npx cross-env IMAGE_PREFIX=sapdemo npm run push:srv
 ```
 
 Well, this is it! Once the npm script has finished, your Docker Images should be available in your Container Registry. You have successfully containerized all application components can start deploying the SaaS sample application to your Kyma Cluster. Let's move on to the actual deployment!

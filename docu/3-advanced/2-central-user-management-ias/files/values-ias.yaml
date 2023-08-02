@@ -1,4 +1,5 @@
 # Backend Service Workload
+# Add this to the existing "srv" module of your values-private.yaml file
 srv:
   bindings:
     identity:
@@ -11,9 +12,10 @@ srv:
         enabled: true
         rotatedBindingTTL: 1h
         rotationFrequency: 24h
+        
 
 # SAP Cloud Identity Service Instance
-# Provides an SAP IAS integration for central user management
+# Add this as a new module to the end of your values-private.yaml file
 identity:
   serviceOfferingName: identity
   servicePlanName: application

@@ -1,4 +1,5 @@
 # SaaS API Workload
+# Add this to the "api" module of your values-private.yaml file
 api:
   # Service Key required for secure SAP API Management integration
   serviceKeys:

@@ -14,7 +14,8 @@
             "description": "For more information, see https://helm.sh/docs/chart_template_guide/subcharts_and_globals/#global-chart-values",
             "type": "object",
             "required": [
-                "domain"
+                "domain",
+                "shootName"
             ],
             "properties": {
                 "imagePullSecret": {
@@ -35,6 +36,13 @@
                     "$id": "#/properties/global/domain",
                     "title": "Domain Name",
                     "description": "Full-qualified domain name used to access applications in your Kyma cluster",
+                    "type": "string",
+                    "pattern": "[0-9a-z][0-9a-z-.]*"
+                },
+                "shootName": {
+                    "$id": "#/properties/global/shootName",
+                    "title": "Kyma Cluster shoot name",
+                    "description": "Shoot name of your Kyma cluster",
                     "type": "string",
                     "pattern": "[0-9a-z][0-9a-z-.]*"
                 }
