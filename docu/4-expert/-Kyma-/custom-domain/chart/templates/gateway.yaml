@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  generation: 1
+  name: {{ .Release.Name }}-gateway
+  annotations:
+    annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "2"
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - {{ printf "%s%s" "*." .Values.customDomain.domain | quote }}
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: {{ .Release.Name }}-{{ .Release.Namespace}}-aws-letsencrypt-certificate-secret
+        mode: SIMPLE
+    - hosts:
+        - {{ printf "%s%s" "*." .Values.customDomain.domain | quote }}
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+      tls:
+        httpsRedirect: true

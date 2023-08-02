@@ -1,0 +1,19 @@
+apiVersion: cert.gardener.cloud/v1alpha1
+kind: Certificate
+metadata:
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "1"
+  name: {{ .Release.Name }}-{{ .Release.Namespace}}-aws-letsencrypt-certificate
+  namespace: istio-system
+spec:
+  commonName:  {{ .Values.customDomain.domain }}
+  dnsNames:
+    - {{ printf "%s%s" "*." .Values.customDomain.domain | quote }}
+  issuerRef:
+     name: {{ .Release.Name }}-{{ .Release.Namespace}}-cert-issuer
+     namespace: {{ .Release.Namespace}}
+  secretRef:
+    name: {{ .Release.Name }}-{{ .Release.Namespace}}-aws-letsencrypt-certificate-secret
+    namespace: istio-system
+

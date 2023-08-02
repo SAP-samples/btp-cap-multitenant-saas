@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "aws_access_key_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+$"
+    },
+    "aws_secret_access_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9]+$"
+    },
+    "aws_session_token": {
+      "type": ["string","null"],
+      "pattern": "^[A-Za-z0-9]+$"
+    },
+    "customDomain": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "pattern": "^[\\w.-]+(\\.[\\w.-]+)+$"
+        },
+        "ttl": {
+          "type": ["integer","null"],
+          "minimum": 1,
+          "maximum": 86400
+        }
+      },
+      "istioGatewayServiceIP": {
+        "type": "string",
+        "pattern": "^[\\w.-]+(\\.[\\w.-]+)+$"
+      }
+    },
+
+    "issuer": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": ["email"]
+    }
+  },
+  "required": ["aws_access_key_id", "aws_secret_access_key", "customDomain", "issuer"]
+}

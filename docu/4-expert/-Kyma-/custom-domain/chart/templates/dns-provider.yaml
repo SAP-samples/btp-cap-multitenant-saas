@@ -1,0 +1,16 @@
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSProvider
+metadata:
+  annotations:
+    dns.gardener.cloud/class: garden
+    helm.sh/weight: "1"
+  name: {{ .Release.Name }}-{{ .Release.Namespace}}-dns-provider
+spec:
+  domains:
+    include:
+      - {{ .Values.customDomain.domain }}
+      - {{ printf "%s%s" "*." .Values.customDomain.domain | quote }}
+  secretRef:
+    name: {{ .Release.Name }}-{{ .Release.Namespace}}-aws-creds
+    namespace: {{ .Release.Namespace}}
+  type: aws-route53 

@@ -1,0 +1,14 @@
+# Default values for custom-domain.
+# This is a YAML-formatted file.
+
+aws_access_key_id : dummyAWSkey123 # Required Enter here your AWS Access Key ID which you use to connect your AWS account 
+aws_secret_access_key: dummyAWSkey123123 # Enter here AWS Secret Access Key which you use to connect your AWS Account 
+aws_session_token:    # Optional, Enter here AWS Session Token if your AWS Account is requiring this value to connect.
+
+customDomain:   
+  domain: kyma.example.com # Required, the domain you would like to use in your Kyma Cluster. Example: "kyma.mydomain.com" -> DO NOT GIVE Wildcards, it will be handled automatically, *.kyma.mydomain.com will be handled by chart
+  ttl:  # Optional, Default is 600s, this is the cache invalidation interval for your DNS Entry
+  istioGatewayServiceIP: "yourgateway.ip" # IP of your Istio Ingress Gateway Service which you can get via following command: kubectl get services istio-ingressgateway -n istio-system -o json | jq ".status.loadBalancer.ingress[].hostname"
+ 
+issuer: 
+  email: info@example.com # Email information required by the CA Let's Encrypt, while signing the Certificate

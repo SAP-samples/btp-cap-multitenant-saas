@@ -1,0 +1,17 @@
+apiVersion: cert.gardener.cloud/v1alpha1
+kind: Issuer
+metadata:
+  annotations:
+    helm.sh/weight: "3"
+  name: {{ .Release.Name }}-{{ .Release.Namespace}}-cert-issuer
+  namespace: {{ .Release.Namespace}}
+spec:
+  acme:
+    autoRegistration: true
+    domains:
+      include:
+        - {{ .Values.customDomain.domain | quote }}
+        - {{ printf "%s%s" "*." .Values.customDomain.domain | quote }}
+    email: {{ .Values.issuer.email }}
+    server: {{ default "https://acme-v02.api.letsencrypt.org/directory" .Values.issuer.server }} 
+

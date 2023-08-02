@@ -1,0 +1,17 @@
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  annotations:
+    dns.gardener.cloud/class: garden
+    helm.sh/weight: "2"
+  name: {{ .Release.Name }}-{{ .Release.Namespace}}-dns-entry 
+spec:
+  dnsName: {{ printf "%s%s" "*." .Values.customDomain.domain | quote }}
+  targets:
+     {{- if .Values.customDomain.istioGatewayServiceIP }}
+    - {{ .Values.customDomain.istioGatewayServiceIP }}
+     {{- else }} 
+    - {{ (lookup "v1" "Service" "istio-system" "istio-ingressgateway").status }}
+     {{- end }}
+  ttl: {{ default 600  .Values.customDomain.ttl  }}
+
