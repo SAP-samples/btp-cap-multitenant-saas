@@ -91,6 +91,7 @@ After adding some or all of the Advanced Features, the following **Expert Featur
 
 - Custom domain usage - ([Kyma](./docu/4-expert/-Kyma-/custom-domain-usage/README.md))
 - Onboarding Automation and One Domain - ([Kyma](./docu/4-expert/-Kyma-/saas-self-onboarding/README.md))
+- Setup a Continuous Integration Scenario - ([Kyma](./docu/4-expert/-Kyma-/setup-cicd-for-project/README.md))
 
 
 ## Requirements
@@ -148,23 +149,30 @@ If you need assistance assigning entitlements to your Provider Subaccount, you m
 
 The **Advanced Features** require some additional services and software components which are listed below. Please note that the **SAP Identity Authentication Service** is only available in **Pay-As-You-Go (PAYG)** and **CPEA** accounts.
 
-| Service                                                                                                         | Free (Tier) / (Trial) Plans                                    |
-| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [SAP Integration Suite](https://discovery-center.cloud.sap/serviceCatalog/integration-suite?region=all)         | Free (Application) (*) <br> *(Trial: trial (Application))* (*) |
-| [Cloud Identity Services](https://discovery-center.cloud.sap/serviceCatalog/identity-authentication?region=all) | default (Application) (**) <br> Application                    |
-| SAP S/4HANA 2021 (or newer)                                                                                     | (***)                                                          |
+| Service                                                                                                         | Free (Tier) / (Trial) Plans                            |
+| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| [SAP Integration Suite](https://discovery-center.cloud.sap/serviceCatalog/integration-suite?region=all)         | Free (Application) <br> *(Trial: trial (Application))* |
+| [Cloud Identity Services](https://discovery-center.cloud.sap/serviceCatalog/identity-authentication?region=all) | default (Application)  <br> Application                |
+| SAP S/4HANA 2021 (or newer)                                                                                     |                                                        |
 |                                                                                                                 |
 
-> **\*** **SAP Integration Suite** - The **free service plan** is usable for 90 days only. Your tenant will be decommissioned after 90 days and you need to set up a new tenant if you wish to do further validations. 
+Please check the below details on these additional entitlements required for the Advanced Version. Especially using the **Cloud Identity Services** it is essential to understand the licensing model to remain within the **free** usage boundaries! 
 
-> **\*\*** **Cloud Identity Services**
-> > When signing up for a PAYG or CPEA account, you're entitled for a free test and productive **SAP Identity Authentication Service (SAP IAS)** tenant. Use the **Cloud Identity Services** plan **default (Application)** to create such an instance in your environment. Any further tenant can be licensed as **Additional Tenant** and will be charged according to your account type. Please also check the official SAP Help documentation ([click here](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/93160ebd2dcb40e98aadcbb9a970f2b9.html?locale=en-US#loio93160ebd2dcb40e98aadcbb9a970f2b9__licensing_section)) and the following blog post ([click here](https://blogs.sap.com/2021/10/26/is-sap-cloud-identity-services-for-free/)) for further information. Please check for potentially existing SAP IAS tenants first, to make sure you are sticking to the free service offering limits. 
-> >
-> > Using the **SAP Identity Authentication Service**, please make sure to comply with the license model, which is highly dependent on the application registration type created in SAP IAS. Using SAP IAS for authentication scenarios involving third-party solutions will result in costs! While SAP Cloud to SAP Cloud Log-ons are usually part of your overall SAP BTP contract, make sure you understand the licensing model before extensively using SAP IAS as part of your overall architecture. Additional information can be found in SAP Help ([click here](https://help.sap.com/docs/identity-authentication/identity-authentication/tenant-model-and-licensing?locale=en-US)).
-> >
-> > The service plan **application** allows you to create respective Service Instances within SAP BTP, that will automatically register an application in the **trusted** SAP IAS tenant configured in your Subaccount configuration. 
+**SAP Integration Suite** 
 
-> **\*\*\*** **SAP S/4HANA** - An SAP S/4HANA system is actually not part of your SAP BTP Provider Subaccount, but is required if you want to test the automated data push feature from an existing SAP On-Premise solution. While we recommend to use at least the SAP S/4HANA 2021 release, with a bit of coding effort you should also be able to integrate older releases. This tutorial assumes you have at least access to an SAP S/4HANA 2021 release. Feel free to check out the SAP Cloud Appliance Library (https://cal.sap.com/) to get yourself a free test license. an 2021 release. Feel free to check out the SAP Cloud Appliance Library (https://cal.sap.com/) to get yourself a free test license. 
+> The **free service plan** is usable for 90 days only. Your tenant will be decommissioned after 90 days and you need to set up a new tenant if you wish to do further validations. 
+
+**Cloud Identity Services**
+
+> When signing up for a PAYG or CPEA account, you're entitled for **one free** test and productive **SAP Identity Authentication Service (SAP IAS)** tenant. Use the **Cloud Identity Services** plan **default (Application)** to create such an instance in your environment. Any further tenant can be licensed as **Additional Tenant** and will be charged according to your account type. Please also check the official SAP Help documentation ([click here](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/93160ebd2dcb40e98aadcbb9a970f2b9.html?locale=en-US#loio93160ebd2dcb40e98aadcbb9a970f2b9__licensing_section)) and the following blog post ([click here](https://blogs.sap.com/2021/10/26/is-sap-cloud-identity-services-for-free/)) for further information. Please check for potentially existing SAP IAS tenants first, to make sure you are sticking to the free service offering limits. 
+> 
+> Using the **SAP Identity Authentication Service**, please make sure to comply with the license model, which is highly dependent on the application registration type created in SAP IAS. Using SAP IAS for authentication scenarios involving third-party solutions will result in costs! While SAP Cloud to SAP Cloud Log-ons are usually part of your overall SAP BTP contract, make sure you understand the licensing model before extensively using SAP IAS as part of your overall architecture. Additional information can be found in SAP Help ([click here](https://help.sap.com/docs/identity-authentication/identity-authentication/tenant-model-and-licensing?locale=en-US)).
+>
+> The service plan **application** allows you to create respective Service Instances within SAP BTP, that will automatically register an application in the **trusted** SAP IAS tenant configured in your Subaccount configuration. 
+
+**SAP S/4HANA** 
+
+> An SAP S/4HANA system is actually not part of your SAP BTP Provider Subaccount, but is required if you want to test the automated data push feature from an existing SAP On-Premise solution. While we recommend to use at least the SAP S/4HANA 2021 release, with a bit of coding effort you should also be able to integrate older releases. This tutorial assumes you have at least access to an SAP S/4HANA 2021 release. Feel free to check out the SAP Cloud Appliance Library (https://cal.sap.com/) to get yourself a free test license. 
 
 
 ## Known Issues
