@@ -30,13 +30,13 @@ The recommended way to deploy our Sustainable SaaS sample application is the usa
 
 The Umbrella Chart */charts/sustainable-saas* directory, allows you to conduct a Helm installation including all relevant components of the Sustainable SaaS sample application like Application Router, Backend Service, API Broker and API Service. Furthermore, it contains the templates for all required SAP BTP Service Instances, as well as Kubernetes Job templates for the SAP HANA and HTML5 Application Deployments. 
 
-For a default installation, it is sufficient to update the **values.yaml** file ([values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml)) of the Helm Umbrella Chart with your own environment settings, before starting a Helm installation. Still, all required values are also available in the respective Subcharts. Therefore, it is also possible to install the different Subcharts like the Application Router or the Backend Service separately, by copying the properties from the Helm Umbrella Chart *values.yaml* file to the respective *values.yaml* files of the Subcharts. 
+For a default installation, it is sufficient to update the **values.yaml** file ([values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml)) of the Helm Umbrella Chart with your own environment settings, before starting a Helm installation. Still, all required values are also available in the respective Subcharts. Therefore, it is also possible to install the different Subcharts like the Application Router or the Backend Service separately, by copying the properties from the Helm Umbrella Chart *values.yaml* file to the respective *values.yaml* files of the Subcharts. 
 
 ```sh
-Chart.yaml          # Helm Umbrella Chart referencing all Subcharts
-values.schema.json  # Schema definition for Values.yaml file
-values.yaml         # values.yaml for Helm Umbrella Chart
-xs-security.json    # Settings for XSUAA Service Instance
+Chart.yaml                  # Helm Umbrella Chart referencing all Subcharts
+values-private.sample.yaml  # Environment specific values (not committed to GitHub)
+values.schema.json          # Schema definition for Values.yaml file
+values.yaml                 # values.yaml for Helm Umbrella Chart
 ```
 
 **Good to know**
@@ -88,7 +88,7 @@ _sapcp_helpers.tpl
 
 **Good to know**
 
-- The SAP BTP Service Instance templates need to match the names of the services defined in the [**values.yaml file**](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) of the Umbrella Chart, whereas underscores are converted to hyphens automatically. For each Service Instance defined in the values.yaml file, a corresponding template file has to exist. Otherwise, the Service Instance is not being generated. 
+- The SAP BTP Service Instance templates need to match the names of the services defined in the [**values.yaml file**](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) of the Umbrella Chart, whereas underscores are converted to hyphens automatically. For each Service Instance defined in the values.yaml file, a corresponding template file has to exist. Otherwise, the Service Instance is not being generated. 
 
 - The **Broker Secret** automatically generates a Service Broker user and password upon deployment. Binding the Secret to the API Service Broker and the Backend Service allows simplified retrieval of these credentials at runtime.
 
@@ -302,7 +302,7 @@ To guarantee that no request can reach the API Service workloads without passing
     spec:
       # Matches all requests arriving on host exposed by SusaaS API Service 
       gateways: 
-        - demo-dns/sap-demo-gateway
+        - default/cdomain-gateway
       hosts: 
         - susaas-api-default.sap-demo.com
       http:
@@ -422,7 +422,7 @@ service.yaml # ClusterIP Service template for the API Service Broker
     data:
       serviceConfigs: | -
         { 
-          "susaas-api-default-a1b2c3d4": {
+          "susaas-api-default-a1b2c3": {
             "extend_credentials": {
               "shared": {
                 # Adds the SaaS API URI to client credentials as an additional information

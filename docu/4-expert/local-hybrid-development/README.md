@@ -552,4 +552,4 @@ Select the service instance and open your service binding credentials. Copy the 
 
 > **Hint** - You might consider copying the http file and renaming it to api-test-hybrid-private.http first. This ensures that your credentials are not committed to GitHub. 
 
-You can use the [http file](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/blob/main/code/http/api-test-hybrid.http), to send the requests one by one.
+You can use the [http file](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/http/api-test-hybrid.http), to send the requests one by one.

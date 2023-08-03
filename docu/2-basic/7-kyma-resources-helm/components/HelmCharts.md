@@ -114,13 +114,13 @@ The Chart.yaml file contains information about the Helm Chart such as:
      > **Hint** - This Helm Chart contains four so-called Subcharts as dependencies. These charts are separate Helm Charts and the relation will be covered in detail by this documentation.
 
 
-### 3.2. [Values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) file
+### 3.2. [Values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file
 
-The [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) file is used to specify a range of options and settings that control the behavior and configuration of a chart. 
+The [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file is used to specify a range of options and settings that control the behavior and configuration of a chart. 
 
 For example, it might include values for resource limits, image names, feature flags, and other settings that control the behavior and appearance of the components defined in a chart.
 
-Please take a look at the given section of [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) file below, to get a better understanding.
+Please take a look at the given section of [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file below, to get a better understanding.
 
 ```yaml
 ...
@@ -133,7 +133,7 @@ router:
     html5-apps-repo:
       serviceInstanceName: html5-repo-runtime
   image:
-    repository: sapse/susaas-router
+    repository: sap-demo/susaas-router
     tag: latest
   resources:
     limits:
@@ -151,7 +151,7 @@ Above part is the section of a YAML file used for configuring a Kubernetes Deplo
 
 The Deployment consists of:
 
-- A Docker image located at "sapse/susaas-router" with the "latest" tag
+- A Docker image located at "sap-demo/susaas-router" with the "latest" tag
 - Resource requests and limits for the Deployment
   - Ephemeral storage: 1G
   - Memory: 500M
@@ -186,7 +186,7 @@ router:
     html5-apps-repo:
       serviceInstanceName: html5-repo-runtime
   image:
-    repository: sapse/susaas-router
+    repository: sap-demo/susaas-router
     tag: latest
   resources:
     limits:
@@ -226,7 +226,7 @@ Templates in Helm Charts are files that define how resources should be deployed 
 
 [./code/chart/templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) directory contains the templates of the Helm Chart.
 
-[<img src="./images/HELM_Chart_Temp_Dir.png" width="500"/>](./images/HELM_Chart_Temp_Dir.png?raw=true)
+[<img src="./images/HELM_Chart_Temp_Dir.png" width="250"/>](./images/HELM_Chart_Temp_Dir.png?raw=true)
 
 The [templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) directory contains the template files, which will be converted to Kubernetes resource definitions when running *helm template* or *helm install*. 
 
@@ -240,6 +240,7 @@ Without actually deploying a chart to a Kyma/Kubernetes Cluster, you can use the
 Feel free to run the command below, to see the generated Kubernetes resources of the sample application.
 
 ```sh
+# Run from root directory #
 helm template ./deploy/kyma/charts/sustainable-saas
 ```
 
@@ -263,7 +264,7 @@ metadata:
     app.kubernetes.io/component: srv
     app.kubernetes.io/partOf: susaas
 spec:
-  gateway: demo-dns/sap-demo-gateway
+  gateway: default/cdomain-gateway
   host: release-name-srv-default.sap-demo.com
   rules:
   - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
@@ -324,7 +325,8 @@ data:
 After doing so, run the following command from your root directory:
 
 ```sh
-helm template ./deploy/kyma/charts/sustainable-saas >> test.yaml
+# Run from root directory #
+helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 ```
 
 You should now see a file called **test.yaml** in your root directory. Open the **test.yaml* file and search for "my-config-map". 
@@ -351,7 +353,8 @@ data:
 After the modification please run the command below.
 
 ```sh
-helm template myrelease ./code/chart > test.yaml
+# Run from root directory #
+helm template myrelease ./deploy/kyma/charts/sustainable-saas > test.yaml
 ```
 
 Search once again for the term **my-config-map** in your *test.yaml* file, you should see that your release name **myrelease** is now used as a prefix.
@@ -373,19 +376,19 @@ data:
 As you can see, *.Release.Name* is a built-in object (similar to a variable) in Helm. It is set to the release name you provide to the **helm template** command. There are also other built-in objects set by Helm automatically. A list of those objects can be seen found in the [official documentation](https://helm.sh/docs/chart_template_guide/builtin_objects/).
 
 
-### 4.3. Using values from the [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) file
+### 4.3. Using values from the [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file
 
-One of the Helm key concepts, is generating the Kubernetes/Kyma manifest files in a more dynamic way, using configuration details defined in the [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) file.
+One of the Helm key concepts, is generating the Kubernetes/Kyma manifest files in a more dynamic way, using configuration details defined in the [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file.
 In this section you will be adding a new configuration to the *values.yaml* file and then reference it from within your template.
 
-Open your [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.sample.yaml) and append the following configuration.
+Open your [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) and append the following configuration.
 
 ```yaml 
 ...
 html5_apps_deployer:
   cloudService: susaas.service
   image:
-    repository: sapse/susaas-html5-deployer
+    repository: sap-demo/susaas-html5-deployer
     tag: latest
   bindings:
     html5-apps-repo:
@@ -418,6 +421,7 @@ data:
 After editing, run the following command:
 
 ```sh
+# Run from root directory #
 helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 ```
 
@@ -458,6 +462,7 @@ data:
 Run the command below to see the effect of the function in action.
 
 ```sh
+# Run from root directory #
 helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 ```
 
@@ -554,6 +559,7 @@ Adding this line, will automatically add all labels to your Config Map including
 Run the usual helm template command to see your changes in action.
 
 ```sh
+# Run from root directory #
 helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 ```
 

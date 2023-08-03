@@ -1,5 +1,8 @@
 # Self-Registration, Onboarding Automation and One-Domain Concept
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ❌
+
 In this part of the tutorial, you will learn how to set up self-registration, automated tenant onboarding, and an exemplary single-domain concept for your SaaS application.
 
 - [Self-Registration, Onboarding Automation and One-Domain Concept](#self-registration-onboarding-automation-and-one-domain-concept)
@@ -42,41 +45,32 @@ While integrating these additional expert features into our existing scenario re
 
 **Prerequisites**
 
-To set up this Expert Feature, it is essential to have the corresponding Sustainable SaaS application deployed and operational on your Kyma Cluster. If you haven't done so already, please ensure you follow the main tutorial by [clicking here](../../2-basic/0-introduction-basic-version/README.md) in this GitHub repository first.
+To set up this Expert Feature, it is essential to have the corresponding Sustainable SaaS application deployed and operational on your Kyma Cluster. If you haven't done so already, please ensure you follow the **Basic** and **Advanced** tutorial in this GitHub repository first ([click here](../../2-basic/0-introduction-basic-version/README.md)).
 
 Furthermore, your SAP BTP target environment must meet the following requirements:
 
-- SAP Identity Authentication Service (SAP IAS) configured as Platform Identity Provider (Global Account Level)
+- SAP Identity Authentication Service (SAP IAS) configured as **Platform Identity Provider** (**Global Account** Level)
   > **Hint** - Find more details in the official SAP Help Documentation ([click here](https://help.sap.com/docs/btp/sap-business-technology-platform/establish-trust-and-federation-of-custom-identity-providers-for-platform-users?locale=en-US))
-- SAP Identity Authentication Service (SAP IAS) configured as Application Identity Provider (Provider Subaccount)
-  > **Hint** - Find more details in the official SAP Help Documentation ([click here](https://help.sap.com/docs/btp/sap-business-technology-platform/establish-trust-and-federation-between-uaa-and-identity-authentication)
-- Credentials of a **Global Account Administrator** are required for the Subscriber Subaccount Automation
+- SAP Identity Authentication Service (SAP IAS) configured as **Application Identity Provider** (**Provider Subaccount** Level)
+  > **Hint** - Find more details in the official SAP Help Documentation ([click here](https://help.sap.com/docs/btp/sap-business-technology-platform/establish-trust-and-federation-between-uaa-and-identity-authentication))
+- Access to credentials of a **Global Account Administrator** is required for the Subscriber Onboarding Automation
 
 In case you need guidance on how to setup a new SAP Identity Authentication Service tenant, feel free to follow along these tutorials:
 
 - https://blogs.sap.com/2023/04/13/sap-cloud-identity-services-offered-as-trial-version/ (for Trial)
 - https://help.sap.com/docs/identity-authentication/identity-authentication/tenant-model-and-licensing (for other SAP BTP Account Types)
 
-As of today, please note that this scenario is **not yet compatible** with **SAP BTP Trial** environments. The required SAP Cloud Identity Service "service-plan" is currently unavailable in these environments. Until the service-plan becomes available, we recommend using the **SAP BTP, Free Tier** options instead.
 
 In addition to this step-by-step guide, please make sure to check the corresponding [blog post](https://blogs.sap.com/2023/06/01/saas-self-onboarding-and-one-domain-concept-in-sap-btp-kyma-runtime-using-cap/), which will explain the architecture in closer detail! 
 
 
 ## 2. Build and Push the Container Images
 
-To implement the self-registration, onboarding automation, and one-domain concept, two additional workloads are introduced: a new Application Router and CAP Backend Services. Therefore, you will need to build and push two new container images.
+To implement the self-registration, onboarding automation, and one-domain concept, two additional workloads are introduced. A new **Application Router** and **CAP Backend Services**. Therefore, you will need to build and push two new container images.
 
-2.1. Switch to the **./files/deploy** directory if this Expert Feature, containing all objects required to setup this expert scenario. 
+> **Hint** - The Onboarding Process cannot be handled by the existing workloads of your Sustainable SaaS application, as for instead of SAP XSUAA, the SAP Identity Authentication Service is being used for authenticating users. A parallel binding of SAP XSUAA and SAP IAS is not supported. 
 
-```sh
-cd ./docu/4-expert/-Kyma-/files/deploy
-```
-
-or
-
-```sh
-code ./docu/4-expert/-Kyma-/files/deploy
-```
+2.1. Switch to the [*./files/deploy*](./files/deploy/) directory of this Expert Feature, containing all objects required to setup this expert scenario. 
 
 2.2. Ensure you are connected to your container image repository. 
 
@@ -87,54 +81,58 @@ Authenticating with existing credentials...
 Login Succeeded
 ```
 
-2.3. Install the npm dependencies to build the new components. 
+2.3. Install the npm dependencies to build the new images. 
 
-```js
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
 npm run install
 ```
 
-2.4. Build the CAP artifacts before building your Docker Images.
+2.4. Build the CAP artifacts before building your Container Images.
 
-```js
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
 npm run build
 ```
 
-2.5. Build the new UI5 components which will be part of the new HTML5 Deployer Image.
+2.5. Build the UI5 components which will be part of the HTML5 Deployer Image.
 
-```js
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
 npm run ui:apps
 ```
 
-2.6. Build the new Docker Images (HTML5 Deployer, Application Router, CAP Backend Service).
+2.6. Build the new Container Images (HTML5 Deployer, Application Router, CAP Backend Service). This process might take a few minutes depending on your machine size and internet connectivity. 
 
-> **Hint** - Replace **sapdemo** with your container image prefix.
 
-```js
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run build:all
+> **Hint** - Replace **sap-demo** with your own container image prefix.
+
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:all
 ```
 
-This process might take a few minutes depending on your machine size and internet connectivity. For further builds, you can also use the following commands to build dedicated images only. 
+For further more selective builds, you can also use the following command to build dedicated images only. 
 
-```js
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run build:html5-deployer
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run build:srv
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run build:router
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:srv
 ```
 
-2.10. Push the new Docker Images to your container image repository.
+2.10. Push the new Container Images to your container image repository.
 
-> **Hint** - Replace **sapdemo** with your container image prefix.
+> **Hint** - Replace **sap-demo** with your container image prefix. This process might take a few minutes depending on your machine size and internet connectivity. 
 
-```js
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run push:all
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:all
 ```
 
-This process might take a few minutes depending on your machine sice and internet connectivity. For further push processes, you can also use the following commands to push single images separately. 
+For further push processes, you can also use the following commands to push single images separately. 
 
-```js
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run push:html5-deployer
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run push:srv
-npx --yes cross-env IMAGE_PREFIX=sapdemo npm run push:router
+```sh
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:srv
 ```
 
 That is it! Your Docker Images should be available in your container image repository now! 
@@ -144,45 +142,59 @@ That is it! Your Docker Images should be available in your container image repos
 
 In this scenario, a Kyma/Kubernetes Secret will be used to store your SAP BTP Global Account credentials and configurations necessary for automating the onboarding process of new tenants. To proceed, please follow the steps below to create the corresponding Secret artifact in your Kyma Cluster namespace.
 
->**Important** - It is crucial to deploy all the new components, including Secrets and Helm Release, to the same Kyma namespace where the original SaaS application is deployed. Please make sure to deploy them to the appropriate namespace to ensure proper functionality and integration.
+>**Important** - It is crucial to deploy all new components, including Secrets and Helm Release, to the Kyma Namespace where  the original Sustainable SaaS application is deployed. 
 
-3.1. Copy the below template into a new yaml file and name it *onboarding-btp-cred.yaml*. 
+3.1. Copy the below **Kyma Secret** template into a new YAML file and name it **obd-btp-cred-private.yaml**. 
 
-> **Important** - Make sure to store this file in a place, which will not be committed to your GitHub Repository!
+> **Important** - By adding the **-private** suffix, you can ensure this file will not be committed to your GitHub Repository!
 
-- The **admins** will later have **Subaccount Admin** permissions in each subscriber subaccount created by the self-subscription flow!
-- The **email** and **password** properties are required by SAP BTP Setup Automator to interact with the SAP BTP CLIs, when setting up and configuring a new subaccount.  
+- The provided **admins** will be assigned **Subaccount Admin** permissions in each subscriber subaccount created by the self-subscription flow!
+- The **email** and **password** of a Global Account Administrator are required by the SAP BTP Setup Automator to interact with the SAP BTP CLIs, when setting up and configuring a new subaccount.  
+
+**obd-btp-cred-private.yaml**
 
 ```yaml
 kind: Secret
 apiVersion: v1
 metadata:
-  name: <<SaaS-Release>>-onboarding-btp-cred # <= Target Kyma Secret Name (<<SaaS-Release>>-onboarding-btp-cred)
-  namespace: default # <= Target Kyma Namespace
+  # Kyma Secret Name (<ReleaseName>-onboarding-btp-cred)
+  name: susaas-onboarding-btp-cred 
+  # Kyma Namespace (<Namespace>)
+  namespace: default
   labels:
-    app.kubernetes.io/name: <<SaaS-Release>>-onboarding-btp-cred # <= Target Kyma Secret Name (<<SaaS-Release>>-onboarding-btp-cred)
+    # Kyma Secret Name (<ReleaseName>-onboarding-btp-cred)
+    app.kubernetes.io/name: susaas-onboarding-btp-cred 
 type: Opaque
+# Please update with your environment details
 stringData:
-  admins: '"admin.user01@example.org","admin.user02@example.org"' # <= SAP BTP Subaccount Provider Administrators
-  globalaccount: sapdemo # <= Subdomain of your SAP BTP Global Account (see Cockpit)
-  iashost: sapdemo.accounts.ondemand.com # <= Host of your Central Provider SAP IAS instance 
-  email: global.admin@example.org # <= SAP BTP Global Account Provider Administrator E-Mail
-  password: SuPeR!SaVe42#Pw # <= SAP BTP Global Account Provider Administrator Password
-  platformidp: sapdemo-platform # <= Origin Key of SAP BTP Global Account Platform IdP (usually "<<IAS subdomain>>-platform")
-  provsubaccount: 4397eb2f-a1bc-c3d4-e4f6-f73dc396bd6e # <= GUID/UUID of SAP BTP Provider Subaccount
+  # SAP BTP Subaccount Provider Administrators
+  admins: '"admin.user01@example.org","admin.user02@example.org"'
+  # Subdomain of your SAP BTP Global Account (see SAP BTP Cockpit)
+  globalaccount: sap-demo 
+  # Hostname of your Central SAP IAS instance 
+  iashost: sap-demo.accounts.ondemand.com 
+  # SAP BTP Global Account Administrator E-Mail
+  email: global.admin@example.org 
+  # SAP BTP Global Account Administrator Password
+  password: SuPeR!SaVe42#Pw 
+  # Origin Key of SAP BTP Global Account Platform IdP 
+  # (usually "<SAP IAS subdomain>-platform")
+  platformidp: sap-demo-platform 
+  # GUID/UUID of SAP BTP Provider Subaccount (see SAP BTP Cockpit)
+  provsubaccount: 4397eb2f-a1bc-c3d4-e4f6-f73dc396bd6e 
 ```
 
-3.2. Replace the values based on your own environment. 
+3.2. Replace the values based on your own environment details. 
+
+> **Important** - Please make sure to store these details in a safe place and never commit them to GitHub!
 
 3.3. Run the following **kubectl** command to create the Secret in your Kyma Cluster. 
 
 ```sh
 kubectl apply -f <path-of-yaml-file> -n <target-namespace>
-```
 
-**Example**
-```sh
-kubectl apply -f ./onboarding-btp-cred.yaml -n default
+# Example #
+kubectl apply -f ./obd-btp-cred-private.yaml -n default
 ```
 
 Alternatively, you can create the Kubernetes Secret also in your Kyma Dashboard in the **Configuration** - **Secrets** section of your target namespace. 
@@ -190,12 +202,11 @@ Alternatively, you can create the Kubernetes Secret also in your Kyma Dashboard 
 3.4. Check whether the Secret has been successfully created in your Kyma Cluster using the Cockpit or the following kubectl command. 
 
 ```sh
-kubectl get secrets <SaaS-Release>-onboarding-btp-cred
-```
+# Run from anywhere #
+kubectl get secrets <ReleaseName>-onboarding-btp-cred -n <Namespace>
 
-**Example**
-```sh
-kubectl get secrets susaas-onboarding-btp-cred
+# Example #
+kubectl get secrets susaas-onboarding-btp-cred -n default
 ```
 
 
@@ -203,75 +214,67 @@ kubectl get secrets susaas-onboarding-btp-cred
 
 Alright, so you have almost finished all preparation steps to install the required additional Helm Release to your Kyma Cluster. Last but not least, you need to provide a few configuration options for the Helm Chart. 
 
-4.1. Switch to the *values.yaml* file in the *files/deploy/charts* directory of this Expert Feature and copy or rename the file to **values-private.yaml**.
+4.1. Copy or rename the *[values-private.sample.yaml](./files/deploy/charts/values-private.sample.yaml)* sample file located in the *./files/deploy/charts/* directory of this Expert Feature to a **values-private.yaml** file. This file will contain your environment specific configurations for the upcoming Helm deployment.
 
-4.2. Provide values for the following parameters, based on your own environment and the Container Registry used. 
+> **Hint** - Adding the filename suffix **-private**, will ensure the file is not committed to GitHub.
 
-**global**
+4.2. In the new **values-private.yaml** file, please provide values for the following parameters, based on your own environment and the Container Registry being used. This is very familiar to the deployment of the initial SaaS application.
 
-* imagePullSecret - Name of a Image Pull Secret if required.
-  > **Hint** - This value needs to contain the reference to a potential Image Pull Secret of your Container Registry. If you're using a free Docker Hub account and public Docker Images, this property can be left unchanged. This is probably the easiest approach if you are new to Docker and Kubernetes. Otherwise, please make sure to create a Kyma **Secret** containing your imagePullSecret and provide the reference to your Secret here. 
-  
-  > Find more details in the following blog post ([click here](https://blogs.sap.com/2022/12/04/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)). Our colleagues will get you covered! 
+  **global**
 
-* domain - Your Kyma Cluster default or custom domain.
-  > **Hint** - This parameter requires your default Kyma cluster domain (e.g. a1b2c3d4.kyma.ondemand.com). To get the default domain of your Kyma Cluster you can run the following kubectl command: 
-  >
-  > ```kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.domain}'```
-  > 
-  > This will return the required result like *a1b2c3d4.kyma.ondemand.com*. *a1b2c3d4* is a placeholder for a string of characters that’s unique for your cluster (the so-called **shootName** which we need in the next step). 
+  * imagePullSecret - Name of a Image Pull Secret if required.
+    > **Hint** - This value needs to contain the reference to a potential Image Pull Secret of your Container Registry. If you're using a free Docker Hub account and public Docker Images, this property can be left unchanged (empty object). Otherwise, please make sure to create a Kyma **Secret** containing your imagePullSecret and provide the reference to your Secret here. 
+    
+    > Find more details in the following blog post ([click here](https://blogs.sap.com/2022/12/04/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)). Our colleagues will get you covered! 
 
-* shootName - The unique shoot name of your Kyma Cluster.
-  > **Hint** - As Kyma is based on [Gardener](https://gardener.cloud/), the managed Clusters are also called **Shoot**-Clusters (flower analogy). In our sample the **shootName** parameter, ensures the uniqueness of application registered in the SAP BTP SaaS Registry. As the SaaS application names registered in the SaaS registry need to be unique across a SAP BTP region (e.g. eu10), the shootName of your Kyma cluster will be part of that SaaS application names. This ensures you are not colliding with any other developer deploying the sample application. To get the **shootName** of your Kyma Cluster, run the following kubectl command:  
-  > 
-  >```kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.shootName}'```.<br> 
-  > 
-  > In a productive SAP BTP landscape, your **shootName** will always starts with a letter like *a1b2c3d4* or with the prefix **c-** like c-1b2c3d4*. 
+  * domain - Your Kyma Cluster default or custom domain.
+    > **Hint** - This parameter requires your default Kyma cluster domain (e.g. a1b2c3.kyma.ondemand.com). To get the default domain of your Kyma Cluster you can run the following kubectl command: 
+    >
+    > ```kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.domain}'```
+    > 
+    > This will return the required result like *a1b2c3.kyma.ondemand.com*. *a1b2c3* is a placeholder for a string of characters that’s unique for your cluster (the so-called **shootName** which we need in the next step). 
 
-* gateway - The Istio Ingress Gateway to be used.
-  > **Hint** - This value only has to be changed if your Istio setup deviates from the default setup. For example, if you are using a custom domain and you have set up a new Istio Ingress Gateway for this domain. In that case, please update the respective property accordingly. 
+  * shootName - The unique shoot name of your Kyma Cluster.
+    > **Hint** - As Kyma is based on [Gardener](https://gardener.cloud/), the managed Clusters are also called **Shoot**-Clusters (flower analogy). In our sample the **shootName** parameter, ensures the uniqueness of application registered in the SAP BTP SaaS Registry. As the SaaS application names registered in the SaaS registry need to be unique across a SAP BTP region (e.g. eu10), the shootName of your Kyma cluster will be part of that SaaS application names. This ensures you are not colliding with any other developer deploying the sample application. To get the **shootName** of your Kyma Cluster, run the following kubectl command:  
+    > 
+    >```kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.shootName}'```.<br> 
+    > 
+    > In a productive SAP BTP landscape, your **shootName** will always starts with a letter like *a1b2c3* or with the prefix **c-** like c-1b2c3*. 
 
-* platformIdp
-  * origin - Provide the origin key of your SAP BTP Platform IdP (e.g., sapdemo-platform) being used in your Global SAP BTP Account. You can find it in the "Trust Configuration" section of your Global Account. 
+  * platformIdp
 
-    [<img src="./images/OBD_PlatformIdP.png" width="500" />](./images/OBD_PlatformIdP.png?raw=true)
+    * origin - Provide the origin key of your SAP BTP Platform IdP (e.g., sap-demo-platform) being used in your Global SAP BTP Account. You can find it in the "Trust Configuration" section of your Global Account. 
 
-  * url - Provide the host of your SAP BTP Platform IdP (e.g., sapdemo.accounts.ondemand.com) being used in your Global SAP BTP Account. 
+      [<img src="./images/OBD_PlatformIdP.png" width="200" />](./images/OBD_PlatformIdP.png?raw=true)
 
-    > **Hint** - If you did not configure your SAP Identity Authentication Service as Platform IdP, please do so in the **Trust Configuration** of your Global Account. 
+    * url - Provide the host of your SAP BTP Platform IdP (e.g., sap-demo.accounts.ondemand.com) being used in your Global SAP BTP Account. 
 
-    [<img src="./images/OBD_PlatformIdP.png" width="500" />](./images/OBD_PlatformIdP.png?raw=true)
+      > **Hint** - If you did not configure your SAP Identity Authentication Service as Platform IdP, please do so in the **Trust Configuration** of your Global Account. 
 
-* srv - Details of the CAP Backend Service workload. 
-  > **Hint** - These values only need to be changed if your setup deviates from the default sample configuration. This is the case if you intentionally set a different **fullName** property for your API Service or expose a **custom hostname**. 
+      [<img src="./images/OBD_PlatformIdP.png" width="200" />](./images/OBD_PlatformIdP.png?raw=true)
 
-* router - Details of the Application Router workload.
-  > **Hint** - These values only need to be changed if your setup deviates from the default sample configuration. This is the case if you intentionally set a different **fullName** property for your Application Router or expose a **custom hostname**. 
+  * saasRelease - Release Name of the SaaS application to be onboarded in the same Kyma Namespace (default: susaas).
+    > **Hint** - This value only need to be changed if your setup deviates from the default sample configuration. This is the case if you intentionally deployed the original SaaS application with a different Release Name like e.g., **susaas-dev**.
 
-* saasRelease - Release Name of the SaaS application to be onboarded in the same Kyma Namespace (default: susaas).
-  > **Hint** - This value only need to be changed if your setup deviates from the default sample configuration. This is the case if you intentionally deployed the original SaaS application with a different Release Name like e.g., **susaas-dev**.
+  * saasRouter - Name of the Application Router component in the SaaS application to be onboarded in the same Kyma Namespace (default: router).
+     > **Hint** - This value only need to be changed if your setup deviates from the default sample configuration. This is the case if you intentionally set a different **fullName** property for your Application Router of the original SaaS application.
 
-* saasRouter - Name of the Application Router component in the SaaS application to be onboarded in the same Kyma Namespace (default: router).
-   > **Hint** - This value only need to be changed if your setup deviates from the default sample configuration. This is the case if you intentionally set a different **fullName** property for your Application Router of the original SaaS application.
+  **router**
 
-**router**
+  * image.repository - Provide the details of your **Onboarding Application Router** Container Image like \<username\>/obd-router if your Image is stored in Docker Hub or ghcr.io/\<namespace\>/obd-router in case of GitHub. 
+  * image.tag - Provide a different tag, if you do not want to use the latest image. 
 
-* image.repository - Provide the details of your **Onboarding Application Router** Docker Image like \<username\>/obd-router if your Image is stored in Docker Hub or ghcr.io/\<namespace\>/obd-router in case of GitHub. For other Container Registries, please check the respective provider documentation.
+  **srv**
 
-* image.tag - Provide a different tag, if you do not want to use the latest image (default). 
+  * image.repository - Provide the details of your **Onboarding CAP Backend Service** Docker Image repository like \<username\>/obd-srv.
+  * image.tag - Provide a different tag, if you do not want to use the latest image. 
 
-**srv**
+  **html5_apps_deployer**
 
-* image.repository - Provide the details of your **Onboarding CAP Backend Service** Docker Image repository like \<username\>/obd-srv if your Image is stored in Docker Hub or ghcr.io/\<namespace\>/obd-srv in case of GitHub. For other Container Registries, please check the respective provider documentation.
-  
-* image.tag - Provide a different tag, if you do not want to use the latest image. 
+  * image.repository - Provide the details of your **Onboarding HTML5 Apps Deployer** Docker Image repository like \<username\>/obd-html5-deployer.
+  * image.tag - Provide a different tag, if you do not want to use the latest image. 
 
-**html5_apps_deployer**
 
-* image.repository - Provide the details of your **Onboarding HTML5 Apps Deployer** Docker Image repository like \<username\>/obd-html5-deployer if your Image is stored in Docker Hub or ghcr.io/\<namespace\>/obd-html5-deployer in case of GitHub. For other Container Registries, please check the respective provider documentation.
-  
-* image.tag - Provide a different tag, if you do not want to use the latest image (default). 
-  
 4.3. A sample configuration for scenario without a custom domain could look as follows.
 
 > **Hint** - In this sample the original SaaS application was deployed as **susaas-dev** in the same namespace. Therefore, the saasRelease property has to be updated.
@@ -281,55 +284,62 @@ global:
   imagePullSecret: {}
   domain: a1bc2c3.kyma.ondemand.com 
   shootName: a1bc2c3 
-  gateway: kyma-system/kyma-gateway
   platformIdp: 
-    origin: sapdemo-platform 
-    url: sapdemo.accounts.ondemand.com
-  srv: # Unchanged
-    port: 
-    fullName: 
-  router: # Unchanged
-    name: 
-    fullName: 
+    origin: sap-demo-platform 
+    url: sap-demo.accounts.ondemand.com
   saasRelease: susaas-dev 
-  saasRouter: # Unchanged - router
 ```
+
+In case of using a custom domain, please ensure to also update the Ingress Gateway Details accordingly.
+
+```yaml
+global:
+  imagePullSecret: {}
+  domain: sap-demo.com
+  shootName: a1bc2c3
+  gateway: susaas/cdomain-gateway
+```
+
 
 4.4. All set? Then let us check if your Kubernetes resource definitions are successfully generated by Helm, running the following command **within** the *files/deploy* directory if this Expert Feature.
 
 > **Hint** - In case of errors, check if you maybe missed one of the above parameters or a mistake (like a space or special character) has sneaked in.
 
 ```sh
-helm template ./charts
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+helm template ./charts -f ./charts/values-private.yaml
 ```
 
 This will log the generated **yaml** files in your console. If required, you can also store the results into a local file by running the following command. 
 
 ```sh
-helm template ./charts > helm-template.yaml
+helm template ./charts -f ./charts/values-private.yaml > helm-template.yaml
 ```
 
 ## 5. Deploy to your Kyma Cluster
 
-5.1. Please run the following command from within the *code/obd* directory to deploy the Onboarding application to the **same namespace** in which your target SaaS application resides!
+5.1. Please run the following command from within the *./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy* directory to deploy the Onboarding application to the **same namespace** in which your target SaaS application resides!
 
-> **Important** - The \<SaaS-Release\> placeholder has to be replaced with the Release name of the original Saas Application to be onboarded.  
+> **Important** - The \<ReleaseName\> placeholder has to be replaced with the Release name of the original Saas Application to be onboarded.  
 
 > **Hint** - Feel free to add the *--debug* parameter to get some more verbose output if you're interested what's happening under the hood!
  
 ```sh
-helm install <SaaS-Release>-onboarding ./charts -f ./charts/values-private.yaml --namespace <namespace>
-```
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+helm install <ReleaseName>-onboarding ./charts -f ./charts/values-private.yaml -n <Namespace>
 
-**Example**
-```sh
-helm install susaas-onboarding ./charts -f ./charts/values-private.yaml --namespace default
+# Example #
+helm install susaas-onboarding ./charts -f ./charts/values-private.yaml -n default
 ```
 
 An alternative approach using the *helm upgrade* command would look as follows. This will either upgrade an existing installation of our SaaS sample application or install a new version if not available in the respective namespace yet. 
 
 ```sh
-helm upgrade susaas-onboarding ./charts -f ./charts/values-private.yaml --install --namespace default
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+helm install <ReleaseName>-onboarding ./charts -f ./charts/values-private.yaml --install -n <Namespace>
+
+# Example #
+helm install susaas-onboarding ./charts -f ./charts/values-private.yaml --install -n default
 ```
 
 5.2. The deployment of the Helm Release to your Kyma cluster, will take a few minutes, as the new Pods have to be initiated. 
@@ -345,13 +355,21 @@ helm upgrade susaas-onboarding ./charts -f ./charts/values-private.yaml --instal
 5.5. For any further updates of the Helm Release, you must now use the *helm upgrade* command (already mentioned above).
 
 ```sh
-helm upgrade susaas-onboarding ./chart -f ./charts/values-private.yaml --namespace <namespace> (--debug)
+# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+helm upgrade <ReleaseName>-onboarding ./charts -f ./charts/values-private.yaml -n <Namespace>
+
+# Example #
+helm upgrade susaas-onboarding ./charts -f ./charts/values-private.yaml -n default
 ```
 
 5.6. To undeploy/uninstall a Helm Release, you can use the following command. 
 
 ```sh
-helm uninstall susaas-onboarding --namespace <namespace>
+# Run anywhere #
+helm uninstall <ReleaseName>-onboarding -n <Namespace>
+
+# Example #
+helm uninstall susaas-onboarding -n default
 ```
 
 > **Important** - Please ensure that all components are removed from the Cluster. As you manually created the Kyma Secret containing the configuration (incl. SAP BTP Global Account Administrator) details, this component will not be automatically deleted upon **helm uninstall**. 
@@ -365,7 +383,7 @@ Once the Onboarding components have been successfully deployed, the next step is
 
 > **Hint** - Usually you can reach the Administration UI of your tenant following the **https://\<subdomain\>.accounts.ondemand.com/admin** pattern.
 > 
-> Example - https://<span>sapdemo.accounts.ondemand.com/admin
+> Example - https://<span>sap-demo.accounts.ondemand.com/admin
 
 6.2. Open the **Applications** menu. 
 
@@ -390,9 +408,10 @@ You are now ready to test your setup, by self-registering a new user in SAP Iden
 
 7.1. Open the SaaS application Home Screen in a new browser session or Incognito Mode.  
 
-> **Hint** - You will be able to access it following the **https://\<SaaS-Release\>-\<Namespace\>.\<ClusterDomain\>** format like *https://susaas-default.a1b2c3.kyma.ondemand.com* or *https://susaas-default.sap-demo.com* (when using a custom domain). You can find the respective URI also as part of your new Virtual Service artifact in your Kyma Dashboard (\<SaaS-Release\>-\<RandomId\>). 
-
-[<img src="./images/OBD_VirtualService.png" width="400"/>](./images/OBD_VirtualService.png?raw=true)
+> **Hint** - You will be able to access it following the **https://\<ReleaseName\>-\<Namespace\>.\<ClusterDomain\>** format <br>
+> - *https://susaas-default.a1b2c3.kyma.ondemand.com* or *https://susaas-default.sap-demo.com* (when using a custom domain)<br>
+> - You can find the respective URI also as part of your new Virtual Service artifact in your Kyma Dashboard (\<ReleaseName\>-\<RandomId\>)<br>
+> [<img src="./images/OBD_VirtualService.png" width="400"/>](./images/OBD_VirtualService.png?raw=true)
 
 7.2. Follow the steps explained in our recent blog post, to register a new user in SAP Identity Authentication Service and to onboard a new subscriber tenant. 
 
@@ -407,26 +426,24 @@ To clean-up the scenario and to remove the Self-Registration and One-Domain feat
 
 8.1. Undeploy the **Helm Release** from your Kyma Cluster. 
 
-```sh
-helm uninstall <SaaS-Release>-onboarding
-```
-
-**Example**
+> **Hint** - The \<ReleaseName\> placeholder contains the Helm Release Name of your original Sustainable SaaS application deployment.
 
 ```sh
-helm uninstall susaas-onboarding
+# Run from anywhere #
+helm uninstall <ReleaseName>-onboarding -n <Namespace>
+
+# Example # 
+helm uninstall susaas-onboarding -n default
 ```
 
 8.2. Delete the Kyma/Kubernetes from your Cluster.
 
 ```sh
-kubectl delete secret <SaaS-Release>-onboarding-btp-cred
-```
+# Run from anywhere #
+kubectl delete secret <ReleaseName>-onboarding-btp-cred -n <Namespace>
 
-**Example**
-
-```sh
-kubectl delete secret susaas-onboarding-btp-cred
+# Example # 
+kubectl delete secret susaas-onboarding-btp-cred -n default
 ```
 
 8.3. Double-check, whether all relevant objects have been removed. 
@@ -437,9 +454,11 @@ kubectl delete secret susaas-onboarding-btp-cred
 - SAP BTP Service Bindings
 - SAP IAS Application Registration
 
+
 ## 9. Good To Know
 
 The following sections contain various additional inputs that you should consider if you are planning to set up a similar One-Domain concept or Self-Registration for your SAP BTP SaaS application!
+
 
 ### Self-Registration / Automation
 
@@ -502,8 +521,9 @@ In case of a (client-initiated or time-based) user logout or session expiry, a l
 apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
-  name: <<release-name>>-<<namespace>>-basic-auth # <= Put your Release-Name here
-# name: susaas-default-basic-auth <= Example
+  # Provide your Sustainable SaaS Release Name and Namespace
+  # e.g., susaas-default-basic-auth
+  name: <ReleaseName>-<Namespace>-basic-auth 
   namespace: istio-system
 spec:
   selector:
@@ -513,26 +533,28 @@ spec:
   phase: AUTHN
   pluginConfig:
     basic_auth_rules:
-      - hosts: # <= Host(s) protected by Basic Authentication
-          - <<release-name>>-<<namespace>>.<<cluster-domain>>
-          - onboarding-<<release-name>>-<<namespace>>.<<cluster-domain>>
-        # - susaas-default.a1b2c3.kyma.ondemand.com  <= Example
-        # - onboarding-susaas-default.a1b2c3.kyma.ondemand.com  <= Example
+      # Hosts protected by Basic Authentication
+      # susaas-default.a1b2c3.kyma.ondemand.com
+      # onboarding-susaas-default.a1b2c3.kyma.ondemand.com
+      - hosts:
+          - <ReleaseName>-<Namespace>.<ClusterDomain>
+          - onboarding-<ReleaseName>-<Namespace>.<ClusterDomain>
+        # Provide secure Basic Authentication credentials
         credentials:
-          - <<Username>>:<<Password>> # <= Decide for secure Basic Authentication credentials
+          - <Username>:<Password>
 ```
 
-Once updated with your environment values, save it as a YAML file in a secure place and do not commit it to your GitHub repository! You can deploy the plugin by running the following kubectl command. Remember to delete the plugin again when cleaning up your cluster!
+Once ingested your own environment values, save the file as a YAML file with the filename suffix **-private.yaml** like e.g., **obd-basic-auth-private.yaml**! This will make sure your file is not committed to GitHub! You can then deploy the plugin by running the following kubectl command. Remember to delete the plugin again when cleaning up your cluster!
 
 
 ```sh
-kubectl apply -f <filename> -n <namespace>
+kubectl apply -f <Filename> -n <Namespace>
 ```
 
 **Example**
 
 ```sh
-kubectl apply -f ./onboarding-basic-auth.yaml -n default
+kubectl apply -f ./obd-basic-auth-private.yaml -n default
 ```
 
 **Get Plugins**
@@ -544,5 +566,5 @@ kubectl get WasmPlugins -n istio-system
 **Delete Plugin**
 
 ```sh
-kubectl delete WasmPlugin <release-name>-<namespace>-basic-auth -n istio-system
+kubectl delete WasmPlugin <ReleaseName>-<Namespace>-basic-auth -n istio-system
 ```

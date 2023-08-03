@@ -47,13 +47,17 @@ While Cloud Foundry offers a very convenient integration option using so-called 
 
 Only if those rules are passed, the traffic is send back to Kyma and routed to the actual API Service workloads. The relevant SAP API Management instance details for this routing have to be maintained in an additional *values-apim.yaml* file. 
 
-3.1. Below you can see a sample-configuration, containing all details required for the integration on the Kyma side. You can maintain your own environment specific credentials in the *deploy/kyma/charts/sustainable-saas/values-apim.yaml* file ([click here](../../../deploy/kyma/charts/sustainable-saas/values-apim.yaml)). 
-
-> **Important** - Just make sure to create a copy of the file first and add **-private** to the filename, so that your environment specific details are not being pushed to GitHub. Your repository should look like the following. 
-> [<img src="./images/API_RepoStruct.png" width="500" />](./images/API_RepoStruct.png?raw=true)
+3.1. Below you can see the required configuration for the API Management Integration. You can find a respective sample in the provided [./files/values-apim.yaml](./files/values-apim.yaml) file of this Advanced Feature. Please add this sample configuration to the existing **api** section of your **values-private.yaml** file in your [deploy/kyma/charts/sustainable-saas](../../../deploy/kyma/charts/sustainable-saas) directory. The **api** section in your *values-private.yaml* file should look as follows:
 
 ```yaml
+...
+
 api:
+  ####################### Existing Configuration ########################
+  image:
+    repository: sap-demo/susaas-api
+    tag: latest
+  ######################### Added Configuration ######################### 
   serviceKeys:
     # Service Key to be used by SAP API Management
     xsuaa-apim:
@@ -74,35 +78,18 @@ api:
       # Provide the Client ID of your API XSUAA Service Instance in the following format
       # e.g., sb-susaas-api-default
       sub: sb-<ReleaseName>-api-<Namespace>
+
+...
 ```
 
-3.2. After **configuring** the integration scenario in your **values-apim-private.yaml** file, run another **helm upgrade** to apply the changes together with your basic **values-private.yaml** file.
+3.2. After updating the above configuration based on your own environment details, please run another **helm upgrade** to apply the changes to your Kyma Cluster.
 
 ```sh
-helm upgrade <ReleaseName> -n <Namespace> \
-  -f ./charts/sustainable-saas/values-private.yaml \
-  -f ./charts/sustainable-saas/values-apim-private.yaml 
-```
+# Run in ./deploy/kyma # 
+helm upgrade <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace> 
 
-**Sample**
-
-```sh
-helm upgrade susaas -n susaas \
-  -f ./charts/sustainable-saas/values-private.yaml \
-  -f ./charts/sustainable-saas/values-apim-private.yaml 
-```
-
-In case you deployed the Central User Management Feature using SAP Identity Authentication Service before, and would also like to keep it in your deployment, please don't forget to add the respective values-ias.yaml file. 
-
-> **Hint** - As the SAP Identity Authentication Service Integration does not contain confidential or environment specific data, no **-private** suffix is required in this case. 
-
-**Sample**
-
-```sh
-helm upgrade susaas -n susaas \
-  -f ./charts/sustainable-saas/values-private.yaml \
-  -f ./charts/sustainable-saas/values-ias.yaml \
-  -f ./charts/sustainable-saas/values-apim-private.yaml 
+# Example # 
+helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default 
 ```
 
 3.3. Switch over to **SAP API Management** to configure the missing integration parts and to upload our **sample API Proxy**. 
@@ -150,7 +137,7 @@ helm upgrade susaas -n susaas \
 [<img src="./images/API_Upload01.png" height="200" />](./images/API_Upload01.png?raw=true)
 [<img src="./images/API_Upload02.png" height="200" />](./images/API_Upload02.png?raw=true)
 
-3.10. Once uploaded, please open the susaas-api **API Proxy** definition and update the **Target Endpoint** with your Kyma API Service URI (e.g., susaas-api-default.a1b2c3d4.kyma.ondemand.com) as you can see in the following screenshots. 
+3.10. Once uploaded, please open the susaas-api **API Proxy** definition and update the **Target Endpoint** with your Kyma API Service URI (e.g., susaas-api-default.a1b2c3.kyma.ondemand.com) as you can see in the following screenshots. 
 
 > **Hint** - If you are using a **custom domain** in your Kyma environment, please also use in this context (e.g., susaas-api-default.sap-demo.com).
 
@@ -196,7 +183,7 @@ That summary already gave you a glimpse of an idea how things will gear into eac
     gateways: 
       - kyma-system/kyma-gateway
     hosts: 
-      - susaas-api-default.a1b2c3d4.kyma.ondemand.com
+      - susaas-api-default.a1b2c3.kyma.ondemand.com
     http:
       - match:
           # Matches requests containing the x-jwt-assertion header
@@ -428,7 +415,7 @@ For authentication, the associated **Client Id** and **Secret** (also stored in 
 
 ### 5.5. Statistics Collection Policies
 
-As part of the **TargetEndpoint - PostFlow**, the requested (or cached) XSUAA JWT access token will be added to the HTTP request as **x-jwt-assertion** custom header. As defined in our API Proxy settings, the **Target Endpoint** is finally again the API Service of our Kyma Cluster (e.g., susaas-api-default.a1b2c3d4.kyma.ondemand.com). 
+As part of the **TargetEndpoint - PostFlow**, the requested (or cached) XSUAA JWT access token will be added to the HTTP request as **x-jwt-assertion** custom header. As defined in our API Proxy settings, the **Target Endpoint** is finally again the API Service of our Kyma Cluster (e.g., susaas-api-default.a1b2c3.kyma.ondemand.com). 
 
 If a successful response is returned from our API Service workload, some statistic details are stored before finally returning the response to the client. This includes the requested OData Entity and the XSUAA zone of the client. These details can later be visualized in a custom Monitoring dashboard. 
 

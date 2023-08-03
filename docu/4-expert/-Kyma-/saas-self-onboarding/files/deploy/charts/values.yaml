@@ -2,10 +2,10 @@ global:
   imagePullSecret: {}
   domain: # see domain in Config Map kube-system/shoot-info or custom domain (e.g. sap-demo.com) 
   shootName: # see shootName in Config Map kube-system/shoot-info
-  gateway: # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. onboarding/demo-gateway)
+  gateway: # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. default/cdomain-gateway)
   platformIdp: # provide the platform IdP details
-    origin: # provide the origin key of the platform Idp (e.g. sapdemo-platform)
-    url: # # provide the host of the platform Idp (sapdemo.accounts.ondemand.com)
+    origin: # provide the origin key of the platform Idp (e.g. sap-demo-platform)
+    url: # # provide the host of the platform Idp (sap-demo.accounts.ondemand.com)
   # If necessary, override essential dependencies required in subcharts
   # Required in case you e.g., provide a fullNameOverride or a custom exposed host
   srv:
@@ -17,6 +17,7 @@ global:
   # Provide details auf SaaS application to be deployed
   saasRelease: # leave empty to apply default value - susaas
   saasRouter: # leave empty to apply default value - router
+
 
 # Onboarding Service Workload
 srv:
@@ -35,8 +36,8 @@ srv:
         rotationFrequency: 24h
   image:
     # Provide your Backend Service Docker Image repository
-    repository: <<namespace>>/obd-srv
-    tag: latest
+    repository: 
+    tag: 
   resources:
     limits:
       ephemeral-storage: 1G
@@ -63,8 +64,8 @@ router:
         rotationFrequency: 24h
   image:
     # Provide your Application Router Docker Image repository
-    repository: <<namespace>>/obd-router
-    tag: latest
+    repository: 
+    tag: 
   resources:
     limits:
       ephemeral-storage: 1G
@@ -82,14 +83,15 @@ router:
         "url": "{{ printf "http://%s:%s" ( default ( printf "%s-%s" .Release.Name "srv" ) .Values.global.srv.fullName ) (default 8080 .Values.global.srv.port | toString ) }}"
       }]
 
+
 # HTML5 Apps Deployer Job
 # Deploys the UI modules to the HTML5 App Repository
 html5_apps_deployer:
   cloudService: obd
   image:
     # Provide your HTML5 Apps Deployer Docker Image repository
-    repository: <<namespace>>/obd-html5-deployer
-    tag: latest
+    repository: 
+    tag: 
   bindings:
     html5-apps-repo:
       serviceInstanceName: html5-repo-host
@@ -100,6 +102,7 @@ html5_apps_deployer:
     requests:
       cpu: 300m
       memory: 500M
+
 
 # SAP HTML5 Application Repository
 # Storing the SaaS application UI modules

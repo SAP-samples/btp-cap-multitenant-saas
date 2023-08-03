@@ -40,7 +40,6 @@ When you as a developer have added or removed a field from your CDS model, it is
 Go to your [**Users**](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/db/data-model.cds) entity in your local environment and add a **dummy** column as shown below.
 
 ```js
-
 context susaas.db {
 
 ...
@@ -58,7 +57,6 @@ context susaas.db {
             role : Association to Roles;
       }
 ...
-
 ```
 
 ## 4. Build and deploy your application with the new added column
@@ -70,20 +68,19 @@ Build, push (in case of Kyma) and deploy your latest changes from the respective
 > **Hint** - The below commands are just samples. Please replace the **container image prefix** and also add additional yaml files, in case your current deployment includes the **Central User Management** or the **API Management Integration**.
 
 ```sh
-cd deploy/kyma
+# Run in ./deploy/kyma #
 npm run build
-npx cross-env IMAGE_PREFIX=sapdemo npm run build:srv
-npx cross-env IMAGE_PREFIX=sapdemo npm run push:srv
-helm upgrade susaas -n default -f charts/sustainable-saas/values-private.yaml
+npx cross-env IMAGE_PREFIX=sap-demo npm run build:srv
+npx cross-env IMAGE_PREFIX=sap-demo npm run push:srv
+helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
 ```
-
 
 **Cloud Foundry**
 
 > **Hint** - The below commands are just samples. If your current deployment is based on the **Basic Version**, please change the respective mtaext filename.
 
 ```sh
-cd deploy/cf
+# Run in ./deploy/cf #
 mbt build -e mtaext/free-advanced-private.mtaext
 cf deploy mta_archives/susaas-0.0.1.mtar
 ```

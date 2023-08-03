@@ -59,14 +59,25 @@ Now you need to bind the route service to your standard SaaS API route. This can
 
 **Windows (Command Line)**
 
-cf brs `<API service domain>` `<route service>` --hostname `<API service hostname>` -c '{\"api_name\":\"`<API-Proxy name>`\"}'
+>```sh
+> cf brs `<API service domain>` `<route service>` \
+>        --hostname `<API service hostname>` -c '{\"api_name\":\"<API-Proxy name>\"}'
+>
+> # Example #
+> cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service \
+>        --hostname dev-susaas-api-srv -c '{\"api_name\":\"SusaaS-API-Proxy\"}'
+>```
 
 **Windows (Power Shell)**
 
-cf brs `<API service domain>` `<route service>` --hostname `<API service hostname>` -c "{\"api_name\":\"`<API-Proxy name>`\"}"
-
->**Sample**<br>
->cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service --hostname dev-susaas-api-srv -c '{\"api_name\":\"SusaaS-API-Proxy\"}'
+>```sh
+> cf brs `<API service domain>` `<route service>` \
+>        --hostname `<API service hostname>` -c "{\"api_name\":\"<API-Proxy name>\"}"
+>
+> # Example #
+> cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service \
+>        --hostname dev-susaas-api-srv -c "{\"api_name\":\"SusaaS-API-Proxy\"}"
+>```
 
 * **route service** - The name of your route-service instance created in the [last step](./README.md#3-apim-as-route-service).
 * **API-Proxy name** - You're free to choose the name of your API-Proxy in API Management.
@@ -225,6 +236,8 @@ You will notice that calling the API more than once per second (e.g. using Postm
 The API Management as route service (sap-apim-route-service) instance can also be defined in your mta.yaml deployment descriptor. Just add the following code snippet to your resources. Still, you will need to execute the **cf bind-route-service** command as described in this tutorial. 
 
 ```yaml
+resources:
+  
   - name: susaas-api-route-service
     type: org.cloudfoundry.managed-service
     parameters:

@@ -1,0 +1,26 @@
+global:
+  imagePullSecret: {}
+  domain: a1b2c3.kyma.ondemand.com
+  shootName: a1b2c3 
+  platformIdp:
+    origin: sap-demo-platform
+    url: sap-demo.accounts.ondemand.com
+  saasRelease: susaas
+
+
+router:
+  image:
+    repository: sap-demo/obd-router
+    tag: latest
+
+
+srv:
+  image:
+    repository: sap-demo/obd-srv
+    tag: latest
+
+
+html5_apps_deployer:
+  image:
+    repository: sap-demo/obd-html5-deployer
+    tag: latest

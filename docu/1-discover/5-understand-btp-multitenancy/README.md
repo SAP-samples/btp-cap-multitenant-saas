@@ -2,13 +2,6 @@
 
 In SAP BTP, you can develop and run multitenant applications that can be accessed by multiple consumers (tenants) through a dedicated URL. In this sample scenario, we decided to implement the solution based on a standardized toolset including the SAP Cloud Application Programming (CAP) Model.
 
-Check SAP Help and linked GitHub repositories below for further details on how to develop multitenant SaaS applications in the different SAP BTP environments. 
-
-* [Kyma Environment - Develop a Multitenant Extension Application](https://github.com/SAP-samples/btp-kyma-cap-multitenant-susaas/)
-* [Cloud Foundry Environment - Developing Multitenant Applications](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/)
-* [ABAP Environment - Multitenancy and SaaS Applications](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/81659c0f5a2b4ca0999329b5b6c60548.html?locale=en-US)
-
-
 ## Context
 
 When developing tenant-aware applications in the SAP BTP, keep in mind the following general programming guidelines.

@@ -133,16 +133,53 @@ To enable the Central User Management leveraging SAP Identity Authentication Ser
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-By adding the **values-ias.yaml** file to your deployment or upgrade command, a new **Cloud Identity** Service Instance of type **application** is created upon *helm install* or *helm upgrade*. 
+For this Advanced feature, please add the **values-ias.yaml** ([./files/values-ias.yaml](./files/values-ias.yaml)) details to your main **values-private.yaml** file (located in [*deploy/kyma/charts/sustainable-saas*](../../../deploy/kyma/charts/sustainable-saas*)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
 
-```sh
-cd deploy/kyma
-helm upgrade susaas ./charts/sustainable-saas -n <KymaNamespace> \
-  -f ./charts/sustainable-saas/values-private.yaml \
-  -f ./charts/sustainable-saas/values-ias.yaml # <-- Merged with values-private.yaml file
+```yaml
+...
+
+srv:
+  ####################### Existing Configuration ########################
+  image:
+    repository: sap-demo/susaas-srv
+    tag: latest
+  ######################### Added Configuration ######################### 
+  bindings:
+    identity:
+      serviceInstanceName: identity
+      parameters:
+        credential-type: X509_GENERATED
+      credentialsRotationPolicy:
+        enabled: true
+        rotatedBindingTTL: 1h
+        rotationFrequency: 24h
+
+...
+
+######################### Added Configuration ######################### 
+identity:
+  serviceOfferingName: identity
+  servicePlanName: application
+  parameters:
+    display-name: [...]
+    oauth2-configuration:
+      redirect-uris: [...]
+      post-logout-redirect-uris: [...]
+      grant-types: ["authorization_code"]
+      credential-types: ["binding-secret", "x509"]
+    xsuaa-cross-consumption: false
+    multi-tenant: false
 ```
 
-> **Hint** - Specifying multiple YAML files will merge the values of those files, while the order decides on the priority and potential overwrites (last file wins)!
+After updating your **values-private.yaml** file, please start an upgrade of your existing Sustainable SaaS deployment, by running the following command. This will create the new Service Instance and requires Service Bindings. 
+
+```sh
+# Run in ./deploy/kyma #
+helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
+
+# Example #
+helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
+```
 
 In your **Service Instances** you should now see a new instance of type **identity** and plan **application**, which has a **Service Binding** to your Backend Service. 
 
@@ -236,7 +273,7 @@ Before running the following commands, please open the respective **advanced** *
 Once your created your private Deployment Descriptor extension file, please run the following commands to deploy the new features to your existing application. 
 
 ```sh
-cd deploy/cf
+# Run in /deploy/cf #
 mbt build -e ./mtaext/free-advanced-private.mtaext
 cf deploy
 ```

@@ -2,7 +2,7 @@ global:
   imagePullSecret: {} # provide the details of a container registry image pull secret (if required)
   domain:  # see domain in Config Map kube-system/shoot-info or custom domain (e.g. sap-demo.com) 
   shootName:  # see shootName in Config Map kube-system/shoot-info
-  gateway: # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. susaas/demo-gateway)
+  gateway: # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. default/cdomain-gateway)
   # If necessary, override essential dependencies required in subcharts
   # Required in case you e.g., provide a fullNameOverride or a custom exposed host
   api:

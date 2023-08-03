@@ -33,13 +33,19 @@ If you want to undeploy the SaaS application and all related services and resour
 1.4. Uninstall the Helm Release of your SaaS application from the Kyma Cluster of your **Provider Subaccount** by running the following command. 
 
 ```sh
-helm uninstall susaas -n <Namespace>
+helm uninstall <ReleaseName> -n <Namespace>
+
+# Example #
+helm uninstall susaas -n default
 ```
 
 Optional - Undeploy the SAP Alert Notification Service Instance from the Kyma Cluster of your **Provider Subaccount** by running the following command. 
 
 ```sh
 helm uninstall alert-notification -n <Namespace>
+
+# Example #
+helm uninstall alert-notification -n default
 ```
 
 **Cloud Foundry**

@@ -112,15 +112,13 @@
                 "xs_idp.read"
             ]
         }
-    ]
-    ,
+    ],
     "authorities": [
         "$XSAPPNAME.mtcallback",
         "$XSAPPNAME.mtdeployment",
         "$XSAPPNAME.MtxDiagnose",
         "$XSAPPNAME.cds.ExtensionDeveloper"
-    ]
-    ,
+    ],
     "oauth2-configuration": {
         "token-validity": 3600,
         "redirect-uris": [

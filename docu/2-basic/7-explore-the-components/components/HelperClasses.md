@@ -135,7 +135,7 @@ The [Destination helper](./destination.js) is used for retrieving, creating, and
 
 
 ## 7. Credential Store Helper (credStore.js)
-The [Credential Store helper](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/blob/main/code/srv/srv/utils/credStore.js) module is used to interact with the [SAP Credential Store](https://api.sap.com/package/CredentialStore/rest) service in the provider subaccount and is being used as part of the **Cloud Foundry** based scenario. In the Kyma scenario, Kubernetes Secrets are used instead. 
+The [Credential Store helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/credStore.js) module is used to interact with the [SAP Credential Store](https://api.sap.com/package/CredentialStore/rest) service in the provider subaccount and is being used as part of the **Cloud Foundry** based scenario. In the Kyma scenario, Kubernetes Secrets are used instead. 
 
 
 ## 8. User Management Helper (user-management.js)

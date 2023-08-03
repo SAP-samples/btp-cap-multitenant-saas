@@ -57,7 +57,7 @@ In our sample, API Rules are defined for the Application Router, the Backend Ser
 
 **Example**
 
-Upon deployment, the following Kyma API Rule definition will create an [Istio](#istio-service-mesh) [Virtual Service](#virtual-service) instance, defining traffic rules for the [Istio](#istio-service-mesh) Ingress Gateway **sap-demo-gateway** (defined in namespace **demo-dns**). This [Virtual Service](#virtual-service) will route any traffic arriving for host **susaas-router-default.sap-demo.com** to the [Cluster IP Service](#service) **susaas-router** on port **5000**. 
+Upon deployment, the following Kyma API Rule definition will create an [Istio](#istio-service-mesh) [Virtual Service](#virtual-service) instance, defining traffic rules for the [Istio](#istio-service-mesh) Ingress Gateway **cdomain-gateway** (defined in namespace **default**). This [Virtual Service](#virtual-service) will route any traffic arriving for host **susaas-router-default.sap-demo.com** to the [Cluster IP Service](#service) **susaas-router** on port **5000**. 
 
 > **Hint** - As the usage of a custom domain is not part of the Basic Version, your gateway and host might look a bit different as the default Kyma domain will be used. Furthermore, you might see [Virtual Services](#virtual-service) samples which are using the hostname instead of the FQDN (full qualified domain name) in the host field. We recommend to use the FQDN whenever possible, to prevent any unforeseen behavior caused by automated determination of the correct domain.
 
@@ -68,7 +68,7 @@ metadata:
   name: susaas-router
 spec:
   # The API Rule will handle requests arriving for this Istio Gateway
-  gateway: demo-dns/sap-demo-gateway
+  gateway: default/cdomain-gateway
   # The API Rule will handle all requests arriving for this host
   host: susaas-router-default.sap-demo.com
   rules:
@@ -100,7 +100,7 @@ metadata:
   name: susaas-router
 spec:
   gateways:
-    - demo-dns/sap-demo-gateway
+    - default/cdomain-gateway
   hosts:
     - susaas-router-default.sap-demo.com
   http:
@@ -164,7 +164,7 @@ metadata:
   name: susaas-tenant-e1771
 spec:
   # Handle requests arriving for this Istio Gateway
-  gateway: demo-dns/sap-demo-gateway
+  gateway: default/cdomain-gateway
   # Handle requests for this custom Subscriber subdomain
   host: subscriber.sap-demo.com
   rules:
@@ -198,7 +198,7 @@ kind: VirtualService
 metadata:
   name: susaas-tenant-e1771-25rzp
 spec:
-  gateways: ["demo-dns/sap-demo-gateway"]
+  gateways: ["default/cdomain-gateway"]
   hosts: ["subscriber.sap-demo.com"]
   http:
     - headers:
@@ -288,7 +288,7 @@ metadata:
 data:
   serviceConfigs: | 
     {   
-      "susaas-api-susaas-default-a1b2c3d4": {
+      "susaas-api-susaas-default-a1b2c3": {
         "extend_credentials": {
           "shared": {
               "apiUrl": "https://susaas-api-default.sap-demo.com"
@@ -315,7 +315,7 @@ spec:
     spec:
       ...
       containers:
-      - image: sapse/susaas-broker:latest
+      - image: sap-demo/susaas-broker:latest
         ...
         env:
         - name: SBF_SERVICE_CONFIG
@@ -354,7 +354,7 @@ spec:
     spec:
       ...
       containers:
-      - image: sapse/susaas-broker:latest
+      - image: sap-demo/susaas-broker:latest
         ...
         env:
         # Provide path of generated file to env variable
@@ -422,7 +422,7 @@ spec:
       # Istio Sidecar will be injected automatically 
       containers:
         # Definition of Container running in the Pod
-        - image: sapse/susaas-router:latest
+        - image: sap-demo/susaas-router:latest
           name: router
           # Port and protocol this container exposes 
           ports:
@@ -883,11 +883,11 @@ spec:
 
 Virtual Services allow you to route traffic to the [Services](#service) associated with your workloads based on various conditions. In our sample scenario, the majority of Virtual Services define traffic rules based on the initial host which the incoming request is targeting. In the below example, whenever a request for the **susaas-router-default.sap-demo.com** host arrives through Istio Ingress Gateway, we need to instruct Istio to which [Service](#service) this traffic has to be routed. Obviously, in this case the traffic is intended for our Application Router workload. So we can simply provide the Cluster IP [Service](#service) details of our Application Router workload in the destination details of the route. 
 
-> **Hint** - In this example, a custom domain is being used. In a default setup, the default Kyma **kyma-system/kyma-gateway** Gateway as well as the default Cluster domain would be used (e.g., susaas-router-default.a1b2c3d4.kyma.ondemand.com).
+> **Hint** - In this example, a custom domain is being used. In a default setup, the default Kyma **kyma-system/kyma-gateway** Gateway as well as the default Cluster domain would be used (e.g., susaas-router-default.a1b2c3.kyma.ondemand.com).
 
 The Virtual Services required for this sample scenario, are (except for one exception) automatically created and manged by so-called Kyma [API Rules](#api-rule). This means, whenever you create or update an [API Rule](#api-rule), a corresponding Virtual Service is created or updated. While this reduced flexibility (as [API Rules](#api-rule) only offer a subset of the Virtual Service features) it simplifies the majority of scenarios, which are just about a simple exposure of workloads. 
 
-In the below sample, the Virtual Service (created by the corresponding and equally named [API Rule](#api-rule)) will match any request arriving through the Istio Gateway name **sap-demo-gateway**, targeting the **susaas-router-default.sap-demo.com** host. Any matching request will be routed to the Cluster IP [Service](#service) of our Application Router workload, while attaching an *x-forwarded-host* header, which is retaining the initial target host. 
+In the below sample, the Virtual Service (created by the corresponding and equally named [API Rule](#api-rule)) will match any request arriving through the Istio Gateway name **cdomain-gateway**, targeting the **susaas-router-default.sap-demo.com** host. Any matching request will be routed to the Cluster IP [Service](#service) of our Application Router workload, while attaching an *x-forwarded-host* header, which is retaining the initial target host. 
 
 ```yaml
 apiVersion: networking.istio.io/v1beta1
@@ -895,9 +895,9 @@ kind: VirtualService
 metadata:
   name: susaas-router
 spec:
-  # Handle requests of the sap-demo-gateway Gateway
+  # Handle requests of the cdomain-gateway Gateway
   gateways:
-    - demo-dns/sap-demo-gateway
+    - default/cdomain-gateway
   # Handle requests targeting the susaas-router-default host
   hosts:
     - susaas-router-default.sap-demo.com
@@ -929,7 +929,7 @@ kind: VirtualService
 metadata:
   name: susaas-tenant-e1771-25rzp
 spec:
-  gateways: ["demo-dns/sap-demo-gateway"]
+  gateways: ["default/cdomain-gateway"]
   hosts: ["subscriber.sap-demo.com"]
   http:
     - headers:
@@ -962,9 +962,9 @@ kind: VirtualService
 metadata:
   name: susaas-api
 spec:
-  # Handle requests of the sap-demo-gateway Gateway
+  # Handle requests of the cdomain-gateway Gateway
   gateways: 
-    - demo-dns/sap-demo-gateway
+    - default/cdomain-gateway
   # Handle requests targeting the susaas-api-default host
   hosts: 
     - susaas-api-default.sap-demo.com
@@ -986,11 +986,11 @@ spec:
       # Rewrite the URL and add the API Proxy path of SAP API Management
       rewrite:
         uri: /kyma-api-susaas/
-        authority: sapdemo.prod.apimanagement.us20.hana.ondemand.com
+        authority: sap-demo.prod.apimanagement.us20.hana.ondemand.com
       # Route request to SAP API Management based on Istio Service Entry 
       route:
       - destination:
-          host: sapdemo.prod.apimanagement.us20.hana.ondemand.com
+          host: sap-demo.prod.apimanagement.us20.hana.ondemand.com
           port:
             number: 443
 ```
@@ -1010,7 +1010,7 @@ metadata:
   name: susaas-router
 spec:
   gateways: 
-    - demo-dns/sap-demo-gateway
+    - default/cdomain-gateway
     - mesh # Enables Virtual Service for mesh internal usage
   hosts: 
     - susaas-router-default.sap-demo.com
@@ -1019,7 +1019,7 @@ spec:
     # HTTP route mapping based on Gateway
     - match:
         - gateways:
-            - demo-dns/sap-demo-gateway
+            - default/cdomain-gateway
       route:
         - destination:
             host: susaas-router.default.svc.cluster.local
@@ -1073,7 +1073,7 @@ spec:
       # Containers to be placed into the Pod (e.g., HTML5 Apps Deployer)
       containers:
         - name: html5-deployer
-          image: sapse/susaas-html5-deployer:latest
+          image: sap-demo/susaas-html5-deployer:latest
           imagePullPolicy: Always
           volumeMounts:
             - name: html5-apps-repo-secret
@@ -1229,7 +1229,7 @@ metadata:
   name: susaas-api
 spec:
   # The API Rule will handle requests arriving for this Istio Gateway
-  gateway: demo-dns/sap-demo-gateway
+  gateway: default/cdomain-gateway
   # The API Rule will handle all requests arriving for this host
   host: susaas-api-default.sap-demo.com
   rules:
@@ -1264,7 +1264,7 @@ metadata:
   name: susaas-api
 spec:
   gateways:
-    - demo-dns/sap-demo-gateway
+    - default/cdomain-gateway
   hosts:
     - susaas-api-default.sap-demo.com
   http:
@@ -1323,7 +1323,7 @@ metadata:
   name: susaas-tenant-e1771
 spec:
   # Handle requests arriving for this Istio Gateway
-  gateway: demo-dns/sap-demo-gateway
+  gateway: default/cdomain-gateway
   # Handle requests for this custom Subscriber subdomain
   host: subscriber.sap-demo.com
   rules:
@@ -1471,7 +1471,7 @@ spec:
         app.kubernetes.io/name: broker
     spec:
       containers:
-      - image: sapse/susaas-broker:latest
+      - image: sap-demo/susaas-broker:latest
         name: broker
         envFrom:
         - secretRef:
@@ -1515,7 +1515,7 @@ spec:
         app.kubernetes.io/name: broker
     spec:
       containers:
-      - image: sapse/susaas-broker:latest
+      - image: sap-demo/susaas-broker:latest
         name: broker
         env:
         # File system path where you mount your Service Binding Secrets
@@ -1599,7 +1599,7 @@ spec:
       # Assign a dedicated Service Account to the workload
       serviceAccountName: susaas-srv
       containers:
-        - image: sapse/susaas-srv:latest
+        - image: sap-demo/susaas-srv:latest
         ...
 ```
 

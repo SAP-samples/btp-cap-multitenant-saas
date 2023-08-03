@@ -147,7 +147,7 @@ These components will be containerized in Docker Images in the following steps. 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:all
 
 # Example
-npx cross-env IMAGE_PREFIX=sapdemo npm run build:all
+npx cross-env IMAGE_PREFIX=sap-demo npm run build:all
 ```
 
 Alternatively, you can also build the Docker Images separately by running the component specific npm scripts. Check the *package.json* file to find all available scripts.
@@ -157,7 +157,7 @@ Alternatively, you can also build the Docker Images separately by running the co
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:srv
 
 # Example
-npx cross-env IMAGE_PREFIX=sapdemo npm run build:srv
+npx cross-env IMAGE_PREFIX=sap-demo npm run build:srv
 ```
 
 Once the process is finished, your Docker Images are ready to be pushed to the Container Registry of your choice. Before doing this, let us briefly check what has happened under the hood to build your Docker Images.
@@ -189,7 +189,7 @@ This simplifies the containerization process and allows you to build a Docker Im
 **Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
 
 ```json
-"build:api": "pack build sapdemo/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
+"build:api": "pack build sap-demo/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
 ```
 
 >**Hint** - The *paketobuildpacks/builder:base* provides a minimal Docker Image based on Ubuntu, with the addition of a few packages (so-called "mixins") ([click here](https://hub.docker.com/r/paketobuildpacks/builder) for more details).
@@ -206,7 +206,7 @@ Doing so (as for the API Service), a Docker Image can be build without having to
 **Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
 
 ```json
-"build:srv": "pack build sapdemo/susaas-srv --path ../../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
+"build:srv": "pack build sap-demo/susaas-srv --path ../../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
 ```
 
 
@@ -244,10 +244,10 @@ CMD [ "npm", "start" ]
 
 **Build Docker Image based on Dockerfile above** ([/code/package.json](../../../code/package.json))
 
-> **Hint** - This following npm script will build a Docker Image based on the Dockerfile located in the */code/router* directory and will tag it with *sapdemo/susaas-router*. "sapdemo" has to be replaced by the prefix also used in step 3.1, if you want to run this command standalone.
+> **Hint** - This following npm script will build a Docker Image based on the Dockerfile located in the */code/router* directory and will tag it with *sap-demo/susaas-router*. "sap-demo" has to be replaced by the prefix also used in step 3.1, if you want to run this command standalone.
 
 ```json
-"build:router": "docker build -t sapdemo/susaas-router ../../code/router"
+"build:router": "docker build -t sap-demo/susaas-router ../../code/router"
 ```
 
 
@@ -262,7 +262,7 @@ This way (as for the API and SaaS Backend Service), a Docker Image can be build 
 **Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
 
 ```json
-"build:broker": "pack build sapdemo/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js"
+"build:broker": "pack build sap-demo/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js"
 ```
 
 
@@ -321,7 +321,7 @@ CMD [ "npm", "start" ]
 **Build Docker Image based on Dockerfile above** ([/code/package.json](../../../code/package.json))
 
 ```json
-"build:html5-deployer": "docker build -t sapdemo/susaas-html5-deployer ../../code/app/html5-deployer"
+"build:html5-deployer": "docker build -t sap-demo/susaas-html5-deployer ../../code/app/html5-deployer"
 ```
 
 ### HDI Container Deployer (db-com)
@@ -335,7 +335,7 @@ After running the CDS build (compiling the CDS files of our CAP Backend, CAP API
 **Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
 
 ```json
-"build:db-com": "pack build sapdemo/susaas-db-com --path ../../code/gen/db-com --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/hdi-deploy/deploy.js"
+"build:db-com": "pack build sap-demo/susaas-db-com --path ../../code/gen/db-com --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/hdi-deploy/deploy.js"
 ```
 
 Now you should be covered and well in the know about the different approaches used to containerize our SaaS application components. Let us continue with some more details on how to push your Docker Images to your Container Registry now. 
@@ -356,7 +356,7 @@ After all your Docker Images are build using **Cloud Native Buildpacks** or **SA
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:all
 
 # Example
-npx cross-env IMAGE_PREFIX=sapdemo npm run push:all
+npx cross-env IMAGE_PREFIX=sap-demo npm run push:all
 ```
 
 As an alternative to pushing all Docker Images at once, you can again push images separately by running the component specific npm script.
@@ -368,7 +368,7 @@ As an alternative to pushing all Docker Images at once, you can again push image
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:srv
 
 # Example
-npx cross-env IMAGE_PREFIX=sapdemo npm run push:srv
+npx cross-env IMAGE_PREFIX=sap-demo npm run push:srv
 ```
 
 Well, this is it! Once the npm script has finished, your Docker Images should be available in your Container Registry. You have successfully containerized all application components can start deploying the SaaS sample application to your Kyma Cluster. Let's move on to the actual deployment!

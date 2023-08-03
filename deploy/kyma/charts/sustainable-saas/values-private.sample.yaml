@@ -5,22 +5,22 @@ global:
 
 router:
   image:  
-    repository: sapdemo/susaas-router
+    repository: sap-demo/susaas-router
     tag: latest
 
 srv:
   image:
-    repository: sapdemo/susaas-srv
+    repository: sap-demo/susaas-srv
     tag: latest
 
 api:
   image:
-    repository: sapdemo/susaas-api
+    repository: sap-demo/susaas-api
     tag: latest
 
 broker:
   image:
-    repository: sapdemo/susaas-broker
+    repository: sap-demo/susaas-broker
     tag: latest
   config: 
     serviceId: 11111111-1111-1111-1111-111111111111
@@ -37,12 +37,12 @@ broker:
 
 hana_deployer:
   image:
-    repository: sapdemo/susaas-db-com
+    repository: sap-demo/susaas-db-com
     tag: latest
 
 html5_apps_deployer:
   image:
-    repository: sapdemo/susaas-html5-deployer
+    repository: sap-demo/susaas-html5-deployer
     tag: latest
 
 xsuaa:

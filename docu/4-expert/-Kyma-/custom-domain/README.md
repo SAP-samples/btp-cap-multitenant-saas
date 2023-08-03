@@ -1,24 +1,29 @@
-# Custom Domain in SAP BTP Kyma Runtime (Kyma)
+# Custom Domain in SAP BTP Kyma Runtime
 
+- ### **Kyma** ✅
+- ### **Cloud Foundry** ❌
 
-- [1. Introduction](#1-introduction)
-- [2. Prerequisites](#2-prerequisites)
-   - [2.1. Ensure that your domain already registered or transferred to Route53 ](#21)
-   - [2.2. Check if you have access to your Kyma Cluster](#22-ensure-that-you-have-access-to-your-kyma-cluster)
-- [3. Overview & Key Components ](#3-overview-and-key-components)
-   - [3.1 Key Components](#31-key-components)
-- [4. Configuration of Custom Domain in Your Kyma Runtime](#4-configuration-of-custom-domain-in-your-kyma-runtime)
-   - [4.1. Quick Start](#41-quick-start)
-   - [4.2. Manual Step-By-Step Configuration](#42-manual-step-by-step-configuration)
-        - [4.2.1 Create Secret](#421-create-secret)
-        - [4.2.2 Create DNS Provider](#422-create-dns-provider)
-        - [4.2.3 Create DNS Entry](#423-create-dns-entry)
-        - [4.2.4 Create Issuer](#424-create-issuer)
-        - [4.2.5 Create Certificate](#425-create-certificate)
-        - [4.2.6 Create Istio Ingress Gateway for Custom Domain](#426-create-istio-gateway-for-custom-domain)
-   - [4.3. Expose Your SusaaS Application with your Custom Domain](#3-expose-your-susaas-application-with-your-custom-domain)
+In this part of the tutorial, you will learn how to set up a Custom Domain in your Kyma Cluster using AWS Route 53.
+
+- [Custom Domain in SAP BTP Kyma Runtime](#custom-domain-in-sap-btp-kyma-runtime)
+  - [1. Introduction](#1-introduction)
+  - [2. Prerequisites](#2-prerequisites)
+    - [2.1. Ensure that your domain already registered or transferred to Route53](#21-ensure-that-your-domain-already-registered-or-transferred-to-route53)
+    - [2.2. Ensure that you have access to your Kyma Cluster](#22-ensure-that-you-have-access-to-your-kyma-cluster)
+    - [3.1. Key Components](#31key-components)
+  - [4. Configuration of Custom Domain in Your Kyma Runtime](#4-configuration-of-custom-domain-in-your-kyma-runtime)
+    - [4.1. Quick Start](#41-quick-start)
+    - [4.2. Manual Step-By-Step Configuration](#42-manual-step-by-step-configuration)
+      - [4.2.1. Create Secret](#421-create-secret)
+      - [4.2.2. Create DNS Provider](#422-create-dns-provider)
+      - [4.2.3 Create DNS Entry](#423-create-dns-entry)
+      - [4.2.4. Create Issuer](#424-create-issuer)
+      - [4.2.5. Create Certificate](#425-create-certificate)
+      - [4.2.6 Create Istio Gateway for Custom Domain](#426-create-istio-gateway-for-custom-domain)
+    - [4.3. Expose Your SusaaS Application with your Custom Domain](#43-expose-your-susaas-application-with-your-custom-domain)
 
 ## 1. Introduction 
+
 This documentation chapter is your guide to seamlessly integrating custom domains into your SAP BTP Kyma Runtime Cluster. By allowing you to use your registered domains for your Kyma cluster, you can provide a more personalized experience to cater to their specific needs and preferences.
 At this tutorial, we will use the registered domain from Amazon Web Services(AWS) Route 53 as DNS Provider and Let's Encrypt as CA. 
 
@@ -32,7 +37,7 @@ At this tutorial, we will use the registered domain from Amazon Web Services(AWS
 
 Follow the steps below to check if you are eligible to follow this step-by-step guide.
 
-### 2.1. Ensure that your domain already registered or transferred to Route53 
+### 2.1. Ensure that your domain already registered or transferred to Route53 
 
 ```sh
 aws route53 list-hosted-zones
@@ -106,14 +111,22 @@ As you can see [here](./chart/values.yaml), the values.yaml file looks like belo
 # Default values for custom-domain.
 # This is a YAML-formatted file.
 
-aws_access_key_id : abc123 # Enter here your AWS Access Key ID which you use to connect your AWS account 
-aws_secret_access_key: abc123 # Enter here AWS Secret Access Key which you use to connect your AWS Account 
-aws_session_token:  abc123  # Optional, Enter here AWS Session Token if your AWS Account is requiring this value to connect
+# Enter here your AWS Access Key ID which you use to connect your AWS account 
+aws_access_key_id : abc123 
+# Enter here AWS Secret Access Key which you use to connect your AWS Account 
+aws_secret_access_key: abc123 
+# Optional, Enter here AWS Session Token if your AWS Account is requiring this value to connect
+aws_session_token:  abc123  
 
-customDomain:   
-  domain: kyma.mydomain.com # Required, the domain you would like to use in your Kyma Cluster. Example: "kyma.mydomain.com" -> DO NOT GIVE Wildcards, it will be handled automatically for you.
-  ttl:  # Optional, Default is 600s, this is the cache invalidation interval for your DNS Entry
-  istioGatewayServiceIP: "<someIP>" # IP of your Istio Ingress Gateway Service which you can get via following command: kubectl get services istio-ingressgateway -n istio-system -o json | jq ".status.loadBalancer.ingress[].hostname"
+customDomain:
+  # Required - the domain you would like to use in your Kyma Cluster
+  # Example - "kyma.mydomain.com" -> DO NOT GIVE Wildcards, it will be handled automatically for you
+  domain: kyma.mydomain.com 
+  # Optional, Default is 600s, this is the cache invalidation interval for your DNS Entry
+  ttl:  
+  # IP of your Istio Ingress Gateway Service which you can get via following command: 
+  # kubectl get services istio-ingressgateway -n istio-system -o json | jq ".status.loadBalancer.ingress[].hostname"
+  istioGatewayServiceIP: "<someIP>" 
  
 issuer: 
   email: a.dedeoglu@sap.com
@@ -142,22 +155,22 @@ To install the Helm chart, follow these steps:
 2. Use the following command to install the Helm chart from your root directory:
 
 ```sh
-helm install cdomain docu/4-expert/-Kyma-/custom-domain/chart -n susaas --wait 
+helm install cdomain ./docu/4-expert/-Kyma-/custom-domain/chart -n default --wait 
 ```
 
 3. Check if everything went well with commands below. All the objects should be in ready state.
 
 ```sh
 # To check if DNS Provider is ready
-kubectl get dnsproviders cdomain-susaas-dns-provider -n susaas -o jsonpath="{.metadata.name}{.status.state}"
+kubectl get dnsproviders cdomain-susaas-dns-provider -n default -o jsonpath="{.metadata.name}{.status.state}"
 ```
 ```sh
 # To check if DNS Entry is ready
-kubectl get dnsentry cdomain-susaas-dns-entry -n susaas -o jsonpath="{.metadata.name}{.status.state}"
+kubectl get dnsentry cdomain-susaas-dns-entry -n default -o jsonpath="{.metadata.name}{.status.state}"
 ```
 ```sh
 # To check if Issuer is ready
-kubectl get issuer cdomain-susaas-cert-issuer -n susaas -o jsonpath="{.metadata.name}{.status.state}"
+kubectl get issuer cdomain-susaas-cert-issuer -n default -o jsonpath="{.metadata.name}{.status.state}"
 ```
 ```sh
 # To check if Certificate is ready
@@ -174,19 +187,21 @@ If everything is ready, you can go ahead and expose your services via using your
 If you want to clean-up all the resources created run the command below.
 
 ```sh
-helm uninstall cdomain -n susaas
+helm uninstall cdomain -n default
 ```
 
 ### 4.2. Manual Step-By-Step Configuration
 
-This guide will walk you through the step-by-step process of installing the resources required for enabling custom domain usage in SAP BTP Kyma Runtime. Before proceeding, ensure that you have the kubectl command-line tool set up and access to the Kubernetes cluster.
+This guide will walk you through the step-by-step process of installing the resources required for enabling custom domain usage in SAP BTP Kyma Runtime. 
+
+Before proceeding, ensure that you have the kubectl command-line tool set up and access to the Kubernetes cluster.
 
 #### 4.2.1. Create Secret
 
 Run the command below with replacing the placeholders with your values.
 
 ```sh
-kubectl apply -n susaas -f  - <<EOF
+kubectl apply -n default -f  - <<EOF
 kind: Secret
 apiVersion: v1
 metadata:
@@ -205,11 +220,10 @@ EOF
 
 Run the command below with replacing the placeholders with your values.
 
-Example given below assumes that you are the owner of **example.com**.
-So please put the values as shown below, base domain and wildcard domain you want to use.
+The example given below assumes that you are the owner of **example.com**. So please put the values as shown below, base domain and wildcard domain you want to use.
 
 ```sh
-kubectl apply -n susaas -f - <<EOF
+kubectl apply -n default -f - <<EOF
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSProvider
 metadata:
@@ -232,15 +246,16 @@ EOF
 #### 4.2.3 Create DNS Entry 
 In this step, we will create a DNSEntry resource to configure the DNS entry for the wildcard domain. 
 
-But before that run the command below to get your Load Balancer Service IP for your Istio Ingress Gateway, since you need to give the value as a target.
+Before you run the command below to get your Load Balancer Service IP for your Istio Ingress Gateway, you need to give the value as a target.
 
 ```sh
 kubectl get services istio-ingressgateway -n istio-system -o json | jq ".status.loadBalancer.ingress[].hostname
 ```
+
 Before applying the YAML, make sure to replace <"*.kyma.example.com"> with your wildcard domain, and <yourgateway.ip> from the command before.
 
 ```sh
-kubectl apply -n susaas -f - <<EOF
+kubectl apply -n default -f - <<EOF
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
@@ -261,14 +276,12 @@ EOF
 
 #### 4.2.4. Create Issuer 
 
-In this step, we will create an Issuer resource responsible for managing SSL/TLS certificates using Let's Encrypt.
-Run command below to create an issuer object on your Kyma Cluster.
+In this step, we will create an Issuer resource responsible for managing SSL/TLS certificates using Let's Encrypt. 
 
-Replace <"kyma.example.com"> with your base domain and also replace <*.kyma.example.com> with your wildcard domain.
-Also replace <info@example.com> with a mail your organization has access to.
+Run command below to create an issuer object on your Kyma Cluster. Replace <"kyma.example.com"> with your base domain and also replace <*.kyma.example.com> with your wildcard domain. Also replace <info@example.com> with a mail your organization has access to.
 
 ```sh
-kubectl apply -n susaas -f - <<EOF
+kubectl apply -n default -f - <<EOF
 apiVersion: cert.gardener.cloud/v1alpha1
 kind: Issuer
 metadata:
@@ -291,8 +304,9 @@ EOF
 
 
 #### 4.2.5. Create Certificate 
-In this step, we will create a Certificate resource to manage the SSL/TLS certificate for your custom domain. Before applying the YAML, make sure to replace <kyma.example.com> with your base domain and <*.kyma.example.com> with your wildcard domain. 
-Please notice that you are applying the certificate to the istio-system namespace. That is a known issue from Istio.
+In this step, we will create a Certificate resource to manage the SSL/TLS certificate for your custom domain. 
+
+Before applying the YAML, make sure to replace <kyma.example.com> with your base domain and <*.kyma.example.com> with your wildcard domain. Please notice that you are applying the certificate to the istio-system namespace. That is a known issue from Istio.
 
 ```sh
 kubectl apply -n istio-system -f - <<EOF
@@ -357,41 +371,32 @@ EOF
 
 ### 4.3. Expose Your SusaaS Application with your Custom Domain
 
-Go to your [sustainable-saas chart values-private.yaml](../../../../deploy/kyma/charts/sustainable-saas/values-private.yaml), and modify it as shown below.
-
-You need to change global.gateway value with **susaas/cdomain-gateway**.
-<br>
-Second thing you need to change is the domain value. You need to set your domain: **kyma.example.com** as shown below.
+Go to your [sustainable-saas chart values-private.yaml](../../../../deploy/kyma/charts/sustainable-saas/values-private.yaml), and modify it as shown below. You need to change the **global.gateway** value to **default/cdomain-gateway**. Second thing you need to change is the domain value. You need to set your domain to **kyma.example.com** as shown below.
 
 ```yaml
 
 global:
   imagePullSecret: {}
-  domain: kyma.example.com # see domain in Config Map kube-system/shoot-info or custom domain (e.g. sap-demo.com) 
-  shootName: c-xyz # see shootName in Config Map kube-system/shoot-info
-  gateway: susaas/cdomain-gateway # use default value (kyma-system/kyma-gateway) or custom gateway (e.g. susaas/demo-gateway)
+  domain: kyma.example.com  
+  shootName: a1b2c3 
+  gateway: default/cdomain-gateway 
 
 ```
 
-After that you need to edit also your [xs-security.json](../../../../deploy/kyma/charts/sustainable-saas/xs-security.json) as shown below.
+Last but not least, also provide a new redirect URL as part of the **xsuaa** OAuth2 Configuration, which is also part of your existing **values-private.yaml** file. 
 
-```json
+```yaml
 ...
-  "oauth2-configuration": {
-    "token-validity": 900,
-    "redirect-uris": [
-      "https://*.a1b2c3d4.kyma.ondemand.com/**",
-      "http://*.localhost:5000/**",
-      "http://localhost:5000/**",
-      "https://*.kyma.example.com/**"  // Adjust your domain here with the wildcard and "https://" prefix as shown
-    ],
-    "credential-types": [
-      "binding-secret",
-      "x509"
-    ]
-  }
-}
 
+xsuaa:
+  parameters:
+   oauth2-configuration:
+    redirect-uris:
+      # Provide domain here with the wildcard and "https://" prefix as shown
+      - https://*.kyma.example.com/**  
+      - https://*.a1b2c3.kyma.ondemand.com/**
+      - http://*.localhost:5000/**
+      - http://localhost:5000/**
 ```
 
 If you have done the changes, last step is upgrading the helm release so that you application uses the new domain and gateway you created.
@@ -399,7 +404,8 @@ If you have done the changes, last step is upgrading the helm release so that yo
 On your root directory, run the command below: 
 
 ```sh
-helm upgrade susaas deploy/kyma/charts/sustainable-saas -n susaas -f deploy/kyma/charts/sustainable-saas/values-private.yaml
+# Run in root directory #
+helm upgrade susaas deploy/kyma/charts/sustainable-saas -f deploy/kyma/charts/sustainable-saas/values-private.yaml -n default 
 ```
 
 Now you can go ahead and [subscribe](../../../2-basic/4-subscribe-consumer-subaccount/), you should see that your application is using your new domain.
