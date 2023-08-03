@@ -23,9 +23,9 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 > **Hint** - Most Expert Feature topics can also be done in **Trial** accounts (see exclusions below), although we recommend to use one of the account types mentioned above (PAYG or CPEA).
 
 
-**Expert Features for all SAP BTP accounts using free service plans**
+## Expert Features for all SAP BTP accounts using free service plans**
 
-**Kyma & Cloud Foundry**
+### Kyma & Cloud Foundry
 
 * Local and hybrid development - ([click here](../local-hybrid-development/README.md))
 * Custom domain for SAP IAS - ([click here](../custom-domain-for-ias/README.md))
@@ -38,17 +38,23 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 * Integrate a Consumer IdP - ([click here](../integrate-consumers-idp/README.md))
 * Update Tenant database containers - ([click here](../update-tenant-containers/README.md))
   
-**Kyma**
+### Kyma
 
+* Setup a Continuous Integration Scenario - ([Kyma](../-Kyma-/setup-cicd-for-project/README.md))
 * Onboarding Automation and One Domain - ([Kyma](../-Kyma-/saas-self-onboarding/README.md))
+* Custom domain usage - ([Kyma](../-Kyma-/custom-domain-usage/README.md))
+
+
+### Cloud Foundry
+
 * Setup a Continuous Integration Scenario - ([Cloud Foundry](../-CloudFoundry-/setup-cicd-for-project/README.md))
 * Using the SAP Theme Designer - ([Cloud Foundry](../-CloudFoundry-/using-sap-theme-designer/README.md))
 * Configure SAP Transport Management - ([Cloud Foundry](../-CloudFoundry-/configure-transport-management/README.md))
 
 
-**Expert Features for non-Trial SAP BTP accounts and paid scenarios**
+## Expert Features for non-Trial SAP BTP accounts and paid scenarios
 
-**Cloud Foundry**
+### Cloud Foundry
 
 * Multiple SAP HANA Cloud instances - ([Cloud Foundry](../-CloudFoundry-/multiple-hana-cloud/README.md))
 * Deployment to multiple regions - ([Cloud Foundry](../-CloudFoundry-/deploy-multiple-regions/README.md))

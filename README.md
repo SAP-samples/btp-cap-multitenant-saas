@@ -89,6 +89,7 @@ After adding some or all of the Advanced Features, the following **Expert Featur
 
 **Kyma**
 
+- Custom domain usage - ([Kyma](./docu/4-expert/-Kyma-/custom-domain-usage/README.md))
 - Onboarding Automation and One Domain - ([Kyma](./docu/4-expert/-Kyma-/saas-self-onboarding/README.md))
 
 
