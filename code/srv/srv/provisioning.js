@@ -10,10 +10,12 @@ class Provisioning {
             const { 
                 subscribedSubdomain: subdomain, 
                 subscribedTenantId : tenant, 
-                subscriptionParams : { 
-                    custSubdomain : custdomain = null 
-                } 
+                subscriptionParams : params = {}
             }  = req.data;
+    
+            console.log("Subscription Params: " + params);
+            const { custSubdomain: custdomain = null } = params;
+
             console.log('Custdomain ' + custdomain);
             const tenantURL = this.getTenantUrl(subdomain, custdomain);
             
