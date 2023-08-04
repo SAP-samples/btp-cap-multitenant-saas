@@ -68,8 +68,8 @@ api:
     host: <ProviderSubaccountSubdomain>.prod.apimanagement.<ProviderSubaccountRegion>.hana.ondemand.com
     # SAP API Management Runtime Port (default - 443)
     port: 443
-    # SAP API Management API Proxy Path (default - kyma-api-susaas)
-    path: kyma-api-susaas
+    # SAP API Management API Proxy Path (default - susaas-api)
+    path: susaas-api
     # Details of the API XSUAA SAP BTP Service Instance
     xsuaa: 
       # Provide the XSUAA tenant URL of Provider Subaccount in the following format
