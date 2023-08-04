@@ -1,15 +1,11 @@
 using PublicService as service from '../../public-service';
 
-/**
- *  UI.Identification
- */
+/* UI.Identification */
 annotate service.MaterialSplits with @(
     Common.SemanticKey  : [ID]
 );
 
-/**
- *  UI.LineItems
- */
+/* UI.LineItems */
 annotate service.MaterialSplits with @(
     UI.LineItem : [
         {

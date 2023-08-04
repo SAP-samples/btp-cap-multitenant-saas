@@ -4,17 +4,13 @@ using PublicService.SalesSplits as salesSplits from './layouts_SalesSplits';
 using PublicService.MaterialSplits as materialSplits from './layouts_MaterialSplits';
 
 
-/**
- * UI.Identification
- */
+/* UI.Identification */
 annotate service.Assessments with @(
     Common.SemanticKey : [ID]
 );
 
 
-/**
- * UI.LineItem
- */
+/* UI.LineItem */
 annotate service.Assessments with @(
     UI.LineItem             : {
         $value : [
@@ -81,9 +77,7 @@ annotate service.Assessments with @(
 );
 
 
-/**
- * UI.FieldGroups
- */
+/* UI.FieldGroups */
 annotate service.Assessments with @(
     UI.FieldGroup #CircularityMetrics: {
         Label : '{i18n>circularityMetric.typeNamePlural}',
@@ -112,10 +106,7 @@ annotate service.Assessments with @(
 );
 
 
-/**
- * UI.Facets
- */
-
+/* UI.Facets */ 
 annotate service.Assessments with @(
     UI.Facets : [
         {
@@ -215,9 +206,7 @@ annotate service.Assessments with @(
 );
 
 
-/**
- * UI.HeaderInfo
- */
+/* UI.HeaderInfo */
 annotate service.Assessments with @(
     UI.HeaderInfo : {
         TypeName       : '{i18n>assessment}',

@@ -1,8 +1,6 @@
 using PublicService as service from '../../public-service';
 
-/**
- * UI.Identification
- */
+/* UI.Identification */
 annotate service.SalesSplits with @(
     Common.SemanticKey : [ID]
 ); 
@@ -66,9 +64,7 @@ annotate service.SalesSplits with @(
 );
 
 
-/**
- * UI.LineItem
- */
+/* UI.LineItem */
 annotate service.SalesSplits with @(
     UI.LineItem : {
         $value : [
@@ -106,9 +102,7 @@ annotate service.SalesSplits with @(
     ]}
 );
 
-/**
- * UI.Chart
- */
+/* UI.Chart */
 annotate service.SalesSplits with @(
     UI.Chart #columnChartSalesSplits : {
         ChartType           : #Column,
@@ -124,9 +118,7 @@ annotate service.SalesSplits with @(
 );
 
 
-/**
- * UI.Chart
- */
+/* UI.PresentationVariant */
 annotate service.SalesSplits with @(
     UI.PresentationVariant: {
         Visualizations : [

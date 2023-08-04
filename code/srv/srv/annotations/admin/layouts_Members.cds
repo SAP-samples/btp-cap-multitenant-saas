@@ -1,15 +1,11 @@
 using AdminService as service from '../../admin-service';
 
-/**
- * UI.Identification
- */
+/* UI.Identification */
 annotate service.Members with @(
     Common.SemanticKey : [project_ID, user_ID]
 );
 
-/**
- * UI.LineItem
- */
+/* UI.LineItem */
 annotate service.Members with @(
     UI.LineItem : {
         $value : [{

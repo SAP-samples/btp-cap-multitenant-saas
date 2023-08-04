@@ -1,15 +1,11 @@
 using AdminService as service   from '../../admin-service';
 
-/**
-    UI.Identification
- */
+/* UI.Identification */
 annotate service.Roles with @(
     Common.SemanticKey  : [ID]
 );
 
-/**
-    UI.LineItems
- */
+/* UI.LineItems */
 annotate service.Roles with @(
     UI.LineItem : {
         $value : [

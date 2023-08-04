@@ -1,15 +1,11 @@
 using PublicService as service from '../../public-service';
 
-/**
-    UI.Identification
- */
+/* UI.Identification */
 annotate service.CircularityMetrics with @(
     Common.SemanticKey  : [ID]
 );
 
-/**
-    UI.LineItems
- */
+/* UI.LineItems */
 annotate service.CircularityMetrics with @(
     UI.LineItem : [
         {
@@ -31,10 +27,7 @@ annotate service.CircularityMetrics with @(
     ]
 );
 
-/**
-    Aggregations
- */
-
+/* Aggregations */
 annotate service.CircularityMetrics with @(
     Aggregation.ApplySupported     : {
         Transformations        : [
@@ -62,10 +55,7 @@ annotate service.CircularityMetrics with @(
 
 
 
-/**
-    Analytics
- */
-
+/* Analytics */
 annotate service.CircularityMetrics with @(
     Analytics.AggregatedProperties : [
         {
@@ -78,9 +68,7 @@ annotate service.CircularityMetrics with @(
 );
 
 
-/**
- * UI.Charts
- */
+/* UI.Charts */
 annotate service.CircularityMetrics with @(
     UI.Chart #columnChartCircularityMetrics : {
         ChartType           : #Column,
@@ -96,9 +84,7 @@ annotate service.CircularityMetrics with @(
 );
 
 
-/**
- * UI.PresentationVariants
- */
+/* UI.PresentationVariants */
 annotate service.CircularityMetrics with @(
     UI.PresentationVariant #Chart: {
         Visualizations : ['@UI.Chart#columnChartCircularityMetrics']

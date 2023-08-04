@@ -2,16 +2,12 @@ using PublicService as service from '../../public-service';
 using PublicService.Assessments as assessments from './layouts_Assessments';
 using PublicService.Members as members from './layouts_Members';
 
-/**
- * UI.Identification
- */
+/* UI.Identification */
 annotate service.Projects with @(
     Common.SemanticKey : [ID] 
 ); 
 
-/**
- * UI.LineItem
- */
+/* UI.LineItem */
 annotate service.Projects with @(
     UI.LineItem             : {
         $value : [
@@ -34,9 +30,7 @@ annotate service.Projects with @(
     ]}
 );
 
-/**
- * UI.FieldGroup
- */
+/* UI.FieldGroup */
 annotate service.Projects with @(
     UI.FieldGroup #GeneralInformation : {
         Data : [
@@ -48,10 +42,7 @@ annotate service.Projects with @(
 );
 
 
-/**
- * UI.HeaderInfo
- */
-
+/* UI.HeaderInfo */
 annotate service.Projects with @(
     UI.HeaderInfo : {
         TypeName       : '{i18n>project}',
@@ -68,10 +59,7 @@ annotate service.Projects with @(
 );
 
 
-/**
- * UI.Facets
- */
-
+/* UI.Facets */
 annotate service.Projects with @(
     UI.Facets : [
         {
@@ -93,10 +81,7 @@ annotate service.Projects with @(
 );
 
 
-/**
- * UI.PresentationVariant
- */
-
+/* UI.PresentationVariant */
 annotate service.Projects with @(
     UI.PresentationVariant : {
         SortOrder      : [{

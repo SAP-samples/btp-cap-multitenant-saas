@@ -4,9 +4,7 @@ annotate service.Members with @(
     Common.SemanticKey : [user_ID] 
 ); 
 
-/**
- * UI.LineItem
- */
+/* UI.LineItem */
 annotate service.Members with @(
     UI.LineItem : {
         $value : [{
@@ -35,9 +33,7 @@ annotate service.Members with @(
     ]}
 );
 
-/**
- * UI.HeaderInfo
- */
+/* UI.HeaderInfo */
 annotate service.Members with @(
     UI.HeaderInfo : {
         TypeName       : '{i18n>member}',

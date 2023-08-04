@@ -1,15 +1,11 @@
 using AdminService as service  from '../../admin-service';
 
-/**
-    UI.Identification
- */
+/* UI.Identification */
 annotate service.Users with @(
     Common.SemanticKey  : [ID] 
 );
 
-/**
-    UI.LineItems
- */
+/* UI.LineItems */
 annotate service.Users with @(
     UI.LineItem : {
         $value : [
@@ -47,9 +43,7 @@ annotate service.Users with @(
     }
 );
 
-/**
-    UI.FieldGroup
- */
+/* UI.FieldGroup */
 annotate service.Users with @(
     UI.FieldGroup #GeneralInformation : {
         Data  : [
@@ -64,9 +58,7 @@ annotate service.Users with @(
 );
 
 
-/**
-    UI.HeaderInfo
- */
+/* UI.HeaderInfo */
 annotate service.Users with @(
     UI.HeaderInfo :{
         TypeName        : '{i18n>user}',
@@ -84,9 +76,7 @@ annotate service.Users with @(
 
 
 
-/**
-    UI.Facets
- */
+/* UI.Facets */
 annotate service.Users with @(
     UI.Facets : [
         {
@@ -109,19 +99,14 @@ annotate service.Users with @(
     ]
 );
 
-/**
- * UI.SelectionFields
- */
-
+/* UI.SelectionFields */
 annotate service.Users with @(
     UI.SelectionFields : [
         role_ID
     ]
 );
 
-/**
-    UI.PresentationVariant
- */
+/* UI.PresentationVariant */
 annotate service.Users with @(
     UI.PresentationVariant : {
         SortOrder       : [{
