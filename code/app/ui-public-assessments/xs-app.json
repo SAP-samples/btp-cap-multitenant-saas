@@ -4,7 +4,7 @@
     {
       "source": "^/catalog/(.*)$",
       "target": "/catalog/$1",
-      "destination": "srv-api",
+      "destination": "susaas-srv-api",
       "preferLocal": true,
       "authenticationType": "xsuaa"
     },

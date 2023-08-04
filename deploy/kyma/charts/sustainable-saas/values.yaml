@@ -353,7 +353,7 @@ destination:
         existing_destinations_policy: update
         destinations:
           # Backend Destination depends on dynamic Release name
-          - Name: srv-api
+          - Name: susaas-srv-api
             Authentication: NoAuthentication
             ProxyType: Internet
             Type: HTTP

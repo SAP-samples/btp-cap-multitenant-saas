@@ -187,6 +187,7 @@ Please check the below details on these additional entitlements required for the
     - **Issue**: The current implementation has issues to read and process the CSN file of the extended SaaS CAP service. This service serves as a base for the API CAP service.
     - **Workaround**: Extensibility has been temporarily disabled for the CAP API Service.
     - **Solution**: Issues has been addressed with the CAP product management and potential solutions will be worked on. 
+  - On CF Deployment, SusaaS Service Broker does not return API Endpoint of SusaaS API application
 
 
 ## How to obtain support
