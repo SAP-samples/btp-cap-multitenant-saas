@@ -1,7 +1,7 @@
 using {susaas.db as db} from '../../db/data-model';
 using {Percentage} from '../../db/data-model';
 
-service PublicService @(path : '/catalog/PublicService') {
+service PublicService @(path : '/catalog/PublicService', impl: 'srv/public-service') {
   
   entity Projects as projection on db.Projects excluding {
     createdAt, createdBy, modifiedAt, modifiedBy

@@ -1,6 +1,6 @@
 using {susaas.db as db} from '../../db/data-model';
 
-service AdminService @(path : '/catalog/AdminService') {
+service AdminService @(path : '/catalog/AdminService', impl: 'srv/admin-service') {
   
   entity Projects as projection on db.Projects excluding {
     createdAt,createdBy,modifiedAt,modifiedBy
