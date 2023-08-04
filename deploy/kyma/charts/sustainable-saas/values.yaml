@@ -163,7 +163,7 @@ html5_apps_deployer:
   image:
     # Provide your HTML5 Apps Deployer Docker Image repository
     repository: 
-    tag: latest
+    tag: 
   bindings:
     html5-apps-repo:
       serviceInstanceName: html5-repo-host

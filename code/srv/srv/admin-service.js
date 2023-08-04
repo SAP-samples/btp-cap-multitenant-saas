@@ -46,7 +46,7 @@ export default cds.service.impl(async function() {
                     }
                 }
             } catch(error){
-                console.error(`Error: An error occored while saving the user!`);
+                console.error(`Error: An error occurred while saving the user!`);
                 console.error("Error: ", error.message);
                 req.reject(500, error.message)
             }
