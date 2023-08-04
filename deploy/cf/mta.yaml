@@ -239,10 +239,10 @@ modules:
       SBF_ENABLE_AUDITLOG: false
       SBF_CATALOG_FILE: ./catalog.json
       SBF_SERVICE_CONFIG:
-          Sustainable SaaS API:
+          susaas-api:
             extend_credentials:
               shared:
-                apiUrl: ~{srv-url}
+                apiUrl: ~{susaas-api-srv-api/srv-url}
             extend_xssecurity:
               per_plan:
                 trial: 
@@ -260,7 +260,7 @@ modules:
                   displayName : Sustainable SaaS API ${space}
     requires:
       - name: susaas-api-uaa
-      - name: susaas-api-srv-api
+      - name: susaas-api-srv-api 
     provides:
       - name: susaas-api-sb-srv
         properties:
