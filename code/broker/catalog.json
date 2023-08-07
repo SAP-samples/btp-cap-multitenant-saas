@@ -1,8 +1,8 @@
 {
   "services": [
     {
-      "name": "Sustainable SaaS API",
-      "description": "API for Sustainable SaaS App",
+      "name": "susaas-api",
+      "description": "Sustainable SaaS API",
       "bindable": true,
       "plans": [
         {

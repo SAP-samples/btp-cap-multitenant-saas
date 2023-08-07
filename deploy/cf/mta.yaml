@@ -238,7 +238,8 @@ modules:
     properties:
       SBF_ENABLE_AUDITLOG: false
       SBF_CATALOG_FILE: ./catalog.json
-      SBF_SERVICE_CONFIG:
+      SBF_CATALOG_SUFFIX: ${space}-${org}
+      SBF_SERVICE_CONFIG: 
           susaas-api:
             extend_credentials:
               shared:
@@ -255,9 +256,8 @@ modules:
                   authorities: 
                   - $XSMASTERAPPNAME.plan_premium
             extend_catalog:
-              name : ~{susaas-api-uaa/xsuaa-app}
               metadata:
-                  displayName : Sustainable SaaS API ${space}
+                displayName : Sustainable SaaS API ${space}
     requires:
       - name: susaas-api-uaa
       - name: susaas-api-srv-api 
