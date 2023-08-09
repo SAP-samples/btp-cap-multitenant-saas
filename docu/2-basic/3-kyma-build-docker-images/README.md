@@ -186,7 +186,7 @@ As the API Service is based on CAP and Node.js, for the initial build or any cha
 
 This simplifies the containerization process and allows you to build a Docker Image without the necessity of maintaining a separate Dockerfile for Node.js workloads. During the build process, Paketo will take the content of the *gen/api* directory and put it into the working directory of a Node.js Docker Image. This image is based on the latest and stable Cloud Native Buildpacks. 
 
-**Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
+**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 ```json
 "build:api": "pack build sap-demo/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
@@ -203,7 +203,7 @@ As the central Backend Service is also based on CAP, for the initial build or an
 
 Doing so (as for the API Service), a Docker Image can be build without having to maintain a separate Dockerfile. During the build process, Paketo will take the content of the *gen/srv* directory, and place it into the working directory a Node.js Docker Image. Again, this image is based on the latest and stable Cloud Native Buildpacks.
 
-**Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
+**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 ```json
 "build:srv": "pack build sap-demo/susaas-srv --path ../../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
@@ -242,7 +242,7 @@ COPY . .
 CMD [ "npm", "start" ]
 ```
 
-**Build Docker Image based on Dockerfile above** ([/code/package.json](../../../code/package.json))
+**Build Docker Image based on Dockerfile above** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 > **Hint** - This following npm script will build a Docker Image based on the Dockerfile located in the */code/router* directory and will tag it with *sap-demo/susaas-router*. "sap-demo" has to be replaced by the prefix also used in step 3.1, if you want to run this command standalone.
 
@@ -259,7 +259,7 @@ For the API Service Broker (which is actually just a generic Node.js workload ba
 
 This way (as for the API and SaaS Backend Service), a Docker Image can be build without maintaining a separate Dockerfile. During the build process, Paketo will take the content of the *broker* directory, and place it into the working directory of a Node.js Docker Image. This Docker Image is again based on the latest Cloud Native Buildpacks. 
 
-**Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
+**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 ```json
 "build:broker": "pack build sap-demo/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js"
@@ -276,7 +276,7 @@ As this Docker Image is maintained by SAP, there is no need to make use of Cloud
 
 The *resources* folder (within the *code/app/html5-deployer* directory) contains the zipped UI5 modules (which you need to build upfront using the *npm run ui:apps* script - [see here](#2-build-your-components)). If you followed all previous tutorial steps, the respective zip files should already exist, as the respective command will automatically run the *build* scripts in the *package.json* files of our UI5 modules.
 
-**Npm script to trigger the build of a single UI module** ([/code/package.json](../../../code/package.json))
+**Npm script to trigger the build of a single UI module** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 ```json
 "ui:admin-projects": "npm run build:copy --prefix ../../code/app/ui-admin-projects/"
@@ -318,7 +318,7 @@ COPY . .
 CMD [ "npm", "start" ]
 ```
 
-**Build Docker Image based on Dockerfile above** ([/code/package.json](../../../code/package.json))
+**Build Docker Image based on Dockerfile above** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 ```json
 "build:html5-deployer": "docker build -t sap-demo/susaas-html5-deployer ../../code/app/html5-deployer"
@@ -332,7 +332,7 @@ As the data model of the shared database container is also based on CAP, for the
 
 After running the CDS build (compiling the CDS files of our CAP Backend, CAP API, Tenant and shared data model), the required Docker Image (containing an HDI deployer for the shared data model) is build using Paketo and Cloud Native Buildpacks. This simplifies the build process and allows us to build a Docker Image without the necessity of maintaining a separate Dockerfile. During the build process, Paketo will take the content of the *gen/db-com* directory and place it into the working directory of a Node.js Docker Image. This image is based on the latest Cloud Native Buildpacks. 
 
-**Npm script to build the Docker Image using Paketo** ([/code/package.json](../../../code/package.json))
+**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
 
 ```json
 "build:db-com": "pack build sap-demo/susaas-db-com --path ../../code/gen/db-com --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/hdi-deploy/deploy.js"
