@@ -27,71 +27,72 @@ Below you can find the solution architecture diagrams of our sample application.
 
 To get started, we recommend to **Discover** some basic skills and learnings first. The following parts of the documentation will introduce you to the basics of this scenario, the concepts of multitenancy, and Software as a Service applications. 
 
-- [Discover the tutorial target](./docu/1-discover/1-discover-tutorial-target/README.md)
-- [Basics of SAP BTP, Cloud Foundry, Kyma and CAP](./docu/1-discover/2-learn-basics-btp-cf-kyma/README.md)
-- [Partners in SAP BTP ecosystem](./docu/1-discover/3-partners-sap-btp-ecosystem/README.md)
-- [Get an idea of SaaS applications](./docu/1-discover/4-get-idea-saas-applications/README.md)
-- [Understand SAP BTP multitenancy](./docu/1-discover/5-understand-btp-multitenancy/README.md)
-- [What's New](./docu/1-discover/6-whats-new/README.md)
+- [1 - Discover the tutorial target](./docu/1-discover/1-discover-tutorial-target/README.md)
+- [2 - Basics of SAP BTP, Cloud Foundry, Kyma and CAP](./docu/1-discover/2-learn-basics-btp-cf-kyma/README.md)
+- [3 - Partners in SAP BTP ecosystem](./docu/1-discover/3-partners-sap-btp-ecosystem/README.md)
+- [4 - Get an idea of SaaS applications](./docu/1-discover/4-get-idea-saas-applications/README.md)
+- [5 - Understand SAP BTP multitenancy](./docu/1-discover/5-understand-btp-multitenancy/README.md)
+- [6 - What's New](./docu/1-discover/6-whats-new/README.md)
 
 
 Continue your journey and deploy the **Basic Version** of the SaaS sample application to your SAP BTP, Cloud Foundry or Kyma environment, after preparing your Provider Subaccount by assigning the required entitlements. Learn about the different components used in the comprehensive SaaS sample app running in your environment now and subscribe a first Consumer Tenant. 
 
-- [Introduction of the Basic Version](./docu/2-basic/0-introduction-basic-version/README.md)
-- [Understand the repository structure](./docu/2-basic/1-understand-repo-structure/README.md)
-- [Prepare the Provider Subaccount](./docu/2-basic/2-prepare-provider-subaccount/README.md)
-- [Build and deploy the Application](./docu/2-basic/3-cf-build-deploy-application/README.md) (**Cloud Foundry** only)
-- [Build your Docker images](./docu/2-basic/3-kyma-build-docker-images/README.md) (**Kyma** only)
-- [Deploy the SaaS application](./docu/2-basic/3-kyma-deploy-application/README.md) (**Kyma** only)
-- [Subscribe a Consumer Subaccount](./docu/2-basic/4-subscribe-consumer-subaccount/README.md)
-- [Push data to the SaaS API](./docu/2-basic/5-push-data-to-saas-api/README.md)  
-- [Test the SaaS application](./docu/2-basic/6-test-the-application/README.md)
-- [Explore the application components](./docu/2-basic/7-explore-the-components/README.md)  
-- [Discover Helm and Kyma Resources](./docu/2-basic/7-kyma-resources-helm/README.md) (**Kyma** only)
-- [Unsubscribe Consumer Subaccounts](./docu/2-basic/8-unsubscribe-consumer-subaccount/README.md)
-- [Undeploy the SaaS application](./docu/2-basic/9-undeploy-saas-application/README.md)
+- [0 - Introduction of the Basic Version](./docu/2-basic/0-introduction-basic-version/README.md)
+- [1 - Understand the repository structure](./docu/2-basic/1-understand-repo-structure/README.md)
+- [2 - Prepare the Provider Subaccount](./docu/2-basic/2-prepare-provider-subaccount/README.md)
+-  3 - Build and deploy the Application
+   - [Build and deploy the Application](./docu/2-basic/3-cf-build-deploy-application/README.md) (**Cloud Foundry** only)
+   - [Build your Container Images](./docu/2-basic/3-kyma-build-docker-images/README.md) (**Kyma** only)
+   - [Deploy the SaaS Application](./docu/2-basic/3-kyma-deploy-application/README.md) (**Kyma** only)
+- [4 - Subscribe a Consumer Subaccount](./docu/2-basic/4-subscribe-consumer-subaccount/README.md)
+- [5 - Push data to the SaaS API](./docu/2-basic/5-push-data-to-saas-api/README.md)  
+- [6 - Test the SaaS application](./docu/2-basic/6-test-the-application/README.md)
+- 7 - Explore technical Application details
+  - [Explore the application components](./docu/2-basic/7-explore-the-components/README.md)  
+  - [Discover Helm and Kyma Resources](./docu/2-basic/7-kyma-resources-helm/README.md) (**Kyma** only)
+- [8 - Unsubscribe Consumer Subaccounts](./docu/2-basic/8-unsubscribe-consumer-subaccount/README.md)
+- [9 - Undeploy the SaaS application](./docu/2-basic/9-undeploy-saas-application/README.md)
 
  Once you successfully deployed the Basic features of the SaaS sample application to your Cloud Foundry landscape or Kyma Cluster, feel free to enhance it with more features as part of the **Advanced Version**. This includes for example a SAP API Management integration to monitor and manage your SaaS API endpoints or SAP Identity Authentication to provide a Central User Management without relying on SAP ID service. Furthermore, you will learn and see a sample of how to integrate a backend system like SAP S/4HANA from a SaaS Consumer perspective. 
 
-- [Introduction of the Advanced Version](./docu/3-advanced/0-introduction-advanced-version/README.md)
-- [Prepare the Provider Subaccount](./docu/3-advanced/1-prepare-provider-subaccount/README.md)
-- [Central user management with SAP IAS](./docu/3-advanced/2-central-user-management-ias/README.md)
-- [Push data from SAP S/4HANA system](./docu/3-advanced/3-push-data-s4hana-system/README.md)
-- [Integrate with SAP API Management](./docu/3-advanced/4-cf-integrate-api-management/README.md) (**Cloud Foundry** only)
-- [Integrate with SAP API Management](./docu/3-advanced/4-kyma-integrate-api-management/README.md) (**Kyma** only)
+- [0 - Introduction of the Advanced Version](./docu/3-advanced/0-introduction-advanced-version/README.md)
+- [1 - Prepare the Provider Subaccount](./docu/3-advanced/1-prepare-provider-subaccount/README.md)
+- [2 - Central user management with SAP IAS](./docu/3-advanced/2-central-user-management-ias/README.md)
+- [3 - Push data from SAP S/4HANA system](./docu/3-advanced/3-push-data-s4hana-system/README.md)
+- 4 - Make your API enterprise-ready
+  - [Connect Cloud Foundry with SAP API Management](./docu/3-advanced/4-cf-integrate-api-management/README.md) (**Cloud Foundry** only)
+  - [Integrate Kyma with SAP API Management](./docu/3-advanced/4-kyma-integrate-api-management/README.md) (**Kyma** only)
 
 
 After adding some or all of the Advanced Features, the following **Expert Features** contain a variety of different topics, which will make your application and life as a SaaS developer even more convenient. You will learn about management and backup of your Tenant database containers, multi-region deployments of SaaS applications and how to tackle topics like Custom Domain usage. Most of the Advanced Features can be tested with both, the Cloud Foundry and the Kyma Runtime, while some of the features are (as of now) available for a specific runtime only.  
 
 > **Important** - Some of the Expert Features are Work-in-Progress. The code and documentation are subject to change. 
 
-**Kyma & Cloud Foundry**
+- [Local and hybrid development](./docu/4-expert/local-hybrid-development/README.md)
+- [Custom domain for SAP IAS](./docu/4-expert/custom-domain-for-ias/README.md)
+- [Send emails using Microsoft Graph](./docu/4-expert/send-emails-graph-api/README.md)
+- [Feature Toggles](./docu/4-expert/feature-toggles/README.md)
+- [SaaS Consumer Extensibility](./docu/4-expert/consumer-extensibility/README.md)
+- [Manage Tenant database containers](./docu/4-expert/manage-tenant-containers/README.md)
+- [HDI container administration](./docu/4-expert/hdi-container-administration/README.md)
+- [Backup database containers](./docu/4-expert/backup-database-containers/README.md)
+- [Integrate a Consumer IdP](./docu/4-expert/integrate-consumers-idp/README.md)
+- [Update Tenant database containers](./docu/4-expert/update-tenant-containers/README.md)
 
-- Local and hybrid development - ([click here](./docu/4-expert/local-hybrid-development/README.md))
-- Custom domain for SAP IAS - ([click here](./docu/4-expert/custom-domain-for-ias/README.md))
-- Send emails using Microsoft Graph - ([click here](./docu/4-expert/send-emails-graph-api/README.md))
-- Feature Toggles - ([click here](./docu/4-expert/feature-toggles/README.md))
-- SaaS Consumer Extensibility - ([click here](./docu/4-expert/consumer-extensibility/README.md))
-- Manage Tenant database containers - ([click here](./docu/4-expert/manage-tenant-containers/README.md))
-- HDI container administration - ([click here](./docu/4-expert/hdi-container-administration/README.md))
-- Backup database containers - ([click here](./docu/4-expert/backup-database-containers/README.md))
-- Integrate a Consumer IdP - ([click here](./docu/4-expert/integrate-consumers-idp/README.md))
-- Update Tenant database containers - ([click here](./docu/4-expert/update-tenant-containers/README.md))
+**Cloud Foundry** (only)
 
-**Cloud Foundry**
+- [Custom domain usage](./docu/4-expert/-CloudFoundry-/custom-domain-usage/README.md)
+- [Multiple SAP HANA Cloud instances](./docu/4-expert/-CloudFoundry-/multiple-hana-cloud/README.md)
+- [Deployment to multiple regions](./docu/4-expert/-CloudFoundry-/deploy-multiple-regions/README.md)
+- [Setup a Continuous Integration Scenario](./docu/4-expert/-CloudFoundry-/setup-cicd-for-project/README.md)
+- [Using the SAP Theme Designer](./docu/4-expert/-CloudFoundry-/using-sap-theme-designer/README.md)
+- [Configure SAP Transport Management](./docu/4-expert/-CloudFoundry-/configure-transport-management/README.md)
 
-- Custom domain usage - ([Cloud Foundry](./docu/4-expert/-CloudFoundry-/custom-domain-usage/README.md))
-- Multiple SAP HANA Cloud instances - ([Cloud Foundry](./docu/4-expert/-CloudFoundry-/multiple-hana-cloud/README.md))
-- Deployment to multiple regions - ([Cloud Foundry](./docu/4-expert/-CloudFoundry-/deploy-multiple-regions/README.md))
-- Setup a Continuous Integration Scenario - ([Cloud Foundry](./docu/4-expert/-CloudFoundry-/setup-cicd-for-project/README.md))
-- Using the SAP Theme Designer - ([Cloud Foundry](./docu/4-expert/-CloudFoundry-/using-sap-theme-designer/README.md))
-- Configure SAP Transport Management - ([Cloud Foundry](./docu/4-expert/-CloudFoundry-/configure-transport-management/README.md))
+**Kyma** (only)
 
-**Kyma**
-
-- Custom domain usage - ([Kyma](./docu/4-expert/-Kyma-/custom-domain-usage/README.md))
-- Onboarding Automation and One Domain - ([Kyma](./docu/4-expert/-Kyma-/saas-self-onboarding/README.md))
-- Setup a Continuous Integration Scenario - ([Kyma](./docu/4-expert/-Kyma-/setup-cicd-for-project/README.md))
+- [Custom domain usage](./docu/4-expert/-Kyma-/custom-domain-usage/README.md)
+- [Onboarding Automation and One Domain](./docu/4-expert/-Kyma-/saas-self-onboarding/README.md)
+- [Setup a Continuous Integration Scenario](./docu/4-expert/-Kyma-/setup-cicd-for-project/README.md)
 
 
 ## Requirements
