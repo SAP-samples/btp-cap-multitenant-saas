@@ -22,21 +22,20 @@ As already mentioned, you can set up the **Basic Version** of the sample applica
 
 Please make sure to cater the following prerequisites:
 
-**Cloud Foundry**
+**Cloud Foundry** (only)
 
 * In **Free Tier** scenarios, please create your SAP BTP Cloud Foundry environment using the **free** service plan (! assign in Entitlements if not visible !). 
-  > **Important** - Make sure to create your SAP BTP Kyma Runtime using the **free** plan and not the **Standard** plan. <br>
+  > **Important** - Make sure to create your SAP BTP Cloud Foundry Runtime using the **free** plan and not the **Standard** plan. <br>
   > **Important** - Please make sure to your Organization and Space name do not contain any spaces, special characters (except "-") or capital letters!
   > **Hint** - In Trial environments, the correct entitlement (**MEMORY** service plan) is auto-assigned to your default subaccount. <br>
 
-**Kyma**
+**Kyma** (only)
 
 * In **Free Tier** scenarios, please set up the SAP BTP Kyma Runtime using the **free** service plan (! assign in Entitlements if not visible !). 
-  > **Important** - Make sure to create your SAP BTP Kyma Runtime using the **free** plan and not the **Standard** plan. <br>
   > **Hint** - Follow the official documentation in SAP Tutorial navigator ([click here](https://developers.sap.com/tutorials/cp-kyma-getting-started.html)) if required.
   > **Hint** - In Trial environments, you have to assign the **trial** service plan to your subaccount. <br>
 
-**HANA Cloud**
+**General** (Kyma & Cloud Foundry)
 
 * Set up a SAP HANA Cloud instance (**hana-free** service plan) using the **SAP HANA Cloud Tools** (**tools** service plan).
   > **Hint** - In Trial environments, you have to assign the **hana** service plan to your subaccount. <br>
@@ -99,7 +98,7 @@ If not available yet, please create a SAP HANA Cloud instance in your Provider s
 
 Once you created the SAP HANA Cloud instance, please map it with your Cloud Foundry environment or Kyma Cluster using the **Instance Mapping** feature. You can either map the SAP HANA Cloud instance with all namespaces in the Kyma Cluster or provide a dedicated namespace name. Same applies for Cloud Foundry, where you can map the SAP HANA Cloud instance to a whole Organization or a specific Space. 
 
-**Kyma** 
+**Kyma** (only)
 
 More information on how to share your SAP HANA Cloud instance with your Kyma Cluster can be found in the following blog post [(click here)](https://blogs.sap.com/2022/12/15/consuming-sap-hana-cloud-from-the-kyma-environment/). 
 
@@ -107,7 +106,7 @@ More information on how to share your SAP HANA Cloud instance with your Kyma Clu
 
 [<img src="./images/HanaCloudKyma.png" width="600"/>](./images/HanaCloudKyma.png?raw=true)
 
-**Cloud Foundry**
+**Cloud Foundry** (only)
 
 More information on how to share your SAP HANA Cloud instance with your Cloud Foundry environment can be found in the following SAP Help document [(click here)](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context?locale=en-US). Similar features are also offered by the **SAP HANA Cloud Tools**, which can also be used to map an existing SAP HANA Cloud instance to your Cloud Foundry landscape.
 
@@ -116,11 +115,11 @@ More information on how to share your SAP HANA Cloud instance with your Cloud Fo
 
 ## 4. SAP Alert Notification Technical User
 
-**Kyma**
+**Kyma** (only)
 
 For the Kyma environment, this step is not required as no lifecycle events are send by the sample application using the Alert Notification Service. 
 
-**Cloud Foundry**
+**Cloud Foundry** (only)
 
 If you are using the Cloud Foundry Runtime, please add a dedicated Technical User as a Space Auditor to the Cloud Foundry Space of your Provider Subaccount. This user is required by SAP Alert Notification to inform you about lifecycle events of your SaaS application. You can find a list of users per region in the official SAP Help documentaton ([click here](https://help.sap.com/docs/ALERT_NOTIFICATION/5967a369d4b74f7a9c2b91f5df8e6ab6/4255e6064ea44f20a540c5ae0804500d.html?locale=en-US)).
 
@@ -133,16 +132,16 @@ For **us10** region, please add for example **sap_cp_us10_ans@sap.com** as a Spa
 
 When using **free** SAP BTP services plans like **trial** for Kyma or **hana-free** for SAP HANA Cloud, please be aware of the following limitations:
 
-**Kyma**
+**Kyma** (only)
 
 - Your **Free Kyma Clusters** in **trial**, PAYG and CPEA accounts have a restrictive resource limitation. Make sure you have enough resources left before deploying the sample application. Check out the details provided in [Discovery Center](https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime?region=all&tab=service_plan&service_plan=free&commercialModel=cloud) to learn more.
 - SAP BTP Kyma **trial** service plan is usable for 14 days only ([click here](https://blogs.sap.com/2022/09/13/sap-btp-kyma-runtime-trial-clusters-lifespan-limited-to-14-days/)). After this period, you need to setup a new SAP BTP Kyma Cluster. This limitation does not exist in CPEA or PAYG accounts using the **free tier** service plans. Therefore, we highly recommend to use a PAYG or CPEA account combined with **free tier** service plans. 
 
-**Cloud Foundry**
+**Cloud Foundry** (only)
 
 - All **Cloud Foundry** workloads in **trial** environments, will be stopped on a daily basis, to reduce resource consumption. Check (and if necessary restart) your applications before using your SaaS scenarios.
 
-**HANA Cloud**
+**General** (Kyma & Cloud Foundry)
 
 - Free **SAP HANA Cloud** instances will be stopped on a daily basis, to reduce resource consumption. Check (and if necessary restart) your SAP HANA Cloud instance before using your SaaS scenarios. Furthermore, you have **30 days** to **restart** your instances or they will be **deleted**.
 
