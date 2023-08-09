@@ -23,7 +23,7 @@ spec:
         sidecar.istio.io/inject: "false"
     spec:
       restartPolicy: Never
-      {{- include "cap.imagePullSecrets" $ | nindent 6 -}}
+      {{- include "cap.imagePullSecrets" $ | nindent 6 }}
       volumes:
         {{- include "cap.sapcp.bindingsVolumes" $ | nindent 10 }}
       containers:
