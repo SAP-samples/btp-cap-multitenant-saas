@@ -47,7 +47,7 @@ While Cloud Foundry offers a very convenient integration option using so-called 
 
 Only if those rules are passed, the traffic is send back to Kyma and routed to the actual API Service workloads. The relevant SAP API Management instance details for this routing have to be maintained in an additional *values-apim.yaml* file. 
 
-3.1. Below you can see the required configuration for the API Management Integration. You can find a respective sample in the provided [./files/values-apim.yaml](./files/values-apim.yaml) file of this Advanced Feature. Please add this sample configuration to the existing **api** section of your **values-private.yaml** file in your [deploy/kyma/charts/sustainable-saas](../../../deploy/kyma/charts/sustainable-saas) directory. The **api** section in your *values-private.yaml* file should look as follows:
+3.1. Below you can see the required configuration for the API Management Integration. You can find a respective sample in the provided [./files/values-apim.yaml](./files/values-apim.yaml) file of this Advanced Feature. Please add this sample configuration to the existing **api** section of your **values-private.yaml** file in your [deploy/kyma/charts/sustainable-saas](../../../deploy/kyma/charts/sustainable-saas/) directory. The **api** section in your *values-private.yaml* file should look as follows:
 
 ```yaml
 ...
