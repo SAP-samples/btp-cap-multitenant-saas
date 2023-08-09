@@ -30,7 +30,7 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 * Local and hybrid development - ([click here](../local-hybrid-development/README.md))
 * Custom domain for SAP IAS - ([click here](../custom-domain-for-ias/README.md))
 * Send emails using Microsoft Graph - ([click here](../send-emails-graph-api/README.md))
-* Feature Toggles - ([click here](..feature-toggles/README.md))
+* Feature Toggles - ([click here](../feature-toggles/README.md))
 * SaaS Consumer Extensibility - ([click here](../consumer-extensibility/README.md))
 * Manage Tenant database containers - ([click here](../manage-tenant-containers/README.md))
 * HDI container administration - ([click here](../hdi-container-administration/README.md))

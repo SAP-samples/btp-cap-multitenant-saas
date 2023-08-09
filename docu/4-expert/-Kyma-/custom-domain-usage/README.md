@@ -33,7 +33,7 @@ At this tutorial, we will use the registered domain from Amazon Web Services(AWS
 - You have an AWS Account [and you have access to it via AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-short-term.html).
 - You have a [registered](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html#register_new_console) or [transferred](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/migrate-dns-domain-in-use.html) domain in Route 53.
 - You have a SAP BTP Kyma Cluster and you also have access to it via kubectl.  
-- You have a [deployed SusaaS Application release](docu/2-basic/3-kyma-deploy-application) running on SAP BTP Kyma Runtime.
+- You have a [deployed SusaaS Application release](../../../2-basic/3-kyma-deploy-application/README.md) running on SAP BTP Kyma Runtime.
 
 Follow the steps below to check if you are eligible to follow this step-by-step guide.
 
@@ -103,7 +103,7 @@ It creates an *A* record which points to your Istio ingress gateway.
 
 ### 4.1. Quick Start 
 
-If you want to jump directly and deploy your custom domain, you can directly use the [custom-domain chart](/chart) chart to deploy on your cluster. 
+If you want to jump directly and deploy your custom domain, you can directly use the [custom-domain chart](./chart/) chart to deploy on your cluster. 
 
 As you can see [here](./chart/values.yaml), the values.yaml file looks like below.
 

@@ -52,13 +52,13 @@ After login you should see the home page as shown below.
 
 3.2. Choose a product from the value help and press **Continue**. The project is prefilled automatically. 
 
-> **Hint** - If you cannot see products in the value help, make sure you've completed the **Push data to the SaaS API** section of the tutorial ([click here](../6-push-data-to-saas-api/README.md))!
+> **Hint** - If you cannot see products in the value help, make sure you've completed the **Push data to the SaaS API** section of the tutorial ([click here](../5-push-data-to-saas-api/README.md))!
 
 [<img src="./images/fill-assessment-info.png" width="600"/>](./images/fill-assessment-info.png?raw=true)
 
 3.3. Enter a mandatory description and press **Create**.
 
-[<img src="./images/create-assessment-2.png" width="600"/>](./images/create-asssesment-2.png?raw=true)
+[<img src="./images/create-assessment-2.png" width="600"/>](./images/create-assessment-2.png?raw=true)
 
 3.4. Switch to the **Circularity Metrics** tab and then click **Edit** to add circularity values.
 
@@ -100,7 +100,7 @@ Circularity Metrics
 
 ### Usage of the prefill feature
 
-Feel free to make use of the **Prefill** button available in each Assessment tab. In case you've provided respective sample data in the **Push data to the SaaS API** part of this tutorial ([click here](../6-push-data-to-saas-api/README.md)), the prefill feature will fill your tables with the respective values. 
+Feel free to make use of the **Prefill** button available in each Assessment tab. In case you've provided respective sample data in the **Push data to the SaaS API** part of this tutorial ([click here](../5-push-data-to-saas-api/README.md)), the prefill feature will fill your tables with the respective values. 
 
 
 ## 4. Create a Member User

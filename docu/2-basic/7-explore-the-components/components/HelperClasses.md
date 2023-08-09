@@ -31,7 +31,7 @@ The table below shows all helper classes used by the Sustainable SaaS business a
 | [Token-Helper](#5-Token-Helper)  | [token-utils.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/token-utils.js) | Helper class retrieving tokens from relevant OAuth2 servers |
 | [Destination-Helper](#6-Destination-Helper)  | [destination.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/destination.js) | Helper module interacting with the SAP Destination Service |
 | [Credential-Store-Helper](#7-Credential-Store-Helper)  | [credStore.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/credStore.js) | Helper module interacting with the SAP Credential Store when using Cloud Foundry |
-| [User-Management-Helper](#8-User-Management-Helper)  | [user-management.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/user-management-utils.js) | Helper class for User and Role management interacting with SAP Identity Authentication and XSUAA |
+| [User-Management-Helper](#8-User-Management-Helper)  | [user-management.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/user-management.js) | Helper class for User and Role management interacting with SAP Identity Authentication and XSUAA |
 | [Alert-Notification-Helper](#9-Alert-Notification-Helper)  | [alertNotification.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/alertNotification.js) | Helper class for interacting with SAP Alert Notification service |
 | [Kyma-Utils](#10-Kyma-Utils)  | [kyma-utils.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/kyma-utils.js) | Helper module interacting with the SAP Kyma Runtime API (e.g., to create Kyma API Rules) |
 | [Cloud-Foundry-Utils](#10-Cloud-Foundry-Utils)  | [cf-utils.js](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/cf-utils.js) | Helper module interacting with the Cloud Foundry API (e.g., to create Cloud Foundry Routes) |
@@ -104,7 +104,7 @@ When a Tenant **unsubscribes** from the Sustainable SaaS app,
 
 
 ## 3. Cloud Management Helper (cis-central.js)
-[SAP BTP Cloud Management Service](#https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/17b6a171552544a6804f12ea83112a3f.html?locale=en-US&q=Cloud%20Management%20Central) enables SAP BTP administrators to handle administrative tasks via APIs.
+[SAP BTP Cloud Management Service](https://help.sap.com/docs/btp/sap-business-technology-platform/account-administration-using-apis-of-sap-cloud-management-service) enables SAP BTP administrators to handle administrative tasks via APIs.
 
 In the Sustainable SaaS application context, we are using **SAP BTP Cloud Management Service** to create and delete Service Manager instances in Consumer Subaccounts. To be able to do this, the Cloud Management helper class contains functions to create and to delete a new Cloud Management Service instance (central plan) on runtime within the Provider Subaccount. The usage of the **central plan** is essential, as this plan allows management operations across subaccounts. 
 
@@ -131,7 +131,7 @@ The [Token helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/
 
 
 ## 6. Destination Helper (destination.js)
-The [Destination helper](./destination.js) is used for retrieving, creating, and deleting destinations in any given subaccount.
+The [Destination helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/destination.js) is used for retrieving, creating, and deleting destinations in any given subaccount.
 
 
 ## 7. Credential Store Helper (credStore.js)

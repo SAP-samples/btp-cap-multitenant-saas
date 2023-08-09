@@ -25,7 +25,7 @@ The main entities like Products, Sales Orders and further Recycling data can be 
 [<img src="./images/API_Endpoints01.png" width="300" />](./images/API_Endpoints01.png?raw=true)
 [<img src="./images/API_Endpoints02.png" width="300" />](./images/API_Endpoints02.png?raw=true)
 
-To connect to the SaaS API as a subscriber, make sure you followed all steps described in **Subscribe a Consumer Subaccount** ([click here](../5-subscribe-consumer-subaccount/README.md)). You will need the service binding credentials which you created for the API Broker service instance in the Subscriber Subaccount. If you haven't created this service binding yet, please go back and do it now. 
+To connect to the SaaS API as a subscriber, make sure you followed all steps described in **Subscribe a Consumer Subaccount** ([click here](../4-subscribe-consumer-subaccount/README.md)). You will need the service binding credentials which you created for the API Broker service instance in the Subscriber Subaccount. If you haven't created this service binding yet, please go back and do it now. 
 
 [<img src="./images/API_ServiceKey.png" width="400" />](./images/API_ServiceKey.png?raw=true)
 

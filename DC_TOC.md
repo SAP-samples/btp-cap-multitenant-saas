@@ -29,14 +29,14 @@ Prerequisites
     - [Undeploy the SaaS application](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/2-basic/9-undeploy-saas-application/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Troubleshooting](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/2-basic/10-troubleshooting/README.md)<!-- dc-card: {"label":  ["Important"]} dc-card -->
 - Advanced Version
-    - [Introduction Advanced Version](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/0-introduction-advanced-scope/README.md)<!-- dc-card: {"label":  ["Basics"]} dc-card -->
+    - [Introduction Advanced Version](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/0-introduction-advanced-version/README.md)<!-- dc-card: {"label":  ["Basics"]} dc-card -->
     - [Prepare the provider subaccount](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/1-prepare-provider-subaccount/README.md)<!-- dc-card: {"label":  ["Prerequisites"]} dc-card -->
     - [Central user management using SAP IAS](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/2-central-user-management-ias/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Push data from SAP S/4HANA system](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/3-push-data-s4hana-system/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Cloud Foundry - Integrate SAP API Management](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/4-cf-integrate-api-management/README.md)<!-- dc-card: {"label":  ["Hands-On","Cloud Foundry"]} dc-card -->
     - [Kyma - Integrate SAP API Management](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/3-advanced/4-kyma-integrate-api-management/README.md)<!-- dc-card: {"label":  ["Hands-On","Kyma"]} dc-card -->
 - Expert Features
-    - [Introduction Expert Scope](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/0-introduction-expert-scope/README.md)<!-- dc-card: {"label":  ["Basics"]} dc-card -->
+    - [Introduction Expert Scope](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/0-introduction-expert-features/README.md)<!-- dc-card: {"label":  ["Basics"]} dc-card -->
     - [Backup database containers](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/backup-database-containers/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [SaaS Consumer Extensibility](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/consumer-extensibility/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Custom domain for SAP IAS](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/custom-domain-for-ias/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->

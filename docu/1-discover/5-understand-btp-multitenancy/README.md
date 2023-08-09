@@ -11,7 +11,7 @@ When developing tenant-aware applications in the SAP BTP, keep in mind the follo
 - Avoid any possibility that application users can access a file system, as this may give them access to data of other tenants
 - To perform internal Tenant onboarding activities, such as creating a database schema for tenants, you must implement the Subscription callbacks of the *SAP Software as a Service Provisioning service* (saas-registry) and use the information provided in the subscription event. You can also implement the getDependencies callback to obtain the dependencies of any SAP reuse services by your application. 
 
-Check out the following content in SAP Help for further information ([click here](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/ff540477f5404e3da2a8ce23dcee602a.html)).
+Check out the following content in SAP Help for further information ([click here](https://help.sap.com/docs/btp/sap-business-technology-platform/develop-multitenant-application?locale=en-US)).
 
 
 ## SAP BTP Multitenancy Model

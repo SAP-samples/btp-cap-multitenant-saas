@@ -15,7 +15,7 @@ Given the sheer complexity of Helm, this tutorial will only cover certain basic 
   - [3. Getting Started with the sample application Helm Charts](#3-getting-started-with-the-sample-application-helm-charts)
     - [3.1. Chart.yaml file](#31-chartyaml-file)
     - [3.2. Values.yaml file](#32-valuesyaml-file)
-    - [3.3. values.schema.json and values.root.schema.json files](#33-valuesschemajson-and-valuesrootschemajson-files)
+    - [3.3. values.schema.json file](#33-valuesschemajson-file)
     - [3.4. Templates in Helm Chart](#34-templates-in-helm-chart)
     - [3.5. Render Helm Chart to preview the Kyma Resources](#35-render-helm-chart-to-preview-the-kyma-resources)
   - [4. Customizing the Helm Chart using templates](#4-customizing-the-helm-chart-using-templates)
@@ -64,7 +64,7 @@ A Helm Chart is a package that contains all the necessary information and config
 
 A Helm Chart is defined using a YAML file called [Chart.yaml](../../../../deploy/kyma/charts/sustainable-saas/Chart.yaml), which contains metadata about the chart such as its name, version, and description. The chart also includes a collection of templates written in Go Templating Language, that define the configuration for Kubernetes resources such as Pods, Services, Deployments.
 
-For more detailed information, please refer to the official Helm documentation ([click here]([here](https://helm.sh/)).
+For more detailed information, please refer to the official Helm documentation ([click here](https://helm.sh/)).
 
 
 ## 3. Getting Started with the sample application Helm Charts
@@ -163,9 +163,9 @@ The Deployment also has three SAP BTP Service Instances bound to it:
 - html5-apps-repo (HTML5 Application Repository Service)
 
 
-### 3.3. [values.schema.json](../../../../deploy/kyma/charts/sustainable-saas/values.schema.json) and [values.root.schema.json](../../../../deploy/kyma/charts/sustainable-saas/values.root.schema.json) files
+### 3.3. [values.schema.json](../../../../deploy/kyma/charts/sustainable-saas/values.schema.json) file
 
-These two JSON files are so-called schema files. A JSON schema is a standard for describing the structure and constraints of JSON data, and it is also used to validate *values.yaml* values. This ensures that values provided by the user follow the schema laid out by the chart maintainer, providing better error reporting when the user provides an incorrect set of values for a chart.
+This JSON file is a so-called schema file. A JSON schema is a standard for describing the structure and constraints of JSON data, and it is also used to validate *values.yaml* values. This ensures that values provided by the user follow the schema laid out by the chart maintainer, providing better error reporting when the user provides an incorrect set of values for a chart.
 
 Validation occurs when any of the following commands is invoked:
  - helm install
@@ -407,7 +407,6 @@ my_config_map:
 ```
 
 Switch to your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file and edit it as shown below:
-
 
 ```yaml
 apiVersion: v1

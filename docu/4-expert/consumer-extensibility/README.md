@@ -244,4 +244,3 @@ Please use the following links to find further information on the topics above:
 
 * [CAP documentation - Extending SaaS Apps](https://cap.cloud.sap/docs/guides/extensibility/customization)
 * [CAP documentation - Provide Extension Guides](https://cap.cloud.sap/docs/guides/extensibility/customization#guide)
-* [SAP-Samples - cloud-cap-samples](https://github.com/sap-samples/cloud-cap-samples/tree/ext/orders)

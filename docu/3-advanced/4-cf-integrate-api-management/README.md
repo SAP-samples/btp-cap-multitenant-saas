@@ -257,7 +257,7 @@ Please use the following links to find further information on the topics above:
 * [SAP Blog - SAP APIM - Route Service to Manage Cloud Foundry Apps](https://blogs.sap.com/2020/10/10/sap-apim-route-service-plan-to-manage-cloud-foundry-apps/)
 * [SAP Blog - Service Plan of SAP API Management in Cloud Foundry Environment](https://blogs.sap.com/2020/08/10/part-3-service-plan-of-sap-api-management-in-cloud-foundry-environment/)
 * [Cloud Foundry Documentation - Route Services](https://docs.cloudfoundry.org/services/route-services.html)
-* [apigee Documentation - Policy reference overview](https://docs.apigee.com/api-platform/reference/policies/)
+* [apigee Documentation - Policy reference overview](https://docs.apigee.com/api-platform/reference/policies/reference-overview-policy)
 * [apigee Documentation - SpikeArrest policy](https://docs.apigee.com/api-platform/reference/policies/spike-arrest-policy)
 * [apigee Documentation - Quota policy](https://docs.apigee.com/api-platform/reference/policies/quota-policy)
 * [SAP Help - Flows](https://help.sap.com/docs/SAP_CLOUD_PLATFORM_API_MANAGEMENT/66d066d903c2473f81ec33acfe2ccdb4/08b40d9e47a0470a8b14cc47abab89ec.html?locale=en-US)

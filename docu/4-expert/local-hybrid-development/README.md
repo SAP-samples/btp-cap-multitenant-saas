@@ -92,7 +92,7 @@ Subscribing { tenant: 't1' } to { url: 'http://localhost:4004' }
 Subscription succeeded.
 ```
 
-Please note that user **alice** is defined in your [.cdsrc.json](../../../../code/srv/.cdsrc.json) file as a member of tenant **t1** with the roles **Admin**, **cds.Subscriber** and **cds.ExtensionDeveloper** as shown below. Therefore we were able to subscribe the credentials of user **alice** since that user has privileges to subscribe a tenant.
+Please note that user **alice** is defined in your [.cdsrc.json](../../../code/srv/.cdsrc.json) file as a member of tenant **t1** with the roles **Admin**, **cds.Subscriber** and **cds.ExtensionDeveloper** as shown below. Therefore we were able to subscribe the credentials of user **alice** since that user has privileges to subscribe a tenant.
 
 ```json
 ...
@@ -552,4 +552,4 @@ Select the service instance and open your service binding credentials. Copy the 
 
 > **Hint** - You might consider copying the http file and renaming it to api-test-hybrid-private.http first. This ensures that your credentials are not committed to GitHub. 
 
-You can use the [http file](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/http/api-test-hybrid.http), to send the requests one by one.
+You can use the [http file](../../../code/test/http/api-test-hybrid.http), to send the requests one by one.

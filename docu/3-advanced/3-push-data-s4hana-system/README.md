@@ -109,7 +109,7 @@ Select **DEFAULT** as the type. This Client Profile is required when setting up 
 
 - OAuth 2.0 Client Profile: `ZSUSAAS_PUSH_API` or the name of the OAuth Client profile defined in the previous step
 - Configuration Name: `SUSAAS_PUSH_API_S4` or another name of your choice
-- OAuth 2.0 Client ID: Enter the **clientid** of the service binding created for the API service instance ([click here](../../2-basic/5-subscribe-consumer-subaccount/README.md#2-api-service-broker-instance))
+- OAuth 2.0 Client ID: Enter the **clientid** of the service binding created for the API service instance ([click here](../../2-basic/4-subscribe-consumer-subaccount/README.md#2-api-service-broker-instance))
 
   **Kyma**
 

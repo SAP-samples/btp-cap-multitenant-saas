@@ -33,9 +33,9 @@ The **code** directory of our GitHub repository consists of several sub-director
 
 ## 2. API Service
 
-The **api** directory contains the implementation of the **CAP-based** API Service which can be used by SaaS consumers to upload or maintain data in their Tenant database containers. Further details can be found in a separate part of this tutorial ([click here](../6-push-data-to-saas-api/README.md)).
+The **api** directory contains the implementation of the **CAP-based** API Service which can be used by SaaS consumers to upload or maintain data in their Tenant database containers. Further details can be found in a separate part of this tutorial ([click here](../5-push-data-to-saas-api/README.md)).
 
-> **Hint** - Using Kyma, the API Service container image is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-build-your-docker-images/README.md))!
+> **Hint** - Using Kyma, the API Service container image is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-kyma-build-docker-images/README.md))!
 
 | | |
 |:--: | :--- |
@@ -48,7 +48,7 @@ Besides the **html5-deployer** directory (containing the **HTML5 Application Dep
 
 > **Hint** - In Cloud Foundry, the **HTML5 Apps Deployer** is not required during productive deployment but can still be used for deployments from your local development environment.
 
-> **Hint** - Using Kyma, the **HTML5 Apps Deployer** container image is build using an existing *Docker Image* maintained by SAP, which is referenced in the respective Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-build-your-docker-images/README.md)).
+> **Hint** - Using Kyma, the **HTML5 Apps Deployer** container image is build using an existing *Docker Image* maintained by SAP, which is referenced in the respective Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-kyma-build-docker-images/README.md)).
 
 | | |
 |:--: | :--- |
@@ -87,7 +87,7 @@ The **db** directory contains the definition of our Tenant data model, which is 
 
 The **db-com** directory contains the definition of a shared data model, which is accessible from all isolated Tenant database containers. It is used for data required and shared by all Consumer Tenants. The shared data model has to be deployed separately into a dedicated SAP HANA Cloud HDI database container during deployment of the SaaS sample application. 
 
-> **Hint** -  Using Kyma, the container image deploying the shared data model to a dedicated database container, is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-build-your-docker-images/README.md))!
+> **Hint** -  Using Kyma, the container image deploying the shared data model to a dedicated database container, is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-kyma-build-docker-images/README.md))!
 
 | | |
 |:--: | :--- |
@@ -98,7 +98,7 @@ The **db-com** directory contains the definition of a shared data model, which i
 
 The **router** directory contains all files of the Application Router required by our SaaS sample application. In this case, only the *xs-app.json* file and a health-check is required. 
 
-> **Hint** - The Application Router Docker Image build process makes use of the official *sapse/approuter* Docker Image. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-build-your-docker-images/README.md))!
+> **Hint** - The Application Router Docker Image build process makes use of the official *sapse/approuter* Docker Image. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-kyma-build-docker-images/README.md))!
 
 | | |
 |:--: | :--- |
@@ -134,7 +134,7 @@ The Onboarding Automation is the only part of the code-line, which contains runt
 export default (process.env.VCAP_APPLICATION ? CloudFoundry : Kyma)
 ```
 
-> **Hint** - The SaaS Backend Service Docker Image is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-build-your-docker-images/README.md))!
+> **Hint** - The SaaS Backend Service Docker Image is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in a separate part of the tutorial ([click here](../3-kyma-build-docker-images/README.md))!
 
 | | |
 |:--: | :--- |

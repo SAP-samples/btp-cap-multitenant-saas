@@ -106,7 +106,7 @@ _sapcp_helpers.tpl
         BROKER_PASSWORD : {{ $password | quote }}
     ``` 
 
-- The Helm Job templates for deploying the UI5 apps to the HTML5 Application Repository ([click here](../../../../deploy/kyma/charts/sustainable-saas/templates/html5_apps_deployer_job.yaml)) and the shared data model to the HDI Container instance ([click here](../../../../deploy/kyma/charts/sustainable-saas/templates/hana_deployer_job.yaml.yaml)), are also part of the Helm Umbrella Chart templates.
+- The Helm Job templates for deploying the UI5 apps to the HTML5 Application Repository ([click here](../../../../deploy/kyma/charts/sustainable-saas/templates/html5_apps_deployer_job.yaml)) and the shared data model to the HDI Container instance ([click here](../../../../deploy/kyma/charts/sustainable-saas/templates/hana_deployer_job.yaml)), are also part of the Helm Umbrella Chart templates.
 
 - The Service Manager Instance (**Subaccount Admin** plan - [click here](../../../../deploy/kyma/charts/sustainable-saas/templates/sm_admin.yaml)) allows our sample application to create a so-called Cloud Management Service Instance (**Central** plan) at runtime ([click here](https://discovery-center.cloud.sap/serviceCatalog/cloud-management-service/?region=all) for details). This Service Instance created at runtime, is required to create Service Manager Instances in the Subscriber Subaccounts. These Service Manager Instances can then be used to register API Service Brokers in the Subscriber Subaccounts. 
     

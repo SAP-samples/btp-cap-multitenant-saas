@@ -159,7 +159,7 @@ This is it - From now on, all requests targeting your Kyma API Service workloads
 
 ## 4. Under the hood 
 
-As briefly touched in our [Template Details](../../2-basic/8-kyma-resources-helm/components/TemplateDetails.md) chapter, we make use of dedicated Istio resources to accomplish this integration path. Let us summarize the respective flow once again, so you get an idea of what's happening under the hood. As this approach can also be applied for any other kind of external service apart from SAP API Management, make sure you understand the basic concept. This will allow you a similar integration with iFlows of SAP Integration Suite. 
+As briefly touched in our [Template Details](../../2-basic/7-kyma-resources-helm/components/TemplateDetails.md) chapter, we make use of dedicated Istio resources to accomplish this integration path. Let us summarize the respective flow once again, so you get an idea of what's happening under the hood. As this approach can also be applied for any other kind of external service apart from SAP API Management, make sure you understand the basic concept. This will allow you a similar integration with iFlows of SAP Integration Suite. 
 
 [<img src="./images/API_KymaRouting.png" width="700" />](./images/API_KymaRouting.png?raw=true)
 

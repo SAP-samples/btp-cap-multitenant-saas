@@ -88,7 +88,7 @@ The application requires the following set of SAP BTP entitlements in the Provid
 | [SAP HANA Schemas & HDI Containers](https://help.sap.com/docs/SAP_HANA_PLATFORM/3823b0f33420468ba5f1cf7f59bd6bd9/e28abca91a004683845805efc2bf967c.html?version=2.0.04&locale=en-US) | hdi-shared                             |
 | [SAP Service Manager](https://discovery-center.cloud.sap/serviceCatalog/service-manager/?region=all)                                                                                | Container <br> Subaccount-Admin        |
 
-If you need assistance assigning entitlements to your Provider Subaccount, you might find information [here](https://help.sap.com/docs/SERVICE_TICKET_INTELLIGENCE/fb95f4cf368448be94f0eaed1583f491/cda19c940bf5404c8e81770b0f879e82.html?locale=en-US).
+If you need assistance assigning entitlements to your Provider Subaccount, you might find information [here](https://help.sap.com/docs/service-ticket-intelligence/service-ticket-intelligence-user-guide/assign-entitlement-to-subaccount?locale=en-US).
 
 
 ## 3. SAP HANA Cloud prerequisite

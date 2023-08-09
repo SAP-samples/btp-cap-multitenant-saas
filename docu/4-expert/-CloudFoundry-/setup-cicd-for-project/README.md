@@ -478,9 +478,9 @@ Once you feel comfortable understanding the various stages and steps included in
 
 The reason is very simple. Under the hood, the SAP CI/CD service also uses Project "Piper" and the various stages and steps available. Therefore, you can also use the Project "Piper" documentation to find even more details about the different stages and steps used by SAP CI/CD service and the CAP-specific pipeline. This will be very helpful to fine-tune your CI/CD pipeline!
 
-If you want to learn more and become an expert in SAP CI/CD topics, check the following tutorial ([click here](https://developers.sap.com/tutorials/cp-uiveri5-cap.html)) in the **Tutorial Navigator**. Here you will learn, how to set up your own Docker-based Jenkins instance and you will create system tests with UIVeri5 using the UI5 Test Recorder for CAP-based projects.
+If you want to learn more and become an expert in SAP CI/CD topics, check the following tutorial ([click here](https://developers.sap.com/tutorials/cicd-wdi5-cap.html)) in the **Tutorial Navigator**. Here you will learn, how to set up your own Docker-based Jenkins instance and you will create system tests with UIVeri5 using the UI5 Test Recorder for CAP-based projects.
 
-Last but not least, visit the OpenSAP course **Efficient DevOps with SAP** ([click here](https://open.sap.com/courses/devops1)), in which you can learn a lot about SAP DevOps in general but also discover more examples of how to use the SAP CI/CD service in the context of CAP applications.
+Last but not least, visit the OpenSAP course **Efficient DevOps with SAP** ([click here](https://open.sap.com/courses/devops1), in which you can learn a lot about SAP DevOps in general but also discover more examples of how to use the SAP CI/CD service in the context of CAP applications.
 
 
 ## 15. Further Information
@@ -493,4 +493,4 @@ Please use the following links to find further information on the topics above:
 * [SAP Help - SAP Cloud Application Programming Model Pipeline](https://help.sap.com/docs/CONTINUOUS_DELIVERY/99c72101f7ee40d0b2deb4df72ba1ad3/7c2a049670f64993b9d67c8f84ba0969.html?language=en-US&locale=en-US)
 * [Project Piper - Introduction](https://www.project-piper.io/)
 * [Project Piper - General Purpose Pipeline](https://www.project-piper.io/stages/introduction/#project-piper-general-purpose-pipeline)
-* [Tutorial Navigator - Automated System Tests for CAP-Based Projects](https://developers.sap.com/tutorials/cp-uiveri5-cap.html)
+* [Tutorial Navigator - Automated System Tests for CAP-Based Projects](https://developers.sap.com/tutorials/cicd-wdi5-cap.html)

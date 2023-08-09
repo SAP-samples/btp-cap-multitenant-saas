@@ -133,7 +133,7 @@ To enable the Central User Management leveraging SAP Identity Authentication Ser
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-For this Advanced feature, please add the **values-ias.yaml** ([./files/values-ias.yaml](./files/values-ias.yaml)) details to your main **values-private.yaml** file (located in [*deploy/kyma/charts/sustainable-saas*](../../../deploy/kyma/charts/sustainable-saas*)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
+For this Advanced feature, please add the **values-ias.yaml** ([./files/values-ias.yaml](./files/values-ias.yaml)) details to your main **values-private.yaml** file (located in [*deploy/kyma/charts/sustainable-saas*](../../../deploy/kyma/charts/sustainable-saas/*)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
 
 ```yaml
 ...
@@ -503,7 +503,7 @@ All set? Great - then let's check whether the SAP IAS Integration works as expec
 
 [<img src="./images/IAS_LoginSubscr.png" width="390" />](./images/IAS_LoginSubscr.png?raw=true)
 
-> **Hint** - You will not see the name of the SaaS application registration in the authentication screen but the name of the application registration created by the XSUAA - SAP IAS trust setup. This relates to the [Architecture Setup](../3-central-user-management-ias/README.md#6-architecture-and-flow) described in chapter *Central user management using SAP Identity Authentication Service*. This screen can also be customized in SAP Identity Authentication Service ([click here](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/32f8d337f0894d269f5f89956803efac.html?locale=en-US)).
+> **Hint** - You will not see the name of the SaaS application registration in the authentication screen but the name of the application registration created by the XSUAA - SAP IAS trust setup. This relates to the [Architecture Setup](../2-central-user-management-ias/README.md#5-understand-the-registration-and-login-flow) described in chapter *Central user management using SAP Identity Authentication Service*. This screen can also be customized in SAP Identity Authentication Service ([click here](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/32f8d337f0894d269f5f89956803efac.html?locale=en-US)).
 
 
 6.8. As a **Provider administrator** you will see the new user in your XSUAA user management using the SAP BTP Cockpit. In the following screenshot, you can see that the Provider administrator (using the Default Platform Identity Provider -> SAP ID Service) has set up the new user (now assigned to the Custom Identity Provider -> SAP Identity Authentication). 

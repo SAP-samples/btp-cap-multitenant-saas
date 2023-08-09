@@ -23,7 +23,7 @@ https://developers.sap.com/mission.btp-deploy-cap-kyma.html
 
 ## 1. Introduction
 
-The deployment of the Sustainable Saas solution to your SAP BTP Kyma Cluster is handled by [Helm](https://helm.sh/). To learn more about the basic concepts of Helm, visit the respective chapter of the tutorial ([click here](../8-kyma-resources-helm/README.md)). Repeating myself, I also suggest to read and inhale the brilliant blog post of Maximilian Streifeneder on the topics of Kyma, Helm, Paketo and a lot more! It will give you a great overview and introduction if you are new to the Kubernetes, Docker and Kyma world!
+The deployment of the Sustainable Saas solution to your SAP BTP Kyma Cluster is handled by [Helm](https://helm.sh/). To learn more about the basic concepts of Helm, visit the respective chapter of the tutorial ([click here](../7-kyma-resources-helm/README.md)). Repeating myself, I also suggest to read and inhale the brilliant blog post of Maximilian Streifeneder on the topics of Kyma, Helm, Paketo and a lot more! It will give you a great overview and introduction if you are new to the Kubernetes, Docker and Kyma world!
 
 https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/
 
@@ -60,7 +60,7 @@ During Deployment, Helm will generate the required Kubernetes resources (*manife
 - susaas-broker
 - susaas-router 
 
-These workloads are constantly running in your Cluster after deployment, as they need to be contiguously reachable for external traffic. They come with further components like API Rules or Istio related configurations, which are explained in further detail as part of our dedicated Kyma tutorial ([click here](../8-kyma-resources-helm/README.md)). 
+These workloads are constantly running in your Cluster after deployment, as they need to be contiguously reachable for external traffic. They come with further components like API Rules or Istio related configurations, which are explained in further detail as part of our dedicated Kyma tutorial ([click here](../7-kyma-resources-helm/README.md)). 
 
 
 **Kubernetes Jobs**
@@ -165,7 +165,7 @@ namespace/susaas created
 
 2.8. Use the following command, to enable the **Istio** Sidecar Injection for your new namespace.
 
-> **Hint** - **Istio** is one of the most popular **Service Mesh** offerings for Kubernetes and manages Cluster-internal communication as well as external access to your workloads! We highly recommend to learn more about [**Istio Service Mesh**](../8-kyma-resources-helm/README.md), by visiting the respective part of the tutorial. The features and possibilities are mind-blowing compared to what you can do in a Cloud Foundry scenario! 
+> **Hint** - **Istio** is one of the most popular **Service Mesh** offerings for Kubernetes and manages Cluster-internal communication as well as external access to your workloads! We highly recommend to learn more about [**Istio Service Mesh**](../7-kyma-resources-helm/README.md), by visiting the respective part of the tutorial. The features and possibilities are mind-blowing compared to what you can do in a Cloud Foundry scenario! 
 
 > **Important** - If you plan to use an existing namespace, make sure this label is configured and if necessary, please update the namespace using **kubectl** or the Kyma Dashboard! 
 
@@ -237,23 +237,23 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 
   **router**
 
-  * image.repository - Provide the registry details of your [Application Router](../3-build-your-docker-images/) Container Image like \<username\>/susaas-router if your images are stored in Docker Hub or ghcr.io/\<namespace\>/susaas-router in case of GitHub.
+  * image.repository - Provide the registry details of your [Application Router](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image like \<username\>/susaas-router if your images are stored in Docker Hub or ghcr.io/\<namespace\>/susaas-router in case of GitHub.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
 
   **srv**
 
-  * image.repository - Provide the registry details of your [Backend Service](../3-build-your-docker-images/) Container Image repository like \<username\>/susaas-srv.
+  * image.repository - Provide the registry details of your [Backend Service](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-srv.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
     
   **api**
 
-  * image.repository - Provide the registry details of your [API Service](../3-build-your-docker-images/) Container Image repository like \<username\>/susaas-api
+  * image.repository - Provide the registry details of your [API Service](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-api
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
 
 
   **broker**
 
-  * image.repository - Provide the registry details of your [API Service Broker](../3-build-your-docker-images/) Container Image repository like \<username\>/susaas-broker.
+  * image.repository - Provide the registry details of your [API Service Broker](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-broker.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
   * config.serviceId & planId(s) - Generate and provide unique GUIDs for your service plans and the broker itself. 
 
@@ -267,19 +267,19 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 
   **hana_deployer**
 
-  * image.repository - Provide the registry details of your [HDI Container Deployer](../3-build-your-docker-images/) Container Image repository like \<username\>/susaas-db-com.
+  * image.repository - Provide the registry details of your [HDI Container Deployer](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-db-com.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
 
   **html5_apps_deployer**
 
-  * image.repository - Provide the registry details of your [HTML5 Apps Deployer](../3-build-your-docker-images/) Container Image repository like \<username\>/susaas-html5-deployer.
+  * image.repository - Provide the registry details of your [HTML5 Apps Deployer](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-html5-deployer.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image. 
 
   **xsuaa**
 
   * parameters.oauth2-configuration.redirect-urls - Please provide your default Cluster Domain including a wildcard subdomain prefix ("*."). Keep the **localhost** redirects for local testing purposes. 
 
-    > **Hint** - If you are using a custom domain, also provide this domain in the redirect-urls. More details can be found in the respective **Expert Feature** ([click here](../../4-expert/-Kyma-/custom-domain/README.md))
+    > **Hint** - If you are using a custom domain, also provide this domain in the redirect-urls. More details can be found in the respective **Expert Feature** ([click here](../../4-expert/-Kyma-/custom-domain-usage/README.md))
 
     > **Hint** - Use the following **kubectl** command to retrieve your default Cluster domain.
     > 

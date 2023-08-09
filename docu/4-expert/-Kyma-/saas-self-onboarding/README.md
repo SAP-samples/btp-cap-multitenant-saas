@@ -45,7 +45,7 @@ While integrating these additional expert features into our existing scenario re
 
 **Prerequisites**
 
-To set up this Expert Feature, it is essential to have the corresponding Sustainable SaaS application deployed and operational on your Kyma Cluster. If you haven't done so already, please ensure you follow the **Basic** and **Advanced** tutorial in this GitHub repository first ([click here](../../2-basic/0-introduction-basic-version/README.md)).
+To set up this Expert Feature, it is essential to have the corresponding Sustainable SaaS application deployed and operational on your Kyma Cluster. If you haven't done so already, please ensure you follow the **Basic** and **Advanced** tutorial in this GitHub repository first ([click here](../../../2-basic/0-introduction-basic-version/README.md)).
 
 Furthermore, your SAP BTP target environment must meet the following requirements:
 

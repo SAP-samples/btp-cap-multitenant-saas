@@ -57,8 +57,8 @@ Continue your journey and deploy the **Basic Version** of the SaaS sample applic
 - [Prepare the Provider Subaccount](./docu/3-advanced/1-prepare-provider-subaccount/README.md)
 - [Central user management with SAP IAS](./docu/3-advanced/2-central-user-management-ias/README.md)
 - [Push data from SAP S/4HANA system](./docu/3-advanced/3-push-data-s4hana-system/README.md)
-- [Integrate with SAP API Management](./docu/3-advanced/4-cf-integrate-sap-api-management/README.md) (**Cloud Foundry** only)
-- [Integrate with SAP API Management](./docu/3-advanced/4-kyma-integrate-sap-api-management/README.md) (**Kyma** only)
+- [Integrate with SAP API Management](./docu/3-advanced/4-cf-integrate-api-management/README.md) (**Cloud Foundry** only)
+- [Integrate with SAP API Management](./docu/3-advanced/4-kyma-integrate-api-management/README.md) (**Kyma** only)
 
 
 After adding some or all of the Advanced Features, the following **Expert Features** contain a variety of different topics, which will make your application and life as a SaaS developer even more convenient. You will learn about management and backup of your Tenant database containers, multi-region deployments of SaaS applications and how to tackle topics like Custom Domain usage. Most of the Advanced Features can be tested with both, the Cloud Foundry and the Kyma Runtime, while some of the features are (as of now) available for a specific runtime only.  
@@ -142,7 +142,7 @@ The **Basic Version** of the sample application requires the following set of SA
 | [SAP HANA Schemas & HDI Containers](https://help.sap.com/docs/SAP_HANA_PLATFORM/3823b0f33420468ba5f1cf7f59bd6bd9/e28abca91a004683845805efc2bf967c.html?version=2.0.04&locale=en-US) | hdi-shared                             |
 | [SAP Service Manager](https://discovery-center.cloud.sap/serviceCatalog/service-manager/?region=all)                                                                                | Container <br> Subaccount-Admin        |
 
-If you need assistance assigning entitlements to your Provider Subaccount, you might find information [here](https://help.sap.com/docs/SERVICE_TICKET_INTELLIGENCE/fb95f4cf368448be94f0eaed1583f491/cda19c940bf5404c8e81770b0f879e82.html?locale=en-US).
+If you need assistance assigning entitlements to your Provider Subaccount, you might find information [here](https://help.sap.com/docs/service-ticket-intelligence/service-ticket-intelligence-user-guide/assign-entitlement-to-subaccount?locale=en-US).
 
 
 ### Advanced Features
