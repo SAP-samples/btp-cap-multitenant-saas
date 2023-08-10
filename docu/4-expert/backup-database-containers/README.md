@@ -1,7 +1,7 @@
 # Backup SAP HANA Cloud Database Containers
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 > **Hint** - This Expert Feature requires refactoring and some screenshots and steps might be outdated. 
 

@@ -1,7 +1,7 @@
 # Custom Domain Usage
 
-- ### **Kyma** ❌
-- ### **Cloud Foundry** ✅
+- **Kyma** ❌
+- **Cloud Foundry** ✅
 
 In this part of the mission you will learn how to configure a custom domain for your SaaS application consumers. The topic of custom domain usage is very comprehensive and we can only cover certain sample scenarios. Depending on your requirements as a SaaS provider and the demand of your customers, things can get complicated quickly! 
 
@@ -23,7 +23,7 @@ In this part of the mission you will learn how to configure a custom domain for 
 
 So, in this part of the **Expert Features**, you will learn how to get from the default cfapps domain (e.g., **abc-7k7tmze3-susaas.cfapps.eu10...**), to a SaaS domain based on your custom domain (e.g., **abc-7k7tmze3.susaas.sap-demo.com**) to a proper consumer-specific custom domain (e.g., **abc.susaas.sap-demo.com**) using the Custom Domain Service. 
 
-If you want to set up the sample scenario with your own custom domain, please make sure to to use the correct MTA extension descriptor file provided in the *files* directory ([click here](./files/free-basic-domain.mtaext)) of this **Expert Feature**. Search for the placeholder \<your domain\> and replace it with your desired wildcard domain configured in the Custom Domain Service as you can see in the sample screenshot below. 
+If you want to set up the sample scenario with your own custom domain, please make sure to to use the correct MTA extension descriptor file provided in the *files* directory ([click here](./files/free-basic-domain.mtaext)) of this **Expert Feature**. Search for the placeholder \<YourDomain> and replace it with your desired wildcard domain configured in the Custom Domain Service as you can see in the sample screenshot below. 
 
 [<img src="./images/CDS_Mtaext.png" width="400" />](./images/CDS_Mtaext.png?raw=true)
 
@@ -229,12 +229,12 @@ The format of your consumer domains highly influences the number of required SSL
 
 | 3 wildcard certificates   | 1 wildcard certificate  |
 |---|---|
-| \<consumer\>.susaas.com <br> \<consumer\>.test.susaas.com <br> \<consumer\>.dev.susaas.com  | \<consumer\>.susaas.com <br> \<consumer\>-test.susaas.com <br> \<consumer\>-dev.susaas.com  |
+| \<consumer>.susaas.com <br> \<consumer>.test.susaas.com <br> \<consumer>.dev.susaas.com  | \<consumer>.susaas.com <br> \<consumer>-test.susaas.com <br> \<consumer>-dev.susaas.com  |
 | *.susaas.com <br> *.test.susaas.com <br> *.dev.susaas.com | *.susaas.com |
 
 | 3 wildcard certificates   | 1 wildcard certificate <br> |
 |---|---|
-| \<consumer\>.eu.susaas.com <br> \<consumer\>.us.susaas.com <br> \<consumer\>.ap.susaas.com  | \<consumer\>-eu.susaas.com <br> \<consumer\>-us.susaas.com <br> \<consumer\>-ap.susaas.com  |
+| \<consumer>.eu.susaas.com <br> \<consumer>.us.susaas.com <br> \<consumer>.ap.susaas.com  | \<consumer>-eu.susaas.com <br> \<consumer>-us.susaas.com <br> \<consumer>-ap.susaas.com  |
 | *.eu.susaas.com <br> *.us.susaas.com <br> *.ap.susaas.com | *.susaas.com |
 
 Using subdomains instead of dashes to separate stages or regions will **easy the maintenance effort** from a provider perspective, but it will **increase the costs** of required wildcard SSL certificates. Let me give you one more sample. Let us assume you deployed your SaaS application to the eu10 and us20 region. Your sample consumers ABC and XYZ subscribe to the app in both regions. 

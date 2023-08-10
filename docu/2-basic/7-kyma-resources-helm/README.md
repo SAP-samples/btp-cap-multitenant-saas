@@ -1,7 +1,7 @@
 # Helm Charts and Kyma resources
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅ 
+- **Cloud Foundry** ❌
 
 While our next chapter will focus on the functional perspective of the different application components like Multitenancy in Application Router, this chapter will give you a deep-dive into the resources and technology used for the deployment of our sample scenario. For your convenience and a better structure, this chapter has been split up into three parts.
 

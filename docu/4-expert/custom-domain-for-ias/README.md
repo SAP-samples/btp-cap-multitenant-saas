@@ -1,7 +1,7 @@
 # Custom Domain for SAP Identity Authentication
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the Expert Features you will learn how to configure a custom domain for your SAP Identity Authentication instance. As the official SAP Help documentation ([click here](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/c4db840ff2464e12ab68d94efb0769c3.html?locale=en-US)) on this requirement is already quite extensive, we will use this tutorial to show you a sample setup and give you some tips and tricks. 
 

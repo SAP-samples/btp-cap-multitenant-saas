@@ -1,7 +1,7 @@
 # Introduction to the Expert Features
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 > **Important** - The **Expert Features** contain selected additional components that can be applied to the Basic **or** the Advanced Version of the SaaS application. Most chapters of the **Expert Features** are still being actively worked on! Feel free to browse the available sections to get an idea of what to expect once published. Some of the chapters already contain useful content while others will be uploaded during the next weeks and months.
 

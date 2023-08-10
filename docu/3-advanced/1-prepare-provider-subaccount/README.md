@@ -1,7 +1,7 @@
 # Prepare the Provider Subaccount
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this chapter, you will learn how to prepare your SAP BTP Provider Subaccount for the deployment of the SaaS solution by assigning the additional entitlements required for the **Advanced Version**.
 
@@ -52,7 +52,7 @@ Please check the below details on these additional entitlements required for the
 
 ## 3. SAP S/4HANA System
 
-> **Hint** - If you do not have access to an SAP S/4HANA system, you can also use the provided HTTP sample requests (located in the [*code/test/http*](../../../code/test/http) directory), to inject some mock data into your SaaS application, leveraging the SaaS API from a subscriber perspective.
+> **Hint** - If you do not have access to an SAP S/4HANA system, you can also use the provided HTTP sample requests (located in the */code/test/http/* directory), to inject some mock data into your SaaS application, leveraging the SaaS API from a subscriber perspective.
 
 If you want to test the automated data push feature from an existing SAP solution, the sample setup requires a SAP solution that contains the Enterprise Procurement Model (EPM) model. The EPM is a demo application that integrates many SAP NetWeaver technologies that are used by SAP S/4HANA applications. It is based on a common business process model and follows the business object (BO) paradigm to support well-defined business logic.
 

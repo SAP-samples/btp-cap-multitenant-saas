@@ -1,7 +1,7 @@
 # SaaS Consumer Extensibility
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the mission you will learn how SaaS consumers can extend their SaaS subscriptions with their own **data model extensions** and **user interface extensions** using dedicated **CAP extensibility** features. 
 
@@ -183,7 +183,7 @@ cds login cf-susaas-provider-ef3f1f64.cfapps.us10.hana.ondemand.com -s susaas-su
 
 4.9. You can generate that passcode by opening the following URL in your browser and logging in with your credentials.
 
-https://\<consumer tenant subomdain\>.authentication.\<region\>.hana.ondemand.com/passcode
+https://\<ConsumerTenantSubomdain>.authentication.\<REGION>.hana.ondemand.com/passcode
 
 **Example**
 

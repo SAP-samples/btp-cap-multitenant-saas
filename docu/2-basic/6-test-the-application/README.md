@@ -1,7 +1,7 @@
 # Test the application
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
 
 In this part of the tutorial (since you have already subscribed to the application) you will get some guidance on how to test the SaaS sample application from a Consumer perspective.
 

@@ -1,7 +1,7 @@
 # Helm Charts 
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅ 
+- **Cloud Foundry** ❌
 
 This part of the tutorial contains a brief documentation on the topic of Helm and how it is being used in the context of our Sustainable SaaS sample application. Helm is an extremely powerful tool set simplifying the automated definition of Kubernetes/Kyma resources and the subsequent deployment to your Cluster. 
 
@@ -224,7 +224,7 @@ Templates in Helm Charts are files that define how resources should be deployed 
 
  > **Hint** - (*) Helm Template Language definition according to [Helm official documentation](https://helm.sh/docs/chart_template_guide/functions_and_pipelines/): "While we talk about the "Helm template language" as if it is Helm-specific, it is actually a combination of the Go template language, some extra functions, and a variety of wrappers to expose certain objects to the templates. Many resources on Go templates may be helpful as you learn about templating."
 
-[./code/chart/templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) directory contains the templates of the Helm Chart.
+[*/code/chart/templates/*](../../../../deploy/kyma/charts/sustainable-saas/templates/) directory contains the templates of the Helm Chart.
 
 [<img src="./images/HELM_Chart_Temp_Dir.png" width="250"/>](./images/HELM_Chart_Temp_Dir.png?raw=true)
 

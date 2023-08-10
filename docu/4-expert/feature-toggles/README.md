@@ -1,7 +1,7 @@
 # Feature Toggles
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the mission, you will learn how SaaS providers can enable features for dedicated SaaS consumer tenants or even single users using so-called **Feature Toggles**. 
 

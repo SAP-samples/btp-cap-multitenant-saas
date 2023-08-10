@@ -1,7 +1,7 @@
 # Self-Registration, Onboarding Automation and One-Domain Concept
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅
+- **Cloud Foundry** ❌
 
 In this part of the tutorial, you will learn how to set up self-registration, automated tenant onboarding, and an exemplary single-domain concept for your SaaS application.
 
@@ -70,7 +70,7 @@ To implement the self-registration, onboarding automation, and one-domain concep
 
 > **Hint** - The Onboarding Process cannot be handled by the existing workloads of your Sustainable SaaS application, as for instead of SAP XSUAA, the SAP Identity Authentication Service is being used for authenticating users. A parallel binding of SAP XSUAA and SAP IAS is not supported. 
 
-2.1. Switch to the [*./files/deploy*](./files/deploy/) directory of this Expert Feature, containing all objects required to setup this expert scenario. 
+2.1. Switch to the [*./files/deploy/*](./files/deploy/) directory of this Expert Feature, containing all objects required to setup this expert scenario. 
 
 2.2. Ensure you are connected to your container image repository. 
 
@@ -261,17 +261,17 @@ Alright, so you have almost finished all preparation steps to install the requir
 
   **router**
 
-  * image.repository - Provide the details of your **Onboarding Application Router** Container Image like \<username\>/obd-router if your Image is stored in Docker Hub or ghcr.io/\<namespace\>/obd-router in case of GitHub. 
+  * image.repository - Provide the details of your **Onboarding Application Router** Container Image like \<username>/obd-router if your Image is stored in Docker Hub or ghcr.io/\<namespace>/obd-router in case of GitHub. 
   * image.tag - Provide a different tag, if you do not want to use the latest image. 
 
   **srv**
 
-  * image.repository - Provide the details of your **Onboarding CAP Backend Service** Docker Image repository like \<username\>/obd-srv.
+  * image.repository - Provide the details of your **Onboarding CAP Backend Service** Docker Image repository like \<username>/obd-srv.
   * image.tag - Provide a different tag, if you do not want to use the latest image. 
 
   **html5_apps_deployer**
 
-  * image.repository - Provide the details of your **Onboarding HTML5 Apps Deployer** Docker Image repository like \<username\>/obd-html5-deployer.
+  * image.repository - Provide the details of your **Onboarding HTML5 Apps Deployer** Docker Image repository like \<username>/obd-html5-deployer.
   * image.tag - Provide a different tag, if you do not want to use the latest image. 
 
 
@@ -320,7 +320,7 @@ helm template ./charts -f ./charts/values-private.yaml > helm-template.yaml
 
 5.1. Please run the following command from within the *./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy* directory to deploy the Onboarding application to the **same namespace** in which your target SaaS application resides!
 
-> **Important** - The \<ReleaseName\> placeholder has to be replaced with the Release name of the original Saas Application to be onboarded.  
+> **Important** - The \<ReleaseName> placeholder has to be replaced with the Release name of the original Saas Application to be onboarded.  
 
 > **Hint** - Feel free to add the *--debug* parameter to get some more verbose output if you're interested what's happening under the hood!
  
@@ -381,7 +381,7 @@ Once the Onboarding components have been successfully deployed, the next step is
 
 6.1. Open the Administration UI of your SAP Identity Authentication Service tenant.
 
-> **Hint** - Usually you can reach the Administration UI of your tenant following the **https://\<subdomain\>.accounts.ondemand.com/admin** pattern.
+> **Hint** - Usually you can reach the Administration UI of your tenant following the **https://\<SUBDOMAIN>.accounts.ondemand.com/admin** pattern.
 > 
 > Example - https://<span>sap-demo.accounts.ondemand.com/admin
 
@@ -408,9 +408,9 @@ You are now ready to test your setup, by self-registering a new user in SAP Iden
 
 7.1. Open the SaaS application Home Screen in a new browser session or Incognito Mode.  
 
-> **Hint** - You will be able to access it following the **https://\<ReleaseName\>-\<Namespace\>.\<ClusterDomain\>** format <br>
+> **Hint** - You will be able to access it following the **https://\<ReleaseName>-\<namespace>.\<ClusterDomain>** format <br>
 > - *https://susaas-default.a1b2c3.kyma.ondemand.com* or *https://susaas-default.sap-demo.com* (when using a custom domain)<br>
-> - You can find the respective URI also as part of your new Virtual Service artifact in your Kyma Dashboard (\<ReleaseName\>-\<RandomId\>)<br>
+> - You can find the respective URI also as part of your new Virtual Service artifact in your Kyma Dashboard (\<ReleaseName>-\<RandomId>)<br>
 > [<img src="./images/OBD_VirtualService.png" width="400"/>](./images/OBD_VirtualService.png?raw=true)
 
 7.2. Follow the steps explained in our recent blog post, to register a new user in SAP Identity Authentication Service and to onboard a new subscriber tenant. 
@@ -426,7 +426,7 @@ To clean-up the scenario and to remove the Self-Registration and One-Domain feat
 
 8.1. Undeploy the **Helm Release** from your Kyma Cluster. 
 
-> **Hint** - The \<ReleaseName\> placeholder contains the Helm Release Name of your original Sustainable SaaS application deployment.
+> **Hint** - The \<ReleaseName> placeholder contains the Helm Release Name of your original Sustainable SaaS application deployment.
 
 ```sh
 # Run from anywhere #

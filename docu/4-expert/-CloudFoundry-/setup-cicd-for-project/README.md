@@ -1,7 +1,7 @@
 # Setup CI/CD for your Project
 
-- ### **Kyma** ❌
-- ### **Cloud Foundry** ✅
+- **Kyma** ❌
+- **Cloud Foundry** ✅
 
 In this part of the **Expert Features** you will learn how to set up the **SAP Continuous Integration and Delivery (CI/CD)** service to handle all your DevOps-related tasks like automated tests, builds, and deployments of your code changes to speed up your development and delivery cycles.
 

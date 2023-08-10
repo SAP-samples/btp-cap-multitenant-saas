@@ -1,7 +1,7 @@
 # Deployment to multiple SAP BTP regions
 
-- ### **Kyma** ❌
-- ### **Cloud Foundry** ✅
+- **Kyma** ❌
+- **Cloud Foundry** ✅
 
 This part of the **Expert Features** will provide a high-level overview for SaaS providers planning to deploy their solution to multiple SAP BTP regions, including options for intelligent traffic routing. Offering your SaaS application in multiple SAP BTP regions has some great advantages which we will briefly discuss in the following chapter. 
 

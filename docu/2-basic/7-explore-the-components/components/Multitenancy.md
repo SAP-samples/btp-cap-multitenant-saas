@@ -1,7 +1,7 @@
 # Deep Dive into Multitenancy
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
 
 In this part of the tutorial, you will learn about different aspects of multitenancy and how tenants are handled by the SaaS application.
 

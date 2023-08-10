@@ -1,7 +1,7 @@
 # Custom Domain in SAP BTP Kyma Runtime
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅
+- **Cloud Foundry** ❌
 
 In this part of the tutorial, you will learn how to set up a Custom Domain in your Kyma Cluster using AWS Route 53.
 
@@ -408,7 +408,7 @@ On your root directory, run the command below:
 helm upgrade susaas deploy/kyma/charts/sustainable-saas -f deploy/kyma/charts/sustainable-saas/values-private.yaml -n default 
 ```
 
-Now you can go ahead and [subscribe](../../../2-basic/4-subscribe-consumer-subaccount/), you should see that your application is using your new domain.
+Now you can go ahead and [subscribe](../../../2-basic/4-subscribe-consumer-subaccount/README.md), you should see that your application is using your new domain.
 
 > Hint: If you have already existing tenants and you want to update their URL's with the new ones using which includes your custom domain, you should go to the Subscription Management Dashboard 
 > and update your tenants. Please check this [official documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/using-subscription-management-dashboard) for guidance.

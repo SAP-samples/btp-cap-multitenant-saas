@@ -1,5 +1,8 @@
 # Get the idea of a SaaS application
 
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
+
 This part of the tutorial is to explain the ideas and advantages of **Software as a Service (SaaS)** applications. You might have heard of SaaS in combination with other abbreviations like **IaaS** (Infrastructure as a Service) and **PaaS** (Platform as a Service). Without the intention to cover all these topics in the greatest detail, let's at least try to cover the basics here. For more information please feel free to consult your favorite search engine provider, which will deliver a ton of results for the search terms above. 
 
 SaaS applications are part of our daily life and not just in a B2B world but also in B2C environments. If you think of subscription services like Office365 which is used by a lot of private customers, this is a perfect example of Software as a Service in which Microsoft provides you the well-known Microsoft Office tools as web applications (and as a desktop version if you like). All you need to do is sign up for an account and you're ready to go. No installation, configuration, or updates are required. So let's see how the idea of SaaS evolved throughout the last years. 

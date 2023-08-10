@@ -1,7 +1,7 @@
 # Troubleshooting
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
 
 In this section of the **Basic Version** you can find troubleshooting information that might help you in case of errors or issues. The content of this section will be continuously enhanced in the future. 
 

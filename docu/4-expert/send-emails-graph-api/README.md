@@ -1,7 +1,7 @@
 # Send e-mails using Microsoft Graph
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this tutorial, you will learn how to send e-mails from your SaaS application using the Microsoft Graph API and Exchange Online. This can be useful in scenarios requiring automated messages sent to users from within your application. This is just one approach how to programmatically send e-mails using popular Microsoft services. Alternatively, you might think about configuring a destination to your SMTP server or using similar services offered by other providers like AWS Simple Email Service (SES) or SendGrid. 
 
@@ -123,7 +123,7 @@ You can use a standard Azure Active Directory **Application Registration** to se
 
 ## 5. Test the sample application
 
-5.1. Go to the [code directory](../send-emails-graph-api/code/) of this Expert Feature topic where you can find the sample application for testing your setup. Copy the index.js and package.json files to place on your local device - just to ensure you're not pushing any of your secrets to GitHub. 
+5.1. Go to the [*./code*](./code/) of this Expert Feature topic where you can find the sample application for testing your setup. Copy the index.js and package.json files to place on your local device - just to ensure you're not pushing any of your secrets to GitHub. 
 
 5.2. Open a terminal window and switch to the directory in which you copied the provided files. Install the required dependencies by running the **npm install** command in the respective directory. 
 

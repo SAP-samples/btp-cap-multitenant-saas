@@ -1,5 +1,8 @@
 # Understand SAP BTP Multitenancy
 
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
+
 In SAP BTP, you can develop and run multitenant applications that can be accessed by multiple consumers (tenants) through a dedicated URL. In this sample scenario, we decided to implement the solution based on a standardized toolset including the SAP Cloud Application Programming (CAP) Model.
 
 ## Context

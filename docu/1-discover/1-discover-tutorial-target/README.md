@@ -1,5 +1,8 @@
 # Discover the Tutorial Target
 
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
+
 In this tutorial, you will learn how to set up a multitenant Software as a Service (SaaS) application using CAP in your SAP Business Technology Platform (SAP BTP) environment. This use-case can be deployed to the **SAP BTP, Cloud Foundry** and also SAP's managed Kubernetes offering, the **SAP BTP, Kyma Runtime**. You are flexible to choose which runtime suits your needs or skills. 
 
 > **Hint** - You will find separate step-by-step tutorials in case the deployment steps differentiate. Ensure to check the chapter introductions, as those will clearly indicate whether a the content targets a specific runtime! Feel free to ignore any content or chapters not related to your chosen runtime! 

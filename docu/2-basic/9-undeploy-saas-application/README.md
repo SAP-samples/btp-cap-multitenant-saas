@@ -1,7 +1,7 @@
 # Undeploy the SaaS Application
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
 
 > **Important** - If you are planning to setup the **Advanced Version** next, please consider this part of the tutorial optional!
 

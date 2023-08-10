@@ -1,7 +1,7 @@
 # Resource Overview
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅ 
+- **Cloud Foundry** ❌
 
 This SaaS sample application makes use of various Kubernetes as well as custom Kyma resource definitions. In this chapter, you will get a brief introduction to the various resources and links where to find further valuable information if required. 
 
@@ -644,7 +644,7 @@ Authorization Policies are required to secure workloads in your Service Mesh bas
 
 - The request has passed through [Istio](#istio-service-mesh) Ingress Gateway and tries to call a */-/cds/** path. This requirement is fulfilled by all requests arriving in the Kyma Cluster through the public internet, as the CAP Provisioning or Extensibility endpoints will be directly called from either SAP BTP or developers deploying an extension. 
 
-- The request is originating from our Application Router. As we are using mTLS communication within the Cluster, Istio will automatically extract the identity of the source (in this case our Application Router) and place it into the *source.principal* property. In case of mTLS communication within the Service Mesh, the principal value is based on the [Service Account](#service-account) assigned to origin workload and has the following standardized format (\<TRUST_DOMAIN\>/ns/\<NAMESPACE\>/sa/\<SERVICE_ACCOUNT\>) while *ns* means namespace and *sa* means [Service Account](#service-account). 
+- The request is originating from our Application Router. As we are using mTLS communication within the Cluster, Istio will automatically extract the identity of the source (in this case our Application Router) and place it into the *source.principal* property. In case of mTLS communication within the Service Mesh, the principal value is based on the [Service Account](#service-account) assigned to origin workload and has the following standardized format (\<TRUST_DOMAIN>/ns/\<Namespace>/sa/\<SERVICE_ACCOUNT>) while *ns* means namespace and *sa* means [Service Account](#service-account). 
 
 
 ```yaml
@@ -818,8 +818,8 @@ spec:
 
 To identify the issuer and jwksUri details in case of XSUAA usage, you can follow the below format. Please make sure to provide the Subdomain and Region of your SAP BTP Provider Subaccount. 
 
-**issuer** - https://\<SUBDOMAIN\>.authentication.\<REGION\>.hana.ondemand.com/oauth/token <br>
-**jwksUri** - https://\<SUBDOMAIN\>.authentication.\<REGION\>.hana.ondemand.com/token_keys
+**issuer** - https://\<SUBDOMAIN>.authentication.\<REGION>.hana.ondemand.com/oauth/token <br>
+**jwksUri** - https://\<SUBDOMAIN>.authentication.\<REGION>.hana.ondemand.com/token_keys
 
 
 ### Service Entry

@@ -1,7 +1,7 @@
 # Push data from SAP S/4HANA system
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 A feature that will make your SaaS application even more valuable to your SaaS consumers, is an integration with other SAP solutions. This will allow your consumers to make use of their own data within your SaaS service offering and gain real business value out of it. For sure a SaaS solution can always offer an Excel upload or an online interface for maintaining tenant-specific data, but an automated backend integration is more than just a nice to have especially when dealing with constantly changing data sets. 
 

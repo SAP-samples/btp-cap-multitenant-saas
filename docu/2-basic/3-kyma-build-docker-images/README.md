@@ -1,7 +1,7 @@
 # Kyma - Build, Pack and Push your Docker Images
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅ 
+- **Cloud Foundry** ❌
 
 **Important** - This part of the tutorial is required for **Kyma** deployments only!
 
@@ -25,7 +25,7 @@ Let us have a brief look at the tool prerequisites, which are essential to build
 
 If you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-https://developers.sap.com/mission.btp-deploy-cap-kyma.html
+[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
 
 ## 1. Prerequisites
 
@@ -138,7 +138,7 @@ These components will be containerized in Docker Images in the following steps. 
 
 3.1. Run the following npm script (from within your *deploy/kyma* directory), which will *build* all Docker Images using **SAP Standard Docker Images** and **Cloud Native Buildpacks**. 
 
-> **Hint** - If you use e.g. DockerHub as a Container Registry, please put in your **username** (e.g., johndoe) as Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace\>** (e.g. ghcr.io/johndoe). All generated Docker Images will be automatically prefixed with this label!
+> **Hint** - If you use e.g. DockerHub as a Container Registry, please put in your **username** (e.g., johndoe) as Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace>** (e.g. ghcr.io/johndoe). All generated Docker Images will be automatically prefixed with this label!
 
 > **Hint** - Using devices with ARM chips (e.g., Apple M1) the build process involving Cloud Native Buildpacks might take several minutes. Please do not immediately cancel the build if things appear to be stuck, but wait some time for the process to continue (especially while the SBOM is being generated)!
 
@@ -171,7 +171,7 @@ Building **Dockerfiles** for Kubernetes workloads is not always easy. Especially
 
 Once again, I highly suggest to have a quick break and scroll through the excellent blog post of Maximilian Streifeneder, who gets you covered on the topic of Paketo as well as some nice little tricks how to further analyze generated Docker Images!
 
-https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/
+[https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/](https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/)
 
 Docker Images created using Paketo and Cloud Native Buildpacks are secure, efficient, production-ready and come with a lot of features, which are hard to provided using Dockerfiles and would require much more manual effort. To get an idea of the features provided by Cloud Native Buildpacks, check out the official documentation ([click here](https://buildpacks.io/features/)). To learn about the general concepts behind Cloud Native Buildpacks (turning your source-code into a read-to-use Docker Image), check out the respective documentation ([click here](https://buildpacks.io/docs/concepts/)).
 
@@ -186,7 +186,7 @@ As the API Service is based on CAP and Node.js, for the initial build or any cha
 
 This simplifies the containerization process and allows you to build a Docker Image without the necessity of maintaining a separate Dockerfile for Node.js workloads. During the build process, Paketo will take the content of the *gen/api* directory and put it into the working directory of a Node.js Docker Image. This image is based on the latest and stable Cloud Native Buildpacks. 
 
-**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
 "build:api": "pack build sap-demo/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
@@ -203,7 +203,7 @@ As the central Backend Service is also based on CAP, for the initial build or an
 
 Doing so (as for the API Service), a Docker Image can be build without having to maintain a separate Dockerfile. During the build process, Paketo will take the content of the *gen/srv* directory, and place it into the working directory a Node.js Docker Image. Again, this image is based on the latest and stable Cloud Native Buildpacks.
 
-**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
 "build:srv": "pack build sap-demo/susaas-srv --path ../../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
@@ -220,7 +220,7 @@ Therefore, we created a tiny Dockerfile which is using the official SAP Docker I
 
 > **Hint** - The package.json file is part of the directory for local testing purposes only. As the SAP-managed Docker Image *sapse/approuter* already contains a package.json file, we will reuse the start script of this SAP-provided package.json scripts.
 
-**Dockerfile based on sapse/approuter Docker Image** ([/code/router/Dockerfile](../../../code/router/Dockerfile))
+**Dockerfile based on sapse/approuter Docker Image** ([*/code/router/Dockerfile*](../../../code/router/Dockerfile))
 
 ```Dockerfile
 # Image based on SAP provided sapse/approuter image
@@ -242,7 +242,7 @@ COPY . .
 CMD [ "npm", "start" ]
 ```
 
-**Build Docker Image based on Dockerfile above** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Build Docker Image based on Dockerfile above** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 > **Hint** - This following npm script will build a Docker Image based on the Dockerfile located in the */code/router* directory and will tag it with *sap-demo/susaas-router*. "sap-demo" has to be replaced by the prefix also used in step 3.1, if you want to run this command standalone.
 
@@ -259,7 +259,7 @@ For the API Service Broker (which is actually just a generic Node.js workload ba
 
 This way (as for the API and SaaS Backend Service), a Docker Image can be build without maintaining a separate Dockerfile. During the build process, Paketo will take the content of the *broker* directory, and place it into the working directory of a Node.js Docker Image. This Docker Image is again based on the latest Cloud Native Buildpacks. 
 
-**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
 "build:broker": "pack build sap-demo/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js"
@@ -276,27 +276,27 @@ As this Docker Image is maintained by SAP, there is no need to make use of Cloud
 
 The *resources* folder (within the *code/app/html5-deployer* directory) contains the zipped UI5 modules (which you need to build upfront using the *npm run ui:apps* script - [see here](#2-build-your-components)). If you followed all previous tutorial steps, the respective zip files should already exist, as the respective command will automatically run the *build* scripts in the *package.json* files of our UI5 modules.
 
-**Npm script to trigger the build of a single UI module** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Npm script to trigger the build of a single UI module** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
 "ui:admin-projects": "npm run build:copy --prefix ../../code/app/ui-admin-projects/"
 ```
 
-**Npm scripts to build a UI module and copy zip to html5 app deployer** ([/code/app/ui-admin-projects/package.json](../../../code/app/ui-admin-projects/package.json))
+**Npm scripts to build a UI module and copy zip to html5 app deployer** ([*/code/app/ui-admin-projects/package.json*](../../../code/app/ui-admin-projects/package.json))
 
 ```json
 "scripts": {
     "build:copy": "npm run build && npm run copy",
     "build": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
     "copy": "shx mkdir -p ../html5-deployer/resources/ && shx cp -rf ./dist/*.zip ../html5-deployer/resources/"
-},
+}
 ```
 
 Similar to the Application Router, the Dockerfile residing in the *code/app/html5-deployer* folder, copies the *html5-deployer* directory content into the working directory of the resulting Docker Image, which is based on the SAP-managed *sapse/html5-app-deployer* image.
 
 > **Hint** - The package.json file is part of the *code/app/html5-deployer* directory for local testing purposes only. As the Docker Base Image *sapse/html5-app-deployer* already contains a corresponding package.json file, we will reuse the start script of this SAP-provided package.json.
 
-**Dockerfile based on sapse/html5-app-deployer Docker Image** ([/code/app/html5-deployer/Dockerfile](../../../code/app/html5-deployer/Dockerfile))
+**Dockerfile based on sapse/html5-app-deployer Docker Image** ([*/code/app/html5-deployer/Dockerfile*](../../../code/app/html5-deployer/Dockerfile))
 
 ```Dockerfile
 # Image based on SAP provided sapse/html5-app-deployer image
@@ -318,7 +318,7 @@ COPY . .
 CMD [ "npm", "start" ]
 ```
 
-**Build Docker Image based on Dockerfile above** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Build Docker Image based on Dockerfile above** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
 "build:html5-deployer": "docker build -t sap-demo/susaas-html5-deployer ../../code/app/html5-deployer"
@@ -332,7 +332,7 @@ As the data model of the shared database container is also based on CAP, for the
 
 After running the CDS build (compiling the CDS files of our CAP Backend, CAP API, Tenant and shared data model), the required Docker Image (containing an HDI deployer for the shared data model) is build using Paketo and Cloud Native Buildpacks. This simplifies the build process and allows us to build a Docker Image without the necessity of maintaining a separate Dockerfile. During the build process, Paketo will take the content of the *gen/db-com* directory and place it into the working directory of a Node.js Docker Image. This image is based on the latest Cloud Native Buildpacks. 
 
-**Npm script to build the Docker Image using Paketo** ([/deploy/kyma/package.json](../../../deploy/kyma/package.json))
+**Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
 "build:db-com": "pack build sap-demo/susaas-db-com --path ../../code/gen/db-com --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/hdi-deploy/deploy.js"
@@ -349,7 +349,7 @@ To allow Helm to pull your Docker Images during the deployment process, you need
 
 After all your Docker Images are build using **Cloud Native Buildpacks** or **SAP Standard Images**, you can push them to your Container Registry. To do so, please ensure you successfully logged in to your registry of choice (*docker login*) before running the following npm script. 
 
-> **Hint** - If you use e.g. DockerHub as a Container Registry, please put in your **username** (e.g., johndoe) as Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace\>** (e.g. ghcr.io/johndoe). All generated Docker Images will be automatically prefixed with this label!
+> **Hint** - If you use e.g. DockerHub as a Container Registry, please put in your **username** (e.g., johndoe) as Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace>** (e.g. ghcr.io/johndoe). All generated Docker Images will be automatically prefixed with this label!
 
 ```sh
 # Run in ./deploy/kyma # 

@@ -1,7 +1,7 @@
 # Cloud Foundry - Build and deploy the SaaS application
 
-- ### **Kyma** ❌
-- ### **Cloud Foundry** ✅
+- **Kyma** ❌
+- **Cloud Foundry** ✅
 
 
 **Important** - This part of the tutorial is required for **Cloud Foundry** deployments only!
@@ -101,7 +101,7 @@ $ cf deploy mta_archives/susaas_0.0.1.mtar -e ./mtaext/free-tier-private.mtaext
 
 Before you learn how to subscribe new tenants in the next part of the mission, you need to provide two credentials in the Credential Store. These credentials are essential for some parts of the automated subscription process. 
 
-2.1. In your provider subaccount, please go to the Instances and Subscriptions menu and click on your **\<SpaceName\>-susaas-credstore** instance or use the **Manage Instance** button. 
+2.1. In your provider subaccount, please go to the Instances and Subscriptions menu and click on your **\<SpaceName>-susaas-credstore** instance or use the **Manage Instance** button. 
 
 [<img src="./images/CS_Service.png" width="400"/>](./images/CS_Service.png?raw=true)
 
@@ -133,7 +133,7 @@ Provide the e-mail address (Username) and password (Value) of an SAP BTP user wh
 
 As Value please provide the **Plaintext Password** of your API broker user. This password is required when registering the API broker in any of your consumer subaccounts during automation.
 
-> **Hint** - You created this password in step 1.4 of "[Prepare the SaaS Application for deployment](#1-Prepare-the-SaaS-Application-for-deployment)". 
+> **Hint** - You created this password in step 1.4 of "[Prepare the SaaS Application for deployment](#1-Prepare-the-SaaS-Application-for-deployment)". <br>
   [<img src="./images/SB_PlainText.png" width="500"/>](./images/SB_PlainText.png?raw=true)
 
 As a Username please use the value **broker-user**. 

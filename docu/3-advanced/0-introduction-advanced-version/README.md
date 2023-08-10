@@ -1,7 +1,7 @@
 # Advanced Version Introduction
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 The **Advanced Version** of the sample application requires a certain **Basic** setup, which means you have to get started with the **Basic Version**, before challenging yourself with the Advanced Version. The **Expert Features** contain additional components and tutorials that can be applied to both the Basic **and** Advanced Version.
 

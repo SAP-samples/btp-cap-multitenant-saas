@@ -1,7 +1,7 @@
 # Deep Dive into Helper Classes
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
 
 In this part of the tutorial, you will learn about the different helper classes implemented in the business application service. These classes mainly support the automation of the Tenant subscription process. Furthermore, they contain the logic of the in-app user management.  
 

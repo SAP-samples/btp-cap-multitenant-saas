@@ -1,7 +1,7 @@
 # Template Details
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅ 
+- **Cloud Foundry** ❌
 
 This chapter provides detailed information on the various Helm templates and corresponding Kyma and Kubernetes resources. If you are new to Helm and have not checked out the provided introduction yet, we strongly recommend to read the respective [Helm Charts](./HelmCharts.md) chapter first. While the subsequent [Resource Overview](./ResourceOverview.md) chapter describes the general purpose of the different Kyma and Kubernetes resource types, in this part of the tutorial, we cover the scenario-related usage of the various components.
 
@@ -353,9 +353,9 @@ To guarantee that no request can reach the API Service workloads without passing
           - name: x-jwt-assertion
   ```
  
-- An Istio **Authorization Policy** finally ensures, that the API Service workloads can only be reached by requests providing a specific Issuer and Subject (sub) claim as part of the previously validated JWT token. This can be handled by checking the requestPrincipals property, which is provided in the following structure \<JWT-Issuer\>/\<JWT-Subject\>. 
+- An Istio **Authorization Policy** finally ensures, that the API Service workloads can only be reached by requests providing a specific Issuer and Subject (sub) claim as part of the previously validated JWT token. This can be handled by checking the requestPrincipals property, which is provided in the following structure \<JWTIssuer>/\<JWTSubject>. 
   
-  > **Hint** - In this sample the JWT token issuer has to match the **token endpoint** of the provider XSUAA tenant (like https://</span>sap-demo.authentication.us20.hana.ondemand.com/oauth/token) and the Subject has to contain the appname of the API XSUAA Service Instance prefixed with "sb-". The default structure of the Subject in this sample is **sb-\<Release-Name\>-api-\<Release-Namespace\>** and has to be provided in the *values.yaml* file (like sb-susaas-api-default).
+  > **Hint** - In this sample the JWT token issuer has to match the **token endpoint** of the provider XSUAA tenant (like https://</span>sap-demo.authentication.us20.hana.ondemand.com/oauth/token) and the Subject has to contain the appname of the API XSUAA Service Instance prefixed with "sb-". The default structure of the Subject in this sample is **sb-\<ReleaseName>-api-\<Namespace>** and has to be provided in the *values.yaml* file (like sb-susaas-api-default).
 
   ```yaml
   apiVersion: security.istio.io/v1beta1

@@ -1,7 +1,7 @@
 # Integrate SAP API Management
 
-- ### **Kyma** ❌
-- ### **Cloud Foundry** ✅
+- **Kyma** ❌
+- **Cloud Foundry** ✅
 
 **Important** - This part of the tutorial is required for **Cloud Foundry** deployments only!
 

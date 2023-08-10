@@ -1,5 +1,8 @@
 # The Basics of SAP BTP, Cloud Foundry, Kyma and CAP
 
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
+
 The **SAP Business Technology Platform (SAP BTP)** is an integrated offering comprised of four technology portfolios: database and data management, application development and integration, analytics, and intelligent technologies. The platform offers users the ability to turn data into business value, compose end-to-end business processes, and build and extend SAP applications quickly.
 
 - [The Basics of SAP BTP, Cloud Foundry, Kyma and CAP](#the-basics-of-sap-btp-cloud-foundry-kyma-and-cap)

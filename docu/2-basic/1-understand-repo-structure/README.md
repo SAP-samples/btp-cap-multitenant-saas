@@ -1,7 +1,7 @@
 # Understand the Repository Structure
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅ 
+- **Cloud Foundry** ✅
 
 This part of the tutorial will briefly outline the structure of **code** directory, so you're comfortable navigating through the provided GitHub repository. If you are targeting a Cloud Foundry deployment, please ignore the Kubernetes related artifacts like **Dockerfiles**, which are not required for your deployment.
 

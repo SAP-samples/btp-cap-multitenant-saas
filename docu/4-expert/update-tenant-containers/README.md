@@ -1,7 +1,7 @@
 # Update tenant database containers
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the **Expert Features**, you will learn how to distribute data model changes to your tenant database containers using API calls.
 

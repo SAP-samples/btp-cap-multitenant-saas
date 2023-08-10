@@ -1,7 +1,7 @@
 # Setup CI/CD for your Project
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅
+- **Cloud Foundry** ❌
 
 In this part of the **Expert Features** is work-in-progress. Please check again at a later point of time or be adventurous and explore the provided files. 
 

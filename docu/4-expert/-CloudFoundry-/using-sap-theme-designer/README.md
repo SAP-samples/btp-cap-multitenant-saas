@@ -1,7 +1,7 @@
 # Using SAP Theme Designer with multitenancy
 
-- ### **Kyma** ❌
-- ### **Cloud Foundry** ✅
+- **Kyma** ❌
+- **Cloud Foundry** ✅
 
 In this part of the mission you will learn how to let your consumers use the SAP Theme Designer for creating their own custom application themes. 
 

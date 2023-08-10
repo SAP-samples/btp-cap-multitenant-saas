@@ -1,7 +1,7 @@
 # Kyma - Deploy the SaaS application
 
-- ### **Kyma** ✅ 
-- ### **Cloud Foundry** ❌
+- **Kyma** ✅ 
+- **Cloud Foundry** ❌
 
 **Important** - This part of the tutorial is required for **Kyma** deployments only!
 
@@ -18,18 +18,18 @@ Before you deploy the sample application to your **SAP BTP, Kyma Runtime**, plea
 
 If you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-https://developers.sap.com/mission.btp-deploy-cap-kyma.html
+[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
 
 
 ## 1. Introduction
 
 The deployment of the Sustainable Saas solution to your SAP BTP Kyma Cluster is handled by [Helm](https://helm.sh/). To learn more about the basic concepts of Helm, visit the respective chapter of the tutorial ([click here](../7-kyma-resources-helm/README.md)). Repeating myself, I also suggest to read and inhale the brilliant blog post of Maximilian Streifeneder on the topics of Kyma, Helm, Paketo and a lot more! It will give you a great overview and introduction if you are new to the Kubernetes, Docker and Kyma world!
 
-https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/
+[https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/](https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/)
 
 Furthermore, if you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-https://developers.sap.com/mission.btp-deploy-cap-kyma.html
+[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
 
 
 Before you proceed with the following steps, please make sure you have successfully built your Docker Images and pushed them to the Container Registry of your choice (e.g., Docker Hub or GitHub). Helm will not make use of your local Docker Images, but will pull the latest Images from the provided registry and deploy them to your Kyma Cluster. 
@@ -129,7 +129,7 @@ kubelogin version v1.26.0
 
 2.5. Once you downloaded the *kubeconfig.yaml* file, please store it as a file named **config** (! without any file name extension !) in your hidden *$HOME/.kube* directory. Kubectl will check this **hidden** directory for an available configuration file named **config**. This is probably the most convenient way to provide your Cluster access details to kubectl. 
 
-> **Hint** - In Windows, the directory is e.g., C:\Users\\<Username\>\\.kube
+> **Hint** - In Windows, the directory is e.g., C:\Users\\<username>\\.kube
 
 Alternatively, you can also configure the location of your configuration file in the environment variable **KUBECONFIG** or by adding the kubectl parameter *--kubeconfig* to any kubectl command (which is obviously a bit cumbersome). 
 
@@ -213,7 +213,7 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 
 3.2. In your personal **values-private.yaml** file, please provide values for the following parameters, based on your own environment and the Container Registry being used. 
 
-  **global**
+**global**
 
   * imagePullSecret - Name of a Image Pull Secret if required.
     > **Hint** - This value needs to contain the reference to a potential Image Pull Secret of your Container Registry. If you're using a free Docker Hub account and public Docker Images, this property can be left unchanged (empty object). Otherwise, please make sure to create a Kyma **Secret** containing your imagePullSecret and provide the reference to your Secret here. 
@@ -235,47 +235,48 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
     > In a productive SAP BTP landscape, your **shootName** will always starts with a letter like *a1b2c3* or with the prefix **c-** like c-1b2c3d4*. 
 
 
-  **router**
+**router**
 
-  * image.repository - Provide the registry details of your [Application Router](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image like \<username\>/susaas-router if your images are stored in Docker Hub or ghcr.io/\<namespace\>/susaas-router in case of GitHub.
+  * image.repository - Provide the registry details of your [Application Router](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image like \<username>/susaas-router if your images are stored in Docker Hub or ghcr.io/\<namespace>/susaas-router in case of GitHub.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
 
-  **srv**
+**srv**
 
-  * image.repository - Provide the registry details of your [Backend Service](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-srv.
+  * image.repository - Provide the registry details of your [Backend Service](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username>/susaas-srv.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
     
-  **api**
+**api**
 
-  * image.repository - Provide the registry details of your [API Service](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-api
+  * image.repository - Provide the registry details of your [API Service](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username>/susaas-api
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
 
 
-  **broker**
+**broker**
 
-  * image.repository - Provide the registry details of your [API Service Broker](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-broker.
+  * image.repository - Provide the registry details of your [API Service Broker](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username>/susaas-broker.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
   * config.serviceId & planId(s) - Generate and provide unique GUIDs for your service plans and the broker itself. 
 
-      > **Important** - We recommend to generate custom GUIDs using your command line or available online generators. You can run the following script from the *code/broker* directory, which will generate new GUIDs as part of a new */code/broker/catalog-private.json* file which can be used for this requirement. This file can remain in your directory for your reference and will not be committed to GitHub.
+      > **Important** - We recommend to generate custom GUIDs using your command line or available online generators. You can run the following script from the *code/broker* directory, which will generate new GUIDs as part of a new */code/broker/catalog-private.json* file which can be used for this requirement. This file can remain in your directory for your reference and will not be committed to GitHub. <br>
+      > 
+      > **Run in ./code/broker**
       > ```sh 
-      > # Run in ./code/broker # 
       > cp catalog.json catalog-private.json
       > npx --yes -p @sap/sbf gen-catalog-ids catalog-private.json
       > cat catalog-private.json
       > ```
 
-  **hana_deployer**
+**hana_deployer**
 
-  * image.repository - Provide the registry details of your [HDI Container Deployer](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-db-com.
+  * image.repository - Provide the registry details of your [HDI Container Deployer](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username>/susaas-db-com.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
 
-  **html5_apps_deployer**
+**html5_apps_deployer**
 
-  * image.repository - Provide the registry details of your [HTML5 Apps Deployer](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username\>/susaas-html5-deployer.
+  * image.repository - Provide the registry details of your [HTML5 Apps Deployer](../3-kyma-build-docker-images/README.md#3-create-your-docker-images) Container Image repository like \<username>/susaas-html5-deployer.
   * image.tag - Provide the tag of your container image if you do not want to use the latest image. 
 
-  **xsuaa**
+**xsuaa**
 
   * parameters.oauth2-configuration.redirect-urls - Please provide your default Cluster Domain including a wildcard subdomain prefix ("*."). Keep the **localhost** redirects for local testing purposes. 
 
@@ -332,7 +333,7 @@ While we could have skipped the whole part of building your own Docker Images an
 
 4.1. If not there yet, please first of all, deploy a **SAP Alert Notification Service** instance to the Kyma Namespace of choice. 
 
-4.2. To do so, please copy or rename the provided [*values-private.sample.yaml*](../../../deploy/kyma/charts/alert-notification/values-private.sample.yaml) sample file in the *deploy/kyma/charts/alert-notification/* directory to **values-private.yaml**. This file will not be committed to GitHub due to the **-private** suffix. 
+4.2. To do so, please copy or rename the provided [*values-private.sample.yaml*](../../../deploy/kyma/charts/alert-notification/values-private.sample.yaml) sample file (in the *deploy/kyma/charts/alert-notification/* directory) to **values-private.yaml**. This file will not be committed to GitHub due to the **-private** suffix. 
 
 4.3. In your new **values-private.yaml** file, provide a valid email address which will act as destination for Alert Notification messages. 
 
@@ -352,7 +353,7 @@ alert_notification:
           destination: john.doe@example.org
 ```
 
-4.2. Save your changes and deploy a new Alert Notification Service Instance to your desired Kyma Namespace, by running the following **Helm** command from within the */deploy/kyma* directory. 
+4.4. Save your changes and deploy a new Alert Notification Service Instance to your desired Kyma Namespace, by running the following **Helm** command from within the */deploy/kyma* directory. 
 
 > **Hint** - There can only be one Alert Notification Service instance per Kyma Namespace (or Cloud Foundry Space). Given this restriction, SAP Alert Notification Service is deployed as a standalone Helm installation in our example. 
 
@@ -366,7 +367,7 @@ helm install alert-notification ./charts/alert-notification -f ./charts/alert-no
 helm install alert-notification ./charts/alert-notification -f ./charts/alert-notification/values-private.yaml -n default
 ```
 
-4.3. After the Alert Notification Service has been deployed (wait for a confirmation in the console or check the Helm Release status in the Kyma Dashboard), please run the following command from within the *deploy/kyma* directory to deploy the Sustainable SaaS sample application to a namespace of your choice.
+4.5. After the Alert Notification Service has been deployed (wait for a confirmation in the console or check the Helm Release status in the Kyma Dashboard), please run the following command from within the *deploy/kyma* directory to deploy the Sustainable SaaS sample application to a namespace of your choice.
 
 > **Hint** - Feel free to add the *--debug* parameter to get some more verbose output if you're interested what's happening under the hood!
 
@@ -378,7 +379,7 @@ helm install <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saa
 helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
 ```
 
-4.4. If you want to make your application to make use of the SAP Alert Notification Service, please include a few additional lines in your **values-private.yaml** file before starting the deployment. This will generate a new Service Binding between the Alert Notification instance and your SaaS Backend Service. 
+4.6. If you want to make your application to make use of the SAP Alert Notification Service, please include a few additional lines in your **values-private.yaml** file before starting the deployment. This will generate a new Service Binding between the Alert Notification instance and your SaaS Backend Service. 
 
 ```yaml
 srv:
@@ -390,7 +391,7 @@ srv:
       serviceInstanceFullname: alert-notification
 ```
 
-4.5. Start the deployment to your Kyma Cluster by running the following **helm** command. 
+4.7. Start the deployment to your Kyma Cluster by running the following **helm** command. 
 
 ```sh
 # Run in ./deploy/kyma # 
@@ -410,29 +411,29 @@ helm upgrade <ReleaseName> ./charts/sustainable-saas --install -f ./charts/susta
 helm upgrade susaas ./charts/sustainable-saas --install -f ./charts/sustainable-saas/values-private.yaml  -n default
 ```
 
-4.6. The deployment of the Helm Release to your Kyma cluster, will take a few minutes. 
+4.8. The deployment of the Helm Release to your Kyma cluster, will take a few minutes. 
 
-4.7. You can use this time to switch back to your Kyma Dashboard, where you can monitor the installation/deployment progress and respective objects being instantiated. Once you see the following four **Pods** in **Running** state, your deployment finished successfully. 
+4.9. You can use this time to switch back to your Kyma Dashboard, where you can monitor the installation/deployment progress and respective objects being instantiated. Once you see the following four **Pods** in **Running** state, your deployment finished successfully. 
 
 > **Trivia** - We're kind of mixing up the terms Deployment/Installation/Release in this tutorial. 
 
 [<img src="./images/PodOverview.png" width="400"/>](./images/PodOverview.png?raw=true)
 
-4.8. You can also check the successful deployment of your application in the **Apps** section of the Kyma Dashboard. Here you can find all **Helm Releases**. 
+4.10. You can also check the successful deployment of your application in the **Apps** section of the Kyma Dashboard. Here you can find all **Helm Releases**. 
 
 [<img src="./images/HelmOverview.png" width="400"/>](./images/HelmOverview.png?raw=true)
 
-4.9. For any further updates of the Helm Release, you must now use the *helm upgrade* command (already mentioned above).
+4.11. For any further updates of the Helm Release, you must now use the *helm upgrade* command (already mentioned above).
 
 ```sh
 # Run in ./deploy/kyma # 
-helm upgrade <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <namespace>
+helm upgrade <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
 helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default 
 ```
 
-4.10. To undeploy/uninstall a Helm Release, you can use the following command. 
+4.12. To undeploy/uninstall a Helm Release, you can use the following command. 
 
 > **Important** - Please make sure to check the respective **Undeploy** chapter of the documentation first! Uninstalling a SaaS application with existing subscribers, can result in corrupt Service Instance setups which are very cumbersome to resolve. 
 
@@ -452,7 +453,7 @@ The (Helm) Release Name, is the value following the *helm install* command. You 
 
 ```sh
 # Run in ./deploy/kyma # 
-helm install <ReleaseName>-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <namespace>
+helm install <ReleaseName>-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
 helm install susaas-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default 

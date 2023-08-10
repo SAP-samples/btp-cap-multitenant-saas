@@ -1,7 +1,7 @@
 # Integration of Consumer IdPs
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the **Expert Features** you will learn how to integrate Consumer IdPs (Identity Providers) like Azure Active Directory. As we did not explicitly set up a dedicated Consumer IdP in our SaaS sample scenario, in this chapter we will just briefly highlight some possible approaches. 
 

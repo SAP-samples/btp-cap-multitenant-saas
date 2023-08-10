@@ -1,7 +1,7 @@
 # Local and hybrid development
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the **Expert Features** you will learn how to use the local and hybrid development features of CAP. This will simplify the development process and let's you implement new features in a local environment with and without multitenancy enable. 
 
@@ -356,7 +356,7 @@ Make sure to target the correct Cloud Foundry Organization and Space.
 
 For hybrid testing in a Kyma scenario, you need to store valid Service Binding details in the *srv/.cdsrc-private.json* file. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<ReleaseName\>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
+> **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
 cds bind -2 <ReleaseName>-srv-destination,<ReleaseName>-srv-xsuaa --on k8s --for hybrid --output-file srv/.cdsrc-private.json
@@ -388,7 +388,7 @@ cf csk <SpaceName>-susaas-service-manager-admin <SpaceName>-susaas-service-manag
 
 Once all Service Keys have been created successfully, please add them to your hybrid testing profile, stored in *srv/.cdsrc-private.json*. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space name.
+> **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 
 ```sh
 cds bind -2 <SpaceName>-susaas-destination,<SpaceName>-susaas-uaa --for hybrid --output-file srv/.cdsrc-private.json
@@ -428,7 +428,7 @@ In this section you will be running your frontend application with the connectio
 
 For hybrid testing in a Kyma scenario, you need to store valid Service Binding details in the *router/.cdsrc-private.json* file. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<ReleaseName\>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
+> **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
 cds bind -2 <ReleaseName>-router-destination,<ReleaseName>-router-xsuaa --on k8s --for hybrid --output-file router/.cdsrc-private.json
@@ -443,7 +443,7 @@ This is it, you are ready to proceed with the next steps and start your router i
 
 Run the following commands in your *code* directory to create Service Keys in Cloud Foundry, which can be used for hybrid testing. 
 
-> **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space Name.
+> **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space Name.
 
 ```sh
 cf csk <SpaceName>-susaas-uaa <SpaceName>-susaas-uaa-key
@@ -453,7 +453,7 @@ cf csk <SpaceName>-susaas-html5-repo-runtime <SpaceName>-susaas-html5-repo-runti
 
 Once all Service Keys have been created successfully, please add them to your hybrid testing profile, stored in *router/.cdsrc-private.json*. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space name.
+> **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 ```sh
 cds bind -2 <SpaceName>-susaas-destination,<SpaceName>-susaas-uaa --for hybrid --output-file router/.cdsrc-private.json
 cds bind html5-apps-repo -2 <SpaceName>-susaas-html5-repo-runtime --kind html5-apps-repo --for hybrid --output-file router/.cdsrc-private.json
@@ -498,7 +498,7 @@ Before running the SaaS API in hybrid mode, please make sure to terminate your l
 
 For hybrid testing in a Kyma scenario, you need to store valid Service Binding details in the *api/.cdsrc-private.json* file. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<ReleaseName\>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
+> **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
 cds bind -2 <ReleaseName>-api-xsuaa-api --on k8s --for hybrid --output-file api/.cdsrc-private.json
@@ -513,7 +513,7 @@ This is it, you are ready to proceed with the next steps and start your API in h
 
 Run the following commands in your *code* directory to create Service Keys in Cloud Foundry, which can be used for hybrid testing. 
 
-> **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space Name.
+> **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space Name.
 
 ```sh
 cf csk <SpaceName>-susaas-api-uaa <SpaceName>-susaas-api-uaa-key
@@ -522,7 +522,7 @@ cf csk <SpaceName>-susaas-service-manager <SpaceName>-susaas-service-manager-key
 
 Once all Service Keys have been created successfully, please add them to your hybrid testing profile, stored in *api/.cdsrc-private.json*. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space name.
+> **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 ```sh
 cds bind -2 <SpaceName>-susaas-api-uaa --for hybrid --output-file api/.cdsrc-private.json
 cds bind sm-container -2 <SpaceName>-susaas-service-manager --kind service-manager --for hybrid --output-file api/.cdsrc-private.json

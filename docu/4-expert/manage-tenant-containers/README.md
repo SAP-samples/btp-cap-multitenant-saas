@@ -1,7 +1,7 @@
 # Manage Tenant Database Containers
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the **Expert Features** you will learn how to access and manage tenant database containers. In this sample scenario, you will be accessing a respective tenant database container with a user that is assigned administrative permissions for the underlying database schema like **CREATE ANY, SELECT, EXECUTE, or DROP** SQL permissions. 
 
