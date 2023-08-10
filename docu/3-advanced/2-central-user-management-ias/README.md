@@ -1,7 +1,7 @@
 # Central user management using SAP Identity Authentication Service
 
-- ### **Kyma** ✅
-- ### **Cloud Foundry** ✅
+- **Kyma** ✅
+- **Cloud Foundry** ✅
 
 In this part of the tutorial, you will learn how you as a SaaS Provider can set up a central user management using SAP Identity Authentication Service (SAP IAS). This makes your solution independent from SAP ID Service, which requires users of your SaaS consumers to sign up for an SAP-managed user account. Using SAP IAS you can manage (register, unregister, reset passwords, ...) all SaaS Consumer users in a central place. 
 
@@ -79,7 +79,7 @@ In case you don't have an SAP IAS tenant or you haven't configured it as a trust
 
 [<img src="./images/IAS_SetupIAS.png" width="400" />](./images/IAS_SetupIAS.png?raw=true)
 
-> **Important** - If you're missing this service or service plan, please make sure to add it to your subaccount entitlements. While the **default (Application)** service plan will create a new SAP IAS tenant, the **application** service plan will create a new application registration in an SAP IAS tenant configured as a trusted IdP to the respective subaccount.
+> **Important** - If you're missing this service or service plan, please make sure to add it to your subaccount entitlements. While the **default (Application)** service plan will create a new SAP IAS tenant, the **application** service plan will create a new application registration in an SAP IAS tenant configured as a trusted IdP to the respective subaccount.<br>
 > [<img src="./images/IAS_EntConfig.png" width="400" />](./images/IAS_EntConfig.png?raw=true)
 
 
@@ -133,17 +133,17 @@ To enable the Central User Management leveraging SAP Identity Authentication Ser
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-For this Advanced feature, please add the **values-ias.yaml** ([./files/values-ias.yaml](./files/values-ias.yaml)) details to your main **values-private.yaml** file (located in [*deploy/kyma/charts/sustainable-saas*](../../../deploy/kyma/charts/sustainable-saas/*)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
+For this Advanced feature, please add the [*./files/values-ias.yaml*](./files/values-ias.yaml) details to your main **values-private.yaml** file (located in [*/deploy/kyma/charts/sustainable-saas/*](../../../deploy/kyma/charts/sustainable-saas/)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
 
 ```yaml
 ...
 
 srv:
-  ####################### Existing Configuration ########################
+  #######################Existing Configuration########################
   image:
     repository: sap-demo/susaas-srv
     tag: latest
-  ######################### Added Configuration ######################### 
+  #########################Added Configuration######################### 
   bindings:
     identity:
       serviceInstanceName: identity
@@ -156,7 +156,7 @@ srv:
 
 ...
 
-######################### Added Configuration ######################### 
+#########################Added Configuration######################### 
 identity:
   serviceOfferingName: identity
   servicePlanName: application
@@ -174,10 +174,10 @@ identity:
 After updating your **values-private.yaml** file, please start an upgrade of your existing Sustainable SaaS deployment, by running the following command. This will create the new Service Instance and requires Service Bindings. 
 
 ```sh
-# Run in ./deploy/kyma #
+#Run in ./deploy/kyma#
 helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
-# Example #
+#Example#
 helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
 ```
 
@@ -192,8 +192,8 @@ A **Cloud Identity** service instance creates a new Application Registration in 
 Below, you can find the Service Instance definition of the SAP Cloud Identity Service Instance being created.
 
 ```yaml 
-# SAP Cloud Identity Service Instance
-# Provides an SAP IAS integration for central user management
+#SAP Cloud Identity Service Instance
+#Provides an SAP IAS integration for central user management
 identity:
   serviceOfferingName: identity
   servicePlanName: application
@@ -216,8 +216,8 @@ identity:
 Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
 
 ```yaml 
-# SAP Cloud Identity Service Instance Binding
-# Creates a binding between the Service Instance and the SaaS Backend Service
+#SAP Cloud Identity Service Instance Binding
+#Creates a binding between the Service Instance and the SaaS Backend Service
 srv:
   bindings:
     identity:
@@ -243,7 +243,7 @@ class UserManagement {
     async createUser(userInfo) {
         try {
             ...
-            // User in SAP IAS only created if Service Binding exists
+            //User in SAP IAS only created if Service Binding exists
             this.ias && (createdUserInfo.iasLocation = await this.createIASUser(userInfo)) 
             ...
         }
@@ -273,7 +273,7 @@ Before running the following commands, please open the respective **advanced** *
 Once your created your private Deployment Descriptor extension file, please run the following commands to deploy the new features to your existing application. 
 
 ```sh
-# Run in /deploy/cf #
+#Run in /deploy/cf#
 mbt build -e ./mtaext/free-advanced-private.mtaext
 cf deploy
 ```
@@ -288,8 +288,8 @@ Once the deployment has finished, you are good to go and the integration with SA
 Below, you can find the Service Instance definition (which is part of the Deployment Descriptor Extension) of the SAP Cloud Identity Service Instance being created.
 
 ```yaml 
-# SAP Cloud Identity Service Instance
-# Provides an SAP IAS integration for central user management
+#SAP Cloud Identity Service Instance
+#Provides an SAP IAS integration for central user management
 resources:
   - name: susaas-ias-app
     type: org.cloudfoundry.managed-service
@@ -336,7 +336,7 @@ class UserManagement {
     async createUser(userInfo) {
         try {
             ...
-            // User in SAP IAS only created if Service Binding exists
+            //User in SAP IAS only created if Service Binding exists
             this.ias && (createdUserInfo.iasLocation = await this.createIASUser(userInfo))
             ...
         }
