@@ -139,11 +139,11 @@ For this Advanced feature, please add the [*./files/values-ias.yaml*](./files/va
 ...
 
 srv:
-  #######################Existing Configuration########################
+  ###################### Existing Configuration #######################
   image:
     repository: sap-demo/susaas-srv
     tag: latest
-  #########################Added Configuration######################### 
+  ######################## Added Configuration ######################## 
   bindings:
     identity:
       serviceInstanceName: identity
@@ -156,7 +156,7 @@ srv:
 
 ...
 
-#########################Added Configuration######################### 
+######################## Added Configuration ######################## 
 identity:
   serviceOfferingName: identity
   servicePlanName: application
@@ -174,10 +174,10 @@ identity:
 After updating your **values-private.yaml** file, please start an upgrade of your existing Sustainable SaaS deployment, by running the following command. This will create the new Service Instance and requires Service Bindings. 
 
 ```sh
-#Run in ./deploy/kyma#
+# Run in ./deploy/kyma #
 helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
-#Example#
+# Example #
 helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
 ```
 
@@ -192,8 +192,8 @@ A **Cloud Identity** service instance creates a new Application Registration in 
 Below, you can find the Service Instance definition of the SAP Cloud Identity Service Instance being created.
 
 ```yaml 
-#SAP Cloud Identity Service Instance
-#Provides an SAP IAS integration for central user management
+# SAP Cloud Identity Service Instance #
+# Provides an SAP IAS integration for central user management #
 identity:
   serviceOfferingName: identity
   servicePlanName: application
@@ -216,8 +216,8 @@ identity:
 Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
 
 ```yaml 
-#SAP Cloud Identity Service Instance Binding
-#Creates a binding between the Service Instance and the SaaS Backend Service
+# SAP Cloud Identity Service Instance Binding #
+# Creates a binding between the Service Instance and the SaaS Backend Service #
 srv:
   bindings:
     identity:
@@ -243,7 +243,7 @@ class UserManagement {
     async createUser(userInfo) {
         try {
             ...
-            //User in SAP IAS only created if Service Binding exists
+            // User in SAP IAS only created if Service Binding exists // 
             this.ias && (createdUserInfo.iasLocation = await this.createIASUser(userInfo)) 
             ...
         }
@@ -273,7 +273,7 @@ Before running the following commands, please open the respective **advanced** *
 Once your created your private Deployment Descriptor extension file, please run the following commands to deploy the new features to your existing application. 
 
 ```sh
-#Run in /deploy/cf#
+# Run in /deploy/cf #
 mbt build -e ./mtaext/free-advanced-private.mtaext
 cf deploy
 ```
@@ -288,8 +288,8 @@ Once the deployment has finished, you are good to go and the integration with SA
 Below, you can find the Service Instance definition (which is part of the Deployment Descriptor Extension) of the SAP Cloud Identity Service Instance being created.
 
 ```yaml 
-#SAP Cloud Identity Service Instance
-#Provides an SAP IAS integration for central user management
+# SAP Cloud Identity Service Instance #
+# Provides an SAP IAS integration for central user management #
 resources:
   - name: susaas-ias-app
     type: org.cloudfoundry.managed-service
@@ -336,7 +336,7 @@ class UserManagement {
     async createUser(userInfo) {
         try {
             ...
-            //User in SAP IAS only created if Service Binding exists
+            // User in SAP IAS only created if Service Binding exists // 
             this.ias && (createdUserInfo.iasLocation = await this.createIASUser(userInfo))
             ...
         }
