@@ -3,9 +3,9 @@
 name     = "susaas" # Subaccount name/subdomain = "${name}-{stage}" 
 stage    = "dev" # Subaccount subdomain = "${name}-{stage}"
 
-globacct = "sap-demo"
-username = "global.admin@example.org" 
-password = "abcd1234!?#+"
+globacct = "sap-demo" # Global Account subdomain
+username = "global.admin@example.org" # Global Account Administrator e-mail
+password = "abcd1234!?#+" # Global Account Administrator password
 region   = "eu10" # Kyma Cluster region
 shootname = "a1b2c3" # Kyma Cluster shootname
 namespace = "default" # Kyma Cluster namespace
