@@ -1,54 +1,60 @@
 
 
-variable "name" {
+variable "project" {
   type        = string
-  description = "The account name."
+  nullable    = false
+  description = "The name of your project."
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9_\\-]{1,200}", var.name))
-    error_message = "Provide a valid project account name."
+    condition     = can(regex("^[a-zA-Z0-9_\\-]{1,200}", var.project))
+    error_message = "Provide a valid project name."
+  }
+}
+
+
+variable "tenant" {
+  type        = string
+  nullable    = false
+  description = "The name of your subscriber tenant."
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9_\\-]{1,200}", var.tenant))
+    error_message = "Provide a valid subscriber tenant name."
   }
 }
 
 
 variable "globacct" {
   type        = string
+  nullable    = false
   description = "The Global Account subdomain."
 }
 
 
 variable "username" {
   type        = string
+  nullable    = false
   description = "Global Administrator e-mail address."
 }
 
 
 variable "password" {
   type        = string
+  nullable    = false
   description = "Global Administrator password."
-}
-
-
-variable "stage" {
-  type        = string
-  description = "The stage/tier the account will be used for."
-  default     = "dev"
-
-  validation {
-    condition     = contains(["dev", "test", "prod"], var.stage)
-    error_message = "Select a valid stage for the project account."
-  }
 }
 
 
 variable "region" {
   type        = string
+  nullable    = false
   description = "The region where the project account shall be created in."
 }
 
 
 variable "shootname" {
   type        = string
+  nullable    = false
   description = "The Kyma Cluster shootname which the project is deployed to."
 }
 
@@ -56,22 +62,31 @@ variable "shootname" {
 variable "namespace" {
   type        = string
   description = "The Kyma Cluster namespace which the project is deployed to."
-  default = "default"
+  default     = "default"
 }
 
 
 variable "ias_host" {
   type        = string
+  nullable    = false
   description = "The host of the customers SAP IAS tenant for central user management."
+}
+
+
+variable "btp_cli" {
+  type        = bool
+  default     = true
+  description = "Defines whether the SAP BTP CLI commands will run in a null resource."
 }
 
 
 variable "subaccount_admins" {
   type        = list(string)
+  default     = null
   description = "The Subaccount Admin(s)."
 
   validation {
-    condition     = can([for s in var.subaccount_admins : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)])
+    condition = (var.subaccount_admins == null || can([for s in var.subaccount_admins : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)]))
     error_message = "Provide a valid subaccount administrator."
   }
 }
@@ -79,6 +94,7 @@ variable "subaccount_admins" {
 variable "saas_admins" {
   type        = list(string)
   description = "The SaaS Admin(s)."
+  nullable    = false
 
   validation {
     condition     = can([for s in var.saas_admins : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)])
@@ -89,10 +105,11 @@ variable "saas_admins" {
 
 variable "saas_members" {
   type        = list(string)
+  default     = null
   description = "The SaaS Member(s)."
 
   validation {
-    condition     = can([for s in var.saas_members : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)])
+    condition = (var.saas_members == null || can([for s in var.saas_members : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)]))    
     error_message = "Provide a valid SaaS member."
   }
 }
@@ -100,10 +117,11 @@ variable "saas_members" {
 
 variable "saas_extends" {
   type        = list(string)
+  default     = null
   description = "The SaaS Extension Developer(s)."
 
   validation {
-    condition     = can([for s in var.saas_extends : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)])
+    condition = (var.saas_extends == null || can([for s in var.saas_extends : regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", s)]))    
     error_message = "Provide a valid SaaS extension developer."
   }
 }

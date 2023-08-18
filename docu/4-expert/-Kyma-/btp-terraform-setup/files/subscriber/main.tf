@@ -1,14 +1,25 @@
 
+
+###
+# Get Global Account details
 ###
 data "btp_globalaccount" "project" {}
+
+
 ###
+# Get Subaccount details
+###
+data "btp_subaccount" "project" {
+  id = btp_subaccount.project.id
+}
+
 
 ###
 # Setup Subaccount
 ###
 resource "btp_subaccount" "project" {
-  name      = "${var.name}-${var.stage}"
-  subdomain = lower(replace("${var.name}-${var.stage}", " ", "-"))
+  name      = "${var.project}-${var.tenant}"
+  subdomain = lower(replace("${var.project}-${var.tenant}", " ", "-"))
   region    = lower(var.region)
 }
 
@@ -21,6 +32,28 @@ resource "btp_subaccount_trust_configuration" "project" {
   identity_provider = var.ias_host
 }
 
+
+###
+# Configure SAP IAS Settings
+# (solved with BTP CLI as not supported by Terraform provider yet)
+###
+resource "null_resource" "ias_config" {
+  count = var.btp_cli == true ? 1 : 0
+
+  provisioner "local-exec" {
+    command     = <<EOT
+        btp login --user '${var.username}' --password '${var.password}' --subdomain '${var.globacct}' --url https://cpcli.cf.eu10.hana.ondemand.com
+        btp update security/trust sap.custom --subaccount ${btp_subaccount.project.id} --auto-create-shadow-users false
+        btp update security/trust sap.default --subaccount ${btp_subaccount.project.id} --available-for-user-logon false
+    EOT
+    interpreter = ["/bin/bash", "-c"]
+  }
+  depends_on = [
+    btp_subaccount_trust_configuration.project
+  ]
+}
+
+
 ###
 # Setup Subscription
 ###
@@ -30,11 +63,13 @@ resource "btp_subaccount_subscription" "project" {
   plan_name     = var.app_plan
 }
 
+
 ###
 # Setup Subaccount Admins
+# (additional Subaccount Admins if required)
 ###
 resource "btp_subaccount_role_collection_assignment" "subaccount_admins" {
-  for_each             = { for user in var.subaccount_admins : user => user }
+  for_each             = var.subaccount_admins != null ? { for user in var.subaccount_admins : user => user } : {}
   subaccount_id        = btp_subaccount.project.id
   origin               = "sap.default"
   role_collection_name = "Subaccount Administrator"
@@ -69,11 +104,12 @@ resource "btp_subaccount_role_collection_assignment" "saas_admins" {
   ]
 }
 
+
 ###
 # Setup SaaS Members
 ###
 resource "btp_subaccount_role_collection_assignment" "saas_members" {
-  for_each             = { for user in var.saas_members : user => user }
+  for_each             = var.saas_members != null ? { for user in var.saas_members : user => user } : {}
   subaccount_id        = btp_subaccount.project.id
   origin               = "sap.custom"
   role_collection_name = "Susaas Member (${var.app_name}-${var.namespace})"
@@ -84,11 +120,12 @@ resource "btp_subaccount_role_collection_assignment" "saas_members" {
   ]
 }
 
+
 ###
 # Setup SaaS Extension Developers
 ###
 resource "btp_subaccount_role_collection_assignment" "saas_extends" {
-  for_each             = { for user in var.saas_extends : user => user }
+  for_each             = var.saas_extends != null ? { for user in var.saas_extends : user => user } : {}
   subaccount_id        = btp_subaccount.project.id
   origin               = "sap.custom"
   role_collection_name = "Susaas Extension Developer (${var.app_name}-${var.namespace})"
@@ -100,6 +137,9 @@ resource "btp_subaccount_role_collection_assignment" "saas_extends" {
 }
 
 
+###
+# Delay to await successful subscription
+###
 resource "null_resource" "delay" {
   provisioner "local-exec" {
     command = "sleep 30"
@@ -108,7 +148,6 @@ resource "null_resource" "delay" {
     btp_subaccount_subscription.project
   ]
 }
-
 
 
 ###
@@ -146,31 +185,5 @@ resource "btp_subaccount_service_binding" "project" {
   name                = "default"
   depends_on = [
     btp_subaccount_service_instance.project
-  ]
-}
-
-
-###
-# Get Subaccount details
-###
-data "btp_subaccount" "project" {
-  id = btp_subaccount.project.id
-}
-
-
-###
-# Configure SAP IAS Settings
-###
-resource "null_resource" "ias_config" {
-  provisioner "local-exec" {
-    command     = <<EOT
-        btp login --user '${var.username}' --password '${var.password}' --subdomain '${var.globacct}'  --url https://cpcli.cf.eu10.hana.ondemand.com
-        btp update security/trust sap.custom --subaccount ${btp_subaccount.project.id} --auto-create-shadow-users false
-        btp update security/trust sap.default --subaccount ${btp_subaccount.project.id} --available-for-user-logon false
-    EOT
-    interpreter = ["/bin/bash", "-c"]
-  }
-  depends_on = [
-    btp_subaccount_trust_configuration.project
   ]
 }
