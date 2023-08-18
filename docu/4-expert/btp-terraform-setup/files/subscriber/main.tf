@@ -1,4 +1,21 @@
 
+locals {
+  cloudFoundry = var.space != null && var.org != null 
+  kyma = var.namespace != null  && var.shootname != null 
+}
+
+
+check "health_check_runtimes" {
+  assert {
+    condition = (local.kyma || local.cloudFoundry) 
+    error_message = "No runtime details configured - Check Variables!"
+  }
+  assert {
+    condition = !(local.cloudFoundry && local.kyma)
+    error_message = "Two runtimes configured - Deployment to Kyma!"
+  }
+}
+
 
 ###
 # Get Global Account details
@@ -59,7 +76,7 @@ resource "null_resource" "ias_config" {
 ###
 resource "btp_subaccount_subscription" "project" {
   subaccount_id = btp_subaccount.project.id
-  app_name      = "${var.app_name}-${var.namespace}-${var.shootname}"
+  app_name      = local.kyma ? "${var.app_name}-${var.namespace}-${var.shootname}" : "${var.app_name}-${var.space}-${var.org}"
   plan_name     = var.app_plan
 }
 
@@ -96,7 +113,7 @@ resource "btp_subaccount_role_collection_assignment" "saas_admins" {
   for_each             = { for user in var.saas_admins : user => user }
   subaccount_id        = btp_subaccount.project.id
   origin               = "sap.custom"
-  role_collection_name = "Susaas Administrator (${var.app_name}-${var.namespace})"
+  role_collection_name = local.kyma ? "Susaas Administrator (${var.app_name}-${var.namespace})" : "Susaas Administrator (${var.space})"
   user_name            = each.value
   depends_on = [
     btp_subaccount_subscription.project,
@@ -112,7 +129,7 @@ resource "btp_subaccount_role_collection_assignment" "saas_members" {
   for_each             = var.saas_members != null ? { for user in var.saas_members : user => user } : {}
   subaccount_id        = btp_subaccount.project.id
   origin               = "sap.custom"
-  role_collection_name = "Susaas Member (${var.app_name}-${var.namespace})"
+  role_collection_name = local.kyma ? "Susaas Member (${var.app_name}-${var.namespace})" : "Susaas Member (${var.space})"
   user_name            = each.value
   depends_on = [
     btp_subaccount_subscription.project,
@@ -128,7 +145,7 @@ resource "btp_subaccount_role_collection_assignment" "saas_extends" {
   for_each             = var.saas_extends != null ? { for user in var.saas_extends : user => user } : {}
   subaccount_id        = btp_subaccount.project.id
   origin               = "sap.custom"
-  role_collection_name = "Susaas Extension Developer (${var.app_name}-${var.namespace})"
+  role_collection_name = local.kyma ? "Susaas Extension Developer (${var.app_name}-${var.namespace})" : "Susaas Extension Developer (${var.space})"
   user_name            = each.value
   depends_on = [
     btp_subaccount_subscription.project,
@@ -156,7 +173,7 @@ resource "null_resource" "delay" {
 data "btp_subaccount_service_plan" "project" {
   subaccount_id = btp_subaccount.project.id
   name          = var.api_plan
-  offering_name = "${var.api_name}-${var.namespace}-${var.shootname}"
+  offering_name = local.kyma ? "${var.api_name}-${var.namespace}-${var.shootname}" : "${var.api_name}-${var.space}-${var.org}" 
   depends_on = [
     null_resource.delay
   ]

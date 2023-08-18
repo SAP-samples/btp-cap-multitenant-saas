@@ -1,7 +1,7 @@
 # Subscriber tenant onboarding using Terraform
 
 - **Kyma** ✅
-- **Cloud Foundry** ❌
+- **Cloud Foundry** ✅
 
 In this part of the tutorial, you will learn how to onboard new Subscriber tenants using the SAP BTP, Terraform provider. Terraform is an open-source infrastructure as code (IAC) tool that enables you to create, manage, and provision cloud resources and infrastructure in a consistent and automated manner.
 
@@ -42,7 +42,7 @@ For more details about the SAP BTP, Terraform provider please check the followin
 
 **Prerequisites**
 
-Before proceeding, ensure you successfully **deployed the multitenant SaaS sample application** to a Kyma Cluster in your SAP BTP Global Account. Additionally, you must be in possession of **Global Account Administrator** login credentials, which are required by Terraform. 
+Before proceeding, ensure you successfully **deployed the multitenant SaaS sample application** to a Kyma Cluster or Cloud Foundry environment in your SAP BTP Global Account. Additionally, you must be in possession of **Global Account Administrator** login credentials, which are required by Terraform. 
 
 For an end-to-end automation, please make sure, you have the **SAP BTP CLI installed** in your development environment. Terraform will utilize a SAP BTP CLI command during infrastructure setup. Download and install the SAP BTP CLI by following this [link](https://help.sap.com/docs/btp/sap-business-technology-platform/download-and-start-using-btp-cli-client?locale=en-US). Confirm that your command line displays a similar result when running `btp --version`.
 
@@ -109,19 +109,29 @@ Before you can run the automation, you need to provide a few details of your SAP
 
 4.2. Provide the details of your SaaS provider environment, including a Global Account Admin user (required to create a new Subscriber subaccount). 
 
+> **Important** - Either provide **shootname** and **namespace** in case of a **Kyma** scenario, or **org** and **space** in case of a **Cloud Foundry** based scenario. **Remove** the other two variables from the *terraform.tfvars* file! If you configure details for both runtimes, the Subscription will be created for the **Kyma** runtime!
+
+
+
 ```yaml
-### ---------------------------- ###
-### Provider environment details ###
-### ---------------------------- ###
+### --------------------------------- ###
+### SaaS Provider environment details ###
+### --------------------------------- ###
 
 globacct  = "sap-demo"                       # Global Account subdomain
 username  = "global.admin@sap-demo.com"      # Global Account Administrator e-mail
 password  = "abcd1234!?#+"                   # Global Account Administrator password
 ias_host  = "sap-demo.accounts.ondemand.com" # Custom IdP used for Applications 
-region    = "eu10"                           # Kyma Cluster region of SaaS solution
-shootname = "a1b2c3"                         # Kyma Cluster shootname of SaaS solution
-namespace = "default"                        # Kyma Cluster namespace of SaaS solution
+region    = "eu10"                           # SAP BTP Region of solution
 btp_cli   = true                             # Execute BTP CLI commands 
+
+# Kyma
+shootname = "a1b2c3"                         # Kyma Cluster Shootname
+namespace = "susaas"                         # Kyma Cluster Namespace 
+
+# Cloud Foundry
+org       = "saas-provider"                  # Cloud Foundry Org 
+space     = "susaas"                         # Cloud Foundry Space
 ```
 
 4.3. Provide details of the Subscriber subaccount to be created. In the following sample, a new subaccount named **susaas-example-org** (based on a similar subdomain) is created by Terraform.
@@ -152,9 +162,9 @@ subaccount_admins = ["admin@sap-demo.com"]
 ### -------------------- ###
 
 # Subscription and Service details
-app_name = "susaas"     # App xsappname w/o Kyma namespace and shootname suffix 
+app_name = "susaas"     # App xsappname w/o namespace-shootname or space-org suffix
 app_plan = "trial"      # trial/default/premium
-api_name = "susaas-api" # API xsappname w/o Kyma namespace and shootname suffix 
+api_name = "susaas-api" # API xsappname w/o namespace-shootname or space-org suffix
 api_plan = "trial"      # trial/default/premium
 
 # Users being assigned the SaaS Admin Role

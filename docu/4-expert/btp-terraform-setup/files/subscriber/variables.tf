@@ -47,22 +47,40 @@ variable "password" {
 
 variable "region" {
   type        = string
-  nullable    = false
   description = "The region where the project account shall be created in."
+  nullable    = false
 }
 
 
 variable "shootname" {
   type        = string
-  nullable    = false
   description = "The Kyma Cluster shootname which the project is deployed to."
+  default     = null
+  nullable    = true
 }
 
 
 variable "namespace" {
   type        = string
   description = "The Kyma Cluster namespace which the project is deployed to."
-  default     = "default"
+  default     = null
+  nullable    = true
+}
+
+
+variable "org" {
+  type        = string
+  description = "The Cloud Foundry Organization which the project is deployed to."
+  default     = null
+  nullable    = true
+}
+
+
+variable "space" {
+  type        = string
+  description = "The Cloud Foundry Space which the project is deployed to."
+  default     = null
+  nullable    = true
 }
 
 

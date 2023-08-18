@@ -69,6 +69,7 @@ After adding some or all of the Advanced Features, the following **Expert Featur
 > **Important** - Some of the Expert Features are Work-in-Progress. The code and documentation are subject to change. 
 
 - [Local and hybrid development](./docu/4-expert/local-hybrid-development/README.md)
+- [Tenant onboarding with Terraform](./docu/4-expert/btp-terraform-setup/README.md)
 - [Custom domain for SAP IAS](./docu/4-expert/custom-domain-for-ias/README.md)
 - [Send emails using Microsoft Graph](./docu/4-expert/send-emails-graph-api/README.md)
 - [Feature Toggles](./docu/4-expert/feature-toggles/README.md)
