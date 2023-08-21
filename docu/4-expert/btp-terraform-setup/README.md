@@ -144,6 +144,7 @@ space     = "susaas"                         # Cloud Foundry Space
 ### ----------------------------- ###
 
 # Subaccount "${project}-{tenant}" 
+# !Ensure uniqueness per region by adding a random suffix like a1bc2c3! 
 project = "susaas"
 tenant  = "example-org"
 
