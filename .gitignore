@@ -11,6 +11,7 @@ manifest-bundle.zip
 connection.properties
 *-private.http
 *-private.json
+*-private.MD
 *-private.mtaext
 *-private.yaml
 *-private.tfvars
