@@ -29,16 +29,16 @@
     "--- RUN LIKE npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:all ---": "",
     "/------------------------/": "",
     "build:all": "npm run build:srv && npm run build:router && npm run build:html5-deployer",
-    "build:srv": "cross-env-shell pack build $IMAGE_PREFIX/susaas-srv --path ../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js",
-    "build:router": "cross-env-shell docker build -t $IMAGE_PREFIX/susaas-router ../code/router",
-    "build:html5-deployer": "cross-env-shell docker build -t $IMAGE_PREFIX/susaas-html5-deployer ../code/app/html5-deployer",
+    "build:srv": "cross-env-shell pack build $IMAGE_PREFIX/obd-srv --path ../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js",
+    "build:router": "cross-env-shell docker build -t $IMAGE_PREFIX/obd-router ../code/router",
+    "build:html5-deployer": "cross-env-shell docker build -t $IMAGE_PREFIX/obd-html5-deployer ../code/app/html5-deployer",
     "---------------------------": "",
     "-Container Push Scripts-": "",
     "--- RUN LIKE npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:all ---": "",
     "/-------------------------/": "",
     "push:all": "npm run push:srv && npm run push:router && npm run push:html5-deployer",
-    "push:srv": "cross-env-shell docker push $IMAGE_PREFIX/susaas-srv",
-    "push:router": "cross-env-shell docker push $IMAGE_PREFIX/susaas-router",
-    "push:html5-deployer": "cross-env-shell docker push $IMAGE_PREFIX/susaas-html5-deployer"
+    "push:srv": "cross-env-shell docker push $IMAGE_PREFIX/obd-srv",
+    "push:router": "cross-env-shell docker push $IMAGE_PREFIX/obd-router",
+    "push:html5-deployer": "cross-env-shell docker push $IMAGE_PREFIX/obd-html5-deployer"
   }
 }

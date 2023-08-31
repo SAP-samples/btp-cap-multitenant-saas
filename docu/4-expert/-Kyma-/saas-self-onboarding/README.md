@@ -171,6 +171,8 @@ stringData:
   admins: '"admin.user01@example.org","admin.user02@example.org"'
   # Subdomain of your SAP BTP Global Account (see SAP BTP Cockpit)
   globalaccount: sap-demo 
+  # SAP BTP Region where SaaS solution is deployed to
+  btpregion: eu10
   # Hostname of your Central SAP IAS instance 
   iashost: sap-demo.accounts.ondemand.com 
   # SAP BTP Global Account Administrator E-Mail

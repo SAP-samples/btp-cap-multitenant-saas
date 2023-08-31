@@ -89,6 +89,7 @@ module.exports = cds.service.impl(async function () {
             if (!req.user.attr?.scim_id) { return req.error(404, 'Error: Missing User Details') };
 
             const scimId = req.user.attr?.scim_id;
+            const email = req.user.attr?.email;
             const tenantId = crypto.createHash('shake256', { outputLength: 10 }).update(`${saasHelmRelease}-${kymaNamespace}-${clusterShootname}-${scimId}`).digest('hex');
 
             console.log("Info: Tenant Id - " + tenantId);
@@ -133,6 +134,7 @@ module.exports = cds.service.impl(async function () {
                                 env: [
                                     { name: 'MYEMAIL', valueFrom: { secretKeyRef: { name: secretName, key: 'email'} } },
                                     { name: 'MYPASSWORD', valueFrom: { secretKeyRef: { name: secretName, key: 'password' } } },
+                                    { name: 'BTPREGION', valueFrom: { secretKeyRef: { name: secretName, key: 'btpregion' } } },
                                     { name: 'GLOBALACCOUNT', valueFrom: { secretKeyRef: { name: secretName, key: 'globalaccount' } } },
                                     { name: 'PROVSUBACCOUNT', valueFrom: { secretKeyRef: { name: secretName, key: 'provsubaccount' } } },
                                     { name: 'IASHOST', valueFrom: { secretKeyRef: { name: secretName, key: 'iashost' } } },
@@ -147,8 +149,7 @@ module.exports = cds.service.impl(async function () {
                                                 "category": "APPLICATION", 
                                                 "plan": "trial", 
                                                 "targetenvironment": "sapbtp", 
-                                                "customerDeveloped": true, 
-                                                "requiredrolecollections": [ { "name": "Susaas Administrator (` + saasHelmRelease + '-' + kymaNamespace + `)", "assignedUserGroupsFromParameterFile": [ "SusaaS_Admins" ], "idp": "sap.custom" } ] 
+                                                "customerDeveloped": true
                                             }], 
                                             "assignrolecollections": [ 
                                                 { "name": "Subaccount Viewer", "type": "account", "level": "sub account", "assignedUserGroupsFromParameterFile": [ "SusaaS_Admins" ], "idp": "` + idp  + `" },
@@ -157,6 +158,7 @@ module.exports = cds.service.impl(async function () {
                                             ], 
                                             "executeAfterAccountSetup": [  
                                                 {  "description": "Setup SAP IAS trust", "command": "btp create security/trust --idp $(IASHOST) --subaccount $(jq -r '.subaccountid' ./log/metadata_log.json) --name sap-ias "  }, 
+                                                {  "description": "Assign SaaS Admin Role", "command": "btp assign security/role-collection \\"Susaas Administrator \(${saasHelmRelease}-${kymaNamespace}\)\\" --to-user ` + email + ` --of-idp sap.custom --subaccount $(jq -r '.subaccountid' ./log/metadata_log.json) " },
                                                 {  "description": "Disable Shadow User Creation", "command": "btp update security/trust sap.custom --subaccount $(jq -r '.subaccountid' ./log/metadata_log.json) --auto-create-shadow-users false "  }, 
                                                 {  "description": "Disable SAP IdP Login", "command": "btp update security/trust sap.default --subaccount $(jq -r '.subaccountid' ./log/metadata_log.json) --available-for-user-logon false "  },
                                                 {  "description": "Create API Service Instance", "command": "btp create services/instance --subaccount $(jq -r '.subaccountid' ./log/metadata_log.json) --offering-name '`+ serviceInstanceName + `' --service '` + serviceInstanceName + `' --plan-name 'trial' " },
@@ -164,7 +166,7 @@ module.exports = cds.service.impl(async function () {
                                             ]  
                                         }' > 'obdusecase.json' \
                                     && echo '{ 
-                                            "region": "us20", 
+                                            "region": "$(BTPREGION)", 
                                             "subaccountname": "`+ tenantId + `", 
                                             "subdomain": "`+ encodeURI(tenantId) + `", 
                                             "defaultIdp": "sap.custom", 
@@ -172,7 +174,7 @@ module.exports = cds.service.impl(async function () {
                                             "loginmethod": "basicAuthentication", 
                                             "skipcfspacecreation": true, 
                                             "customAppProviderSubaccountId": "$(PROVSUBACCOUNT)", 
-                                            "myusergroups": [ { "name": "SusaaS_Admins", "members": [ "` + req.user.id + `" ] }, { "name": "admins", "members": [ $(ADMINS) ] } ] 
+                                            "myusergroups": [ { "name": "SusaaS_Admins", "members": [ "` + email + `" ] }, { "name": "admins", "members": [ $(ADMINS) ] } ] 
                                         }' > 'obdparameters.json' \
                                     && ./btpsa \
                                         -usecasefile 'obdusecase.json' \
@@ -246,6 +248,7 @@ module.exports = cds.service.impl(async function () {
                                 env: [
                                     { name: 'MYEMAIL', valueFrom: { secretKeyRef: { name: secretName, key: 'email'} } },
                                     { name: 'MYPASSWORD', valueFrom: { secretKeyRef: { name: secretName, key: 'password' } } },
+                                    { name: 'BTPREGION', valueFrom: { secretKeyRef: { name: secretName, key: 'btpregion' } } },
                                     { name: 'GLOBALACCOUNT', valueFrom: { secretKeyRef: { name: secretName, key: 'globalaccount' } } },
                                     { name: 'IASHOST', valueFrom: { secretKeyRef: { name: secretName, key: 'iashost' } } }
                                 ],
@@ -259,7 +262,7 @@ module.exports = cds.service.impl(async function () {
                                         ]
                                     }' > 'ofbdusecase.json' \
                                     && echo '{ 
-                                            "region": "us20", 
+                                            "region": "$(BTPREGION)",  
                                             "subaccountname": "`+ tenantId + `", 
                                             "subdomain": "`+ encodeURI(tenantId) + `", 
                                             "loginmethod": "basicAuthentication", 

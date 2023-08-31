@@ -4,13 +4,13 @@
   "routes": [
     {
       "source": "^/catalog/(.*)$",
-      "target": "/catalog/$1",
+      "target": "/odata/catalog/$1",
       "destination": "obd-api",
       "authenticationType": "ias"
     },
     {
       "source": "^/v2/catalog/(.*)$",
-      "target": "/v2/catalog/$1",
+      "target": "/odata/v2/catalog/$1",
       "destination": "obd-api",
       "authenticationType": "ias"
     },
