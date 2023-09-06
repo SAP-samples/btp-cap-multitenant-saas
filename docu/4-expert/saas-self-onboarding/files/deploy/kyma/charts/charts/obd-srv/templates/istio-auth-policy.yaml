@@ -1,0 +1,14 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "obd-srv.fullname" . }}
+  labels: {{- include "obd-srv.labels" . | nindent 4 }}
+spec:
+  selector: 
+    matchLabels: {{- include "obd-srv.selectorLabels" . | nindent 6 }}
+  action: ALLOW
+  rules:
+    - from:
+      - source:
+          principals: 
+            - {{ printf "cluster.local/ns/%s/sa/%s" .Release.Namespace ( default ( printf "%s-%s" .Release.Name "router" ) .Values.global.router.fullName ) }}

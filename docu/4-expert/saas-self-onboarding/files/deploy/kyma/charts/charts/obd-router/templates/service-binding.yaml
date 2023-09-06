@@ -1,0 +1,29 @@
+{{- range $name, $params := .Values.bindings }}
+{{- if ( or ( not (hasKey $params "enabled")) $params.enabled ) }}
+{{- if not $params.fromSecret }}
+---
+apiVersion: services.cloud.sap.com/v1
+kind: ServiceBinding
+metadata:
+  name: {{ include "obd-router.bindingName" (dict "root" $ "name" $name) }}
+  labels: {{- include "obd-router.labels" $ | nindent 4 }}
+spec:
+  serviceInstanceName: {{include "obd-router.serviceInstanceName" (dict "binding" $params "release" $.Release.Name) }}
+  {{- if $params.externalName }}
+  externalName: {{ $params.externalName }}
+  {{- end }}
+  {{- if $params.secretName }}
+  secretName: {{ $params.secretName }}
+  {{- end }}
+  {{- if $params.parameters }}
+  parameters: {{ $params.parameters | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $params.parametersFrom }}
+  parametersFrom: {{ $params.parametersFrom | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $params.credentialsRotationPolicy }}
+  credentialsRotationPolicy: {{ $params.credentialsRotationPolicy | toYaml | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

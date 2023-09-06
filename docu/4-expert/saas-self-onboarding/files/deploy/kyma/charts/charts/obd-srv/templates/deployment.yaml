@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: {{- include "obd-srv.labels" . | nindent 4 }}
+  name: {{ include "obd-srv.fullname" . }}
+spec:
+  selector:
+    matchLabels: {{- include "obd-srv.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "obd-srv.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if (include "obd-srv.imagePullSecretName" .) }}
+      imagePullSecrets:
+        - name: {{ include "obd-srv.imagePullSecretName" . }}
+      {{- end }}
+      automountServiceAccountToken: {{ default false .Values.serviceAccount.automountToken }}
+      serviceAccountName: {{ ternary ( include "obd-srv.fullname" . ) "default"  .Values.serviceAccount.enabled }}
+      containers:
+      - image: {{ include "obd-srv.imageName" . }}
+        name: {{ include "obd-srv.name" . }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.port }}
+          protocol: TCP
+        envFrom:
+        {{- range $secretName := .Values.envSecretNames }}
+        - secretRef:
+            name: {{ $secretName }}
+        {{- end }}
+        {{- range $secretName := .Values.envSecretNamesTpl }}
+        - secretRef:
+            name: {{ tpl $secretName $ }}
+        {{- end }}
+        env:
+        {{- if .Values.bindings }}
+        - name: SERVICE_BINDING_ROOT
+          value: /bindings
+        {{- end }}
+        {{- if (include "obd-srv.imagePullSecretName" .) }}
+        - name: IMAGE_PULL_SECRET
+          value: {{ include "obd-srv.imagePullSecretName" . | quote }}
+        {{- end }}
+        - name: CLUSTER_SHOOTNAME
+          value: {{ .Values.global.shootName | quote }}
+        - name: KYMA_NAMESPACE
+          value: {{ .Release.Namespace }}
+        - name: HELM_RELEASE
+          value: {{ .Release.Name }}
+        - name: KYMA_GATEWAY
+          value: {{ default "kyma-gateway.kyma-system.svc.cluster.local" .Values.global.gateway }}
+        - name: PORT
+          value: {{ .Values.port | quote }}
+        - name: TMPDIR
+          value: /tmp
+        {{- $envVars := (include "obd-srv.processEnv" .Values.env | fromJson) }}
+        {{- if not (eq (len $envVars.vars) 0) }}
+        {{- $envVars.vars | toYaml | nindent 8}}
+        {{- end }}
+        {{- if not $envVars.appName}}
+        - name: APPLICATION_NAME
+          value: {{ include "obd-srv.fullname" . }}
+        {{- end }}
+        {{- if not $envVars.appURI}}
+        - name: APPLICATION_URI
+          value: {{ include "obd-srv.applicationUri" . }}
+        {{- end }}
+        livenessProbe:
+        {{- if .Values.health_check.liveness.path }}
+          httpGet:
+            path: {{ .Values.health_check.liveness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+        readinessProbe:
+        {{- if .Values.health_check.readiness.path }}
+          httpGet:
+            path: {{ .Values.health_check.readiness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+        startupProbe:
+        {{- if .Values.health_check.liveness.path }}
+          httpGet:
+            path: {{ .Values.health_check.liveness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+          failureThreshold: {{ div (add1 .Values.startupTimeout) 2 }}
+          periodSeconds: 2
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        {{- range $volume := .Values.additionalVolumes }}
+        - name: {{ $volume.name | quote }}
+          {{- toYaml $volume.volumeMount  | nindent 10 }}
+        {{- end }}
+        {{- include "obd-srv.serviceMounts" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      {{- if .Values.ha.enabled }}
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels: {{- include "obd-srv.selectorLabels" . | nindent 12 }}
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+      {{- end }}
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      {{- include "obd-srv.serviceVolumes" . | nindent 6 }}
+      {{- range $volume := .Values.additionalVolumes }}
+      -
+        {{- omit $volume "volumeMount" | toYaml  | nindent 8 }}
+      {{- end }}

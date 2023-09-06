@@ -1,0 +1,12 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Sidecar
+metadata:
+  name: {{ include "obd-srv.fullname" . }}
+  labels: {{- include "obd-srv.labels" . | nindent 4 }}
+spec:
+  workloadSelector: 
+    labels: {{- include "obd-srv.selectorLabels" . | nindent 6 }}
+  egress:
+    - hosts:
+      - ./*
+      - istio-system/*

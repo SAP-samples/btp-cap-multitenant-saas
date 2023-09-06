@@ -1,0 +1,30 @@
+{
+    "name": "sapsusaasobduionboarding",
+    "version": "0.0.1",
+    "description": "Sustainable SaaS Onboarding",
+    "keywords": [
+        "ui5",
+        "openui5",
+        "sapui5"
+    ],
+    "main": "webapp/index.html",
+    "scripts": {
+        "build:copy": "npm run build && npm run copy",
+        "build": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
+        "copy": "shx mkdir -p ../html5-deployer/resources/ && shx cp -rf ./dist/*.zip ../html5-deployer/resources/"
+    },
+    "devDependencies": {
+        "@sap/ui5-builder-webide-extension": "^1.1.8",
+        "@ui5/cli": "^2.14.14",
+        "mbt": "^1.2.18",
+        "shx": "^0.3.4",
+        "ui5-task-zipper": "^0.5.1"
+    },
+    "ui5": {
+        "dependencies": [
+            "@sap/ui5-builder-webide-extension",
+            "ui5-task-zipper",
+            "mbt"
+        ]
+    }
+}

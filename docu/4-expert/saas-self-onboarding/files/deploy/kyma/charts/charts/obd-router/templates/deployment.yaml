@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: {{- include "obd-router.labels" . | nindent 4 }}
+  name: {{ include "obd-router.fullname" . }}
+spec:
+  selector:
+    matchLabels: {{- include "obd-router.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "obd-router.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if (include "obd-router.imagePullSecretName" .) }}
+      imagePullSecrets:
+        - name: {{ include "obd-router.imagePullSecretName" . }}
+      {{- end }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automountToken | default false }}
+      serviceAccountName: {{ .Values.serviceAccount.enabled  | ternary ( include "obd-router.fullname" . ) "default" }}
+      containers:
+      - image: {{ include "obd-router.imageName" . }}
+        name: {{ include "obd-router.name" . }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.port }}
+          protocol: TCP
+        {{- if .Values.envSecretNames }}
+        envFrom:
+        {{- range $secretName := .Values.envSecretNames }}
+        - secretRef:
+            name: {{ $secretName }}
+        {{- end }}
+        {{- end }}
+        env:
+        {{- if .Values.bindings }}
+        - name: SERVICE_BINDING_ROOT
+          value: /bindings
+        {{- end }}
+        {{- if .Values.parameters.destinations }}
+        - name: destinations
+          value: {{ include "template-value" ( dict "value" .Values.parameters.destinations "context" . ) | toJson }}
+        {{- end }}
+        - name: PORT
+          value: {{ .Values.port | quote }}
+        - name: TMPDIR
+          value: /tmp
+        {{- $envVars := (include "obd-router.processEnv" .Values.env | fromJson) }}
+        {{- if not (eq (len $envVars.vars) 0) }}
+        {{- $envVars.vars | toYaml | nindent 8}}
+        {{- end }}
+        {{- if not $envVars.appName}}
+        - name: APPLICATION_NAME
+          value: {{ include "obd-router.fullname" . }}
+        {{- end }}
+        {{- if not $envVars.appURI}}
+        - name: APPLICATION_URI
+          value: {{ include "obd-router.applicationUri" . }}
+        {{- end }}
+        {{- if .Release.Namespace }}
+        - name: KYMA_NAMESPACE
+          value: {{ .Release.Namespace }}
+        {{- end }}
+        livenessProbe:
+        {{- if .Values.health_check.liveness.path }}
+          httpGet:
+            path: {{ .Values.health_check.liveness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+        readinessProbe:
+        {{- if .Values.health_check.readiness.path }}
+          httpGet:
+            path: {{ .Values.health_check.readiness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+        startupProbe:
+        {{- if .Values.health_check.liveness.path }}
+          httpGet:
+            path: {{ .Values.health_check.liveness.path }}
+            port: http
+        {{- else }}
+          tcpSocket:
+            port: {{ .Values.port }}
+        {{- end }}
+          failureThreshold: {{ div (add1 .Values.startupTimeout) 2 }}
+          periodSeconds: 2
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        {{- range $volume := .Values.additionalVolumes }}
+        - name: {{ $volume.name | quote }}
+          {{- toYaml $volume.volumeMount  | nindent 10 }}
+        {{- end }}
+        {{- include "obd-router.serviceMounts" . | nindent 8 }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      {{- if .Values.ha.enabled }}
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels: {{- include "obd-router.selectorLabels" . | nindent 12 }}
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+      {{- end }}
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      {{- include "obd-router.serviceVolumes" . | nindent 6 }}
+      {{- range $volume := .Values.additionalVolumes }}
+      -
+        {{- omit $volume "volumeMount" | toYaml  | nindent 8 }}
+      {{- end }}
