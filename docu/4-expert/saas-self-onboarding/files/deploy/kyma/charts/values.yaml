@@ -17,7 +17,7 @@ global:
 srv:
   port: 8080
   bindings:
-    html5-apps-repo:
+    postgresql-db:
       serviceInstanceName: postgresql-db
     identity:
       # Only enable if Cloud Identity Service instance is enabled in Umbrella Chart 
