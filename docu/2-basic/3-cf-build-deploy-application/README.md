@@ -29,7 +29,7 @@ cd deploy/cf
 
 1.2. Provide a receiver mail address in the **Alert Notification** service configuration file *alert-notif.json* which you can find in the **config** directory.
 
-> **Hint** - You can also create a *alert-notif-private.json* file or rename the existing file, so your details are not being committed to GitHub. 
+> **Hint** - You can also create an *alert-notif-private.json* file or rename the existing file, so your details are not being committed to GitHub. In this case, please make sure to adjust the *mta.yaml* file accordingly or add the respective reference to your *mtaext* file (see upcoming steps). 
 
 [<img src="./images/DEPL_EmailNotifSrv.png" width="500"/>](./images/DEPL_EmailNotifSrv.png?raw=true)
 
@@ -46,7 +46,7 @@ npx --yes -p @sap/sbf gen-catalog-ids ../../code/broker/catalog.json
 
 [<img src="./images/broker-credentials.png" width="500"/>](./images/broker-credentials.png?raw=true)
 
-1.5. To prevent your hashed credentials being committed to GitHub, please first copy the *free-tier.mtaext* or *trial.mtaext* file (depending on your target environment) and add *-private* to the filename (e.g., free-tier-private.mtaext). 
+1.5. To prevent your hashed credentials being committed to GitHub, please first copy the *free-basic.mtaext* or *trial-basic.mtaext* file (depending on your target environment) and add *-private* to the filename (e.g., free-basic-private.mtaext). 
 
 > **Important** - Files named *-private.mtaext will be ignored by Git.
 
@@ -56,7 +56,7 @@ npx --yes -p @sap/sbf gen-catalog-ids ../../code/broker/catalog.json
 
 [<img src="./images/MTA_DescExt02.png" width="400"/>](./images/MTA_DescExt02.png?raw=true)
 
-> **Hint** - If you created a private config file for Alert Notification (*anf-config-private.json*), please also include it in your mtaext file accordingly as you can see below! 
+> **Hint** - If you created a private config file for Alert Notification (*alert-notif-private.json*), please also include it in your mtaext file accordingly as you can see below! 
 > ```yaml 
 > resources:
 >  - name: susaas-alert-notification
@@ -66,17 +66,19 @@ npx --yes -p @sap/sbf gen-catalog-ids ../../code/broker/catalog.json
 >  ```
 
 
-1.7. Build your project from the *deploy/cf* directory. Make sure to reference your MTA Extension Descriptor file, either now, when building or later, when deploying your application!
+1.7. Build your project from the *deploy/cf* directory. Make sure to reference your MTA Extension Descriptor file, **either now, when building or later, when deploying** your application!
+
+> **Hint** - Make sure to use the *mtaext* file for trial scenarios if you are deploying the solution to a trial environment.
 
 **Sample**
 
 ```sh
-$ mbt build -e ./mtaext/free-tier-private.mtaext
+$ mbt build -e ./mtaext/free-basic-private.mtaext
 $ cf deploy mta_archives/susaas_0.0.1.mtar
 ```
 
 
-1.8. Please run the command below to deploy the SaaS application to your provider subaccount. Make sure to reference your MTA Extension Descriptor file, if not done during the build process yet! In that case, you can just skip the additional parameter. 
+1.8. Please run the command below to deploy the SaaS application to your provider subaccount. Make sure to reference your MTA Extension Descriptor file, **if not done during the build process yet**! In that case, you can just skip the additional parameter. 
 
 ```sh
 $ cf deploy mta_archives/<your_mtar_file> -e <path of your MTA Extension Descriptor file>
@@ -85,7 +87,7 @@ $ cf deploy mta_archives/<your_mtar_file> -e <path of your MTA Extension Descrip
 **Sample** 
 
 ```sh
-$ cf deploy mta_archives/susaas_0.0.1.mtar -e ./mtaext/free-tier-private.mtaext
+$ cf deploy mta_archives/susaas_0.0.1.mtar -e ./mtaext/free-basic-private.mtaext
 ```
 
 1.9. After the deployment of the Alert Notification service instance, you should have an e-mail in your inbox, requiring a confirmation that you're willing to receive messages from Alert Notification. Please confirm this request accordingly.

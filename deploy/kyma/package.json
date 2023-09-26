@@ -5,7 +5,7 @@
   "license": "Apache License 2.0",
   "description": "Sustainable SaaS",
   "scripts": {
-    "install": "npm install --include=dev --prefix ../../code",
+    "install": "cd ../../code && npm install --include=dev",
     "build": "npx -p @sap/cds-dk@7 cds build -in ../../code --profile production",
     "-----------------------": "",
     "-Manual HTML5 Deployment-": "",

@@ -1,0 +1,10 @@
+{
+  "name": "susaas",
+  "version": "0.0.1",
+  "repository": "https://github.com/sap-samples/btp-cap-multitenant-saas",
+  "license": "Apache License 2.0",
+  "description": "Sustainable SaaS",
+  "scripts": {
+    "install": "cd ../../code && npm install --include=dev"
+  }
+}

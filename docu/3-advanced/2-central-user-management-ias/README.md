@@ -102,7 +102,9 @@ Right after setting up the trust between your SAP IAS instance and your **Provid
 
 [<img src="./images/IAS_ShadowUser01.png" width="500" />](./images/IAS_ShadowUser01.png?raw=true)
 
-[<img src="./images/IAS_ShadowUser02.png" width="400" />](./images/IAS_ShadowUser02.png?raw=true)
+[<img src="./images/IAS_ShadowUser02.png" width="500" />](./images/IAS_ShadowUser02.png?raw=true)
+
+[<img src="./images/IAS_ShadowUser03.png" width="500" />](./images/IAS_ShadowUser03.png?raw=true)
 
 An Automated creation of shadow users would result in a setup in which each and every SAP IAS user can authenticate to each Consumer Subaccount. As your central SAP IAS instance contains the users of all consumers, this is not desirable! Instead, we will create the subaccount-specific shadow users upon user creation in the SaaS in-app user management. While this is a bit more coding an maintenance effort, it provides a much more reliable and secure setup.
 
@@ -133,7 +135,7 @@ To enable the Central User Management leveraging SAP Identity Authentication Ser
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-For this Advanced feature, please add the [*./files/values-ias.yaml*](./files/values-ias.yaml) details to your main **values-private.yaml** file (located in [*/deploy/kyma/charts/sustainable-saas/*](../../../deploy/kyma/charts/sustainable-saas/)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
+For this Advanced feature, please add the provided [*./files/values-ias.yaml*](./files/values-ias.yaml) details of this **Advanced Version** section to your main **values-private.yaml** file (located in [*/deploy/kyma/charts/sustainable-saas/*](../../../deploy/kyma/charts/sustainable-saas/)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
 
 ```yaml
 ...
@@ -264,28 +266,34 @@ class UserManagement {
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-By adding a different Deployment Descriptor extension file (**mtaext**) file to your **mbt build** or **cf deploy** command, a new **Cloud Identity** Service Instance of type **application** is created upon deployment to your Cloud Foundry environment. 
+By using a different Deployment Descriptor extension file (**mtaext**) file to your **mbt build** or **cf deploy** command, a new **Cloud Identity** Service Instance of type **application** is created upon deployment to your Cloud Foundry environment. 
 
-Before running the following commands, please open the respective **advanced** *mtaext* sample file (depending on your environment) in the *deploy/cf/mtaext* directory. Update the **Service Broker Credential Hash** placeholder and save as a new file adding the **-private** file name extension again (to ensure the credentials are not committed to GitHub!). Check the following screenshot to get an idea how your **advanced** *mtaext* file and the respective directory should be looking like!
+1. Before updating your deployment, please copy and rename the respective **advanced** *mtaext* sample file (depending on your environment) in the *deploy/cf/mtaext* directory to either **free-advanced-private.mtaext** or **trial-advanced-private.mtaext** (to ensure the credentials are not committed to GitHub!).
 
-[<img src="./images/APP_Mtaext_Dir.png" width="500" />](./images/APP_Mtaext_Dir.png?raw=true)
+2. Open the new file and update the **Service Broker Credential Hash** placeholder with the respective value of your **basic** mtaext file. Check the following screenshot to get an idea how your **advanced** *mtaext* file and the respective directory should be looking like!
+   
+   > **Hint** - If you included a separate **alert-notif-private.json** reference in you basic mtaext file, please also make sure to included it in the **advanced** mtaext file as an additional resource. 
 
-Once your created your private Deployment Descriptor extension file, please run the following commands to deploy the new features to your existing application. 
+    [<img src="./images/APP_Mtaext_Dir.png" width="500" />](./images/APP_Mtaext_Dir.png?raw=true)
 
-```sh
-# Run in /deploy/cf #
-mbt build -e ./mtaext/free-advanced-private.mtaext
-cf deploy
-```
+3. Once your updated your private Deployment Descriptor extension file, please run the following commands to deploy the new features to your existing application. 
 
-Once the deployment has finished, you are good to go and the integration with SAP Identity Authentication should be working as expected. In your **Service Instances** you should now see a new instance of type **identity** and plan **application**, which has a **Service Binding** to your Backend Service. 
+    > **Hint** - Make sure to use the **trial** mtaext file for Trial environments. 
 
-[<img src="./images/IAS_InstanceCf.png" width="700" />](./images/IAS_InstanceCf.png?raw=true)
+    ```sh
+    # Run in /deploy/cf #
+    mbt build -e ./mtaext/free-advanced-private.mtaext
+    cf deploy mta_archives/susaas_0.0.1.mtar
+    ```
+
+4. Once the deployment has finished, you are good to go and the integration with SAP Identity Authentication should be working as expected. In your **Service Instances** you should now see a new instance of type **identity** and plan **application**, which has a **Service Binding** to your Backend Service. 
+
+    [<img src="./images/IAS_InstanceCf.png" width="700" />](./images/IAS_InstanceCf.png?raw=true)
 
 
 **Details**
 
-Below, you can find the Service Instance definition (which is part of the Deployment Descriptor Extension) of the SAP Cloud Identity Service Instance being created.
+Below, you can find the Service Instance definition of the SAP Cloud Identity Service Instance which is being created. This resource is defined in your central **mta.yaml** file and only **enabled** as part of the **mtaext** file. The same applies for the additional bindings (see below)
 
 ```yaml 
 # SAP Cloud Identity Service Instance #
@@ -312,7 +320,7 @@ resources:
         multi-tenant: false
 ```
 
-Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured (as part of the Deployment Descriptor Extension file). In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
+Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
 
 ```yaml 
 - name: susaas-srv
@@ -515,11 +523,12 @@ All set? Great - then let's check whether the SAP IAS Integration works as expec
 [<img src="./images/IAS_UserDetails.png" width="390" />](./images/IAS_UserDetails.png?raw=true)
 
 
-6.10. To skip the Identity Provider selection screen using SAP IAS as default Identity Provider, please disable the login using SAP ID Service in the **Trust Configuration** settings of the respective Tenant Subaccount. 
+6.10. To skip the Identity Provider selection screen using SAP IAS as default Identity Provider, please disable the login using **SAP ID Service** in the **Trust Configuration** settings of the respective Tenant Subaccount. Also disable the **Create Shadow Users During Login**. 
 
 > **Important** - Please keep in mind, changing this setting that your initial user (mapped to SAP Identity Service) cannot log in to the Tenant subscription instance anymore.
 
 [<img src="./images/IAS_DisableLogon01.png" width="500" />](./images/IAS_DisableLogon01.png?raw=true)
+ 
 [<img src="./images/IAS_DisableLogon02.png" width="280" />](./images/IAS_DisableLogon02.png?raw=true)
 
 

@@ -12,8 +12,8 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm install --include=dev --prefix=../../code
-        - npx -p @sap/cds-dk@7 cds build -in ../../code --profile production
+        - npm run install
+        - npx -p @sap/cds-dk cds build -in ../../code --profile production
 
 modules:
   # --------------------- APPROUTER MODULE ---------------------
