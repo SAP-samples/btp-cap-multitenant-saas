@@ -115,7 +115,7 @@ You need to build and deploy your application to activate the changes you have d
 
 ```sh
 mbt build -e ./mtaext/free-basic-private.mtaext
-cf deploy mta_archives/susaas-0.0.1.mtar
+cf deploy mta_archives/susaas_0.0.1.mtar
 ```
 
 ## 5. Update your tenants dependencies 
