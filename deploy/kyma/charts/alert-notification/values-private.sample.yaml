@@ -7,4 +7,6 @@ alert_notification:
       - name: send-email
         properties:
           destination: john.doe@example.org
+        state: ENABLED
+        type: EMAIL
       
