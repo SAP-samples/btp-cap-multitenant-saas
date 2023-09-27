@@ -22,6 +22,7 @@ In this part of the **Expert Features** you will learn how to set up the **SAP C
 ## 1. Introduction
 
 As soon as you have a release candidate of your app version in form of a fully qualified archive, you want to propagate it to your test or production subaccount. You can do it either fully automated as part of a pipeline – ideally based on the Continuous Integration best practices or pipeline templates or with a standardized, enterprise-ready change management process, if you desire more control especially of your production environment – using our cloud-based **SAP Cloud Transport Management** service. 
+You must add the SAP Cloud Transport Management entitlement to be able to follow this section of documentation, as described [here](https://help.sap.com/docs/cloud-transport-management/sap-cloud-transport-management/configuring-entitlements-to-sap-cloud-transport-management). 
 
 In the following part of the **Expert Features** we will show how to combine SAP CI/CD service & SAP Cloud Transport Management service combining the best of both worlds.
 
@@ -36,6 +37,8 @@ We can differentiate -
 > **Prerequisites** - Make sure that you have three subaccounts (Dev, Test, Prod) to successfully execute the transport and release. Additionally to a **Dev** subaccount, create **Test** and **Prod** subaccounts with a sufficient quota to deploy the application. Alternatively, you can also use three different Cloud Foundry **Spaces** in the same subaccount for testing purposes. For a production scenario, separate subaccounts are recommended. 
 
 > **Hint** - The subaccounts don't have to be in the same region necessarily. Still, if you decide to use the same region, you can share certain services like SAP HANA Cloud among the subaccounts.
+
+
 
 
 ## 2. Setup SAP Cloud Transport Management
