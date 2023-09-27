@@ -34,9 +34,9 @@ Please use this approach for learning purposes only e.g., when working in a deve
 
 ## 3. Get the database container credentials
 
-3.1. Identify the tenant ID of the respective consumer tenant (in this case **thebestrun**) using the Subscription Management Dashboard.
+3.1. Identify the tenant ID of the respective consumer tenant (in this case **thebestrun**) using the SaaS Registry service which is binded to your multitenant application.
 
-> **Hint** - Make sure your SAP BTP subaccount user has the required roles to access the Subscription Management Dashboard. If necessary, create and assign a new role collection containing the required roles. 
+> **Hint** - Make sure your SAP BTP subaccount user has the required roles to access the Subscription Management Dashboard of SaaS Registry. If necessary, create and assign a new role collection containing the required roles. You can find the relevant roles in the [official documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/using-subscription-management-dashboard). 
 
 [<img src="./images/manage_010.png" width="500" />](./images/manage_010.png?raw=true)
 
