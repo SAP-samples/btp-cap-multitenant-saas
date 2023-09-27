@@ -35,9 +35,16 @@ See the relevant part of the solution architecture below (click to enlarge):
 
 ## 2. Prerequisites
 
-For this setup, please make sure you have an SAP API Management instance up and running. As SAP API Management is a capability of **SAP Integration Suite**, please subscribe to SAP Integration Suite and activate the respective **API Management** feature. Check the following SAP Help documentation to find a detailed step-by-step guide ([click here](https://help.sap.com/docs/SAP_CLOUD_PLATFORM_API_MANAGEMENT/66d066d903c2473f81ec33acfe2ccdb4/f6eb4332cd5144ef91f4a84cc614ba1c.html?locale=en-US)). 
+For this setup, please make sure you have an SAP API Management instance up and running. As SAP API Management is a capability of **SAP Integration Suite**, please subscribe to SAP Integration Suite and activate the respective **API Management** feature. 
+
+Check the following SAP Help documentations to find detailed step-by-step guide.
+
+- [SAP Help - Setting Up API Management Capability from Integration Suite](https://help.sap.com/docs/sap-api-management/sap-api-management/setting-up-api-management-capability-from-integration-suite)
+- [Tutorial Navigator - Set Up API Management from Integration Suite](https://developers.sap.com/tutorials/api-mgmt-isuite-initial-setup.html)
 
 [<img src="./images/API_IntegrationSuite.png" width="500" />](./images/API_IntegrationSuite.png?raw=true)
+
+Please ensure the **API Management** capability of your **SAP Integration Suite** instance is successfully enabled before continuing with any of the next steps! 
 
 
 ## 3. APIM as route service
@@ -46,11 +53,11 @@ To connect your SaaS API with SAP API Management, you can use an SAP BTP service
 
 Combining this service instance with your API route allows you to enforce API policies like Spike Arrest or Quotas no matter whether the accessing client is calling the API Proxy URL or the standard route of your API. So please set up an instance of the **apim-as-a-route-service** offering as you can see in the following screenshot. 
 
-> **Hint** - If you cannot find the respective service plan, make sure you assigned it in your subaccount entitlements!
+> **Hint** - If you cannot find the respective service plan, make sure you assigned it in your subaccount entitlements! The service plan is part of the **API Management, API portal** service! 
 
 [<img src="./images/API_ServiceInstance.png" width="500" />](./images/API_ServiceInstance.png?raw=true)
 
-As SAP Integration Suite is one of the most powerful but also quite expensive SaaS products, you might consider the usage for your productive SaaS environment only.
+As SAP Integration Suite is one of the most powerful but also quite expensive SaaS products, you might consider the usage for your **productive SaaS environment** only.
 
 
 ## 4. Bind the route service
@@ -60,28 +67,24 @@ Now you need to bind the route service to your standard SaaS API route. This can
 **Windows (Command Line)**
 
 >```sh
-> cf brs `<API service domain>` `<route service>` \
->        --hostname `<API service hostname>` -c '{\"api_name\":\"<API-Proxy name>\"}'
+> cf brs `<API service domain>` `<route service>` --hostname `<API service hostname>` -c '{\"api_name\":\"<API-Proxy name>\"}'
 >
 > # Example #
-> cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service \
->        --hostname dev-susaas-api-srv -c '{\"api_name\":\"SusaaS-API-Proxy\"}'
+> cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service --hostname dev-susaas-api-srv -c '{\"api_name\":\"SusaaS-API-Proxy\"}'
 >```
 
-**Windows (Power Shell)**
+**Mac & Windows (Power Shell)**
 
 >```sh
-> cf brs `<API service domain>` `<route service>` \
->        --hostname `<API service hostname>` -c "{\"api_name\":\"<API-Proxy name>\"}"
+> cf brs `<API service domain>` `<route service>` --hostname `<API service hostname>` -c "{\"api_name\":\"<API-Proxy name>\"}"
 >
 > # Example #
-> cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service \
->        --hostname dev-susaas-api-srv -c "{\"api_name\":\"SusaaS-API-Proxy\"}"
+> cf brs cfapps.eu10.hana.ondemand.com susaas-apim-route-service --hostname dev-susaas-api-srv -c "{\"api_name\":\"SusaaS-API-Proxy\"}"
 >```
 
 * **route service** - The name of your route-service instance created in the [last step](./README.md#3-apim-as-route-service).
-* **API-Proxy name** - You're free to choose the name of your API-Proxy in API Management.
-* **API service domain** - The domain of your API service like *cfapps.eu10.hana.ondemand.com*.
+* **API-Proxy name** - You're free to choose a name your choice for the API-Proxy which will be created in API Management.
+* **API service domain** - The domain of your API service like *cfapps.eu10.hana.ondemand.com* or your custom domain.
 * **API service hostname** - The hostname of your API service returned by the *cf apps* CLI command. <br>
 [<img src="./images/API_Hostname.png" width="500" />](./images/API_Hostname.png?raw=true)
 
@@ -181,13 +184,13 @@ Just create a new Subflow for the **Proxy Endpoint**, by clicking on the **+** i
 
 > **Hint** - Reading the service plan from the JWT token scopes might be improved by a different approach in the future.
 
-5.3.6. Now requests will be handled by the different Subflows depending on the consumer's service plan selection. In those Subflows, we can define different **Quota** allowances. To add a very simple **Quota limit** to the API, we use the **Quota** feature from the policies toolbox. 
-
-Please name the new flow elements **quotaStandard** in the standard, **quotaPremium** in the premium and **quotaTrial** in the trial flow. 
+5.3.6. Now requests will be handled by the different Subflows depending on the consumer's service plan selection. In those Subflows, we can define different **Quota** allowances. To add a very simple **Quota limit** to the API, we use the **Quota** feature from the policies toolbox. Please name the new flow elements **quotaStandard** in the standard, **quotaPremium** in the premium and **quotaTrial** in the trial flow. 
 
 [<img src="./images/API_Quota04.png" width="600" />](./images/API_Quota04.png?raw=true)
 
 5.3.7. For our sample application, the **standard** and **trial** quota is configure as below. This configuration allows API customers exactly 1200 daily requests to your API. The comprehensive configuration options of the **Quota** policy can be found in the respective documentation [click here](https://docs.apigee.com/api-platform/reference/policies/quota-policy). 
+
+> **Hint** - For the **premium plan**, you we double the number of daily requests to 2400, but feel free to update it to a configuration of your choice.  
 
 > **Important** - Please ensure, the **Quota** policy configuration once again contains the **Client Id** identifier as in the following sample.
 
@@ -203,9 +206,19 @@ Please name the new flow elements **quotaStandard** in the standard, **quotaPrem
 </Quota>
 ```
 
-> **Hint** - For the **premium plan**, you we double the number of daily requests to 2400, but feel free to update it to a configuration of your choice.  
+[<img src="./images/API_Quota05.png" height="200" />](./images/API_Quota05.png?raw=true)
 
-[<img src="./images/API_Quota05.png" width="600" />](./images/API_Quota05.png?raw=true)
+5.3.8. Double check the **Condition String**s of your Subflows and the respective quota configurations, which should resemble the following screenshots.
+
+[<img src="./images/API_Subflows03.png" height="200" />](./images/API_Subflows03.png?raw=true)
+[<img src="./images/API_Subflows04.png" height="200" />](./images/API_Subflows04.png?raw=true)
+
+[<img src="./images/API_Subflows05.png" height="200" />](./images/API_Subflows05.png?raw=true)
+[<img src="./images/API_Subflows06.png" height="200" />](./images/API_Subflows06.png?raw=true)
+
+[<img src="./images/API_Subflows07.png" height="200" />](./images/API_Subflows07.png?raw=true)
+[<img src="./images/API_Subflows08.png" height="200" />](./images/API_Subflows08.png?raw=true)
+
 
 ### 5.5. Update API Proxy and deploy changes 
 
@@ -237,7 +250,6 @@ The API Management as route service (sap-apim-route-service) instance can also b
 
 ```yaml
 resources:
-  
   - name: susaas-api-route-service
     type: org.cloudfoundry.managed-service
     parameters:
