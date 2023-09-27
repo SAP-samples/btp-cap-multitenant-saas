@@ -201,14 +201,12 @@ Go to your [launchpad.html](https://github.com/SAP-samples/btp-cap-multitenant-s
 
 [<img src="./images/modify-index.jpg" width="700"/>](./images/modify-index.jpg?raw=true)
 
-These properties must be added or modified : 
+These properties must be added or modified as shown in the screenshot: 
+```js
     - **data-sap-ui-theme**="custom_horizon" 
     - **data-sap-ui-theme-roots**='{"custom_horizon" : "/comsapuitheming.runtime/themeroot/v1/UI5"}'
     - **data-sap-ui-versionedLibCss**="true"
-    - **data-sap-ui-resourceroots** ='{
-      "susaas":"/" -> add this line
-    }'
-
+```
 > **Hint** - Please notice that the theme id you put into **data-sap-ui-theme** and **data-sap-ui-theme-roots** properties should be the same theme id you have filled in [this step.](#73-publish-theme-with-the-new-logo)
 
 For detailed information about step, see the [official documentation](https://help.sap.com/docs/btp/ui-theme-designer/running-custom-theme-via-sapui5-bootstrap-configuration?locale=en-US).
