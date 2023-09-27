@@ -24,18 +24,7 @@ Due to the complexity of the SaaS consumer extension topic, the actual implement
 
 ## 2. Prerequisites
 
-- Please make sure the **db** property of the **local-with-mtx** profile (in your /srv/.cdsrc.json) is set to **sql-mt** for local testing. This ensures that changes are persisted even after restart of the application.
-
-```json
-"[local-with-mtx]": {
-    "strategy": "mock",
-    "db": "sql-mt",
-    ...
-}
-```
-
-- Please unzip the provided **ext.zip** file ([ext.zip](./files/ext.zip)) to a folder on your local device. It contains a sample SaaS consumer extension.
-
+Please unzip the provided **ext.zip** file ([ext.zip](./files/ext.zip)) to a folder on your local device. It contains a sample SaaS consumer extension.
 
 ## 3. Local testing
 
@@ -44,12 +33,14 @@ Due to the complexity of the SaaS consumer extension topic, the actual implement
 > **Hint** - We recommend using VS Code to create and handle multiple command line instances. 
 
 ```sh
-cds watch srv --profile local-with-mtx
+# Run in ./code #
+npm run srv:mtx
 ```
 
 3.2. Once the application is running locally, subscribe the **t1-ext** tenant which you want to extend in the next steps by running the following command in **a new command line instance**. 
 
 ```sh
+# Run in ./code #
 cds subscribe t1-ext --to http://localhost:4004 --user bob:
 ```
 
@@ -67,7 +58,7 @@ code \path\of\unzipped\ext\folder
 
 3.4. In the **ext** folder, fetch the latest CDS model details from the local CAP service by running the following CDS command with the user bob (assigned to the **t1-ext** tenant). 
 
-> **Important** - The **cds watch** process still needs to run in the other command line instance. In case the **cds pull** command is executed successfully but you cannot see the required *csn* and *json* files in your **node_modules** directory, please try to run the extensibility scenario in SAP Business Application Studio. 
+> **Important** - The **npm run srv:mtx** process still needs to run in the other command line instance. In case the **cds pull** command is executed successfully but you cannot see the required *csn* and *json* files in your **node_modules** directory, please try to run the extensibility scenario in SAP Business Application Studio. 
 
 ```sh
 cds pull --from http://localhost:4004 --user bob:

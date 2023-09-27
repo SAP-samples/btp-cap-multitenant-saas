@@ -1,51 +1,64 @@
 {
-    "requires": {
-        "[hybrid]": {
-            "multitenancy": true,
-            "cds.xt.ExtensibilityService": false,
-            "cds.xt.ModelProviderService": false,
-            "cds.xt.DeploymentService": false,
-            "cds.xt.SaasProvisioningService": false
-        },
-        "[local-with-mtx]": {
-            "multitenancy": true
-        },
-        "[development]": {
-            "multitenancy": false
-        },
-        "db": {
-            "[hybrid]": {
-                "kind": "hana-cloud",
-                "vcap": {
-                    "label": "service-manager",
-                    "plan": "container"
-                }
-            },
-            "[local-with-mtx]": {
-                "kind": "sqlite"
-            },
-            "[development]": {
-                "kind": "sql"
-            }
-        },
-        "auth": {
-            "[hybrid]": {
-                "kind": "xsuaa"
-            },
-            "[local-with-mtx]": {
-                "kind": "mocked"
-            },
-            "[development]": {
-                "kind": "mocked"
-            }
-        },
-        "db-ext": {
-            "[local-with-mtx]": {
-                "model": ["../db/sqlite", "../test"]
-            },
-            "[development]": {
-                "model": ["../db/sqlite", "../test"]
-            }
+  "requires": {
+    "[hybrid]": {
+      "multitenancy": true,
+      "cds.xt.ExtensibilityService": false,
+      "cds.xt.ModelProviderService": false,
+      "cds.xt.DeploymentService": false,
+      "cds.xt.SaasProvisioningService": false
+    },
+    "[local-with-mtx]": {
+      "multitenancy": true,
+      "cds.xt.ExtensibilityService": false,
+      "cds.xt.ModelProviderService": false,
+      "cds.xt.DeploymentService": false,
+      "cds.xt.SaasProvisioningService": false
+    },
+    "[development]": {
+      "multitenancy": false
+    },
+    "db": {
+      "[hybrid]": {
+        "kind": "hana-cloud",
+        "vcap": {
+          "label": "service-manager",
+          "plan": "container"
         }
+      },
+      "[local-with-mtx]": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "../db.sqlite"
+        }
+      },
+      "[development]": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "../db.sqlite"
+        }
+      }
+    },
+    "auth": {
+      "[hybrid]": {
+        "kind": "xsuaa"
+      },
+      "[local-with-mtx]": {
+        "kind": "basic",
+        "users": {
+          "system-user": {
+            "tenant": "t1",
+            "roles": ["system-user"]
+          }
+        }
+      },
+      "[development]": {
+        "kind": "basic",
+        "users": {
+          "system-user": {
+            "roles": ["system-user"]
+          }
+        }
+      }
     }
+  }
 }

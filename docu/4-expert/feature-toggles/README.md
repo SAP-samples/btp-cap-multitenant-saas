@@ -31,7 +31,7 @@ Due to the complexity of the Feature Toggles topic, the actual implementation de
 
     [<img src="./images/FT_RepoStructure.png" width="275" />](./images/FT_RepoStructure.png?raw=true)
 
-- Please add the following **tenants** object to the **local-with-mtx** profile of your *code/srv/.cdsrc.json* file (as you can see below). This enables the two new features (product-details and assessment-details) for tenant **t1-ext** only. Furthermore, please check if the **db** property is set to **sql-mt**. This ensures that changes are persisted even after restart of the application.
+- Please add the following **tenants** object to the **local-with-mtx** profile of your *code/srv/.cdsrc.json* file (as you can see below). This enables the two new features (product-details and assessment-details) for tenant **t1-ext** only. 
 
     ```json
     ...
@@ -40,7 +40,7 @@ Due to the complexity of the Feature Toggles topic, the actual implementation de
                 "kind": "xsuaa"
             },
             "[local-with-mtx]": {
-                "kind": "mock",
+                "kind": "basic",
                 "tenants": {
                     "t1-ext" : { "features": [ "product-details", "assessment-details"] }
                 },
@@ -62,7 +62,7 @@ Due to the complexity of the Feature Toggles topic, the actual implementation de
 **Command line #1**
 
 ```sh
-cds watch srv --profile local-with-mtx
+npm run srv:mtx
 ```
 
 3.2. Once the application is up and running, open **a new command line** and **subscribe** tenant **t1**, which is supposed to use the default version of the application. 

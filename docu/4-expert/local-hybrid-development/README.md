@@ -12,7 +12,7 @@ In this part of the **Expert Features** you will learn how to use the local and 
     - [1.2. Onboard a new SaaS tenant to your application](#12-onboard-a-new-saas-tenant-to-your-application)
     - [1.3. Check the application](#13-check-the-application)
   - [2. Running the frontend application locally (susaas)](#2-running-the-frontend-application-locally-susaas)
-    - [2.1. Local testing using cds watch --open](#21-local-testing-using-cds-watch---open)
+    - [2.1. Local testing using cds serve](#21-local-testing-using-cds-serve)
     - [2.2. Local testing using the HTML5 Repo Mock](#22-local-testing-using-the-html5-repo-mock)
   - [3. Running the API Endpoint locally](#3-running-the-api-endpoint-locally)
     - [3.1. Start the API locally](#31-start-the-api-locally)
@@ -46,32 +46,36 @@ With SAP Cloud Application Programming Model's (CAP) latest MTX package release 
 
 ### 1.1. Start the application with local multitenancy
 
-Run the command below in your project root directory to start the backend application locally. This will start the application including multitenancy support on your local device. An initial **t0** tenant is initialized which contains technical data managed by CAP. The t0 tenant is not a real SaaS application tenant. 
+Run the command below in the **code** directory to start the backend application locally. This will start the application including multitenancy support on your local device. An initial **t0** tenant is initialized which contains technical data managed by CAP. The t0 tenant is not a real SaaS application tenant. 
 
 ```sh
-cds watch srv --profile local-with-mtx
+# Run in ./code #
+npm run srv:mtx
 ```
 
 If everything is fine, you should see an output as shown below.
 
 ```sh
-[cds] - connect to db > sqlite { url: ':memory:' }
+[cds] - connect to db > sqlite { url: '../db.sqlite' }
+[cds] - using auth strategy: {
+  kind: 'basic-auth',
+  impl: '../node_modules/@sap/cds/lib/auth/basic-auth.js'
+} 
+
 [cds] - serving cds.xt.SaasProvisioningService { path: '/-/cds/saas-provisioning' }
-[cds] - serving cds.xt.ModelProviderService { path: '/-/cds/model-provider' }
 [cds] - serving cds.xt.DeploymentService { path: '/-/cds/deployment' }
-[cds] - serving AdminService { path: '/catalog/AdminService', impl: 'srv/admin-service.js' }
-[cds] - serving PublicService { path: '/catalog/PublicService', impl: 'srv/public-service.js' }
+[cds] - serving cds.xt.ModelProviderService { path: '/-/cds/model-provider' }
 [cds] - serving cds.xt.ExtensibilityService { path: '/-/cds/extensibility' }
+[cds] - serving cds.xt.JobsService { path: '/-/cds/jobs' }
+[cds] - serving AdminService { path: '/catalog/AdminService', impl: 'srv/admin-service' }
+[cds] - serving PublicService { path: '/catalog/PublicService', impl: 'srv/public-service' }
 [cds|t0] - loaded model from 1 file(s):
 
-  node_modules/@sap/cds-mtxs/db/t0.cds
-
-[mtx|t0] - (re-)deploying SQLite database for tenant: t0
-/> successfully deployed to sqlite in-memory db
+  ../node_modules/@sap/cds-mtxs/db/t0.cds
 
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 21/11/2022, 15:42:19, version: 6.3.1, in: 8.626s
+[cds] - launched at 9/27/2023, 5:35:52 PM, version: 7.1.1, in: 979.997ms
 [cds] - [ terminate with ^C ]
 ```
 
@@ -82,6 +86,7 @@ Since we have our application up and running, the next step is adding a new SaaS
 Create a new terminal instance and run the command below to onboard tenant **t1**.
 
 ```sh
+# Run in ./code #
 cds subscribe t1 --to http://localhost:4004 -u alice
 ```
 
@@ -96,17 +101,17 @@ Please note that user **alice** is defined in your [.cdsrc.json](../../../code/s
 
 ```json
 ...
-        "[local-with-mtx]": {
-          "strategy": "mock",
-          "users": {
-           "alice": {
-              "tenant": "t1",
-              "roles": [
-                "Admin",
-                "cds.Subscriber",
-                "cds.ExtensionDeveloper"
-              ]
-            },
+  "[local-with-mtx]": {
+    "kind": "basic",
+    "users": {
+      "alice": {
+        "tenant": "t1",
+        "roles": [
+          "Admin",
+          "cds.Subscriber",
+          "cds.ExtensionDeveloper"
+        ]
+      },
   ...
 ```
 
@@ -132,29 +137,41 @@ You should see the projects in your browser as a response, as shown below.
 
 Local frontend development is also crucial for the developers, since as a developer you would like to try things locally first then deploy the real environment. By following this section, you will be able to run your frontend application locally and do the local development. 
 
-Local testing can be as easy as calling **cds watch --open**, but if you want to test like in a production environment, you can make use of the so called **HTML5 Repo Mock**. This tool allows you to mock an SAP HTML5 Application Repository like it is used in you SAP BTP account. 
+Local testing can be as easy as calling **cds serve** (hidden behind some npm scripts), but if you want to test like in a production environment, you can make use of the so called **HTML5 Repo Mock**. This tool allows you to mock an SAP HTML5 Application Repository like it is used in you SAP BTP account. 
 
 
-### 2.1. Local testing using cds watch --open
+### 2.1. Local testing using cds serve
 
-For local testing without the HTML5 Repo Mock, just simply start the application as explained in the previous step w/ multitencany or w/o multitenancy. 
+For local testing without the HTML5 Repo Mock, just simply start the application as explained in the previous step w/ multitencany or w/o multitenancy. The npm scripts will trigger a respective **cds serve** command. 
 
 **w/ Multitenancy**
 
 ```sh
-cds watch srv --profile local-with-mtx --open
+# Run in ./code #
+npm run srv:mtx
 ```
 
-> **Hint** - Don't forget to subscribe your t1 tenant in this case before opening the application in your browser. 
+> **Hint** - Don't forget to subscribe your t1 tenant in this case before opening the application in your browser. This will create a new SQLite database as **db-t1.sqlite** file within your **code** directory. 
+> ```sh
+> cds subscribe t1 --to http://localhost:4004 -u alice
+> ```
 
 
 **w/o multitenancy**
 
+> **Hint** - If not done yet, don't forget to deploy your data model to a SQLite database before running the below command. 
+> ```sh
+> # Run in ./code #
+> npm run db:deploy
+> ```
+> This will create the required SQLite objects in **db.sqlite** file within the **code** directory. Using multitenancy this will happen automatically upon onboarding of new tenants.
+
 ```sh
-cds watch srv --open
+# Run in ./code #
+npm run srv:watch
 ```
 
-Your browser should automatically open **http://localhost:4004**. You will see a link *launchpad.html* pointing to a **Web Application** providing a mocked Fiori Launchpad for opening and testing all provided SAPUI5 apps. Furthermore, you will find links to the standalone SAPUI5 apps if required for testing.
+Open your browser and navigate to **http://localhost:4004**. You will see a link *launchpad.html* pointing to a **Web Application** providing a mocked Fiori Launchpad for opening and testing all provided SAPUI5 apps. Furthermore, you will find links to the standalone SAPUI5 apps if required for testing.
 
 [<img src="./images/localwomock.png" width="500"/>](./images/localwomock.png?raw=true)
 
@@ -163,7 +180,7 @@ Click on the standalone link(s) or the respective tiles within the Fiori Launchp
 
 ### 2.2. Local testing using the HTML5 Repo Mock 
 
-Using the HTML5 Repo Mock requires a few more steps compared to using the pure *cds watch* test approach. Still, this approach is similar to what's actually happening in your SAP BTP environment. To use the HTML5 Repo Mock, you need to rename or copy the *.env.sample* file in your *code* directory to an **.env** file (if not done yet). The *.env* file contains some relevant environment variables for running the HTML5 Repo Mock locally.
+Using the HTML5 Repo Mock requires a few more steps compared to using the **cds serve** test approach. Still, this approach is similar to what's actually happening in your SAP BTP environment. To use the HTML5 Repo Mock, you need to rename or copy the *.env.sample* file in your *code* directory to an **.env** file (if not done yet). The *.env* file contains some relevant environment variables for running the HTML5 Repo Mock locally.
 
 [<img src="./images/env-local.png" width="600"/>](./images/env-local.png?raw=true)
 
@@ -171,16 +188,17 @@ Using the HTML5 Repo Mock requires a few more steps compared to using the pure *
 # Application Router
 TENANT_HOST_PATTERN='^(.*).localhost'
 EXTERNAL_REVERSE_PROXY=true
-destinations='[{"name": "srv-api","url":"http://localhost:4004/","forwardAuthToken": true,"strictSSL": false}]'
+destinations='[{"name": "susaas-srv-api","url":"http://localhost:4004/","forwardAuthToken": true,"strictSSL": false}]'
 
 # Mock Repo
 MOCK_DIR=../app
 AR_DIR=../router
 ```
 
-Before you start the HTML5 Repo Mock, make sure your SaaS backend is started (*npm run srv:local* or *cds watch srv*). Then start your frontend application locally (using the HTML5 Repo Mock) by running the commands below:
+Before you start the HTML5 Repo Mock, make sure your SaaS backend is started (*npm run srv:watch*). Then start your frontend application locally (using the HTML5 Repo Mock) by running the commands below:
 
 ```sh
+# Run in ./code #
 npm run mock:watch
 ```
 
@@ -201,37 +219,46 @@ In your root directory run the command below.
 
 **w/ Multitenancy**
 
+> **Hint** - Please ensure to subscribe a tenant using th *cds subscribe* command before testing the API in this case. If not done yet please run the backend service and subscribe a tenant first!
+> ```sh
+> npm run srv:mtx
+> cds subscribe t1 --to http://localhost:4004 -u alice
+> ```
+> This will ensure a SQLite database file (named **db-t1.sqlite**) for the respective subscriber is created in **code** directory. 
+
 ```sh
+# Run in ./code #
 npm run api:mtx
 ```
 
-> **Hint** - Please ensure to subscribe a tenant using th *cds subscribe* command before testing the API in this case. 
-
 **w/o Multitenancy**
 
+> **Hint** - If not done yet, don't forget to deploy your data model to a SQLite database before running the below command. 
+> ```sh
+> # Run in ./code #
+> npm run db:deploy
+> ```
+> This will create the required SQLite objects in a **db.sqlite** file within the **code** directory.
+
 ```sh
+# Run in ./code #
 npm run api:watch
 ```
-
 
 You should see that API is running locally as shown below.
 
 ```sh
-[cds] - connect to db > sqlite { url: ':memory:' }
-  > init from test/data/susaas.db-Assessments.csv 
-  > init from test/data/susaas.db-CircularityMetrics.csv 
-  > init from test/data/susaas.db-MaterialSplits.csv 
-  > init from test/data/susaas.db-Members.csv 
-  > init from test/data/susaas.db-Products.csv 
-  > init from test/data/susaas.db-Projects.csv 
-  > init from test/data/susaas.db-RecyclingCountries.csv 
-  ...
-/> successfully deployed to in-memory database. 
+[cds] - connect using bindings from: { registry: '~/.cds-services.json' }
+[cds] - connect to db > sqlite { url: '../db.sqlite' }
+[cds] - using auth strategy: {
+  kind: 'basic-auth',
+  impl: '../node_modules/@sap/cds/lib/auth/basic-auth.js'
+} 
 
-[cds] - serving ApiService { path: '/rest/api', impl: 'api/srv/api-service' }
+[cds] - serving ApiService { path: '/rest/api', impl: 'srv/api-service' }
 
-[cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 7/26/2023, 10:13:58 AM, version: 6.8.4, in: 2.754s
+[cds] - server listening on { url: 'http://localhost:4005' }
+[cds] - launched at 9/27/2023, 5:49:06 PM, version: 7.1.1, in: 4.474s
 [cds] - [ terminate with ^C ]
 ```
 
@@ -242,9 +269,9 @@ You can use the request below from a terminal to read the current products.
 > **Hint** - The port might be different in your case (e.g., 4004). Check the output of your *npm run api:watch* command.
 
 ```sh
-curl http://localhost:4004/rest/api/Products -u "alice"
+curl http://localhost:4005/rest/api/Products -u "system-user"
 
-Enter host password for user 'alice':  # <- Just hit "Enter"
+Enter host password for user 'system-user':  # <- Just hit "Enter"
 {"ID":"HT-1000","typeCode":"PR","category":"Notebooks","supplierId":"0100000046",...}
 ``` 
 
@@ -254,8 +281,8 @@ Enter host password for user 'alice':  # <- Just hit "Enter"
 You can use the request below from a terminal to insert products.
 
 ```sh
-curl --location --request POST 'http://localhost:4004/rest/api/bulkUpsertProducts' \
--u 'alice' \
+curl --location --request POST 'http://localhost:4005/rest/api/bulkUpsertProducts' \
+-u 'system-user' \
 --header 'Content-Type: application/json' \
 --data-raw '
 {
@@ -265,7 +292,7 @@ curl --location --request POST 'http://localhost:4004/rest/api/bulkUpsertProduct
       ]
 }'
 
-Enter host password for user 'alice':  # <- Just hit "Enter"
+Enter host password for user 'system-user':  # <- Just hit "Enter"
 Records successfully updated!
 ``` 
 
@@ -275,8 +302,8 @@ Records successfully updated!
 You can use the request below from a terminal to insert recycling materials.
 
 ```sh
-curl --location --request POST 'http://localhost:4005/odata/api/bulkInsertRecyclingMaterials' \
---user 'alice' \
+curl --location --request POST 'http://localhost:4005/rest/api/bulkUpsertRecyclingMaterials' \
+--user 'system-user' \
 --header 'Content-Type: application/json' \
 --data-raw '{
       "recyclingMaterials" : [
@@ -288,6 +315,7 @@ curl --location --request POST 'http://localhost:4005/odata/api/bulkInsertRecycl
 ```
 
 Feel free to modify this requests and try other endpoints which are served by your API.
+
 
 # Hybrid Development
 
@@ -303,8 +331,6 @@ To explain it a bit simpler, you will be still running on your laptop but you wi
 ## Prerequisites
 
 To be able to start hybrid development you need to deploy your multitenant application to your SAP BTP Kyma Cluster or Cloud Foundry Runtime at least once and you should have at least one subscribed tenant to your multitenant application. 
-
-> **Hint** - You may follow this documentation for the **Basic** and **Advanced Version**.
 
 
 ## 1. Running the multitenant application in hybrid mode (susaas-srv)
@@ -343,6 +369,7 @@ CURRENT   NAME                   CLUSTER                AUTHINFO               N
 Run the command below and please make sure to log in to the correct Cloud Foundry Space, because all the backing services are created there.
 
 ```sh
+# Run in ./code #
 cf login 
 ```
 
@@ -359,6 +386,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 > **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
+# Run in ./code #
 cds bind -2 <ReleaseName>-srv-destination,<ReleaseName>-srv-xsuaa --on k8s --for hybrid --output-file srv/.cdsrc-private.json
 cds bind hana -2 <ReleaseName>-srv-hana --kind hana --on k8s --for hybrid --output-file srv/.cdsrc-private.json
 cds bind saas-registry -2 <ReleaseName>-srv-saas-registry --kind saas-registry --on k8s --for hybrid --output-file srv/.cdsrc-private.json
@@ -377,6 +405,7 @@ Run the following commands in your *code* directory to create Service Keys in Cl
 > **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space name.
 
 ```sh
+# Run in ./code #
 cf csk <SpaceName>-susaas-uaa <SpaceName>-susaas-uaa-key
 cf csk <SpaceName>-susaas-registry <SpaceName>-susaas-registry-key
 cf csk <SpaceName>-susaas-destination <SpaceName>-susaas-destination-key
@@ -391,6 +420,7 @@ Once all Service Keys have been created successfully, please add them to your hy
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 
 ```sh
+# Run in ./code #
 cds bind -2 <SpaceName>-susaas-destination,<SpaceName>-susaas-uaa --for hybrid --output-file srv/.cdsrc-private.json
 cds bind hana -2 <SpaceName>-susaas-com-hdi-container --kind hana --for hybrid --output-file srv/.cdsrc-private.json
 cds bind saas-registry -2 <SpaceName>-susaas-registry --kind saas-registry --for hybrid --output-file srv/.cdsrc-private.json
@@ -409,6 +439,7 @@ This is it, you are ready to proceed with the next steps and start your service 
 Now that you downloaded the environment variables, run the command below to start your application in hybrid mode.
 
 ```sh
+# Run in ./code #
 npm run srv:hybrid
 ```
 
@@ -419,7 +450,7 @@ After executing this command your application should be up and running but the l
 
 ## 2. Running frontend application in hybrid mode
 
-In this section you will be running your frontend application with the connection to the backing services in your SAP BTP Cloud Foundry Space such as XSUAA or Destination Service. For hybrid testing of your frontend application, you will again use the HTML5 Repo Mock. A simplified testing using *cds watch* is not possible in this case as a SAP Approuter instance is required. 
+In this section you will be running your frontend application with the connection to the backing services in your SAP BTP Cloud Foundry Space such as XSUAA or Destination Service. For hybrid testing of your frontend application, you will again use the HTML5 Repo Mock. A simplified testing using *cds serve* (or the respective npm scripts) is not possible in this case as a SAP Approuter instance is required. 
 
 
 ### 2.1. Read environment variables from Approuter (susaas)
@@ -431,6 +462,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 > **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
+# Run in ./code #
 cds bind -2 <ReleaseName>-router-destination,<ReleaseName>-router-xsuaa --on k8s --for hybrid --output-file router/.cdsrc-private.json
 cds bind html5-apps-repo -2 <ReleaseName>-router-html5-apps-repo --kind html5-apps-repo --on k8s --for hybrid --output-file router/.cdsrc-private.json
 ```
@@ -446,6 +478,7 @@ Run the following commands in your *code* directory to create Service Keys in Cl
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space Name.
 
 ```sh
+# Run in ./code #
 cf csk <SpaceName>-susaas-uaa <SpaceName>-susaas-uaa-key
 cf csk <SpaceName>-susaas-destination <SpaceName>-susaas-destination-key
 cf csk <SpaceName>-susaas-html5-repo-runtime <SpaceName>-susaas-html5-repo-runtime-key
@@ -455,6 +488,7 @@ Once all Service Keys have been created successfully, please add them to your hy
 
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 ```sh
+# Run in ./code #
 cds bind -2 <SpaceName>-susaas-destination,<SpaceName>-susaas-uaa --for hybrid --output-file router/.cdsrc-private.json
 cds bind html5-apps-repo -2 <SpaceName>-susaas-html5-repo-runtime --kind html5-apps-repo --for hybrid --output-file router/.cdsrc-private.json
 ```
@@ -469,6 +503,7 @@ This is it, you are ready to proceed with the next steps and start your router i
 Go to the *code* directory and run the command below to start your Application Router in **hybrid** mode.
 
 ```sh
+# Run in ./code #
 npm run router:hybrid
 ```
 
@@ -486,7 +521,6 @@ You should see that the app is up and running as below.
 [<img src="./images/hybrid-ui-running.png" width="600"/>](./images/hybrid-ui-running.png?raw=true)
 
 
-
 ## 3. Running the multitenant API in hybrid mode (susaas-api-srv)
 
 Before running the SaaS API in hybrid mode, please make sure to terminate your local SaaS Backend instances if still up and running.
@@ -501,6 +535,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 > **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
+# Run in ./code #
 cds bind -2 <ReleaseName>-api-xsuaa-api --on k8s --for hybrid --output-file api/.cdsrc-private.json
 cds bind sm-container -2 <ReleaseName>-api-sm-container --kind service-manager --on k8s --for hybrid:api --output-file api/.cdsrc-private.json
 ```
@@ -516,6 +551,7 @@ Run the following commands in your *code* directory to create Service Keys in Cl
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space Name.
 
 ```sh
+# Run in ./code #
 cf csk <SpaceName>-susaas-api-uaa <SpaceName>-susaas-api-uaa-key
 cf csk <SpaceName>-susaas-service-manager <SpaceName>-susaas-service-manager-key 
 ```
@@ -524,6 +560,7 @@ Once all Service Keys have been created successfully, please add them to your hy
 
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 ```sh
+# Run in ./code #
 cds bind -2 <SpaceName>-susaas-api-uaa --for hybrid --output-file api/.cdsrc-private.json
 cds bind sm-container -2 <SpaceName>-susaas-service-manager --kind service-manager --for hybrid --output-file api/.cdsrc-private.json
 ```
@@ -538,6 +575,7 @@ This is it, you are ready to proceed with the next steps and start your API in h
 Run the command below to start API in hybrid mode.
 
 ```sh
+# Run in ./code #
 npm run api:hybrid
 ```
 
