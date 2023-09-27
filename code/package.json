@@ -63,7 +63,7 @@
     "---HTML5-Mock-Repo---": "",
     "mock:watch": "cds bind --exec npm run mock:run:watch",
     "mock:hybrid": "cds bind --exec npm run mock:run:hybrid",
-    "mock:run:watch": "(cd router && cds bind --exec --profile development node ../node_modules/@sap/html5-repo-mock/index.js)",
+    "mock:run:watch": "(cd router && node ../node_modules/@sap/html5-repo-mock/index.js)",
     "mock:run:hybrid": "(cd router && cds bind --exec --profile hybrid node ../node_modules/@sap/html5-repo-mock/index.js)",
     "---Application-Router---": "",
     "router:hybrid": "cds bind --exec npm run router:run",
