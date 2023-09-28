@@ -19,8 +19,6 @@ Pushing their own extensions using CAP extensibility features, allows SaaS consu
 
 Due to the complexity of the SaaS consumer extension topic, the actual implementation details will not be covered in this tutorial. Please check the extensive official SAP CAP documentation ([click here](https://cap.cloud.sap/docs/guides/extensibility/customization)) if you're interested in further details. 
 
-> **Hint** - SaaS consumer extensions can also be used in productive SAP BTP deployments but still have some limitations. It is for example not yet possible, to provide CSV files with sample data in SaaS consumer extensions. In our existing sample this has been solved by a workaround using "SELECT"-Statements on a DUMMY table to create a new entity with default values (e.g., required for value helps). 
-
 
 ## 2. Prerequisites
 
@@ -135,13 +133,13 @@ Pushing SaaS consumer extensions in a productive scenario (to a CAP application 
 4.6. From now on, please imagine you are a SaaS consumer developer. Open a command line window and switch to the unzipped **ext** folder again (see previous chapter) or open the respective path in VS Code (recommended!). 
 
 ```sh
-$ cd \path\of\unzipped\ext\folder 
+cd \path\of\unzipped\ext\folder 
 ```
 
 or to open the path in VS Code
 
 ```sh
-$ code \path\of\unzipped\ext\folder 
+code \path\of\unzipped\ext\folder 
 ```
 
 [<img src="./images/CE_ProdPush04.png" width="500" />](./images/CE_ProdPush04.png?raw=true)
@@ -151,7 +149,7 @@ $ code \path\of\unzipped\ext\folder
 > **Hint** - You might be asked to install an additional global npm package to store the authentication information. Please do so if required and re-run the cds login command afterward.
 
 ```sh
-$ cds login <CAP Service Url> -s <Consumer Tenant Subdomain>
+cds login <CAP Service Url> -s <Consumer Tenant Subdomain>
 ```
 
 **Example** 
@@ -191,7 +189,7 @@ https://susaas-subscriber-ext-f4tthx5.authentication.us10.hana.ondemand.com/pass
 > **Hint** - You don't have to enter any URL or user, as the information is automatically stored locally by the cds login process. 
 
 ```sh
-$ cds pull
+cds pull
 ```
 
 [<img src="./images/CE_ProdPush10.png" width="500" />](./images/CE_ProdPush10.png?raw=true)
@@ -199,7 +197,7 @@ $ cds pull
 4.12. Build the sample SaaS consumer extension project by running the following command. This will generate the **gen** folder. 
 
 ```sh
-$ cds build
+cds build
 ```
 
 [<img src="./images/CE_ProdPush11.png" width="500" />](./images/CE_ProdPush11.png?raw=true)
@@ -209,7 +207,7 @@ $ cds build
 > **Hint** - You don't have to enter any URL or user, as the information is automatically stored locally by the cds login process. 
 
 ```sh
-$ cds push
+cds push
 ```
 
 [<img src="./images/CE_ProdPush12.png" width="500" />](./images/CE_ProdPush12.png?raw=true)

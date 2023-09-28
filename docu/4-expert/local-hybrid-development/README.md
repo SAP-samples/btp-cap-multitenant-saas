@@ -345,13 +345,13 @@ In this section you will learn how to run your susaas-srv module in hybrid mode.
 If you are using the SAP BTP, Kyma Runtime please use **kubectl** to set the context to the right namespace of your Kyma Cluster, because all the backing services are created there.
 
 ```sh
-kubectl config set-context –current –namespace=<KymaNamespace>
+kubectl config set-context --current --namespace=<KymaNamespace>
 ```
 
 **Example**
 
 ```sh
-kubectl config set-context –current –namespace=default
+kubectl config set-context --current --namespace=default
 ```
 
 You can double-check whether the context was correctly set by running the following command:
@@ -383,7 +383,7 @@ Make sure to target the correct Cloud Foundry Organization and Space.
 
 For hybrid testing in a Kyma scenario, you need to store valid Service Binding details in the *srv/.cdsrc-private.json* file. To do so, please run the following commands from the *code* directory.
 
-> **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
+> **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod). Only bind **alert-notification** if you installed it previously.
 
 ```sh
 # Run in ./code #
@@ -537,7 +537,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 ```sh
 # Run in ./code #
 cds bind -2 <ReleaseName>-api-xsuaa-api --on k8s --for hybrid --output-file api/.cdsrc-private.json
-cds bind sm-container -2 <ReleaseName>-api-sm-container --kind service-manager --on k8s --for hybrid:api --output-file api/.cdsrc-private.json
+cds bind sm-container -2 <ReleaseName>-api-sm-container --kind service-manager --on k8s --for hybrid --output-file api/.cdsrc-private.json
 ```
 
 This will create a new *.cdsrc-private.json* file in your **api** folder, containing all binding details. Those bindings are dynamically resolved when running your API Service in hybrid mode. 
