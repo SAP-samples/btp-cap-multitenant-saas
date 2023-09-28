@@ -197,4 +197,4 @@ Content-type: application/json
 
 ## 8. Access your tenant container to see your changes
 
-The last step is accessing the tenant container as it is described [here](../manage-tenant-containers/README.md). You should see your **dummy** column added to the  **Users** table as shown below.
+The last step is accessing the tenant container as it is described [here](../manage-tenant-containers/README.md). You should see your **dummy** column was added to the  **Users** table.

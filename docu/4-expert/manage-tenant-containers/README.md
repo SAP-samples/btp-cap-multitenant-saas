@@ -19,7 +19,7 @@ Please also check out the blog post by Andrew Lunde which is part of the **Furth
 
 The demonstrated approach explains how to access a tenant database container with a so-called technical **Runtime user**. This user has extensive permissions to interact with the underlying database schema and the presented access should only be used in very exceptional scenarios! This technical user is able to modify any data in a tenant container and to create and drop schema objects using plain SQL commands. 
 
-> **Hint** - If you want to adapt the permissions of this default access role assigned to Runtime users, please read the following SAP Help documentation ([click here](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/9235c9dd8dbf410f915ffe305296a032.html?locale=en-US)). Please keep in mind, this will also restrict the permissions of the Runtime user used by the Service Manager when accessing the tenant database containers. 
+> **Hint** - If you want to adapt the permissions of this default access role assigned to Runtime users, please read the following SAP Help documentation ([click here](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-web-ide-full-stack/default-access-role-for-hdi-containers?locale=en-US)). Please keep in mind, this will also restrict the permissions of the Runtime user used by the Service Manager when accessing the tenant database containers. 
 
 No developer in a productive environment should ever have access to the credentials used in this step-by-step guide. This can be achieved by **not assigning** any Cloud Foundry roles like Space Developer/Supporter/Manager to developers in a productive subaccount. Instead, a very limited number of named database users should be used in combination with dedicated **support roles** provided by the database schema. 
 
@@ -52,7 +52,9 @@ Please use this approach for learning purposes only e.g., when working in a deve
 
 [<img src="./images/manage_040.png" width="500" />](./images/manage_040.png?raw=true)
 
-3.4. Switch to the SAP HANA Database Explorer to add the tenant database container connection.
+3.4. Switch to the SAP HANA Database Explorer to add the tenant database container connection. You can open the SAP HANA Database Explorer from the **SAP HANA Cloud Tools**.
+
+> **Hint** - You might be asked to login when opening the **Database Explorer**. Please use the **DBADMIN** or any other non-technical database user for this purpose. 
 
 [<img src="./images/manage_050.png" width="500" />](./images/manage_050.png?raw=true)
 
@@ -82,14 +84,6 @@ Please use this approach for learning purposes only e.g., when working in a deve
 4.5. You should now have access to all tables in the *shared database container/schema* and the *tenant database container/schema* of the bestrun tenant. You can use SQL commands or available user interface options to view table content, insert/delete/modify records or create and drop schema objects. 
 
 [<img src="./images/manage_090.png" width="200" />](./images/manage_090.png?raw=true)
-
-4.6. An alternative approach to access the tenant database container is displayed in the following screenshots using the Instance Type **Application Managed Service Instance**. Just make sure to select the correct Service Manager instance in the second dropdown.
-
-> **Hint** - Please be aware that you don't have direct access to the corresponding **shared database container/schema objects** using this approach. 
-
-[<img src="./images/manage_100.png" width="250" />](./images/manage_100.png?raw=true)
-[<img src="./images/manage_110.png" width="300" />](./images/manage_110.png?raw=true)
-
 
 ## 5. Further information
 

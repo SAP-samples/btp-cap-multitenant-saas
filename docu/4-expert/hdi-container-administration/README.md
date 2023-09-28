@@ -3,8 +3,6 @@
 - **Kyma** ✅
 - **Cloud Foundry** ✅
 
-> **Hint** - This Expert Feature requires refactoring and some screenshots and steps might be outdated.
-
 In this part of the **Expert Features** you will learn how to set up a new HDI Container Group Administrator for your SaaS HDI containers. This user will be able to administrate Tenant database containers (e.g., create or import backups, use the HDI Container API, ...). 
 
 - [HDI Container Administration](#hdi-container-administration)
@@ -39,13 +37,11 @@ As a SaaS provider, you need to ensure this process is well aligned with your Sa
 
 ## 3. Login to SAP HANA Cloud Cockpit
 
-3.1. Go to the loud Foundry Space in which your SAP HANA Cloud instance resides. 
+3.1. Open the **SAP HANA Cloud** Tools in your **Instances and Subscriptions** menu. Ensure you assigned the respective **Role Collections** if you are facing any permissions errors. 
 
-3.2. Open the **additional actions** of the SAP HANA Cloud instance. 
+[<img src="./images/hdi_group_010.png" width="500" />](./images/hdi_group_020.png?raw=true)
 
-[<img src="./images/hdi_group_010.png" width="500" />](./images/hdi_group_010.png?raw=true)
-
-3.3. Click on **Open in SAP HANA Cockpit** to access the SAP HANA Cloud administration. 
+3.2. Open the **...** (additional actions) of your SAP HANA Cloud instance and select **Open in SAP HANA Cockpit** to access the SAP HANA Cloud administration. 
 
 [<img src="./images/hdi_group_020.png" width="500" />](./images/hdi_group_020.png?raw=true)
 
@@ -125,7 +121,7 @@ As a SaaS provider, you need to ensure this process is well aligned with your Sa
 
 > **Important** - This will assign your user the full scope of permissions to administrate all containers in this default Container Group. As mentioned in the beginning of this step-by-step guide, your security setup will probably require a much more granular permission handling! 
 
-> **Hint** - If you cannot see any values in the **dropdown field**, please assign the permissions manually. 
+> **Hint** - If you cannot see any values in the **dropdown field**, please assign the available privileges manually. 
 
 [<img src="./images/hdi_group_170.png" width="500" />](./images/hdi_group_170.png?raw=true)
 

@@ -3,11 +3,9 @@
 - **Kyma** ✅
 - **Cloud Foundry** ✅
 
-> **Hint** - This Expert Feature requires refactoring and some screenshots and steps might be outdated. 
-
 This part of the **Expert Features** explains how to export and import SAP HANA Cloud HDI (HANA Deployment Infrastructure) containers in a SaaS scenario. This can be useful to back up your subscriber data on a regular basis. Please be aware that the import process will overwrite the content of your target container. For this reason also make sure, not to apply incompatible database changes between the backup and import of a container. 
 
-Before approaching this part of the **Expert Features**, please make sure to set up a new HDI Container Group Administrator first as described in the following part of the Expert Features ([Manage Tenant Database Containers](../manage-tenant-containers/README.md)) and use the respective user for the steps below.
+Before approaching this part of the **Expert Features**, please make sure to set up a new HDI Container Group Administrator first as described in the following part of the Expert Features ([HDI Container Administration](../hdi-container-administration/README.md)) and use the respective user for the steps below.
 
 - [Backup SAP HANA Cloud Database Containers](#backup-sap-hana-cloud-database-containers)
   - [1. Introduction](#1-introduction)
@@ -50,7 +48,7 @@ Especially for the last prerequisite, please check the [Dependencies and privile
 
 ## 3. Export an existing container
 
-3.1. Find the ID of the consumer tenant of which you want to export using the Subscription Management Dashboard.
+3.1. Find the ID of the consumer tenant of which you want to export using the SAP BTP Subscription Management Dashboard. Click on your SaaS Registry service instance to open the Dashboard. 
 
 [<img src="./images/export_010.png" width="500" />](./images/export_010.png?raw=true)
 
@@ -64,15 +62,26 @@ Especially for the last prerequisite, please check the [Dependencies and privile
 
 [<img src="./images/export_040.png" width="500" />](./images/export_040.png?raw=true)
 
-3.4. Go to SAP HANA Database Explorer and log in with an HDI Container (Group) Admin of the database container you want to export (see Prerequisites section). 
+3.4. Go to the **SAP HANA Database Explorer** and log in with an HDI Container (Group) Admin (e.g., **SUSAAS_OPS**) of the database container you want to export (see Prerequisites section). 
+
+> **Hint** - Go to your **SAP HANA Tools** to find the link to your **Database Explorer** by clicking on the **...** button next to your SAP HANA Cloud Instance. <br>
+> [<img src="./images/export_050a.png" width="200" />](./images/export_050a.png?raw=true)
 
 [<img src="./images/export_050.png" width="500" />](./images/export_050.png?raw=true)
 
+If you are already logged in with another user, please do a right-click on the root of your existing database connection and click on **Add database with different user**. This will allow you to define a new database connection (see screenshots). 
+
+[<img src="./images/add_conn_01.png" height="100" />](./images/add_conn_01.png?raw=true)
+[<img src="./images/add_conn_02.png" height="100" />](./images/add_conn_02.png?raw=true)
+[<img src="./images/add_conn_03.png" height="100" />](./images/add_conn_03.png?raw=true)
+
 3.5. Right-click the root of this user's database connection and select **Export HDI Container**. 
 
-[<img src="./images/export_060.png" width="500" />](./images/export_060.png?raw=true)
+[<img src="./images/export_060.png" width="200" />](./images/export_060.png?raw=true)
 
-3.6. Search for the schema name which you identified in the service key of the corresponding Service Manager container instance. 
+3.6. Select the **Local** export target and search for the schema name which you identified in the service key of the corresponding Service Manager container instance. 
+
+[<img src="./images/export_070a.png" width="500" />](./images/export_070a.png?raw=true) 
 
 [<img src="./images/export_070.png" width="500" />](./images/export_070.png?raw=true)
 
@@ -107,7 +116,7 @@ Especially for the last prerequisite, please check the [Dependencies and privile
 
 4.1. Go to SAP HANA Database Explorer and log in with an HDI Container (Group) Admin of the container you want to restore your backup in. 
 
-> **Important** - The database container in which you want to restore your backup, already has to exist before doing the following steps! Also, check the next chapter to learn about pre-import prerequisites in case of cross-container-access scenarios!
+> **Important** - The database container in which you want to restore your backup, already has to exist before doing the following steps! Also, check the next chapter ([click here](#5-dependencies-and-privileges)) to learn about pre-import prerequisites in case of cross-container-access scenarios!
 
 [<img src="./images/import_005.png" width="500" />](./images/import_005.png?raw=true)
 
@@ -115,7 +124,7 @@ Especially for the last prerequisite, please check the [Dependencies and privile
 
 [<img src="./images/import_010.png" width="500" />](./images/import_010.png?raw=true)
 
-4.3. Click on **Browse** to select the archived database container content from your hard disk.
+4.3. Select the **Local** Import Source and in the next step click on **Browse** to select the archived database container content from your hard disk.
 
 [<img src="./images/import_020.png" width="500" />](./images/import_020.png?raw=true)
 
