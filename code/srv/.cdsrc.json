@@ -118,12 +118,14 @@
     "db-ext": {
       "[local-with-mtx]": {
         "model": [
-          "../api/srv"
+          "../api/srv",
+          "../test"
         ]
       },
       "[development]": {
         "model": [
-          "../api/srv"
+          "../api/srv",
+          "../test"
         ]
       }
     }
