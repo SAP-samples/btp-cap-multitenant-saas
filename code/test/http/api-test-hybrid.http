@@ -1,7 +1,7 @@
 @xsuaaHostname = <<uaa.url in service key>>
 @btpXsuaaClient = <<uaa.clientid in service key>>
 @btpXsuaaSecret = <<uaa.clientsecret in service key>>
-@apiEndpoint = http://localhost:4004
+@apiEndpoint = http://localhost:4005
 
 
 ##########################################
@@ -48,7 +48,7 @@ Content-type: application/json
 ##########################################
 
 # @name uploadProductsExtendedBtp
-POST {{apiEndpoint}}/rest/api/bulkUpdateProducts
+POST {{apiEndpoint}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 

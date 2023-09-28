@@ -29,9 +29,6 @@ service ApiService @(
      // Sample action for simultaneous bulk "DELETE" and consecutive "INSERT"
      action bulkInsertProducts(products : many Products)                               returns String;
 
-     // Sample action for sequential bulk "UPDATE"
-     action bulkUpdateProducts(products : many Products)                               returns String;
-     
      // Sample action for simultaneous bulk UPSERT using HANA stored procedure
      // Not working during local development using SQLITE!
      action bulkUpsertProcSalesOrders(salesOrders : many SalesOrders)                  returns String;

@@ -81,23 +81,6 @@ class ApiService extends cds.ApplicationService {
         return req.error(404,`Error occured during upload": ${error}`)
       }
     });
-  
-    
-    this.on("bulkUpdateProducts", async (req) => {
-      try {
-        let upload = req.data.products;
-  
-        upload.forEach(async(product) => {
-          await UPDATE (Products, product.ID) .with (product)
-        });
-  
-        return "Records successfully updated!" 
-  
-        } catch(error){
-          return req.error(404,`Error occured during upload": ${error}`)
-        }
-    });
-  
     
     this.on("bulkUpsertProcSalesOrders", async (req) => {
       try {

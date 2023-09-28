@@ -87,12 +87,10 @@ Content-type: application/json
 
 > **Hint** - You might ask yourself why these additional details are not part of the initial product data request?! Unfortunately, this advanced product information is not part of the EPM model and has been added for illustration purposes of a potential sustainability use-case. Therefore, it has to be provided by a manual upload or maintained in the SaaS application itself. 
 
-> **Important** - Do not use this API endpoint with a huge payload, as it processes the records one after another as the CAP CQL UPDATE feature does not yet allow us to provide multiple entity values at once.
-
 ```http
 # @name uploadProductsExtendedBtp
 
-POST {{apiEndpointBtp}}/rest/api/bulkUpdateProducts
+POST {{apiEndpointBtp}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 

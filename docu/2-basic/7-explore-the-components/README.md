@@ -64,7 +64,7 @@ Below you can see the available entities of the SaaS API like Product details an
 
 [<img src="./images/API_Endpoints.png" width="700"/>](./images/API_Endpoints.png?raw=true)
 
-Besides the default CRUD methods for entity maintenance, also sample actions are provided allowing bulk upload (UPSERT, UPDATE, DELETE & INSERT) for the main application entities. Finally, you can find a great sample of an OData action allowing you to UPSERT Sales Orders using a SAP HANA Stored procedure.
+Besides the default CRUD methods for entity maintenance, also sample actions are provided allowing bulk upload (UPSERT, DELETE & INSERT) for the main application entities. Finally, you can find a great sample of an OData action allowing you to UPSERT Sales Orders using a SAP HANA Stored procedure.
 
 
 ## 5. API Service Broker 

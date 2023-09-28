@@ -48,7 +48,7 @@ Content-type: application/json
 ##########################################
 
 # @name uploadProductsExtendedBtp
-POST {{apiEndpointBtp}}/rest/api/bulkUpdateProducts
+POST {{apiEndpointBtp}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 
