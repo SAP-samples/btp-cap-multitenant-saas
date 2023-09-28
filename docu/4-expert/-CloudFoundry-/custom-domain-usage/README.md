@@ -198,8 +198,6 @@ So make up your mind! How many stages are you gonna use in your landscape and wh
 >
 > Wildcard CNAMEs like **\*-dev.susaas.com** pointing to the development stage cannot be used! Every customer needs its own CNAME record in case of a dash-based stage separation. Find more details below.
 
-<br> 
-
 ### Multi region deployment
 
 If you decide to run your application in multiple regions around the globe, you have to understand the influence on the Custom Domain requirements. While Custom Domains can be easily shared between Subaccounts of the same region (of the same Global SAP BTP Account) this is **not possbile** across regions (e.g., from eu10 to us20). 
@@ -219,7 +217,6 @@ In case you want to separate your regional domains by a dot, that means you will
 >
 > Wildcard CNAMEs like **\*-eu10.susaas.com** pointing to the **eu10 landscape** cannot be used! Every consumer needs its own CNAME record for each landscape in case of a dash-based separation. Find more details below.
 
-<br>
 
 ### Dash or dot based (region/stage) separation
 
@@ -285,7 +282,6 @@ In case of dash-usage for region separation, you cannot use wildcard CNAME recor
 
 So all in all, the setup options are not trivial and also depend on the effort you want to spend in maintaining CNAME records and the money in your pocket for wildcard SSL certificates. Okay, so are you ready for the final confusion and a little piece of brilliancy? Read the expert-scenario!
 
-<br>
 
 **Expert scenario - Dot separation**
 
@@ -321,7 +317,6 @@ From an effort perspective, also in this setup two **route mappings** have to be
 
 *Sample expert setup using dash-based region separation*
 
-<br>
 
 
 ### Consumer domain
@@ -337,7 +332,6 @@ Unfortunately, as of today consumers cannot share their own custom domain (which
 ### Summary
 
 Okay, wow that was a lot of content to digest. In case there is more questionmarks then answers now, don't worry. The topic of custom domains is not an easy topic. Just go through the chapter which you've just read once again and things might become clearer. If not, feel free to get in touch with us! So for now, let us continue with a tutorial on how to setup the Custom Domain Service instance in your provider subaccount.
-
 
 ## 4. Custom Domain Service
 
@@ -359,7 +353,7 @@ Also feel free to check the official SAP Help documentation ([click here](https:
 
 [<img src="./images/CDS_SetupDomain01.png" width="500" />](./images/CDS_SetupDomain01.png?raw=true)
 
-4.4. Create a new role collection (e.g., Custom Domain Administrator) in your provider subaccount and add the CustomDomainAdmin role template. Make sure your SAP BTP Subaccount administrator is assigned the new role collection. 
+4.4. Make sure your SAP BTP Subaccount administrator is assigned the new role collection available after successful subscription to the **Custom Domain Service**. 
 
 [<img src="./images/CDS_RoleCollection.png" width="500" />](./images/CDS_RoleCollection.png?raw=true)
 
@@ -377,7 +371,7 @@ Also feel free to check the official SAP Help documentation ([click here](https:
 
 [<img src="./images/CDS_SetupDomain04.png" width="500" />](./images/CDS_SetupDomain04.png?raw=true)
 
-4.8. Switch to the Custom Domain tab and click on **Create Cutom Domain**.
+4.8. Switch to the Custom Domain tab and click on **Create Custom Domain**.
 
 [<img src="./images/CDS_SetupDomain05.png" width="500" />](./images/CDS_SetupDomain05.png?raw=true)
 
