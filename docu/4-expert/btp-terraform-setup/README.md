@@ -63,7 +63,7 @@ btp_cli = false
 
 If you have not installed Terraform in your development environment, please follow the respective steps of the official documentation. 
 
-(https://developer.hashicorp.com/terraform/downloads)[https://developer.hashicorp.com/terraform/downloads]
+[https://developer.hashicorp.com/terraform/downloads](https://developer.hashicorp.com/terraform/downloads)
 
 After successful installation, please make sure, Terraform is part of your environment variables, by running the following command from your command line.
 
