@@ -36,13 +36,13 @@ Given all these security-related restrictions, Microsoft recommends switching to
 
 **Microsoft Azure**
 
-To create an application registration that can be used to send e-mails via Microsoft Graph, you will need an active Microsoft Azure account including an Azure Active Directory.  You can sign up for a free Microsoft Azure account here [https://azure.microsoft.com/en-in/free/]().
+To create an application registration that can be used to send e-mails via Microsoft Graph, you will need an active Microsoft Azure account including an Azure Active Directory.  You can sign up for a free Microsoft Azure account here [https://azure.microsoft.com/en-in/free/](https://azure.microsoft.com/en-in/free/).
 
 > **Hint** - For testing purposes, you can go with a free Azure account and you don't need a paid Azure subscription.
 
 **Exchange Online**
 
-You can send e-mails by either using a shared mailbox or a regular user's inbox. For both scenarios, you need to have at least one valid license including Exchange Online access (like Office 365 F3). After creating a Microsoft Azure account, log in to the Microsoft 365 Admin Center here [https://admin.microsoft.com/#/homepage](). This is where you can buy and see your licensed products like an Office 365 F3 subscription. 
+You can send e-mails by either using a shared mailbox or a regular user's inbox. For both scenarios, you need to have at least one valid license including Exchange Online access (like Office 365 F3). After creating a Microsoft Azure account, log in to the Microsoft 365 Admin Center here [https://admin.microsoft.com/#/homepage](https://admin.microsoft.com/#/homepage). This is where you can buy and see your licensed products like an Office 365 F3 subscription. 
 
 > **Hint** - For testing purposes, check if you're eligible for a free [Microsoft Teams Exploratory](https://learn.microsoft.com/en-us/microsoftteams/teams-exploratory) license. This license also contains the required Exchange Online access. 
 
