@@ -387,7 +387,7 @@ Repeate the same process for your **Authorization & Trust Management Service** (
 
 11.5. Create a new **Credential** of type **Secret Text** and name it **susaas-xs-security** (or any other name of your choice).
 
-11.6. Paste the value of your *xs-security-private.json* file (located in the *deploy/cf/config* directory of your development environment). 
+11.6. Paste the value of your *xs-security.json* file (located in the *deploy/cf/config* directory of your development environment). 
 
 [<img src="./images/CICD_XsuaaConfig.png" width="400" />](./images/CICD_XsuaaConfig.png?raw=true) 
 
@@ -405,7 +405,7 @@ service:
           credentialId: "susaas-xs-security"
       # Dynamically create config file during Release Stage
       runFirst:
-        command: echo "$XsSecurity" > ./deploy/cf/config/xs-security-private.json
+        command: echo "$XsSecurity" > ./deploy/cf/config/xs-security.json
 
 ```
 
@@ -418,7 +418,7 @@ extends: susaas
 - name: susaas-uaa
     # Reference dynamically generated config file
     parameters:
-      path: ./config/xs-security-private.json
+      path: ./config/xs-security.json
 ```
 
 In a likewise manner, you can provide and inject almost any kind of environment specific configuration files into your deployments. 
