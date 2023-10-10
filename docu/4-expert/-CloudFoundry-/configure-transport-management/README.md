@@ -39,21 +39,22 @@ We can differentiate -
 > **Hint** - The subaccounts don't have to be in the same region necessarily. Still, if you decide to use the same region, you can share certain services like SAP HANA Cloud among the subaccounts.
 
 
-
-
 ## 2. Setup SAP Cloud Transport Management
 
 Before we can combine both services, we need to set up SAP Cloud Transport Management. The required steps are described below.
 
-2.1. To subscribe to SAP Cloud Transport Management, open your subaccount in your SAP BTP Cockpit. 
+2.1. To subscribe to SAP Cloud Transport Management, open your Subaccount in your SAP BTP Cockpit. 
 
 2.2. Go to **Services** > **Service Marketplace**.
 
 2.3. Search for **Cloud Transport Management**.
 
+  > **Hint** - If you cannot find the Cloud Transport Management Service in the Marketplace, make sure to add it to your Subaccount entitlements. Add the **free (Application)** and the **standard** plan for programmatic access  - not the "standard (Application)" plan! <br>
+  > [<img src="./images/entit1.png" width="400" />](./images/entit1.png?raw=true)
+
 2.4. Select the Cloud Transport Management tile, choose (Actions) and click on Create.
 
-2.5. In the subsequent dialog, select the saas-application plan and click on Create.
+2.5. In the subsequent dialog, select the **free** plan and click on Create.
 
 [<img src="./images/tms2.png" width="500" />](./images/tms2.png?raw=true)
 
@@ -183,8 +184,8 @@ Follow the next steps to connect the CI/CD Pipeline to Cloud Transport Managemen
 
 5.1. First, create new service instance of **Cloud Transport Management** with service plan **standard**.
 
-> **Hint** - If the service plan **standard** is not available, please add it in the **Entitlements**.<br>
->[<img src="./images/tmsentitlement.png" width="300" />](./images/tmsentitlement.png?raw=true)
+> **Hint** - If the service plan **standard** is not available, please add it in the **Entitlements** allowing programmatic access to this Cloud Transport Management service.. Please make sure **not to add** the "standard (Application)" plan as this will result in costs.<br>
+>[<img src="./images/entit1.png" width="300" />](./images/entit1.png?raw=true)
 
 [<img src="./images/tms16.png" width="500" />](./images/tms16.png?raw=true)
 
