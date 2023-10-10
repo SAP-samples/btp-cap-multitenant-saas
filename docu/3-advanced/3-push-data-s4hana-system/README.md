@@ -65,7 +65,18 @@ To make sure your push setup is working properly, you might need to import addit
 
 [<img src="./images/S4_CertificatesCf.png" width="500" />](./images/S4_CertificatesCf.png?raw=true)
 
-Especially in scenarios using a custom domain (e.g., with a CSR signed by Let's Encrypt) you might need to import additional certificates incl. missing Root certificates. This ensures secure and encrypted communication between your backend system and your API on SAP BTP. Check the detailed explanation in SAP Help ([click here](https://help.sap.com/docs/SAP_NETWEAVER_AS_ABAP_752/916a7da9481e4265809f28010a113a6a/a5a3ae031c3042f293e72bf6c5c90620.html?locale=en-US))
+Especially in scenarios using a custom domain (e.g., with a CSR signed by Let's Encrypt) you might need to import additional certificates incl. missing Root certificates. This ensures secure and encrypted communication between your backend system and your API on SAP BTP. Check the detailed explanation in SAP Help ([click here](https://help.sap.com/docs/SAP_NETWEAVER_AS_ABAP_752/916a7da9481e4265809f28010a113a6a/a5a3ae031c3042f293e72bf6c5c90620.html?locale=en-US)).
+
+- Switch to change mode (Ctrl+F1)
+- Double-click on "SSL client SSL Client (Anonymous)" in the navigation tree
+- In the "Certificate" menu click on the "Import" button
+- Use the file selector to select your SSL certificate (see screenshots below) 
+- Click the button with the green check-mark
+- Once the certificate details are visible, click on "Add to Certificate List"
+- Double-click on "SSL client SSL Client (Standard)" in the navigation tree
+- Make sure the certificate details are still visible in the "Certificate" area in the lower right panel
+- Click on "Add to Certificate List" to add the certificate
+- Finish by clicking the "Save" button 
 
 You as a SaaS provider, but also your consumers can download their respective certificate right from within the browser (like Chrome) as you can see in the following screenshots:
 
