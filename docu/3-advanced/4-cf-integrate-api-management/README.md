@@ -192,7 +192,9 @@ Just create a new Subflow for the **Proxy Endpoint**, by clicking on the **+** i
 
 > **Hint** - For the **premium plan**, you we double the number of daily requests to 2400, but feel free to update it to a configuration of your choice.  
 
-> **Important** - Please ensure, the **Quota** policy configuration once again contains the **Client Id** identifier as in the following sample.
+> **Important** - Please ensure, the **Quota** policy configuration once again contains the **Client Id** identifier as in the following sample. 
+
+> **Important** - Please make sure not to provide any value into the **Condition String** field of the **Quota** policy (See screenshots below).
 
 ```xml
 <Quota async="false" continueOnError="false" enabled="true" type="calendar" xmlns="http://www.sap.com/apimgmt">
