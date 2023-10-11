@@ -49,7 +49,7 @@ You can send e-mails by either using a shared mailbox or a regular user's inbox.
 
 ## 3. Create a Shared Mailbox
 
-Having a valid license (including the Exchange Online feature) assigned to your Microsoft 365 account, you can switch to the [Exchange Admin Center](https://admin.exchange.microsoft.com/#/mailboxes) to create a new shared mailbox. You can find more information and limitations of Shared Mailboxes in the official Microsoft documentation ([click here](https://learn.microsoft.com/en-us/microsoft-365/admin/email/about-shared-mailboxes)).
+Having a valid license (including the Exchange Online feature) assigned to your Microsoft 365 account, you can switch to the [Exchange Admin Center](https://admin.exchange.microsoft.com/#/mailboxes) (https://admin.exchange.microsoft.com/) to create a new shared mailbox. You can find more information and limitations of Shared Mailboxes in the official Microsoft documentation ([click here](https://learn.microsoft.com/en-us/microsoft-365/admin/email/about-shared-mailboxes)).
 
 In the below sample, we created two shared mailboxes. One is for automated messages sent by the application, which is not supposed to receive any response messages (**donotreply@susaas.com**). The other shared mailbox is the contact e-mail address of our SaaS application (**info@susaas.com**) accessible by one or multiple delegate users. This contact mailbox can also receive messages. 
 
@@ -65,7 +65,7 @@ While the DoNotReply mailbox does not need any delegate access permissions as it
 
 [<img src="./images/Mail_DelegateAccess.png" width="500" />](./images/Mail_DelegateAccess.png?raw=true)
 
-Each delegate user needs to have a valid license assigned that contains Exchange Online access (like Office 365 F3). If the user does not appear in the list of available users in the Exchange Admin Center, please switch back to the [Microsoft 365 Admin Center](https://admin.microsoft.com/#/homepage), select the user, and switch to the **Mail** tab. This should initialize the Exchange Online usage within a few minutes. 
+Each delegate user needs to have a valid license assigned that contains Exchange Online access (like Office 365 F3). If the user does not appear in the list of available users in the Exchange Admin Center, please switch back to the [Microsoft 365 Admin Center](https://admin.microsoft.com/#/homepage) (https://admin.microsoft.com/), select the user, and switch to the **Mail** tab. This should initialize the Exchange Online usage within a few minutes. 
 
 [<img src="./images/Mail_ActivateMail.png" width="500" />](./images/Mail_ActivateMail.png?raw=true)
 
