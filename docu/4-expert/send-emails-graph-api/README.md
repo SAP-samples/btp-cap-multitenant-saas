@@ -1,18 +1,17 @@
-# Send e-mails using Microsoft Graph
+d# Send e-mails using Microsoft Graph
 
 - **Kyma** ✅
 - **Cloud Foundry** ✅
 
 In this tutorial, you will learn how to send e-mails from your SaaS application using the Microsoft Graph API and Exchange Online. This can be useful in scenarios requiring automated messages sent to users from within your application. This is just one approach how to programmatically send e-mails using popular Microsoft services. Alternatively, you might think about configuring a destination to your SMTP server or using similar services offered by other providers like AWS Simple Email Service (SES) or SendGrid. 
 
-- [Send e-mails using Microsoft Graph](#send-e-mails-using-microsoft-graph)
-  - [1. Introduction](#1-introduction)
-  - [2. Prerequisites](#2-prerequisites)
-  - [3. Create a Shared Mailbox](#3-create-a-shared-mailbox)
-  - [4. Create an Application Registration](#4-create-an-application-registration)
-  - [5. Test the sample application](#5-test-the-sample-application)
-  - [6. Resource Owner Password Flow](#6-resource-owner-password-flow)
-  - [7. Further Information](#7-further-information)
+- [1. Introduction](#1-introduction)
+- [2. Prerequisites](#2-prerequisites)
+- [3. Create a Shared Mailbox](#3-create-a-shared-mailbox)
+- [4. Create an Application Registration](#4-create-an-application-registration)
+- [5. Test the sample application](#5-test-the-sample-application)
+- [6. Resource Owner Password Flow](#6-resource-owner-password-flow)
+- [7. Further Information](#7-further-information)
 
 > **Important** - The below sample approach works with a very powerful Graph API permission on Application-level. In a productive environment, this permission should be immediately restricted after setup, to prevent misuse by application developers. Otherwise, this setup allows anyone in possession of the respective credentials to send e-mails on behalf of any Active Directory user! Please follow the official Microsoft documentation ([click here](https://learn.microsoft.com/en-us/graph/auth-limit-mailbox-access)) to set up a corresponding restriction. 
 
@@ -36,7 +35,7 @@ Given all these security-related restrictions, Microsoft recommends switching to
 
 **Microsoft Azure**
 
-To create an application registration that can be used to send e-mails via Microsoft Graph, you will need an active Microsoft Azure account including an Azure Active Directory.  You can sign up for a free Microsoft Azure account here [https://azure.microsoft.com/en-in/free/](https://azure.microsoft.com/en-in/free/).
+To create an application registration that can be used to send e-mails via Microsoft Graph, you will need an active Microsoft Azure account including a Microsoft Entra ID (former Azure Active Directory).  You can sign up for a free Microsoft Azure account here [https://azure.microsoft.com/en-in/free/](https://azure.microsoft.com/en-in/free/).
 
 > **Hint** - For testing purposes, you can go with a free Azure account and you don't need a paid Azure subscription.
 
@@ -74,9 +73,9 @@ Each delegate user needs to have a valid license assigned that contains Exchange
 
 ## 4. Create an Application Registration
 
-You can use a standard Azure Active Directory **Application Registration** to send e-mails using the Microsoft Graph API. An application registration allows you to retrieve access tokens from Azure Active Directory for a certain scope (e.g., Microsoft Graph usage). The authorized scopes/permissions can be defined for each Application Registration. The process to create such an Application Registration is very simple. 
+You can use a standard Microsoft Entra ID (former Azure Active Directory) **Application Registration** to send e-mails using the Microsoft Graph API. An application registration allows you to retrieve access tokens from Microsoft Entra ID (former Azure Active Directory) for a certain scope (e.g., Microsoft Graph usage). The authorized scopes/permissions can be defined for each Application Registration. The process to create such an Application Registration is very simple. 
 
-4.1. Go to the [Azure Portal](https://portal.azure.com/#home) and access your Azure Active Directory instance.
+4.1. Go to the [Azure Portal](https://portal.azure.com/#home) and access your Microsoft Entra ID (former Azure Active Directory) instance.
 
 [<img src="./images/Azure_AppReg01.png" width="500" />](./images/Azure_AppReg01.png?raw=true)
 
