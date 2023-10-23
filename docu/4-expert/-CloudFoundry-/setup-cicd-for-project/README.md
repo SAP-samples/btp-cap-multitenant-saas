@@ -270,7 +270,7 @@ In this step, you will create a new Webhook configuration for your new repositor
 
 8.6. Provide the Webhook **Secret**, which you copied and stored in a secure place a few steps before. 
 
-8.7. Keep the other values default and click on **Add webhook**.
+8.7. Set content-type to **application/json** and click on **Add webhook**.
 
 [<img src="./images/CICD_WebhookGit02.png" width="400" />](./images/CICD_WebhookGit02.png?raw=true)
 
