@@ -7,21 +7,17 @@
       "plans": [
         {
           "name": "trial",
-          "description": "Trial Plan",
-          "id": "ba6fdcfa-9670-446e-8784-32263f9c81cc"
+          "description": "Trial Plan"
         },
         {
           "name": "default",
-          "description": "Standard Plan",
-          "id": "67bc9634-e4f6-404f-acf7-39e71a5088fe"
+          "description": "Standard Plan"
         },
         {
           "name": "premium",
-          "description": "Premium Plan",
-          "id": "7d4c8dad-29ce-402f-9ca4-fb271d7c66a4"
+          "description": "Premium Plan"
         }
-      ],
-      "id": "834d319b-acc7-4625-a581-c34dff6e10a1"
+      ]
     }
   ]
 }
