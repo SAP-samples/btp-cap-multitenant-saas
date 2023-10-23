@@ -8,20 +8,12 @@ service:
       credentialVariables:
         - name: "Catalog"
           credentialId: "susaas-catalog"
-        - name: "XsSecurity"
-          credentialId: "susaas-xs-security"
-        - name: "AlertNotif"
-          credentialId: "susaas-alert-notif"
       runFirst:
         command: |
           # Disable debug mode (turn off echo for all commands and variables)
           set +x
 
           echo "$Catalog" > ./code/broker/catalog-private.json
-
-          echo "$XsSecurity" > ./deploy/cf/config/xs-security-private.json
-
-          echo "$AlertNotif" > ./deploy/cf/config/alert-notif-private.json
 
           # Enable debug mode (echo commands and variables) again
           set -x
