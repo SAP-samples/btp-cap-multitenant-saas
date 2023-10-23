@@ -1,0 +1,56 @@
+---
+general:
+  buildTool: 'mta'
+
+service:
+  stages:
+    Build:
+      credentialVariables:
+        - name: "Catalog"
+          credentialId: "susaas-catalog"
+      runFirst:
+        command: |
+          # Disable debug mode (turn off echo for all commands and variables)
+          set +x
+
+          echo "$Catalog" > ./code/broker/catalog-private.json
+
+          # Enable debug mode (echo commands and variables) again
+          set -x
+stages:
+  Build:
+    mavenExecuteStaticCodeChecks: false
+    npmExecuteLint: true
+
+  Additional Unit Tests:
+    karmaExecuteTests: false
+
+  Release:
+    cloudFoundryDeploy: true
+
+steps:
+  npmExecuteLint:
+    failOnError: true
+
+  mtaBuild:
+    platform: 'CF'
+    source: './deploy/cf/'
+    extensions: './deploy/cf/mtaext/free-basic-ci.mtaext'
+    ##### e.g., './mtaext/free-basic-cicd.mtaext'
+    
+  cloudFoundryDeploy:
+    cfCredentialsId: susaas-cf-credentials
+    apiEndpoint: 'https://api.cf.us10-001.hana.ondemand.com'
+    org: 'susaas-provider-free-tier'
+    space: 'dev'
+    mtaDeployParameters: '-f --version-rule ALL'
+    mtaExtensionDescriptor: './deploy/cf/mtaext/free-basic-ci.mtaext'
+    ################# e.g., './deploy/cf/mtaext/free-basic-cicd.mtaext'
+    mtaExtensionCredentials: 
+      susaas-sb-credentials: susaas-sb-credentials
+    
+
+# tmsUpload:  # only relevant once you finish the SAP Cloud Transport Management Expert Feature chapter
+#   nodeName: 'QA'
+#   credentialsId: 'tms'
+#   customDescription: 'TMS Upload'
