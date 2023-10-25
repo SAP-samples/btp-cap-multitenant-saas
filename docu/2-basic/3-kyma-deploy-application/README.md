@@ -286,7 +286,7 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 
     > **Hint** - Use the following **kubectl** command to retrieve your default Cluster domain.
     >
-    > **kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.domain}'**```**
+    > **kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.domain}'**
 
     ```sh
       xsuaa:
