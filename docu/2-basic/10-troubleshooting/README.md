@@ -19,7 +19,7 @@ The most probable reasons why your deployment might fail are listed below.
 
 1.3. If the deployment logs show errors related to the service broker, make sure you executed the required **npx** script generating a custom *catalog.json* file for your service broker and the broker credentials. Make sure to put the hashed credentials into the correct place of your mtaext file! 
 
-```yaml
+```sh
   SBF_BROKER_CREDENTIALS_HASH:  >
   {
     "broker-user": "<paste your hash credentials here>"
@@ -28,7 +28,7 @@ The most probable reasons why your deployment might fail are listed below.
 
 1.4. If the deployment fails because of service plan-related issues, you're probably deploying to an SAP BTP Trial subaccount. The default **Basic Version** deployment descriptor contains e.g., the Credential Store **free** service plan which is not available in Trial accounts. Please use the respective MTA Extension Descriptor file ([trial.mtaext](../../../deploy/cf/mtaext/trial.mtaext)) for Trial deployments to use the correct service plans (see snippet below).
 
-```yaml
+```sh
 ID: susaas.trial
 extends: susaas
 

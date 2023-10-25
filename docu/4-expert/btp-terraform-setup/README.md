@@ -113,7 +113,7 @@ Before you can run the automation, you need to provide a few details of your SAP
 
 
 
-```yaml
+```sh
 ### --------------------------------- ###
 ### SaaS Provider environment details ###
 ### --------------------------------- ###
@@ -138,7 +138,7 @@ space     = "susaas"                         # Cloud Foundry Space
 
 > **Hint** - The Global Account Administrator used by Terraform, will automatically be added as Subaccount Administrator. 
 
-```yaml
+```sh
 ### ----------------------------- ###
 ### Subscriber Subaccount details ###
 ### ----------------------------- ###
@@ -157,7 +157,7 @@ subaccount_admins = ["admin@sap-demo.com"]
 
 > **Important** - Please consider, that regular SaaS application users should always be created from within the SaaS solution itself, using the integrated user management. Otherwise, you will not be able to maintain these users as part of your in-app user management.
 
-```yaml
+```sh
 ### -------------------- ###
 ### Subscription details ###
 ### -------------------- ###

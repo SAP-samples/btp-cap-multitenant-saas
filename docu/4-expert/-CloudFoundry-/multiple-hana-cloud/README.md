@@ -24,7 +24,7 @@ If you adapt the **saas-registry** config in your **mta.yaml** file accordingly,
 
 > **Hint** - You can also set up a new SAP HANA Cloud instance during the subscription process and use the resulting datbase_id instead of creating the SAP HANA Cloud instance upfront manually for each new customer (depending on your use-case).
 
-```yaml
+```sh
 # --------------------- REGISTRY SERVICE ---------------------
 - name: susaas-registry
 # ------------------------------------------------------------

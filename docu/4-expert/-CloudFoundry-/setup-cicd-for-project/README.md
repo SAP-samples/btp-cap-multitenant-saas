@@ -142,7 +142,7 @@ Instead of pushing your Service Broker catalog details and hashed credentials to
 
 > **Hint** - These credentials are referenced as part of the CloudFoundryDeploy step of your CI/CD pipeline *config.yml* file. 
 
-```yaml
+```sh
   cloudFoundryDeploy:
     ...
     mtaExtensionCredentials: 
@@ -151,7 +151,7 @@ Instead of pushing your Service Broker catalog details and hashed credentials to
 
 > **Hint** - This allows you to reuse the credentials in your **mtaext** Deployment Descriptor Extension file using the <%= susaas-sb-credentials %> format, keeping your GitHub repository clean of any credential values. 
 
-```yaml
+```sh
 modules:
   - name: susaas-api-sb
     properties:
@@ -177,7 +177,7 @@ modules:
 
 > **Hint** - These details will be fetched during the **Build** stage of your CI/CD pipeline and are injected into the respective **broker** directory as part of your *config.yml* file (see below).
 
-```yaml
+```sh
 service:
   stages:
     Build:
@@ -192,7 +192,7 @@ service:
 
 **mtaext.yaml**
 
-```yaml
+```sh
 modules:
   - name: susaas-api-sb
     properties:
@@ -327,7 +327,7 @@ As we configured a **Source Repository**-based pipeline, you have to provide the
 * **space** - The target Cloud Foundry space
 * **mtaExtensionDescriptor** - The path to which you pasted the **mtaext file**. 
 
-```yaml
+```sh
 cloudFoundryDeploy:
     cfCredentialsId: susaas-cf-credentials
     apiEndpoint: 'https://api.cf.eu10.hana.ondemand.com'
@@ -357,7 +357,7 @@ Let's get started with the **Alert Notification** configuration, containing your
 
 **config.yml**
 
-```yaml
+```sh
 service:
   stages:
     Build:
@@ -373,7 +373,7 @@ service:
 
 **mtaext**
 
-```yaml
+```sh
 ID: susaas.freetier.cicd
 extends: susaas
 
@@ -395,7 +395,7 @@ Repeate the same process for your **Authorization & Trust Management Service** (
 
 **config.yml**
 
-```yaml
+```sh
 service:
   stages:
     Build:
@@ -411,7 +411,7 @@ service:
 
 **mtaext**
 
-```yaml
+```sh
 ID: susaas.freetier.cicd
 extends: susaas
 

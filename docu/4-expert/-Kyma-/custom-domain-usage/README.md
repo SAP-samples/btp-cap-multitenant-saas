@@ -107,7 +107,7 @@ If you want to jump directly and deploy your custom domain, you can directly use
 
 As you can see [here](./chart/values.yaml), the values.yaml file looks like below.
 
-```yaml 
+```sh 
 # Default values for custom-domain.
 # This is a YAML-formatted file.
 
@@ -373,7 +373,7 @@ EOF
 
 Go to your [sustainable-saas chart values-private.yaml](../../../../deploy/kyma/charts/sustainable-saas/values-private.yaml), and modify it as shown below. You need to change the **global.gateway** value to **default/cdomain-gateway**. Second thing you need to change is the domain value. You need to set your domain to **kyma.example.com** as shown below.
 
-```yaml
+```sh
 
 global:
   imagePullSecret: {}
@@ -385,7 +385,7 @@ global:
 
 Last but not least, also provide a new redirect URL as part of the **xsuaa** OAuth2 Configuration, which is also part of your existing **values-private.yaml** file. 
 
-```yaml
+```sh
 ...
 
 xsuaa:

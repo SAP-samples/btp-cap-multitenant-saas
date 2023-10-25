@@ -253,7 +253,7 @@ For Cloud Foundry deployment, it's essential to provide specific environment var
 
 4.1.3. While we recommend using the existing Credential Store instance for SAP BTP Global Admin credentials, you do have the option to provide them as environment variables. In this case, remember to disable the Credential store instance in your **mtaext** file accordingly.
 
-```yaml
+```sh
 resources:
   - name: susaas-credstore
     active: false
@@ -340,7 +340,7 @@ If SAP Credential Store Service is not supposed to be used (! Not suggested !):
 
 > **Important** - If you're using a Container Registry that necessitates a secret to access your images, please consult the Cloud Foundry documentation ([here](https://docs.cloudfoundry.org/devguide/deploy-apps/push-docker.html)) for further details. Additional parameters, like a **username** and **password** property, might be necessary!
 > 
-> ```yaml
+> ```sh
 >   - name: susaas-obd-terraform
 >     parameters:
 >       docker:
@@ -382,7 +382,7 @@ In Kyma, configuring your **values-private.yaml** file requires a few additional
 
 4.2.3. For **Trial environments**, ensure that you update the service plan of the **postgres** service instance by removing the associated comment ('#').
 
-```yaml
+```sh
 postgresql_db:
   servicePlanName: trial
 ```
@@ -403,7 +403,7 @@ get-egress-ips.ps1
 
 4.2.6. Now, you need to add the retrieved IP addresses to the PostgreSQL service instance details in your **values-private.yaml** file as **allow_access** values (comma separated).
 
-```yaml
+```sh
 postgresql_db:
   # servicePlanName: trial
   parameters:
@@ -414,7 +414,7 @@ postgresql_db:
 
 > **Hint** - If you use DockerHub as a Container Registry, please use your **username** (e.g., johndoe) as the Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace\>** (e.g., ghcr.io/johndoe).
 
-```yaml
+```sh
 image:
     repository: sap-demo/susaas-obd-router
     tag: latest
@@ -435,7 +435,7 @@ html5_apps_deployer:
 > **Hint** - Only provide an `imagePullSecret` if your Container Images are not publicly accessible. This secret must be created in your Kyma Cluster in advance and will also be used to fetch the Terraform Container Image when setting up a new Job in Kyma. Check out the following Blog Post ([click here](https://blogs.sap.com/2022/12/04/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/)) to learn how to create the necessary Image Pull Secret.
  
 
-```yaml
+```sh
 global:
   imagePullSecret: 
     - name: image-pull-secret
@@ -446,7 +446,7 @@ global:
 4.2.9. Double-check the **SaaS Registry** binding of your **srv** configuration. The `serviceInstanceFullname` property should resemble the **SaaS Registry** service instance name of your Sustainable SaaS application. If you deployed the Sustainable SaaS solution using a different Release Name, please update the property accordingly (e.g., `susaas-dev-saas-registry`).
 
 
-```yaml
+```sh
 bindings:
     saas-registry:
         serviceInstanceFullname: susaas-saas-registry

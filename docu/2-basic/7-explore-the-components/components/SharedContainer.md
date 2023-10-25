@@ -29,7 +29,7 @@ The HDI container required for the shared data is defined in the *values.yaml* f
 
 > **Hint** - For the Tenant database container instances, SAP Service Manager (container plan) takes care of the whole container lifecycle. Therefore, there is no need to specify additional HDI resources for these containers in the *values.yaml* file. 
 
-```yaml
+```sh
 # SAP HANA Cloud HDI Container
 # Required for shared data model deployment
 com_hdi_container:
@@ -39,7 +39,7 @@ com_hdi_container:
 
 To deploy content (like tables and views) to our shared database container, an additional component is required resulting in a Kubernetes Job, responsible for the deployment of your shared database artifacts.
 
-```yaml
+```sh
 # Shared Database Container Deployer Job
 # Deploys the shared data model to a database container
 hana_deployer:
@@ -61,7 +61,7 @@ hana_deployer:
 
 To allow access from your tenant-specific database containers to the shared database container, it needs to be added as a binding to the SaaS Backend service component. This is a prerequisite as the required dependency between new Tenant database containers and the shared database container needs to be resolved upon subscription of each new Consumer Tenant. 
 
-```yaml
+```sh
 # Backend Service Workload
 srv:
   port: 8080
@@ -76,14 +76,14 @@ srv:
 
 As you might know it from Cloud Foundry deployments, also in Kyma a so-called **Service Replacement** definition is required for this cross-container-access scenario. The respective environment variable is defined in the following *values.yaml* file ([click here](../../../../deploy/kyma/charts/sustainable-saas/charts/susaas-srv/values.yaml)).
 
-```yaml
+```sh
 env:
   SERVICE_REPLACEMENTS: '[{ "key" : "com-hdi-container", "service" : "hana" }]'
 ```
 
 The **mtxs** tooling responsible for the deployment of the data model into the tenant database container, relies on the so called VCAP_SERVICES environment variable in case of service replacements being used. Therefore, another essential feature configuration is required, so that CAP *emulates* this environment variable in a Kyma context. The respective feature can be enabled, by setting the following JSON value for the **cds_features** environment variable. 
 
-```yaml
+```sh
 env:
   cds_features: '{ "emulate_vcap_services" : true }'
 ```
@@ -97,7 +97,7 @@ The HDI container required for the shared database container is defined in the m
 
 >**Hint** - For the tenant database containers, SAP Service Manager (container plan) takes care of the container lifecycle. For that reason, there is no need to specify any resources for these tenant containers in the mta.yaml file. 
 
-```yaml
+```sh
   # ----------------- COMMON DB HDI CONAINER -------------------
   - name: susaas-com-hdi-container
   # ------------------------------------------------------------
@@ -110,7 +110,7 @@ The HDI container required for the shared database container is defined in the m
 
 To deploy content (like tables and views) to your shared database container, an additional module definition is required resulting in a Node.js application responsible for the deployment of your shared database artifacts.
 
-```yaml
+```sh
   # --------------------- COMMON DB MODULE ---------------------
   - name: susaas-db-com
   # ------------------------------------------------------------
@@ -126,7 +126,7 @@ To deploy content (like tables and views) to your shared database container, an 
 
 To allow access from your tenant database containers to the shared database container, it needs to be added as a dependency to the SaaS service module. This is a prerequisite as the required dependency between new tenant database containers and the shared database container needs to be resolved upon subscription of each new consumer tenant. As the subscription is handled by the SaaS Service module, it is essential to provide the binding in form of a so-called **Service Replacement**. 
 
-```yaml
+```sh
   # --------------------- SERVER MODULE ------------------------
   - name: susaas-srv
   # ------------------------------------------------------------
