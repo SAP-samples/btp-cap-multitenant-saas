@@ -404,7 +404,7 @@ If you have done the changes, last step is upgrading the helm release so that yo
 On your root directory, run the command below: 
 
 ```sh
-# Run in root directory #
+## Run in root directory #
 helm upgrade susaas deploy/kyma/charts/sustainable-saas -f deploy/kyma/charts/sustainable-saas/values-private.yaml -n default 
 ```
 

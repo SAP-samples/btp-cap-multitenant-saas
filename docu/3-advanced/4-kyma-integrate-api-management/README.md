@@ -85,7 +85,7 @@ api:
 3.2. After updating the above configuration based on your own environment details, please run another **helm upgrade** to apply the changes to your Kyma Cluster.
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm upgrade <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace> 
 
 # Example # 

@@ -49,7 +49,7 @@ With SAP Cloud Application Programming Model's (CAP) latest MTX package release 
 Run the command below in the **code** directory to start the backend application locally. This will start the application including multitenancy support on your local device. An initial **t0** tenant is initialized which contains technical data managed by CAP. The t0 tenant is not a real SaaS application tenant. 
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run srv:mtx
 ```
 
@@ -86,7 +86,7 @@ Since we have our application up and running, the next step is adding a new SaaS
 Create a new terminal instance and run the command below to onboard tenant **t1**.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds subscribe t1 --to http://localhost:4004 -u alice
 ```
 
@@ -147,7 +147,7 @@ For local testing without the HTML5 Repo Mock, just simply start the application
 **w/ Multitenancy**
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run srv:mtx
 ```
 
@@ -161,13 +161,13 @@ npm run srv:mtx
 
 > **Hint** - If not done yet, don't forget to deploy your data model to a SQLite database before running the below command. 
 > ```sh
-> # Run in ./code #
+> ## Run in ./code ##
 > npm run db:deploy
 > ```
 > This will create the required SQLite objects in **db.sqlite** file within the **code** directory. Using multitenancy this will happen automatically upon onboarding of new tenants.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run srv:watch
 ```
 
@@ -198,7 +198,7 @@ AR_DIR=../router
 Before you start the HTML5 Repo Mock, make sure your SaaS backend is started (*npm run srv:watch*). Then start your frontend application locally (using the HTML5 Repo Mock) by running the commands below:
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run mock:watch
 ```
 
@@ -227,7 +227,7 @@ In your root directory run the command below.
 > This will ensure a SQLite database file (named **db-t1.sqlite**) for the respective subscriber is created in **code** directory. 
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run api:mtx
 ```
 
@@ -235,13 +235,13 @@ npm run api:mtx
 
 > **Hint** - If not done yet, don't forget to deploy your data model to a SQLite database before running the below command. 
 > ```sh
-> # Run in ./code #
+> ## Run in ./code ##
 > npm run db:deploy
 > ```
 > This will create the required SQLite objects in a **db.sqlite** file within the **code** directory.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run api:watch
 ```
 
@@ -369,7 +369,7 @@ CURRENT   NAME                   CLUSTER                AUTHINFO               N
 Run the command below and please make sure to log in to the correct Cloud Foundry Space, because all the backing services are created there.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cf login 
 ```
 
@@ -386,7 +386,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 > **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod). Only bind **alert-notification** if you installed it previously.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds bind -2 <ReleaseName>-srv-destination,<ReleaseName>-srv-xsuaa --on k8s --for hybrid --output-file srv/.cdsrc-private.json
 cds bind hana -2 <ReleaseName>-srv-hana --kind hana --on k8s --for hybrid --output-file srv/.cdsrc-private.json
 cds bind saas-registry -2 <ReleaseName>-srv-saas-registry --kind saas-registry --on k8s --for hybrid --output-file srv/.cdsrc-private.json
@@ -405,7 +405,7 @@ Run the following commands in your *code* directory to create Service Keys in Cl
 > **Important** - Please replace the **\<SpaceName\>** placeholder with your Cloud Foundry Space name.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cf csk <SpaceName>-susaas-uaa <SpaceName>-susaas-uaa-key
 cf csk <SpaceName>-susaas-registry <SpaceName>-susaas-registry-key
 cf csk <SpaceName>-susaas-destination <SpaceName>-susaas-destination-key
@@ -420,7 +420,7 @@ Once all Service Keys have been created successfully, please add them to your hy
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds bind -2 <SpaceName>-susaas-destination,<SpaceName>-susaas-uaa --for hybrid --output-file srv/.cdsrc-private.json
 cds bind hana -2 <SpaceName>-susaas-com-hdi-container --kind hana --for hybrid --output-file srv/.cdsrc-private.json
 cds bind saas-registry -2 <SpaceName>-susaas-registry --kind saas-registry --for hybrid --output-file srv/.cdsrc-private.json
@@ -439,7 +439,7 @@ This is it, you are ready to proceed with the next steps and start your service 
 Now that you downloaded the environment variables, run the command below to start your application in hybrid mode.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run srv:hybrid
 ```
 
@@ -462,7 +462,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 > **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds bind -2 <ReleaseName>-router-destination,<ReleaseName>-router-xsuaa --on k8s --for hybrid --output-file router/.cdsrc-private.json
 cds bind html5-apps-repo -2 <ReleaseName>-router-html5-apps-repo --kind html5-apps-repo --on k8s --for hybrid --output-file router/.cdsrc-private.json
 ```
@@ -478,7 +478,7 @@ Run the following commands in your *code* directory to create Service Keys in Cl
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space Name.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cf csk <SpaceName>-susaas-uaa <SpaceName>-susaas-uaa-key
 cf csk <SpaceName>-susaas-destination <SpaceName>-susaas-destination-key
 cf csk <SpaceName>-susaas-html5-repo-runtime <SpaceName>-susaas-html5-repo-runtime-key
@@ -488,7 +488,7 @@ Once all Service Keys have been created successfully, please add them to your hy
 
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds bind -2 <SpaceName>-susaas-destination,<SpaceName>-susaas-uaa --for hybrid --output-file router/.cdsrc-private.json
 cds bind html5-apps-repo -2 <SpaceName>-susaas-html5-repo-runtime --kind html5-apps-repo --for hybrid --output-file router/.cdsrc-private.json
 ```
@@ -503,7 +503,7 @@ This is it, you are ready to proceed with the next steps and start your router i
 Go to the *code* directory and run the command below to start your Application Router in **hybrid** mode.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run router:hybrid
 ```
 
@@ -535,7 +535,7 @@ For hybrid testing in a Kyma scenario, you need to store valid Service Binding d
 > **Important** - Please replace the **\<ReleaseName>** placeholder with the Kyma Release Name of your Deployment (e.g., susaas or susaas-prod).
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds bind -2 <ReleaseName>-api-xsuaa-api --on k8s --for hybrid --output-file api/.cdsrc-private.json
 cds bind sm-container -2 <ReleaseName>-api-sm-container --kind service-manager --on k8s --for hybrid --output-file api/.cdsrc-private.json
 ```
@@ -551,7 +551,7 @@ Run the following commands in your *code* directory to create Service Keys in Cl
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space Name.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cf csk <SpaceName>-susaas-api-uaa <SpaceName>-susaas-api-uaa-key
 cf csk <SpaceName>-susaas-service-manager <SpaceName>-susaas-service-manager-key 
 ```
@@ -560,7 +560,7 @@ Once all Service Keys have been created successfully, please add them to your hy
 
 > **Important** - Please replace the **\<SpaceName>** placeholder with your Cloud Foundry Space name.
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds bind -2 <SpaceName>-susaas-api-uaa --for hybrid --output-file api/.cdsrc-private.json
 cds bind sm-container -2 <SpaceName>-susaas-service-manager --kind service-manager --for hybrid --output-file api/.cdsrc-private.json
 ```
@@ -575,7 +575,7 @@ This is it, you are ready to proceed with the next steps and start your API in h
 Run the command below to start API in hybrid mode.
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run api:hybrid
 ```
 

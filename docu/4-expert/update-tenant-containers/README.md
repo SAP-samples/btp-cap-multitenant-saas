@@ -68,7 +68,7 @@ Build, push (in case of Kyma) and deploy your latest changes from the respective
 > **Hint** - The below commands are just samples. Please replace the **container image prefix** and also add additional yaml files, in case your current deployment includes the **Central User Management** or the **API Management Integration**.
 
 ```sh
-# Run in ./deploy/kyma #
+## Run in ./deploy/kyma ##
 npm run build
 npx cross-env IMAGE_PREFIX=sap-demo npm run build:srv
 npx cross-env IMAGE_PREFIX=sap-demo npm run push:srv
@@ -80,7 +80,7 @@ helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/value
 > **Hint** - The below commands are just samples. If your current deployment is based on the **Basic Version**, please change the respective mtaext filename.
 
 ```sh
-# Run in ./deploy/cf #
+## Run in ./deploy/cf ##
 mbt build -e mtaext/free-advanced-private.mtaext
 cf deploy mta_archives/susaas-0.0.1.mtar
 ```

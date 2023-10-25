@@ -260,7 +260,7 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
       > **Important** - We recommend to generate custom GUIDs using your command line or available online generators. You can run the following script from the *code/broker* directory, which will generate new GUIDs as part of a new */code/broker/catalog-private.json* file which can be used for this requirement. This file can remain in your directory for your reference and will not be committed to GitHub. <br>
       
       ```sh 
-       # Run in ./code/broker** #
+       ## Run in ./code/broker** #
        cp catalog.json catalog-private.json
        npx --yes -p @sap/sbf gen-catalog-ids catalog-private.json
        cat catalog-private.json
@@ -302,14 +302,14 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 > **Hint** - In case of errors, check if you maybe missed one of the above parameters or a mistake (like a space or special character) has slipped in.
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm template ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml
 ```
 
 This will log the generated **yaml** files in your console. If required, you can also store the results into a local file by running the following command. 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm template ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml > helm-template-private.yaml
 ```
 
@@ -360,7 +360,7 @@ alert_notification:
 > **Hint** - You might be asked to re-login to your Cluster using Multi-Factor-Authentication, when running **helm** commands from time to time.   
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm install alert-notification ./charts/alert-notification -f ./charts/alert-notification/values-private.yaml -n <Namespace>
 
 # Example
@@ -372,7 +372,7 @@ helm install alert-notification ./charts/alert-notification -f ./charts/alert-no
 > **Hint** - Feel free to add the *--debug* parameter to get some more verbose output if you're interested what's happening under the hood!
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm install <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
@@ -394,7 +394,7 @@ srv:
 4.7. Start the deployment to your Kyma Cluster by running the following **helm** command. 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm install <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
@@ -404,7 +404,7 @@ helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/value
 An alternative approach using the *helm upgrade* command would look as follows. This will either upgrade an existing installation of our SaaS sample application or install a new version if not available in the respective namespace yet. 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm upgrade <ReleaseName> ./charts/sustainable-saas --install -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
@@ -426,7 +426,7 @@ helm upgrade susaas ./charts/sustainable-saas --install -f ./charts/sustainable-
 4.11. For any further updates of the Helm Release, you must now use the *helm upgrade* command (already mentioned above).
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm upgrade <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
@@ -452,7 +452,7 @@ The sample application has been designed for multiple deployments in the **same 
 The (Helm) Release Name, is the value following the *helm install* command. You can have multiple releases based on the same Helm Chart if required. 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 helm install <ReleaseName>-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example

@@ -138,8 +138,6 @@ To enable the Central User Management leveraging SAP Identity Authentication Ser
 For this Advanced feature, please add the provided [*./files/values-ias.yaml*](./files/values-ias.yaml) details of this **Advanced Version** section to your main **values-private.yaml** file (located in [*/deploy/kyma/charts/sustainable-saas/*](../../../deploy/kyma/charts/sustainable-saas/)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
 
 ```sh
-...
-
 srv:
   ###################### Existing Configuration #######################
   image:
@@ -155,8 +153,6 @@ srv:
         enabled: true
         rotatedBindingTTL: 1h
         rotationFrequency: 24h
-
-...
 
 ######################## Added Configuration ######################## 
 identity:
@@ -176,7 +172,7 @@ identity:
 After updating your **values-private.yaml** file, please start an upgrade of your existing Sustainable SaaS deployment, by running the following command. This will create the new Service Instance and requires Service Bindings. 
 
 ```sh
-# Run in ./deploy/kyma #
+## Run in ./deploy/kyma ##
 helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example #
@@ -281,7 +277,7 @@ By using a different Deployment Descriptor extension file (**mtaext**) file to y
     > **Hint** - Make sure to use the **trial** mtaext file for Trial environments. 
 
     ```sh
-    # Run in /deploy/cf #
+    ## Run in /deploy/cf ##
     mbt build -e ./mtaext/free-advanced-private.mtaext
     cf deploy mta_archives/susaas_0.0.1.mtar
     ```

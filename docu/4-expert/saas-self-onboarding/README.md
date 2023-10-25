@@ -128,7 +128,7 @@ cd docu/4-expert/saas-self-onboarding/files/deploy/cf
 3.1.3. Execute the following npm script to compile the CDS artifacts of the project.
 
 ```sh
-# Run in ./files/deploy/cf # 
+## Run in ./files/deploy/cf ## 
 
 npm run build
 ```
@@ -152,7 +152,7 @@ npm run build
 > **Important** - If you're not using Docker Desktop but, for instance, Podman, please to adjust the script in the package.json accordingly.
 
 ```sh
-# Run in ./files/deploy/cf # 
+## Run in ./files/deploy/cf ## 
 
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:terraform
 ```
@@ -163,7 +163,7 @@ npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:terraform
 
 
 ```sh
-# Run in ./files/deploy/cf # 
+## Run in ./files/deploy/cf ## 
 
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:terraform
 ```
@@ -192,7 +192,7 @@ cd docu/4-expert/saas-self-onboarding/files/deploy/kyma
 3.2.3. Execute the following npm script to compile the CAP artifacts necessary for the scenario.
 
 ```sh
-# Run in ./files/deploy/kyma # 
+## Run in ./files/deploy/kyma ## 
 
 npm run build
 ```
@@ -200,7 +200,7 @@ npm run build
 3.2.4. To build the SAPUI5 app components, execute the following npm script.
 
 ```sh
-# Run in ./files/deploy/kyma # 
+## Run in ./files/deploy/kyma ## 
 
 npm run ui:apps
 ```
@@ -221,7 +221,7 @@ npm run ui:apps
 > **Important** - If you're not using Docker Desktop but, for example, Podman, remember to modify the script in the package.json accordingly.
 
 ```sh
-# Run in ./files/deploy/kyma # 
+## Run in ./files/deploy/kyma ## 
 
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:all
 ```
@@ -231,7 +231,7 @@ npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:all
 > **Important** - If you're not using Docker Desktop but, for example, Podman, remember to modify the script in the package.json as needed.
 
 ```sh
-# Run in ./files/deploy/kyma # 
+## Run in ./files/deploy/kyma ## 
 
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:all
 ```
@@ -356,7 +356,7 @@ If SAP Credential Store Service is not supposed to be used (! Not suggested !):
 > **Important** - Ensure that you are signed into the correct Cloud Foundry Space where your SaaS application is hosted. You can confirm this using ```cf t``` or sign in to a new Org/Space using ```cf login```.
 
 ```sh
-# Run in ./files/deploy/cf # 
+## Run in ./files/deploy/cf ## 
 
 # Free Tier 
 npm run deploy
@@ -392,7 +392,7 @@ postgresql_db:
 > **Hint** - You can also find these scripts in the following GitHub repository: [Kyma Runtime Extension Samples](https://github.com/SAP-samples/kyma-runtime-extension-samples/tree/main/get-egress-ips).
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 
 # Mac / Linux #
 sh ./get-egress-ips.sh
@@ -527,7 +527,7 @@ Further optional **environment variables**:
 > **Important** - While you do have the option to include the username and password of your SAP BTP Global Account Administrator in your `values-private.yaml` file, we recommend providing these credentials during the `helm install` command. This way, they will be securely stored in a **Kyma Secret** upon deployment.
 
 ```sh
-# Run in ./files/deploy/kyma # 
+## Run in ./files/deploy/kyma ## 
 
 helm install <ReleaseName> ./charts -f ./charts/values-private.yaml -n <Namespace> \
   --set global.btpadmin.username=<SAPBTPGlobalAdminEmail> \

@@ -31,14 +31,14 @@ Please unzip the provided **ext.zip** file ([ext.zip](./files/ext.zip)) to a fol
 > **Hint** - We recommend using VS Code to create and handle multiple command line instances. 
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 npm run srv:mtx
 ```
 
 3.2. Once the application is running locally, subscribe the **t1-ext** tenant which you want to extend in the next steps by running the following command in **a new command line instance**. 
 
 ```sh
-# Run in ./code #
+## Run in ./code ##
 cds subscribe t1-ext --to http://localhost:4004 --user bob:
 ```
 

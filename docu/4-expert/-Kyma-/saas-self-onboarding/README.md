@@ -84,21 +84,21 @@ Login Succeeded
 2.3. Install the npm dependencies to build the new images. 
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npm run install
 ```
 
 2.4. Build the CAP artifacts before building your Container Images.
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npm run build
 ```
 
 2.5. Build the UI5 components which will be part of the HTML5 Deployer Image.
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npm run ui:apps
 ```
 
@@ -108,14 +108,14 @@ npm run ui:apps
 > **Hint** - Replace **sap-demo** with your own container image prefix.
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:all
 ```
 
 For further more selective builds, you can also use the following command to build dedicated images only. 
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:srv
 ```
 
@@ -124,14 +124,14 @@ npx --yes cross-env IMAGE_PREFIX=sap-demo npm run build:srv
 > **Hint** - Replace **sap-demo** with your container image prefix. This process might take a few minutes depending on your machine size and internet connectivity. 
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:all
 ```
 
 For further push processes, you can also use the following commands to push single images separately. 
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:srv
 ```
 
@@ -308,7 +308,7 @@ global:
 > **Hint** - In case of errors, check if you maybe missed one of the above parameters or a mistake (like a space or special character) has sneaked in.
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 helm template ./charts -f ./charts/values-private.yaml
 ```
 
@@ -327,7 +327,7 @@ helm template ./charts -f ./charts/values-private.yaml > helm-template.yaml
 > **Hint** - Feel free to add the *--debug* parameter to get some more verbose output if you're interested what's happening under the hood!
  
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 helm install <ReleaseName>-onboarding ./charts -f ./charts/values-private.yaml -n <Namespace>
 
 # Example #
@@ -337,7 +337,7 @@ helm install susaas-onboarding ./charts -f ./charts/values-private.yaml -n defau
 An alternative approach using the *helm upgrade* command would look as follows. This will either upgrade an existing installation of our SaaS sample application or install a new version if not available in the respective namespace yet. 
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 helm install <ReleaseName>-onboarding ./charts -f ./charts/values-private.yaml --install -n <Namespace>
 
 # Example #
@@ -357,7 +357,7 @@ helm install susaas-onboarding ./charts -f ./charts/values-private.yaml --instal
 5.5. For any further updates of the Helm Release, you must now use the *helm upgrade* command (already mentioned above).
 
 ```sh
-# Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy #
+## Run in ./docu/4-expert/-Kyma-/saas-self-onboarding/files/deploy ##
 helm upgrade <ReleaseName>-onboarding ./charts -f ./charts/values-private.yaml -n <Namespace>
 
 # Example #

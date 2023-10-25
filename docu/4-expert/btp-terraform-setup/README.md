@@ -89,7 +89,7 @@ To use the SAP BTP, Terraform provider, you need to initialize Terraform in a ne
 3.2. Change to this new directory and run the following command from your command line. 
 
 ```sh
-# Run in e.g., /local/terraform/subscriber #
+## Run in e.g., /local/terraform/subscriber ##
 
 terraform init
 ```
@@ -183,7 +183,7 @@ Once you configured your environment specific variable values, you can **apply**
 5.1. Please run the following command from your Terraform workspace. This will provide you with an overview of all infrastructure resources (Subscriptions, Services, aso.) being created by Terraform. 
 
 ```sh
-# Run in e.g., /local/terraform/subscriber #
+## Run in e.g., /local/terraform/subscriber ##
 
 terraform plan
 ```
@@ -195,7 +195,7 @@ terraform plan
 5.2. Double check the list of new resources before you **apply** the configuration to your SAP BTP environment, using the following Terraform command. 
 
 ```sh
-# Run in e.g., /local/terraform/subscriber #
+## Run in e.g., /local/terraform/subscriber ##
 
 terraform apply
 ```
@@ -219,7 +219,7 @@ You can use Terraform to decommission the created resources. Terraform will cons
 6.1. To revert all infrastructure setups, please run the following command from your command line. 
 
 ```sh
-# Run in e.g., /local/terraform/subscriber #
+## Run in e.g., /local/terraform/subscriber ##
 
 terraform destroy
 ```

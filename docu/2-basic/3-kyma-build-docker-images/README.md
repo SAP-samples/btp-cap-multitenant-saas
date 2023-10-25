@@ -82,28 +82,28 @@ cd deploy/kyma
 2.2. Run an initial **npm install**. This will install all required dependencies for the build processes and also for local testing in the *code* directory.
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npm install --include=dev --prefix=../../code
 ```
 
 Alternatively, you can also run the following npm script.
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npm run install
 ```
 
 2.3. Execute the **cds build --production** command to trigger a new production build of the available CAP components (Shared Data Model, Tenant Data Model, Backend Service, API Service). You can change the version of the package by attaching it with an additional "@"-sign like "@sap/cds-dk@6.8.3". 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npx -p @sap/cds-dk@7 cds build -in ../../code --profile production
 ```
 
 Alternatively, you can also run the following npm script.
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npm run build
 ```
 
@@ -112,7 +112,7 @@ npm run build
 > **Hint** - This build process, will use the official [UI5 Tools](https://sap.github.io/ui5-tooling/stable/) to build your applications and copies them into the *code/app/html5-deployer/resources* directory for deployment. 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npm run ui:apps
 ```
 
@@ -143,7 +143,7 @@ These components will be containerized in Docker Images in the following steps. 
 > **Hint** - Using devices with ARM chips (e.g., Apple M1) the build process involving Cloud Native Buildpacks might take several minutes. Please do not immediately cancel the build if things appear to be stuck, but wait some time for the process to continue (especially while the SBOM is being generated)!
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:all
 
 # Example
@@ -153,7 +153,7 @@ npx cross-env IMAGE_PREFIX=sap-demo npm run build:all
 Alternatively, you can also build the Docker Images separately by running the component specific npm scripts. Check the *package.json* file to find all available scripts.
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run build:srv
 
 # Example
@@ -352,7 +352,7 @@ After all your Docker Images are build using **Cloud Native Buildpacks** or **SA
 > **Hint** - If you use e.g. DockerHub as a Container Registry, please put in your **username** (e.g., johndoe) as Container Image Prefix placeholder. If you use the GitHub Container Registry, the prefix will look similar to **ghcr.io/\<namespace>** (e.g. ghcr.io/johndoe). All generated Docker Images will be automatically prefixed with this label!
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:all
 
 # Example
@@ -364,7 +364,7 @@ As an alternative to pushing all Docker Images at once, you can again push image
 > **Hint** - This can be useful if you e.g., updated only a single Docker Image and will save you some time. 
 
 ```sh
-# Run in ./deploy/kyma # 
+## Run in ./deploy/kyma ## 
 npx cross-env IMAGE_PREFIX=<ContainerImagePrefix> npm run push:srv
 
 # Example
