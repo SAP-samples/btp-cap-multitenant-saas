@@ -216,20 +216,25 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 **global**
 
   * imagePullSecret - Name of a Image Pull Secret if required.
+
     > **Hint** - This value needs to contain the reference to a potential Image Pull Secret of your Container Registry. If you're using a free Docker Hub account and public Docker Images, this property can be left unchanged (empty object). Otherwise, please make sure to create a Kyma **Secret** containing your imagePullSecret and provide the reference to your Secret here. 
     
     > Find more details in the following blog post ([click here](https://blogs.sap.com/2022/12/04/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)). Our colleagues will get you covered! 
 
   * domain - Your Kyma Cluster default or custom domain.
+
     > **Hint** - This parameter requires your default Kyma cluster domain (e.g. a1b2c3.kyma.ondemand.com). To get the default domain of your Kyma Cluster you can run the following kubectl command: 
     >
     > **kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.domain}'**
     > 
     > This will return the required result like *a1b2c3.kyma.ondemand.com*. *a1b2c3* is a placeholder for a string of characters that’s unique for your cluster (the so-called **shootName** which we need in the next step). 
 
-  * shootName - The unique shoot name of your Kyma Cluster.
-    > **Hint** - As Kyma is based on [Gardener](https://gardener.cloud/), the managed Clusters are also called **Shoot**-Clusters (flower analogy). In our sample the **shootName** parameter, ensures the uniqueness of application registered in the SAP BTP SaaS Registry. As the SaaS application names registered in the SaaS registry need to be unique across a SAP BTP region (e.g. eu10), the shootName of your Kyma cluster will be part of that SaaS application names. This ensures you are not colliding with any other developer deploying the sample application. To get the **shootName** of your Kyma Cluster, run the following kubectl command: <br><br>
-    > **kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.shootName}'**<br><br>
+  * shootName - The unique shoot name of your Kyma Cluster. 
+  
+    > **Hint** - As Kyma is based on [Gardener](https://gardener.cloud/), the managed Clusters are also called **Shoot**-Clusters (flower analogy). In our sample the **shootName** parameter, ensures the uniqueness of application registered in the SAP BTP SaaS Registry. As the SaaS application names registered in the SaaS registry need to be unique across a SAP BTP region (e.g. eu10), the shootName of your Kyma cluster will be part of that SaaS application names. This ensures you are not colliding with any other developer deploying the sample application. To get the **shootName** of your Kyma Cluster, run the following kubectl command: 
+    >
+    > **kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.shootName}'**
+    > 
     > In a productive SAP BTP landscape, your **shootName** will always starts with a letter like *a1b2c3* or with the prefix **c-** like c-1b2c3d4*. 
 
 
@@ -255,11 +260,13 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
   * image.tag - Provide the tag of your container image if you do not want to use the latest image.
   * config.serviceId & planId(s) - Generate and provide unique GUIDs for your service plans and the broker itself. 
 
-      > **Important** - We recommend to generate custom GUIDs using your command line or available online generators. You can run the following script from the *code/broker* directory, which will generate new GUIDs as part of a new */code/broker/catalog-private.json* file which can be used for this requirement. This file can remain in your directory for your reference and will not be committed to GitHub. <br><br>
-      > \#\# Run in ./code/broker \#\# <br>
-      > cp catalog.json catalog-private.json <br>
-      > npx --yes -p @sap/sbf gen-catalog-ids catalog-private.json <br>
-      > cat catalog-private.json
+    > **Important** - We recommend to generate custom GUIDs using your command line or available online generators. You can run the following script from the *code/broker* directory, which will generate new GUIDs as part of a new */code/broker/catalog-private.json* file which can be used for this requirement. This file can remain in your directory for your reference and will not be committed to GitHub. 
+    > 
+    > \#\# Run in ./code/broker \#\#
+    >
+    > cp catalog.json catalog-private.json <br>
+    > npx --yes -p @sap/sbf gen-catalog-ids catalog-private.json <br>
+    > cat catalog-private.json
 
 **hana_deployer**
 
