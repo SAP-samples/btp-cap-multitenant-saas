@@ -39,7 +39,7 @@ Please make sure to cater the following prerequisites:
 
 * Set up a SAP HANA Cloud instance (**hana-free** service plan) using the **SAP HANA Cloud Tools** (**tools** service plan).
   > **Hint** - In Trial environments, you have to assign the **hana** service plan to your subaccount. <br>
-  > **Hint** - Check the following blog post to find more details about how to setup your SAP HANA Cloud instance using the HANA Tools ([click here](https://blogs.sap.com/2022/09/21/sap-hana-cloud-goes-multi-environment-part-2-getting-started/).
+  > **Hint** - Check the following blog post to find more details about how to setup your SAP HANA Cloud instance using the HANA Tools ([click here](https://blogs.sap.com/2022/09/21/sap-hana-cloud-goes-multi-environment-part-2-getting-started/)).
 
 > **Important** - Please make sure to select the correct free service plans in PAYG or CPEA scenarios, as paid service plans will generate costs in your account! 
 
@@ -92,7 +92,7 @@ If you need assistance assigning entitlements to your Provider Subaccount, you m
 
 ## 3. SAP HANA Cloud prerequisite
 
-> **Hint** - To learn more about SAP HANA Cloud in general, please check the following Learning Journey (https://learning.sap.com/learning-journey/provision-and-administer-databases-in-sap-hana-cloud).
+> **Hint** - To learn more about SAP HANA Cloud in general, please check the following Learning Journey ([click here](https://learning.sap.com/learning-journey/provision-and-administer-databases-in-sap-hana-cloud)).
 
 If not available yet, please create a SAP HANA Cloud instance in your Provider subaccount or share an existing SAP HANA Cloud from any other subaccount within the same SAP BTP region (e.g., eu10). Any SAP HANA Cloud instance in the same region as your Cloud Foundry environment or Kyma Cluster, can be enabled for usage within your Provider subaccount. 
 
@@ -100,7 +100,7 @@ Once you created the SAP HANA Cloud instance, please map it with your Cloud Foun
 
 **Kyma** (only)
 
-More information on how to share your SAP HANA Cloud instance with your Kyma Cluster can be found in the following blog post [(click here)](https://blogs.sap.com/2022/12/15/consuming-sap-hana-cloud-from-the-kyma-environment/). 
+More information on how to share your SAP HANA Cloud instance with your Kyma Cluster can be found in the following blog post ([click here](https://blogs.sap.com/2022/12/15/consuming-sap-hana-cloud-from-the-kyma-environment/)). 
 
 > **Important** - Please make sure to use the new **SAP HANA Cloud Tools** service (service plan **tools**) for this purpose! The instance mapping feature for Kyma is not available in the SAP HANA Cloud Central UI. 
 
@@ -108,7 +108,7 @@ More information on how to share your SAP HANA Cloud instance with your Kyma Clu
 
 **Cloud Foundry** (only)
 
-More information on how to share your SAP HANA Cloud instance with your Cloud Foundry environment can be found in the following SAP Help document [(click here)](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context?locale=en-US). Similar features are also offered by the **SAP HANA Cloud Tools**, which can also be used to map an existing SAP HANA Cloud instance to your Cloud Foundry landscape.
+More information on how to share your SAP HANA Cloud instance with your Cloud Foundry environment can be found in the following SAP Help document ([click here](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context?locale=en-US)). Similar features are also offered by the **SAP HANA Cloud Tools**, which can also be used to map an existing SAP HANA Cloud instance to your Cloud Foundry landscape.
 
 [<img src="./images/HanaCloudCf.png" width="600"/>](./images/HanaCloudCf.png?raw=true)
 

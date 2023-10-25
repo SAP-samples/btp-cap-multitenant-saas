@@ -29,11 +29,11 @@ The central point of entry to the platform is the SAP BTP Cockpit, where you can
 
 > **Hint** - You can use any of those links to access any of your SAP BTP accounts. The regional availability serves the performance of the Cockpit application, so we suggest to use the closest regional URL when working with the Cockpit.
 
-- EMEA: https://emea.cockpit.btp.cloud.sap
-- Restricted EU-Access: https://eu-access.cockpit.btp.cloud.sap
-- Americas: https://amer.cockpit.btp.cloud.sap
-- Asia-Pacific, Oceania: https://apac.cockpit.btp.cloud.sap
-- Trial: https://cockpit.hanatrial.ondemand.com/trial
+- EMEA: [https://emea.cockpit.btp.cloud.sap](https://emea.cockpit.btp.cloud.sap)
+- Restricted EU-Access: [https://eu-access.cockpit.btp.cloud.sap](https://eu-access.cockpit.btp.cloud.sap)
+- Americas: [https://amer.cockpit.btp.cloud.sap](https://amer.cockpit.btp.cloud.sap)
+- Asia-Pacific, Oceania: [https://apac.cockpit.btp.cloud.sap](https://apac.cockpit.btp.cloud.sap)
+- Trial: [https://cockpit.hanatrial.ondemand.com/trial](https://cockpit.hanatrial.ondemand.com/trial)
 
 As this tutorial is not about an extensive SAP BTP introduction, we would like to refer you to the official [SAP Help](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/73beb06e127f4e47b849aa95344aabe1.html?locale=en-US) documentation for further information.
 
@@ -60,11 +60,11 @@ The key pillars of developing business applications on SAP BTP are the runtimes 
 To learn more about SAP BTP in general, feel free to check out and bookmark the following links for your convenience. 
 
 SAP BTP Best Practices <br>
-https://help.sap.com/docs/btp/best-practices/best-practices-for-sap-btp
+[https://help.sap.com/docs/btp/best-practices/best-practices-for-sap-btp](https://help.sap.com/docs/btp/best-practices/best-practices-for-sap-btp)
 
 SAP BTP Tools and APIs <br>
-https://help.sap.com/docs/btp/best-practices/tools<br>
-https://help.sap.com/docs/btp/best-practices/apis
+[https://help.sap.com/docs/btp/best-practices/tools](https://help.sap.com/docs/btp/best-practices/tools)<br>
+[https://help.sap.com/docs/btp/best-practices/apis](https://help.sap.com/docs/btp/best-practices/apis)
 
 
 ## 2. SAP BTP, Cloud Foundry Runtime
@@ -147,11 +147,11 @@ If you're to CAP, please acquaint yourself with the basics of CAP right now, bef
 
 Feel free to explore the following resources to learn more about CAP and check out the latest community discussions ([click here](https://blogs.sap.com/tags/9f13aee1-834c-4105-8e43-ee442775e5ce/)):
 
-- CAP Documentation - https://cap.cloud.sap/docs/
+- CAP Documentation - [https://cap.cloud.sap/docs/](https://cap.cloud.sap/docs/)
 - CAP Tutorials - [https://developers.sap.com/](https://developers.sap.com/tutorial-navigator.html?tag=software-product-function%3Asap-cloud-application-programming-model&tag=tutorial%3Atype%2Fmission)
   - Build an Application End-to-End Using CAP, Node.js and VS Code - [click here](https://developers.sap.com/group.btp-app-cap-create.html)
   - Create an SAP Cloud Application Programming Model Project for SAP HANA Cloud - [click here](https://developers.sap.com/tutorials/hana-cloud-cap-create-project.html)
   - ...
-- Node.js CAP Samples - https://github.com/sap-samples/cloud-cap-samples
-- Java CAP Samples - https://github.com/SAP-samples/cloud-cap-samples-java
-- CAP and Fiori Elements - https://github.com/SAP-samples/cap-sflight
+- Node.js CAP Samples - [https://github.com/sap-samples/cloud-cap-samples](https://github.com/sap-samples/cloud-cap-samples)
+- Java CAP Samples - [https://github.com/SAP-samples/cloud-cap-samples-java](https://github.com/SAP-samples/cloud-cap-samples-java)
+- CAP and Fiori Elements - [https://github.com/SAP-samples/cap-sflight](https://github.com/SAP-samples/cap-sflight)

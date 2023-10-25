@@ -1,17 +1,18 @@
-d# Send e-mails using Microsoft Graph
+# Send e-mails using Microsoft Graph
 
 - **Kyma** ✅
 - **Cloud Foundry** ✅
 
 In this tutorial, you will learn how to send e-mails from your SaaS application using the Microsoft Graph API and Exchange Online. This can be useful in scenarios requiring automated messages sent to users from within your application. This is just one approach how to programmatically send e-mails using popular Microsoft services. Alternatively, you might think about configuring a destination to your SMTP server or using similar services offered by other providers like AWS Simple Email Service (SES) or SendGrid. 
 
-- [1. Introduction](#1-introduction)
-- [2. Prerequisites](#2-prerequisites)
-- [3. Create a Shared Mailbox](#3-create-a-shared-mailbox)
-- [4. Create an Application Registration](#4-create-an-application-registration)
-- [5. Test the sample application](#5-test-the-sample-application)
-- [6. Resource Owner Password Flow](#6-resource-owner-password-flow)
-- [7. Further Information](#7-further-information)
+- [Send e-mails using Microsoft Graph](#send-e-mails-using-microsoft-graph)
+  - [1. Introduction](#1-introduction)
+  - [2. Prerequisites](#2-prerequisites)
+  - [3. Create a Shared Mailbox](#3-create-a-shared-mailbox)
+  - [4. Create an Application Registration](#4-create-an-application-registration)
+  - [5. Test the sample application](#5-test-the-sample-application)
+  - [6. Resource Owner Password Flow](#6-resource-owner-password-flow)
+  - [7. Further Information](#7-further-information)
 
 > **Important** - The below sample approach works with a very powerful Graph API permission on Application-level. In a productive environment, this permission should be immediately restricted after setup, to prevent misuse by application developers. Otherwise, this setup allows anyone in possession of the respective credentials to send e-mails on behalf of any Active Directory user! Please follow the official Microsoft documentation ([click here](https://learn.microsoft.com/en-us/graph/auth-limit-mailbox-access)) to set up a corresponding restriction. 
 

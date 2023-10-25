@@ -31,8 +31,8 @@ If you are facing any issues during the following steps of our tutorial, please 
 
 First of all, you will need Node.js installed on your device. You can find the latest LTS (long-term support) version ([here](https://nodejs.org/en/download/)). To conduct the upcoming steps, you also need the following tools installed on your device. Follow the linked instructions based on your system environment. 
 
-- Docker (https://docs.docker.com/get-docker/) - To follow this tutorial on Kyma, you will require an application that allows you to handle container images on your computer, including functions like building, pushing, pulling, and running them. 
-- Pack CLI (https://buildpacks.io/docs/install-pack/) - By utilizing Pack, you can construct container images based on collectively maintained base images, resulting in a more straightforward process for maintaining and updating them.
+- Docker ([https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)) - To follow this tutorial on Kyma, you will require an application that allows you to handle container images on your computer, including functions like building, pushing, pulling, and running them. 
+- Pack CLI ([https://buildpacks.io/docs/install-pack/](https://buildpacks.io/docs/install-pack/)) - By utilizing Pack, you can construct container images based on collectively maintained base images, resulting in a more straightforward process for maintaining and updating them.
   > **Installation Shortcuts**<br>
   > **MacOS** -  brew install buildpacks/tap/pack <br>
   > **Windows** - choco install pack

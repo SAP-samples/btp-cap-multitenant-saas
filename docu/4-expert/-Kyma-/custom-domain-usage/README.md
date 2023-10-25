@@ -129,7 +129,7 @@ customDomain:
   istioGatewayServiceIP: "<someIP>" 
  
 issuer: 
-  email: a.dedeoglu@sap.com
+  email: john.doe@example.org
 ```
 
 Let us take a look at the parameters one-by-one.

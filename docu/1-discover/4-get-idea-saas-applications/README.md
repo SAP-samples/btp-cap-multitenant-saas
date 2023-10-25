@@ -30,13 +30,13 @@ For sure there are a lot of examples in which it makes sense to provide a Softwa
 
 [<img src="./images/SaaS_SingleTenant.png" width="300" />](./images/SaaS_SingleTenant.png?raw=true)
 
-> The single consumer in this scenario pays 500\$ per year for the SaaS subscription. The SaaS provider is charged 300\$ for the dedicated SAP HANA Cloud instance and some GBs of runtime. All in all, the provider is left with a profit of 200\$.  
+> The single consumer in this scenario pays 500 $ per year for the SaaS subscription. The SaaS provider is charged 300 $ for the dedicated SAP HANA Cloud instance and some GBs of runtime. All in all, the provider is left with a profit of 200 $.  
 
 While such a setup might be required for certain scenarios (e.g. high-risk customers) in most scenarios it makes sense to share resources (like an SAP HANA Cloud database) between multiple consumer tenants. If you design your SaaS application to support multitenancy, this means a great advantage for your TCO as a SaaS provider. While the SaaS consumer doesn't even notice that resources are shared in the background, you can for example safely store the data of 1000 consumer Tenants on the same database. In case of an SAP HANA Cloud database, this will reduce the costs of a powerful in-memory system to a minimum for each of the 1000 consumers making the concept very profitable for both sides. 
 
 [<img src="./images/SaaS_MultiTenant.png" width="330" />](./images/SaaS_MultiTenant.png?raw=true)
 
-> In this scenario, 100 consumers pay 100$ per year for the SaaS subscription (= 10.000\$). The SaaS provider is charged 3.000\$ for a large SAP HANA Cloud instance and the necessary runtime memory. All in all, the provider is left with a profit of 7.000\$.  
+> In this scenario, 100 consumers pay 100$ per year for the SaaS subscription (= 10.000 $). The SaaS provider is charged 3.000 $ for a large SAP HANA Cloud instance and the necessary runtime memory. All in all, the provider is left with a profit of 7.000 $.  
 
 This is why as a SaaS provider (especially if you're relying on powerful and expensive services) on SAP BTP, you should always make sure to design your SaaS application multitenant enabled. A lot of services and frameworks on SAP BTP are usable in multitenant scenarios like SAP HANA Cloud, XSUAA, SAP Event Mesh, Destination Service, or the SAP CAP framework. This allows you to develop powerful applications on the SAP BTP platform by leveraging the integration capabilities with your consumer's On-Premise or Cloud SAP landscape. 
 

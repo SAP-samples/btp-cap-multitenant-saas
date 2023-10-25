@@ -28,7 +28,8 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 ### Kyma & Cloud Foundry
 
 * Local and hybrid development - ([click here](../local-hybrid-development/README.md))
-* Tenant onboarding with Terraform - ([click here](../btp-terraform-setup/README.md))
+* Terraform automation setup - ([click here](../btp-terraform-setup/README.md))
+* Self-Onboarding of SaaS tenants - ([click here](../saas-self-onboarding/README.md))
 * Custom domain for SAP IAS - ([click here](../custom-domain-for-ias/README.md))
 * Send emails using Microsoft Graph - ([click here](../send-emails-graph-api/README.md))
 * Feature Toggles - ([click here](../feature-toggles/README.md))
