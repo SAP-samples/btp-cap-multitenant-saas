@@ -1,26 +1,90 @@
 general:
-  buildTool: "docker"
-  containerRegistryUrl: "https://registry.hub.docker.com"
-  containerImageName: "susaas-srv"
-  containerImageTag: "latest"
+  buildTool: "npm"
+  chartPath: deploy/kyma/charts/sustainable-saas
+service:
+  buildToolVersion: "N18"
+  stages:
+    Build:
+      credentialVariables:
+        - name: "ValuesPrivateYaml"
+          credentialId: "susaas-values-private-yaml"
+      runFirst: 
+        command: |
+          # Disable debug mode
+          set +x
 
-service:     
-  Release:
-      kubeConfigSecretTextCredentialsId: "susaas-kube-config"
-      helmValuePath: "./deploy/kyma/charts/sustainable-saas/values.yaml"
-      helmValueSecret: "susaas-kyma-values-yaml"
-
+          echo "$ValuesPrivateYaml" > ./cloudcitransfer/values-private.yaml 
+          
+          # Enable debug mode
+          set -x
 stages:
   Build:
-    kanikoExecute: false
+    npmExecuteLint: false
+  Additional Unit Tests:
+    npmExecuteScripts: false
   Acceptance:
     kubernetesDeploy: false
+  Compliance:
+    sonarExecuteScan: false
   Release:
-    kubernetesDeploy: true                        
-    deployTool: "helm3"
-    namespace: "<Namespace>"  
-    #### e.g., "default"
-    chartPath: "./deploy/kyma/charts/sustainable-saas"
-    deploymentName: "<ReleaseName>"
-    ######### e.g., "susaas-prod"
-    force: true
+    kubernetesDeploy: true
+    deploymentName: susaas
+    kubeConfigFileCredentialsId: susaas-kube-config
+    namespace: default
+    helmValues:
+      - ./deploy/kyma/charts/sustainable-saas/values.yaml 
+      - ./cloudcitransfer/values-private.yaml 
+steps:
+  buildExecute:
+    npmRunScripts: [ 'cds-build' ]  
+    npmInstall: false
+    cnbBuild: true
+    helmExecute: false
+  cnbBuild:
+    containerRegistryUrl: docker.io
+    dockerConfigJsonCredentialsId: susaas-registry-config
+    multipleImages:
+      - path: ./code/router
+        containerImageName: sapdemo/susaas-router
+        containerImageAlias: sapdemo/susaas_router
+        buildpacks:
+          - "gcr.io/paketo-buildpacks/nodejs"
+      - path: ./code/gen/srv
+        containerImageName: sapdemo/susaas-srv
+        containerImageAlias: sapdemo/susaas_srv
+        buildpacks:
+          - "gcr.io/paketo-buildpacks/nodejs"
+      - path: ./code/gen/api
+        containerImageName: sapdemo/susaas-api
+        containerImageAlias: sapdemo/susaas_api
+        buildpacks:
+          - "gcr.io/paketo-buildpacks/nodejs"
+      - path: ./code/broker
+        containerImageName: sapdemo/susaas-broker
+        containerImageAlias: sapdemo/susaas_broker
+        buildpacks:
+          - "gcr.io/paketo-buildpacks/nodejs"
+      - path: ./code/gen/db-com
+        containerImageName: sapdemo/susaas-db-com
+        containerImageAlias: sapdemo/susaas_db_com
+        buildpacks:
+          - "gcr.io/paketo-buildpacks/nodejs"
+      - path: ./code/app/html5-deployer
+        containerImageName: sapdemo/susaas-html5-deployer
+        containerImageAlias: sapdemo/susaas_html5_deployer
+        buildpacks:
+          - "gcr.io/paketo-buildpacks/nodejs"
+  kubernetesDeploy:
+    valuesMapping:
+      router.image.repository: image.sapdemo/susaas_router.repository
+      router.image.tag: image.sapdemo/susaas_router.tag
+      srv.image.repository: image.sapdemo/susaas_srv.repository
+      srv.image.tag: image.sapdemo/susaas_srv.tag
+      api.image.repository: image.sapdemo/susaas_api.repository
+      api.image.tag: image.sapdemo/susaas_api.tag
+      broker.image.repository: image.sapdemo/susaas_broker.repository
+      broker.image.tag: image.sapdemo/susaas_broker.tag
+      hana_deployer.image.repository: image.sapdemo/susaas_db_com.repository
+      hana_deployer.image.tag: image.sapdemo/susaas_db_com.tag
+      html5_apps_deployer.image.repository: image.sapdemo/susaas_html5_deployer.repository
+      html5_apps_deployer.image.tag: image.sapdemo/susaas_html5_deployer.tag

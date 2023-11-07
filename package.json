@@ -1,0 +1,14 @@
+{
+    "name": "susaas",
+    "version": "0.0.1",
+    "repository": "https://github.com/sap-samples/btp-cap-multitenant-susaas",
+    "license": "Apache License 2.0",
+    "description": "Sustainable SaaS",
+    "engines": {
+      "node": "^18.x"
+    },
+    "scripts": {
+      "cds-build": "npm --prefix ./deploy/kyma run install && npm --prefix ./deploy/kyma run build && npm --prefix ./deploy/kyma run ui:apps"
+    }
+  }
+  
