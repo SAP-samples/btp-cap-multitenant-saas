@@ -57,7 +57,7 @@ npx --yes -p @sap/sbf gen-catalog-ids ../../code/broker/catalog.json
 [<img src="./images/MTA_DescExt02.png" width="400"/>](./images/MTA_DescExt02.png?raw=true)
 
 > **Hint** - If you created a private config file for Alert Notification (*alert-notif-private.json*), please also include it in your mtaext file accordingly as you can see below! 
-> ```sh 
+> ```sh
 > resources:
 >  - name: susaas-alert-notification
 >    parameters: 

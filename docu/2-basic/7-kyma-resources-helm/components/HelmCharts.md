@@ -383,7 +383,7 @@ In this section you will be adding a new configuration to the *values.yaml* file
 
 Open your [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) and append the following configuration.
 
-```sh 
+```sh
 ...
 html5_apps_deployer:
   cloudService: susaas.service
@@ -564,7 +564,7 @@ helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 
 Search for "my-config-map" in the updated *test.yaml* file, and you will see that your Config Map resource is now generated as shown below.
 
-```sh 
+```sh
 ...
 ---
 # Source: susaas-app/templates/my-config-map.yaml

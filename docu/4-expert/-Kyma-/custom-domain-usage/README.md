@@ -107,7 +107,7 @@ If you want to jump directly and deploy your custom domain, you can directly use
 
 As you can see [here](./chart/values.yaml), the values.yaml file looks like below.
 
-```sh 
+```sh
 # Default values for custom-domain.
 # This is a YAML-formatted file.
 
