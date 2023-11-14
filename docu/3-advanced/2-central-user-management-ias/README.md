@@ -213,7 +213,7 @@ identity:
 
 Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
 
-```sh
+```yaml
 # SAP Cloud Identity Service Instance Binding #
 # Creates a binding between the Service Instance and the SaaS Backend Service #
 srv:
@@ -268,7 +268,7 @@ By using a different Deployment Descriptor extension file (**mtaext**) file to y
 
 2. Open the new file and update the **Service Broker Credential Hash** placeholder with the respective value of your **basic** mtaext file. Check the following screenshot to get an idea how your **advanced** *mtaext* file and the respective directory should be looking like!
    
-   > **Hint** - If you included a separate **alert-notif-private.json** reference in you basic mtaext file, please also make sure to included it in the **advanced** mtaext file as an additional resource. 
+    > **Hint** - If you included a separate **alert-notif-private.json** reference in you basic mtaext file, please also make sure to included it in the **advanced** mtaext file as an additional resource. 
 
     [<img src="./images/APP_Mtaext_Dir.png" width="500" />](./images/APP_Mtaext_Dir.png?raw=true)
 
@@ -291,7 +291,7 @@ By using a different Deployment Descriptor extension file (**mtaext**) file to y
 
 Below, you can find the Service Instance definition of the SAP Cloud Identity Service Instance which is being created. This resource is defined in your central **mta.yaml** file and only **enabled** as part of the **mtaext** file. The same applies for the additional bindings (see below)
 
-```sh
+```yaml
 # SAP Cloud Identity Service Instance #
 # Provides an SAP IAS integration for central user management #
 resources:
@@ -318,7 +318,7 @@ resources:
 
 Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
 
-```sh
+```yaml
 - name: susaas-srv
     requires:
       - name: susaas-ias-app

@@ -200,7 +200,7 @@ Before proceeding, ensure that you have the kubectl command-line tool set up and
 
 Run the command below with replacing the placeholders with your values.
 
-```sh
+```yaml
 kubectl apply -n default -f  - <<EOF
 kind: Secret
 apiVersion: v1
@@ -222,7 +222,7 @@ Run the command below with replacing the placeholders with your values.
 
 The example given below assumes that you are the owner of **example.com**. So please put the values as shown below, base domain and wildcard domain you want to use.
 
-```sh
+```yaml
 kubectl apply -n default -f - <<EOF
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSProvider
@@ -254,7 +254,7 @@ kubectl get services istio-ingressgateway -n istio-system -o json | jq ".status.
 
 Before applying the YAML, make sure to replace <"*.kyma.example.com"> with your wildcard domain, and <yourgateway.ip> from the command before.
 
-```sh
+```yaml
 kubectl apply -n default -f - <<EOF
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
@@ -280,7 +280,7 @@ In this step, we will create an Issuer resource responsible for managing SSL/TLS
 
 Run command below to create an issuer object on your Kyma Cluster. Replace <"kyma.example.com"> with your base domain and also replace <*.kyma.example.com> with your wildcard domain. Also replace <info@example.com> with a mail your organization has access to.
 
-```sh
+```yaml
 kubectl apply -n default -f - <<EOF
 apiVersion: cert.gardener.cloud/v1alpha1
 kind: Issuer
@@ -308,7 +308,7 @@ In this step, we will create a Certificate resource to manage the SSL/TLS certif
 
 Before applying the YAML, make sure to replace <kyma.example.com> with your base domain and <*.kyma.example.com> with your wildcard domain. Please notice that you are applying the certificate to the istio-system namespace. That is a known issue from Istio.
 
-```sh
+```yaml
 kubectl apply -n istio-system -f - <<EOF
 apiVersion: cert.gardener.cloud/v1alpha1
 kind: Certificate
@@ -335,7 +335,7 @@ EOF
 In this step, we will create a Gateway resource to handle the incoming traffic and route it to the appropriate services based on the specified hosts. Before applying the YAML, make sure to replace <*.kyma.example.com> with your wildcard domain.
 
 
-```sh
+```yaml
 kubectl apply -n istio-system -f - <<EOF
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -373,7 +373,7 @@ EOF
 
 Go to your [sustainable-saas chart values-private.yaml](../../../../deploy/kyma/charts/sustainable-saas/values-private.yaml), and modify it as shown below. You need to change the **global.gateway** value to **default/cdomain-gateway**. Second thing you need to change is the domain value. You need to set your domain to **kyma.example.com** as shown below.
 
-```sh
+```yaml
 
 global:
   imagePullSecret: {}
@@ -385,7 +385,7 @@ global:
 
 Last but not least, also provide a new redirect URL as part of the **xsuaa** OAuth2 Configuration, which is also part of your existing **values-private.yaml** file. 
 
-```sh
+```yaml
 ...
 
 xsuaa:

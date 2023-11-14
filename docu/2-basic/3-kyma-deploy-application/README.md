@@ -288,7 +288,7 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
     >
     > **kubectl get configMaps/shoot-info -n kube-system -o jsonpath='{.data.domain}'**
 
-    ```sh
+    ```yaml
       xsuaa:
         parameters:
           oauth2-configuration:
@@ -310,14 +310,14 @@ helm template ./charts/sustainable-saas -f ./charts/sustainable-saas/values-priv
 
 This will log the generated **yaml** files in your console. If required, you can also store the results into a local file by running the following command. 
 
-```sh
+```yaml
 ## Run in ./deploy/kyma ## 
 helm template ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml > helm-template-private.yaml
 ```
 
 Double-check if the correct Docker Image repositories can be found in the generated resource definitions before you continue with the next chapter. 
 
-```sh
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 spec:
@@ -341,7 +341,7 @@ While we could have skipped the whole part of building your own Docker Images an
 
 > **Important** - In case of SAP BTP **Trial Account** usage, please make sure to also change the **servicePlanName** to **lite**!
 
-```sh
+```yaml
 # SAP Alert Notification Service 
 alert_notification:
   # Change to "lite" for Trial
@@ -383,7 +383,7 @@ helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/value
 
 4.6. If you want to make your application to make use of the SAP Alert Notification Service, please include a few additional lines in your **values-private.yaml** file before starting the deployment. This will generate a new Service Binding between the Alert Notification instance and your SaaS Backend Service. 
 
-```sh
+```yaml
 srv:
   image:
     repository: sap-demo/susaas-srv

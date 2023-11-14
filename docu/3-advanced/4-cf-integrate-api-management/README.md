@@ -250,7 +250,7 @@ You will notice that calling the API more than once per second (e.g. using Postm
 
 The API Management as route service (sap-apim-route-service) instance can also be defined in your mta.yaml deployment descriptor. Just add the following code snippet to your resources. Still, you will need to execute the **cf bind-route-service** command as described in this tutorial. 
 
-```sh
+```yaml
 resources:
   - name: susaas-api-route-service
     type: org.cloudfoundry.managed-service

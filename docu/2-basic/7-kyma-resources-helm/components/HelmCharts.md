@@ -89,7 +89,7 @@ The Chart.yaml file contains information about the Helm Chart such as:
  - **dependencies**: An array of other charts that this Helm Chart depends on.
  - **type**: The type field specifies the type of the Helm Chart (in this case **application**)
 
-    ```sh
+    ```yaml
     apiVersion: v2  
     name: susaas-app
     description: Sustainable SaaS
@@ -122,7 +122,7 @@ For example, it might include values for resource limits, image names, feature f
 
 Please take a look at the given section of [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file below, to get a better understanding.
 
-```sh
+```yaml
 ...
 router:
   bindings:
@@ -175,7 +175,7 @@ Validation occurs when any of the following commands is invoked:
 
 For example, let us add a test property in the **router** section of the *values.yaml* file as shown below:
 
-```sh
+```yaml
 ...
 router:
   bindings:
@@ -203,13 +203,13 @@ router:
 
 Try to run the following command in the root directory:
 
-```sh
+```yaml
 helm template ./deploy/kyma/charts/sustainable-saas 
 ```
 
 You should instantly face an error, because **test** is an invalid value according to the JSON schema configuration.
 
-```sh
+```yaml
 Error: ...
 router:
 - resources.requests: Additional property test is not allowed
@@ -248,7 +248,7 @@ Running this command will provide you a yaml-based console output. This output c
 
 > **Hint** - The example below is (obviously) just a part of the generated resources. The complete console output is much longer.
 
-```sh
+```yaml
 ...
 # Source: susaas/charts/srv/templates/api-rule.yaml
 apiVersion: gateway.kyma-project.io/v1beta1
@@ -313,7 +313,7 @@ Making your own template file can be a worthwhile learning experience. You gain 
 
 In the [templates directory](../../../../deploy/kyma/charts/sustainable-saas/templates/), create a file called **my-config-map.yaml**, and paste the below content inside the file.
 
-```sh
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -341,7 +341,7 @@ In the following, you learn how to add the release name as a prefix your Config 
 
 Modify your *my-config-map.yaml* file created in the [previous step](#41-creating-a-config-map-and-adding-it-as-a-template) as shown below.
 
-```sh
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -361,7 +361,7 @@ Search once again for the term **my-config-map** in your *test.yaml* file, you s
 
 The respective resource definition should look like the following.
 
-```sh
+```yaml
 ---
 # Source: susaas-app/templates/my-config-map.yaml
 apiVersion: v1
@@ -383,7 +383,7 @@ In this section you will be adding a new configuration to the *values.yaml* file
 
 Open your [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) and append the following configuration.
 
-```sh
+```yaml
 ...
 html5_apps_deployer:
   cloudService: susaas.service
@@ -408,7 +408,7 @@ my_config_map:
 
 Switch to your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file and edit it as shown below:
 
-```sh
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -426,7 +426,7 @@ helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 
 Check the updated *test.yaml* file in your root directory. Searching for your Config Map, should see the below output:
 
-```sh
+```yaml
 ---
 # Source: susaas-app/templates/my-config-map.yaml
 apiVersion: v1
@@ -449,7 +449,7 @@ In this section you will use a built-in template function provided by Helm, allo
 
 Imagine you would like to "quote" the value you set in [step 4.3](#43-using-values-from-valuesyaml-file). To be able to "quote" a value, the built-in Helm **quote** function can be used in your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file.
 
-```sh
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -467,7 +467,7 @@ helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 
 Searching once again in your *test.yaml* file, you should find your updated Config Map resource definition as below. As expected, the **exampleKey** value is now quoted.
 
-```sh
+```yaml
 ---
 # Source: susaas-app/templates/my-config-map.yaml
 apiVersion: v1
@@ -542,7 +542,7 @@ app.kubernetes.io/version: {{ .Chart.AppVersion }}
 
 In your *my-config-map.yaml* file, you can now reuse this *named template*. Open your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file and edit it as shown below.
 
-```sh
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -564,7 +564,7 @@ helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
 
 Search for "my-config-map" in the updated *test.yaml* file, and you will see that your Config Map resource is now generated as shown below.
 
-```sh
+```yaml
 ...
 ---
 # Source: susaas-app/templates/my-config-map.yaml
@@ -598,7 +598,7 @@ According to the official Helm documentation: "*The current best practice for co
 
 Which is exactly the approach chosen in our sample application.
 
-```sh
+```yaml
 apiVersion: v2  
 name: susaas-app
 description: Sustainable SaaS

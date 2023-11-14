@@ -153,7 +153,7 @@ In this scenario, a Kyma/Kubernetes Secret will be used to store your SAP BTP Gl
 
 **obd-btp-cred-private.yaml**
 
-```sh
+```yaml
 kind: Secret
 apiVersion: v1
 metadata:
@@ -281,7 +281,7 @@ Alright, so you have almost finished all preparation steps to install the requir
 
 > **Hint** - In this sample the original SaaS application was deployed as **susaas-dev** in the same namespace. Therefore, the saasRelease property has to be updated.
 
-```sh
+```yaml
 global:
   imagePullSecret: {}
   domain: a1bc2c3.kyma.ondemand.com 
@@ -294,7 +294,7 @@ global:
 
 In case of using a custom domain, please ensure to also update the Ingress Gateway Details accordingly.
 
-```sh
+```yaml
 global:
   imagePullSecret: {}
   domain: sap-demo.com
@@ -519,7 +519,7 @@ In case of a (client-initiated or time-based) user logout or session expiry, a l
 
 **Basic Authentication** - For testing purposes, you might want to add additional Basic Authentication to your public-facing user interfaces, adding at least a tiny bit of security for potential attackers! To do so, you can use the following Istio Wasm Plugin, allowing you to enable Basic Authentication for certain hosts and a dedicated path.
 
-```sh
+```yaml
 apiVersion: extensions.istio.io/v1alpha1
 kind: WasmPlugin
 metadata:
