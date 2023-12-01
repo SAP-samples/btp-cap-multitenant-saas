@@ -106,13 +106,15 @@ class ServiceManager {
     async getAllServiceBindings(tenant) {
         try {
             let token = await this.getToken();
-            let bindingQuery = new URLSearchParams({ label: `subaccount_id eq '${tenant}'` }).toString();
             let optionsBinding = {
                 method: 'GET',
-                url: this.credss.sm_url + `/v1/service_bindings?${bindingQuery}`,
+                url: this.credss.sm_url + `/v1/service_bindings`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
+                },
+                params:{
+                    label:`subaccount_id eq '${tenant}'`
                 }
             }
             let response = await axios(optionsBinding);
@@ -198,14 +200,16 @@ class ServiceManager {
 
     async getServiceBroker(name){
         try {
-            let query = encodeURIComponent(`fieldQuery=name eq '${name}'`);
             let token = await this.getToken();
             let options = {
                 method: 'GET',
-                url: this.creds.sm_url + `/v1/service_brokers/?${query}`,
+                url: this.creds.sm_url + `/v1/service_brokers`,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
+                },
+                params: {
+                    fieldQuery:`name eq '${name}'`
                 }
             };
             let response = await axios(options);
