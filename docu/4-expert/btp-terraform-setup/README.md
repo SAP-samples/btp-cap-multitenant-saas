@@ -94,7 +94,7 @@ To use the SAP BTP, Terraform provider, you need to initialize Terraform in a ne
 terraform init
 ```
 
-3.3. This will initialize Terraform in the respective environment and configure the required SAP BTP, Terraform provider (specified in the *provider.tf* file). You should new see a new folder called *.terraform*. 
+3.3. This will initialize Terraform in the respective environment and configure the required SAP BTP, Terraform provider (specified in the *provider.tf* file). You should now see a new folder called *.terraform*. 
 
 [<img src="./images/TER_Providers.png" width="300"/>](./images/TER_Providers.png?raw=true)
 
