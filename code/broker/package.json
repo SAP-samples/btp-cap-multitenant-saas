@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sap/sbf": "^6.5.9"
+    "@sap/sbf": "^6.6.4"
   },
   "engines": {
     "node": "^18.x"

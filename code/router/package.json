@@ -1,7 +1,7 @@
 {
   "name": "susaas-approuter",
   "dependencies": {
-    "@sap/approuter": "^14.3.0"
+    "@sap/approuter": "^14.4.3"
   },
   "engines": {
     "node": "^18.x"

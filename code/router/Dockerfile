@@ -1,4 +1,4 @@
-FROM sapse/approuter:14.3.0
+FROM sapse/approuter:14.4.3
 
 # Create app directory
 RUN mkdir -p /app
