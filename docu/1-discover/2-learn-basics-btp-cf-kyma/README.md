@@ -112,7 +112,7 @@ To explore SAP BTP, Kyma Environment further and understand its capabilities in 
 
 - SAP BTP Documentation Overview: [SAP BTP Overview on SAP Help](https://help.sap.com/docs/btp?locale=en-US)
 - Official SAP BTP Documentation: [SAP BTP Documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/)
-- Cloud Foundry on SAP BTP : [Environment Introduction](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-environment) 
+- Kyma on SAP BTP : [Environment Introduction](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-environment) 
 - Kyma Project Official Website: [Kyma Project Website](https://kyma-project.io/)
 - Kyma Documentation: [Kyma Documentation](https://kyma-project.io/docs/kyma/latest)
 
