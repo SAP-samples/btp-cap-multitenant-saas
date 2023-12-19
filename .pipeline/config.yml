@@ -40,40 +40,29 @@ steps:
   cnbBuild:
     containerRegistryUrl: "ghcr.io"
     dockerConfigJsonCredentialsId: "github-credentials"
+    dockerImage: "paketobuildpacks/builder:base"
     multipleImages:
     - containerImageAlias: "ghcr_io/sap-samples/btp-cap-multitenant-saas-router"
       containerImageName: "ghcr.io/sap-samples/btp-cap-multitenant-saas-router"
       containerImageTag: "latest"
       path: "code/router"
-      buildpacks:
-      - "gcr.io/paketo-buildpacks/nodejs"
     - containerImageAlias: "ghcr_io/sap-samples/btp-cap-multitenant-saas-srv"
       containerImageName: "ghcr.io/sap-samples/btp-cap-multitenant-saas-srv"
       containerImageTag: "latest"
       path: "code/gen/srv"
-      buildpacks:
-      - "gcr.io/paketo-buildpacks/nodejs"
     - containerImageAlias: "ghcr_io/sap-samples/btp-cap-multitenant-saas-db-com"
       containerImageName: "ghcr.io/sap-samples/btp-cap-multitenant-saas-db-com"
       containerImageTag: "latest"
       path: "code/gen/db-com"
-      buildpacks:
-      - "gcr.io/paketo-buildpacks/nodejs"
     - containerImageAlias: "ghcr_io/sap-samples/btp-cap-multitenant-saas-api"
       containerImageName: "ghcr.io/sap-samples/btp-cap-multitenant-saas-api"
       containerImageTag: "latest"
       path: "code/gen/api"
-      buildpacks:
-      - "gcr.io/paketo-buildpacks/nodejs"
     - containerImageAlias: "ghcr_io/sap-samples/btp-cap-multitenant-saas-broker"
       containerImageName: "ghcr.io/sap-samples/btp-cap-multitenant-saas-broker"
       containerImageTag: "latest"
       path: "code/broker"
-      buildpacks:
-      - "gcr.io/paketo-buildpacks/nodejs"
     - containerImageAlias: "ghcr_io/sap-samples/btp-cap-multitenant-saas-html5-deployer"
       containerImageName: "ghcr.io/sap-samples/btp-cap-multitenant-saas-html5-deployer"
       containerImageTag: "latest"
       path: "code/app/html5-deployer"
-      buildpacks:
-      - "gcr.io/paketo-buildpacks/nodejs"
