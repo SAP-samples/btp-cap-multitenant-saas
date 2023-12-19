@@ -147,6 +147,23 @@
                     "$id": "#/properties/hana_deployer/resources",
                     "$ref": "#/definitions/Resources"
                 },
+                "securityContext": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [],
+                    "properties": {
+                        "user": {
+                            "type": "number",
+                            "default": 1000,
+                            "description": "If present then this user will be used to run the container"
+                        },
+                        "group": {
+                            "type": "number",
+                            "default": 1000,
+                            "description": "If present then this group will be used to run the container"
+                        }
+                    }
+                },
                 "env": {
                     "$id": "#/properties/hana_deployer/env",
                     "description": "Key-value map of environment variables, which should be added to the Pod spec.",
@@ -229,6 +246,23 @@
                     "$id": "#/properties/html5_apps_deployer/cloudService",
                     "type": "string",
                     "description": "Name for your business service (unique per subaccount)"
+                },
+                "securityContext": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [],
+                    "properties": {
+                        "user": {
+                            "type": "number",
+                            "default": 1000,
+                            "description": "If present then this user will be used to run the container"
+                        },
+                        "group": {
+                            "type": "number",
+                            "default": 1000,
+                            "description": "If present then this group will be used to run the container"
+                        }
+                    }
                 }
             }
         },

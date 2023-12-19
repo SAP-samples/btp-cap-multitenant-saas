@@ -418,6 +418,23 @@
                 }
             }
         },
+        "securityContext": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [],
+            "properties": {
+                "user": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "If present then this user will be used to run the container"
+                },
+                "group": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "If present then this group will be used to run the container"
+                }
+            }
+        },
         "startupTimeout": {
             "$id": "#/properties/startupTimeout",
             "description": "Initial timeout in seconds, during which the app must start giving the response to the liveness-probe.",

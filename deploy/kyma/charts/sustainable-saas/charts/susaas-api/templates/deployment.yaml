@@ -104,6 +104,8 @@ spec:
       restartPolicy: Always
       securityContext:
         runAsNonRoot: true
+        runAsUser: {{ default "1000" .Values.securityContext.user }}
+        runAsGroup: {{ default "1000" .Values.securityContext.group }}
       {{- if .Values.ha.enabled }}
       topologySpreadConstraints:
       - labelSelector:

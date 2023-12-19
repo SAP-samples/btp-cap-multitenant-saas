@@ -50,6 +50,13 @@ spec:
             value: "true"
           - name: PORT
             value: "5000"
+      {{- if .Values.html5_apps_deployer.securityContext }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ default "1000" .Values.html5_apps_deployer.securityContext.user }}
+        runAsGroup: {{ default "1000" .Values.html5_apps_deployer.securityContext.group }}
+      {{- end }}
+      
 ---
 {{ include "cap.sapcp.bindings" $ }}
   {{- end }}

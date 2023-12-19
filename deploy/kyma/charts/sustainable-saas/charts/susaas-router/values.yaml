@@ -47,4 +47,8 @@ health_check:
   readiness:
     path: /healthz
 
+securityContext:
+  user:
+  group: 
+
 startupTimeout: 30

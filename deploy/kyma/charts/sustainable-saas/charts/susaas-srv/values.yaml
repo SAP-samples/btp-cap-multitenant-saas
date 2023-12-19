@@ -47,6 +47,10 @@ health_check:
     path: /healthz
   readiness:
     path: /healthz
+  
+securityContext:
+  user:
+  group: 
 
 startupTimeout: 60
 resources:

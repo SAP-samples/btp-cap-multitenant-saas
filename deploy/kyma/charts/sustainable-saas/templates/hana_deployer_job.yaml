@@ -43,6 +43,13 @@ spec:
           {{- include "cap.sapcp.bindingsVolumeMounts" $ | nindent 10 }}
         resources:
           {{- toYaml .Values.hana_deployer.resources | nindent 10 }}
+      {{- if .Values.hana_deployer.securityContext }}
+      securityContext:
+          runAsNonRoot: true
+          runAsUser: {{ default "1000" .Values.hana_deployer.securityContext.user }}
+          runAsGroup: {{ default "1000" .Values.hana_deployer.securityContext.group }}
+      {{ end }}
+      
 ---
 {{ include "cap.sapcp.bindings" $ }}
 {{ end }}
