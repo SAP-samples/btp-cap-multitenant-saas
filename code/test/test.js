@@ -5,7 +5,7 @@ import chaiSubset from 'chai-subset';
 chai.use(chaiSubset);
 const expect = chai.expect;
 
-cds.test('serve',"--profile","local-with-mtx","--in-memory","--project",process.env.PWD + "/srv")
+cds.test('serve', 'PublicService,AdminService,cds.xt.MTXServices', '--in-memory', '--profile', 'local-with-mtx').in('./srv')
 
 describe('Multitenancy is up and running', () => {
   it('Subscribe for tenant t1', async () => {
@@ -13,7 +13,6 @@ describe('Multitenancy is up and running', () => {
     await ds.subscribe("t1");
   })
 })
-
 
 describe('Service Test', () => {
   it('Admin and Public Service service served successfully', () => {
@@ -23,17 +22,17 @@ describe('Service Test', () => {
 })
 
 describe('Entity Consistency Test', () => {
-  it('Countries entity is consistent', async () => {
+  it('Projects entity is consistent', async () => {
     const AdminService = await cds.connect.to('AdminService')
     cds.context = { user: new cds.User.Privileged,tenant:"t1" }
-    let countries = await AdminService.read("Countries")
-    expect(countries).to.containSubset([{ "name": "France", "descr":"France","code":"FR" }]);
+    let projects = await AdminService.read("Projects")
+    expect(projects).to.containSubset([{ "ID": "d419b9d9-897e-4e1f-9a7d-6a16e3c8f776", "description":"Project 1" }]);
   })
-  it('Currencies entity is consistent', async () => {
+  it('Assessments entity is consistent', async () => {
     const CatalogService = await cds.connect.to('PublicService')
     cds.context = { user: new cds.User.Privileged,tenant:"t1" }
-    let Currencies = await CatalogService.read("Currencies")
-    expect(Currencies).to.containSubset([{ "name": "Euro" }]);
+    let assessements = await CatalogService.read("Assessments")
+    expect(assessements).to.containSubset([{ "ID": "7152266c-d4bd-42d2-85d9-9a770d649c8b", "description":"Project 1 - Assessment 1 - HT-1001" }]);
   })
 })
 
