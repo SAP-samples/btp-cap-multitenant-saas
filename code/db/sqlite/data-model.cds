@@ -1,8 +1,3 @@
 
-using { cuid } from '@sap/cds/common';
-
-context susaas.common {
-    entity Shared : cuid {
-        value : String;
-    };
-}
+using { susaas.common.Shared } from '../data-model';
+extend susaas.common.Shared with @cds.persistence.exists: false;

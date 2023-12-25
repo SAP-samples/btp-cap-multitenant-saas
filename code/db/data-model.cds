@@ -159,3 +159,9 @@ context susaas.db {
                 recycleShare    : Percentage;  
       }
 }
+
+context susaas.common {
+    entity Shared : cuid {
+        value  : String;
+    }
+}
