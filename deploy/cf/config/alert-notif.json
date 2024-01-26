@@ -1,4 +1,5 @@
-{
+{    
+    "enableCloudControllerAuditEvents": true,
     "configuration":{
         "actions": [
             {
