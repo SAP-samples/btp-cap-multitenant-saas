@@ -112,23 +112,7 @@ More information on how to share your SAP HANA Cloud instance with your Cloud Fo
 
 [<img src="./images/HanaCloudCf.png" width="600"/>](./images/HanaCloudCf.png?raw=true)
 
-
-## 4. SAP Alert Notification Technical User
-
-**Kyma** (only)
-
-For the Kyma environment, this step is not required as no lifecycle events are send by the sample application using the Alert Notification Service. 
-
-**Cloud Foundry** (only)
-
-If you are using the Cloud Foundry Runtime, please add a dedicated Technical User as a Space Auditor to the Cloud Foundry Space of your Provider Subaccount. This user is required by SAP Alert Notification to inform you about lifecycle events of your SaaS application. You can find a list of users per region in the official SAP Help documentaton ([click here](https://help.sap.com/docs/ALERT_NOTIFICATION/5967a369d4b74f7a9c2b91f5df8e6ab6/4255e6064ea44f20a540c5ae0804500d.html?locale=en-US)).
-
-For **us10** region, please add for example **sap_cp_us10_ans@sap.com** as a Space Auditor. 
-
-[<img src="./images/Space_TechUser.png" width="500"/>](./images/Space_TechUser.png?raw=true)
-
-
-## 5. Limitations of free and trial services plans
+## 4. Limitations of free and trial services plans
 
 When using **free** SAP BTP services plans like **trial** for Kyma or **hana-free** for SAP HANA Cloud, please be aware of the following limitations:
 
@@ -146,7 +130,7 @@ When using **free** SAP BTP services plans like **trial** for Kyma or **hana-fre
 - Free **SAP HANA Cloud** instances will be stopped on a daily basis, to reduce resource consumption. Check (and if necessary restart) your SAP HANA Cloud instance before using your SaaS scenarios. Furthermore, you have **30 days** to **restart** your instances or they will be **deleted**.
 
 
-## 6. Further information
+## 5. Further information
 
 Please use the following links to find further information on the topics above:
 
