@@ -1,4 +1,4 @@
-FROM sapse/html5-app-deployer:5.0.2
+FROM sapse/html5-app-deployer:6.0.0
 
 # Create app directory
 RUN mkdir -p /app
