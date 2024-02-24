@@ -116,6 +116,9 @@
     "--- Model Settings ----": "---",
     " ----------------------": "---",
     "db-ext": {
+      "[production]": {
+        "model": "../db/hana"
+      },
       "[local-with-mtx]": {
         "model": [
           "../api/srv",
@@ -125,7 +128,8 @@
       "[development]": {
         "model": [
           "../api/srv",
-          "../test"
+          "../test",
+          "../db/sqlite"
         ]
       }
     }

@@ -1,4 +1,5 @@
-using {susaas.db as db} from '../../db/data-model';
+using {susaas.db as db,
+       susaas.common as common } from '../../db/data-model';
 
 service AdminService @(path : '/catalog/AdminService', impl: 'srv/admin-service') {
   
@@ -28,6 +29,7 @@ service AdminService @(path : '/catalog/AdminService', impl: 'srv/admin-service'
   }
 
   entity Products as projection on db.Products
+  entity SharedEntity as projection on common.Shared
 
 };
 

@@ -5,7 +5,7 @@
             { 
                 "name":"SUSAAS_COMMON_SHARED", 
                 "type":"TABLE", 
-                "privileges":[ "SELECT" ], 
+                "privileges":[ "SELECT" ,"INSERT","UPDATE","DELETE"], 
                 "privileges_with_grant_option":[] 
             }
         ]
