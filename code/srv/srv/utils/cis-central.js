@@ -1,9 +1,9 @@
 import axios from 'axios';
 import xsenv from '@sap/xsenv';
 import TokenUtils from './token-utils.js';
-
+import cds from '@sap/cds'
 let sm = new Object();
-
+const Logger = cds.log('cloud-management-service')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
     sm = xsenv.getServices({ sm: { label: 'service-manager',  plan : 'subaccount-admin' } }).sm;
 }
@@ -34,14 +34,14 @@ class CloudManagementCentral{
             };
             let response = await axios(optionsInstance);
             
-            console.log(`Service instance successfully created for ${serviceOffering}-${servicePlan}`);
+            Logger.log(`Service instance successfully created for ${serviceOffering}-${servicePlan}`);
 
             // Store instanceData
             this.instanceDetails = response.data;
             return response.data;
         } catch (error) {
-            console.error(`Error: Service instance can not be created for ${serviceOffering}-${servicePlan}`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service instance can not be created for ${serviceOffering}-${servicePlan}`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -60,13 +60,13 @@ class CloudManagementCentral{
             };
             let response = await axios(options);
 
-            console.log(`Service binding created for ${this.instanceDetails.id}`);
+            Logger.log(`Service binding created for ${this.instanceDetails.id}`);
             // Store instanceData
             this.bindingDetails = response.data;
             return response.data;
         } catch (error) {
-            console.error(`Error: Service binding can not be created for ${this.instanceDetails.id}`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service binding can not be created for ${this.instanceDetails.id}`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -84,11 +84,11 @@ class CloudManagementCentral{
             };
             let response = await axios(optionsInstance);
 
-            console.log(`Service instance ${this.instanceDetails.id} successfully deleted`);
+            Logger.log(`Service instance ${this.instanceDetails.id} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service instance can not be deleted`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service instance can not be deleted`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -106,11 +106,11 @@ class CloudManagementCentral{
             };
             let response = await axios(optionsInstance);
 
-            console.log(`Service binding ${this.bindingDetails.id} successfully deleted`);
+            Logger.log(`Service binding ${this.bindingDetails.id} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service binding can not be deleted`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service binding can not be deleted`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -132,12 +132,12 @@ class CloudManagementCentral{
             };
             let response = await axios(authOptions);
             
-            console.log(`Service manager in tenant subaccount ${tenant} successfully created`);
+            Logger.log(`Service manager in tenant subaccount ${tenant} successfully created`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service manager can not be created in tenant subaccount ${tenant}`);
-            console.error(`Error: ${error.message}`)
-            console.error("Error: Broker automation skipped");
+            Logger.error(`Error: Service manager can not be created in tenant subaccount ${tenant}`);
+            Logger.error(`Error: ${error.message}`)
+            Logger.error("Error: Broker automation skipped");
             throw error;
         }
     }
@@ -159,11 +159,11 @@ class CloudManagementCentral{
             };
             let response = await axios(authOptions);
             
-            console.log(`Service manager in tenant subaccount ${tenant} successfully deleted`);
+            Logger.log(`Service manager in tenant subaccount ${tenant} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service manager can not be deleted from tenant subaccount ${tenant}`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service manager can not be deleted from tenant subaccount ${tenant}`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -176,8 +176,8 @@ class CloudManagementCentral{
             }
             return this.tokenStore.token;
         } catch (error) {
-            console.error("Error: Unable to get a token for Service Manager");
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Unable to get a token for Service Manager");
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }

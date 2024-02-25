@@ -1,6 +1,7 @@
 import axios from 'axios';
 import TokenUtils from './token-utils.js';
-
+import cds from '@sap/cds'
+const Logger = cds.log('sm-utils')
 class ServiceManager {
     tokenStore = new Object()
     
@@ -27,11 +28,11 @@ class ServiceManager {
             };
             let response = await axios(optionsInstance);
 
-            console.log(`Service instance successfully created for ${serviceOffering}-${servicePlan}`);
+            Logger.log(`Service instance successfully created for ${serviceOffering}-${servicePlan}`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service instance can not be created for ${serviceOffering}-${servicePlan}`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service instance can not be created for ${serviceOffering}-${servicePlan}`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -50,11 +51,11 @@ class ServiceManager {
             };
             let response = await axios(options);
 
-            console.log(`Service binding created for ${serviceInstanceId}`);
+            Logger.log(`Service binding created for ${serviceInstanceId}`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service binding can not be created for ${serviceInstanceId}`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service binding can not be created for ${serviceInstanceId}`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -72,11 +73,11 @@ class ServiceManager {
             };
             let response = await axios(optionsInstance);
 
-            console.log(`Service instance ${serviceInstanceId} successfully deleted`);
+            Logger.log(`Service instance ${serviceInstanceId} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service instance can not be deleted`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service instance can not be deleted`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -94,11 +95,11 @@ class ServiceManager {
             };
             let response = await axios(optionsInstance);
 
-            console.log(`Service binding ${serviceBindingId} successfully deleted`);
+            Logger.log(`Service binding ${serviceBindingId} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error(`Error: Service binding can not be deleted`);
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: Service binding can not be deleted`);
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -119,11 +120,11 @@ class ServiceManager {
             }
             let response = await axios(optionsBinding);
 
-            console.log(`Successfully retrieved service bindings for ${tenant}`);
+            Logger.log(`Successfully retrieved service bindings for ${tenant}`);
             return response.data.items;
         } catch (error) {
-            console.error("Error: Can not retrieve service bindings")
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Can not retrieve service bindings")
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -136,8 +137,8 @@ class ServiceManager {
             }
             return this.tokenStore.token;
         } catch (error) {
-            console.error("Error: Unable to get a token for Service Manager");
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Unable to get a token for Service Manager");
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -167,11 +168,11 @@ class ServiceManager {
             };
             let response = await axios(options);
 
-            console.log(`Service Broker ${name} successfully created`);
+            Logger.log(`Service Broker ${name} successfully created`);
             return response.data;
         } catch (error) {
-            console.error("Error: Service Broker can not be created");
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Service Broker can not be created");
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -189,11 +190,11 @@ class ServiceManager {
             };
             let response = await axios(options);
 
-            console.log(`Service Broker ${serviceBrokerId} successfully deleted`);
+            Logger.log(`Service Broker ${serviceBrokerId} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error("Error: Service Broker can not be deleted");
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Service Broker can not be deleted");
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }
@@ -214,11 +215,11 @@ class ServiceManager {
             };
             let response = await axios(options);
 
-            console.log(`Service Broker ${name} successfully retrieved`);
+            Logger.log(`Service Broker ${name} successfully retrieved`);
             return response.data.items[0];
         } catch (error) {
-            console.error("Error: Unable to retrieve Service Broker");
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Unable to retrieve Service Broker");
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }

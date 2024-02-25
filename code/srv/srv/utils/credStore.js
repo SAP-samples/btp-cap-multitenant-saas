@@ -2,14 +2,14 @@
 import fetch from 'node-fetch';
 import jose from 'node-jose';
 import xsenv from '@sap/xsenv';
-
+import cds from '@sap/cds';
 let credStore = new Object(); 
-
+const Logger = cds.log('credstore')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
     try{
         credStore = xsenv.getServices({ credStore: { tag: 'credstore' }}).credStore;
     }catch(error){
-        console.log("[cds] - Credential Store Binding is missing, therefore CAP will not interact with Credential Store Service");
+        Logger.log("Credential Store Binding is missing, therefore CAP will not interact with Credential Store Service");
     }
 }
 

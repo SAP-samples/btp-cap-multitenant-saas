@@ -5,8 +5,8 @@ import Destination from './destination.js';
 import KymaUtils from './kyma-utils.js';
 import CredStore from './credStore.js';
 import CfUtils from './cf-utils.js';
-
-
+import cds from '@sap/cds'
+const Logger = cds.log('automator')
 class TenantAutomator {
     serviceBroker;
     cisCentralName;
@@ -36,9 +36,9 @@ class TenantAutomator {
         try {
             this.cisCentral = await this.createCisCentralInstance();
             this.serviceManager = await this.createServiceManager(this.tenant);
-            console.log("Automator successfully initialized!")
+            Logger.log("Automator successfully initialized!")
         } catch (error) {
-            console.error("Error: Automation can not be initialized!");
+            Logger.error("Error: Automation can not be initialized!");
             throw error;
         }
     }
@@ -53,10 +53,10 @@ class TenantAutomator {
             // Create service binding for CIS Central instance
             await this.cisCentral.createServiceBinding();
 
-            console.log("CIS Central Instance has been created successfully!")
+            Logger.log("CIS Central Instance has been created successfully!")
             return this.cisCentral;
         } catch (error) {
-            console.error("Error: CIS Central Instance can not be created!")
+            Logger.error("Error: CIS Central Instance can not be created!")
             throw error;
         }
     }
@@ -66,10 +66,10 @@ class TenantAutomator {
             // Create service manager using CIS Central instance
             let serviceManagerCredentials = await this.cisCentral.createServiceManager(tenant);
 
-            console.log("Service manager has been created successfully!")
+            Logger.log("Service manager has been created successfully!")
             return new ServiceManager(serviceManagerCredentials);
         } catch (error) {
-            console.error("Error: Service Manager can not be created!")
+            Logger.error("Error: Service Manager can not be created!")
             throw error;
         }
     }
@@ -83,9 +83,9 @@ class TenantAutomator {
             // Delete CIS Central instance from SAP BTP
             await this.cisCentral.deleteServiceInstance();
 
-            console.log("Clean up successfully completed!");
+            Logger.log("Clean up successfully completed!");
         } catch (error) {
-            console.error("Error: Clean up can not be completed!");
+            Logger.error("Error: Clean up can not be completed!");
             throw error;
         }
     }
@@ -99,10 +99,10 @@ class TenantAutomator {
                 this.serviceBroker.user,
                 this.serviceBroker.password
             );
-            console.log("Susaas Inbound API Broker registered successfully!")
+            Logger.log("Susaas Inbound API Broker registered successfully!")
         } catch (error) {
-            console.error("Error: Service broker cannot be registered!")
-            console.error(`Error: ${error.message}`);
+            Logger.error("Error: Service broker cannot be registered!")
+            Logger.error(`Error: ${error.message}`);
         }
     }
 
@@ -110,10 +110,10 @@ class TenantAutomator {
         try {
             let sb = await this.serviceManager.getServiceBroker(`${this.serviceBroker.name}-${this.tenant}`)
             await this.serviceManager.deleteServiceBroker(sb.id)
-            console.log(`Service Broker ${this.serviceBroker.name} deleted`);
+            Logger.log(`Service Broker ${this.serviceBroker.name} deleted`);
         } catch (error) {
-            console.error(`Error: Service Broker can not be deleted`);
-            console.error(`Error: ${error.message}`);
+            Logger.error(`Error: Service Broker can not be deleted`);
+            Logger.error(`Error: ${error.message}`);
         }
     }
 
@@ -131,10 +131,10 @@ class TenantAutomator {
             }];
             const destination = new Destination(this.subdomain);
             await destination.createDestination(destConfig)
-            console.log(`Sample destination ${destName} is created in tenant subaccount`);
+            Logger.log(`Sample destination ${destName} is created in tenant subaccount`);
         } catch (error) {
-            console.error("Error: Sample destination can not be created in tenant subaccount")
-            console.error(`Error: ${error.message}`);
+            Logger.error("Error: Sample destination can not be created in tenant subaccount")
+            Logger.error(`Error: ${error.message}`);
         }
     }
     
@@ -143,10 +143,10 @@ class TenantAutomator {
             const destName = this.destinationName;
             const destination = new Destination(this.subdomain);
             await destination.deleteDestination(destName)
-            console.log(`Sample destination ${destName} is deleted from tenant subaccount`);
+            Logger.log(`Sample destination ${destName} is deleted from tenant subaccount`);
         } catch (error) {
-            console.error(`Error: Sample destination ${destName} can not be deleted from tenant subaccount`);
-            console.error(`Error: ${error.message}`);
+            Logger.error(`Error: Sample destination ${destName} can not be deleted from tenant subaccount`);
+            Logger.error(`Error: ${error.message}`);
         }
     }
 }
@@ -166,7 +166,7 @@ class Kyma extends TenantAutomator {
             this.cisCentralName = `${process.env["HELM_RELEASE"]}-${process.env["KYMA_NAMESPACE"]}-cis-central`
             this.destinationName = `${process.env["HELM_RELEASE"].toUpperCase()}_${process.env["KYMA_NAMESPACE"].toUpperCase()}_S4HANA_CLOUD`
         } catch (error) {
-            console.error("Error: Error initializing the automator!")
+            Logger.error("Error: Error initializing the automator!")
             throw error;
         }
     }
@@ -176,9 +176,9 @@ class Kyma extends TenantAutomator {
             await super.deployTenantArtifacts();
             const kymaUtils = new KymaUtils(this.subdomain, this.custdomain);
             await kymaUtils.createApiRule(kymaUtils.getApiRuleTmpl());
-            console.log("Automation: Deployment has been completed successfully!")
+            Logger.log("Automation: Deployment has been completed successfully!")
         } catch (error) {
-            console.error("Error: Tenant artifacts cannot be deployed!") 
+            Logger.error("Error: Tenant artifacts cannot be deployed!") 
             throw error;
         }
     }
@@ -188,9 +188,9 @@ class Kyma extends TenantAutomator {
             await super.undeployTenantArtifacts();
             const kymaUtils = new KymaUtils(this.subdomain);
             await kymaUtils.deleteApiRule(kymaUtils.getApiRuleTmpl());
-            console.log("Automation: Undeployment has been completed successfully!")
+            Logger.log("Automation: Undeployment has been completed successfully!")
         } catch (error) {
-            console.error("Error: Tenant artifacts cannot be undeployed!")
+            Logger.error("Error: Tenant artifacts cannot be undeployed!")
             throw error;
         }
     }
@@ -218,7 +218,7 @@ class CloudFoundry extends TenantAutomator {
             this.credentials = new Map();
             this.cfUtils = new CfUtils();
         } catch (error) {
-            console.error("Error: Error initializing the automator!")
+            Logger.error("Error: Error initializing the automator!")
             throw error;
         }
     }
@@ -231,9 +231,9 @@ class CloudFoundry extends TenantAutomator {
             let btpAdmin = this.credentials.get("btp-admin-user")
             await this.cfUtils.login(btpAdmin.username, btpAdmin.value);
 
-            console.log("Cloud Foundry login successful!")
+            Logger.log("Cloud Foundry login successful!")
         } catch (error) {
-            console.error("Error: Cloud Foundry login not successful");
+            Logger.error("Error: Cloud Foundry login not successful");
             throw error;
         }
     }
@@ -243,9 +243,9 @@ class CloudFoundry extends TenantAutomator {
             await super.deployTenantArtifacts();
             // Don't create route in case of '.' used as tenant separator - wildcard route used!
             process.env.tenantSeparator !== '.' && await this.createRoute();
-            console.log("Automation: Deployment has been completed successfully!")
+            Logger.log("Automation: Deployment has been completed successfully!")
         } catch (error) {
-            console.error("Error: Tenant artifacts cannot be deployed!") 
+            Logger.error("Error: Tenant artifacts cannot be deployed!") 
             throw error;
         }
     }
@@ -255,9 +255,9 @@ class CloudFoundry extends TenantAutomator {
             await super.undeployTenantArtifacts();
             // Don't create route in case of '.' used as tenant separator - wildcard route used!
             process.env.tenantSeparator !== '.' && await this.deleteRoute();
-            console.log("Automation: Undeployment has been completed successfully!")
+            Logger.log("Automation: Undeployment has been completed successfully!")
         } catch (error) {
-            console.error("Error: Tenant artifacts cannot be undeployed!")
+            Logger.error("Error: Tenant artifacts cannot be undeployed!")
             throw error;
         }
     }
@@ -266,7 +266,7 @@ class CloudFoundry extends TenantAutomator {
         try {
             await this.cfUtils.createRoute(this.subdomain + process.env.tenantSeparator + process.env.appName, process.env.appName);
         } catch (error) {
-            console.error("Error: Route could not be created!")
+            Logger.error("Error: Route could not be created!")
             throw error;
         }
     }
@@ -275,7 +275,7 @@ class CloudFoundry extends TenantAutomator {
         try {
             await this.cfUtils.deleteRoute(this.subdomain + process.env.tenantSeparator  + process.env.appName, process.env.appName);
         } catch (error) {
-            console.error("Error: Route could not be deleted!")
+            Logger.error("Error: Route could not be deleted!")
             throw error;
         }
     }
@@ -292,9 +292,9 @@ class CloudFoundry extends TenantAutomator {
             this.serviceBroker.user = serviceBroker.username;
             this.serviceBroker.password = serviceBroker.value;
             
-            console.log("Credentials retrieved from credential store successfully");
+            Logger.log("Credentials retrieved from credential store successfully");
         } catch (error) {
-            console.error('Unable to retrieve credentials from cred store, please make sure that they are created! Automation skipped!');
+            Logger.error('Unable to retrieve credentials from cred store, please make sure that they are created! Automation skipped!');
             throw (error);
         }
     }

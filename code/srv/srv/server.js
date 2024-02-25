@@ -16,7 +16,7 @@ cds.on('served', async () => {
     if(provisioning){
         provisioning.prepend(new ProvisioningService().service);
     }else{
-        console.log("There is no service, therefore does not serve multitenancy!");
+        cds.log().warn("There is no service, therefore does not serve multitenancy!");
     }
 });
 

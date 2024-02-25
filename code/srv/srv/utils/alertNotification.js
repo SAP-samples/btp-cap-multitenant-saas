@@ -1,14 +1,14 @@
 import xsenv from '@sap/xsenv';
 import { OAuthAuthentication, AlertNotificationClient, Severity, Category } from '@sap_oss/alert-notification-client';
 import { Region, Platform } from '@sap_oss/alert-notification-client/dist/utils/region.js';
-
+import cds from '@sap/cds'
 let anf = new Object();
-
+const Logger = cds.log("notification")
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
     try{ 
         anf = xsenv.getServices({ anf: { label: 'alert-notification' } }).anf;
     }catch(error){
-        console.log("[cds] - Alert Notification Binding is missing, therefore CAP will not interact with Alert Notification Service");
+        Logger.log("Alert Notification Binding is missing, therefore CAP will not interact with Alert Notification Service");
     }    
 }
 
@@ -44,8 +44,8 @@ class AlertNotification {
                     return await this.processEventDefault(client, event.data); 
             }
         } catch (error) {
-            console.error(`Error: An error occured initializing Alert Notification Client`)
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: An error occured initializing Alert Notification Client`)
+            Logger.error(`Error: ${error.message}`)
         };
     }
 
@@ -67,8 +67,8 @@ class AlertNotification {
                 priority: 1
             });
         }catch(error){
-            console.error(`Error: An error occurred sending an Alert Notification Event`); 
-            console.error(`Error: ${error.message}`)
+            Logger.error(`Error: An error occurred sending an Alert Notification Event`); 
+            Logger.error(`Error: ${error.message}`)
         }
     }
 

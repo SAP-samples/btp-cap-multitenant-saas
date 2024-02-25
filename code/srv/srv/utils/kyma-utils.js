@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import k8s from '@kubernetes/client-node';
-
+import cds from '@sap/cds'
+const Logger = cds.log('kyma-utils')
 const kc = new k8s.KubeConfig();
 kc.loadFromCluster();
 const k8sApi = kc.makeApiClient(k8s.CustomObjectsApi);
@@ -33,11 +34,11 @@ class KymaUtils {
             );
 
             if (result.response.statusCode == 200) {
-                console.log("Success: API Rule deleted!");
+                Logger.log("Success: API Rule deleted!");
             }
         } catch (error) {
-            console.error("Error: API Rule deletion error!");
-            console.error(`Error: ${error.message}`);
+            Logger.error("Error: API Rule deletion error!");
+            Logger.error(`Error: ${error.message}`);
         }
     }
 
@@ -52,12 +53,12 @@ class KymaUtils {
             );
 
             if (result.response.statusCode == 200) {
-                console.log(`${apiRuleTempl.metadata.name} already exists.`);
+                Logger.log(`${apiRuleTempl.metadata.name} already exists.`);
             }
         } catch (error) {
 
             // Create API Rule if does not non-exist
-            console.warn(`${apiRuleTempl.metadata.name} does not exist. Creating a new one.`);
+            Logger.warn(`${apiRuleTempl.metadata.name} does not exist. Creating a new one.`);
             
             try {
                 const createResult = await k8sApi.createNamespacedCustomObject(
@@ -69,11 +70,11 @@ class KymaUtils {
                 );
 
                 if (createResult.response.statusCode == 201) {
-                    console.log("API Rule created!");
+                    Logger.log("API Rule created!");
                 }
             } catch (error) {
-                console.error("Error: Failed to create APIRule!");
-                console.error(`Error: ${error.message}`);
+                Logger.error("Error: Failed to create APIRule!");
+                Logger.error(`Error: ${error.message}`);
             }
         }
     }
@@ -121,11 +122,11 @@ class KymaUtils {
                 }
             };
 
-            console.log("API Template: " + JSON.stringify(apiRuleTemplate));
+            Logger.log("API Template: " + JSON.stringify(apiRuleTemplate));
 
             return apiRuleTemplate;
         }catch(error){
-            console.error("Error: API Rule cannot not be generated") 
+            Logger.error("Error: API Rule cannot not be generated") 
             throw error;
         }
     }

@@ -3,7 +3,8 @@ import cfenv from 'cfenv';
 
 const { getAppEnv } = cfenv;
 const appEnv = getAppEnv();
-
+import cds from '@sap/cds'
+const Logger = cds.log('cf-utils')
 class CfUtils {
 
     async login(username, password) {
@@ -33,11 +34,11 @@ class CfUtils {
             }
             let loginResponse = await axios(optionsLogin);
             this.token = loginResponse.data.access_token
-            console.log(`Login to CF with user ${username} successful`);
+            Logger.log(`Login to CF with user ${username} successful`);
             return loginResponse.data.access_token;
         } catch (error) {
-            console.error(`Error: Can not login to CF with user ${username}`);
-            console.error(error.message);
+            Logger.error(`Error: Can not login to CF with user ${username}`);
+            Logger.error(error.message);
         }
     }
 
@@ -64,11 +65,11 @@ class CfUtils {
                 'app_id': res1.data.resources[0].guid,
                 'domain_id': res2.data.resources[0].guid
             };
-            console.log(`Domain info for ${appname} successfully retrieved`);
+            Logger.log(`Domain info for ${appname} successfully retrieved`);
             return results;
         } catch (error) {
-            console.error(`Error: Can get domain info for app ${appname}`);
-            console.error(error.message);
+            Logger.error(`Error: Can get domain info for app ${appname}`);
+            Logger.error(error.message);
         }
     };
 
@@ -115,11 +116,11 @@ class CfUtils {
             }
 
             let res2 = await axios(optionsApp)
-            console.log(`Route for ${tenantHost} successfully created`);
+            Logger.log(`Route for ${tenantHost} successfully created`);
             return res2.data;
         } catch (error) {
-            console.error("Error: Route can not be created for ", tenantHost);
-            console.error(error.message);
+            Logger.error("Error: Route can not be created for ", tenantHost);
+            Logger.error(error.message);
         }
     };
 
@@ -135,11 +136,11 @@ class CfUtils {
                 }
             };
             let response = await axios(options)
-            console.log(`Route for ${tenantHost} successfully deleted`);
+            Logger.log(`Route for ${tenantHost} successfully deleted`);
             return response.data;
         } catch (error) {
-            console.error("Error: Route can not be deleted for ", tenantHost);
-            console.error(error.message);
+            Logger.error("Error: Route can not be deleted for ", tenantHost);
+            Logger.error(error.message);
         }
     }
     
@@ -159,12 +160,12 @@ class CfUtils {
             if (response.data.pagination.total_results === 1) {
                 return response.data;
             } else {
-                console.error(`Error: Route for app ${appId} and host ${tenantHost} can not be found`);
+                Logger.error(`Error: Route for app ${appId} and host ${tenantHost} can not be found`);
                 throw new Error(`Error: Route for app ${appId} and host ${tenantHost} can not be found`)
             }
         } catch (error) {
-            console.error("Error: Can not find the route")
-            console.error(error.message);
+            Logger.error("Error: Can not find the route")
+            Logger.error(error.message);
         }
     }
 }

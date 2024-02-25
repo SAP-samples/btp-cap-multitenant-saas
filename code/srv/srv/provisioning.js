@@ -2,21 +2,21 @@ import cds from '@sap/cds';
 import xsenv from '@sap/xsenv';
 import Automator from './utils/automator.js';
 import AlertNotification from './utils/alertNotification.js';
-
+const Logger = cds.log('provisioning')
 class Provisioning {    
     service = (service) => {
         service.on('UPDATE', 'tenant', async (req, next) => {
-            console.log('Subscription Data: ', JSON.stringify(req.data));
+            Logger.log('Subscription Data: ', JSON.stringify(req.data));
             const { 
                 subscribedSubdomain: subdomain, 
                 subscribedTenantId : tenant, 
                 subscriptionParams : params = {}
             }  = req.data;
     
-            console.log("Subscription Params: " + params);
+            Logger.log("Subscription Params: " + params);
             const { custSubdomain: custdomain = null } = params;
 
-            console.log('Custdomain ' + custdomain);
+            Logger.log('Custdomain ' + custdomain);
             const tenantURL = this.getTenantUrl(subdomain, custdomain);
             
             // Trigger default provisioning tasks like HANA deployment
@@ -31,7 +31,7 @@ class Provisioning {
                     const automator = new Automator(tenant, subdomain, custdomain);
                     await automator.deployTenantArtifacts();
                     
-                    console.log("Success: Onboarding completed!");
+                    Logger.log("Success: Onboarding completed!");
     
                 } catch (error) {
                     const alertNotification = new AlertNotification();
@@ -50,8 +50,8 @@ class Provisioning {
                         }) : '';
     
                     // Log error
-                    console.error("Error: Automation skipped because of error during subscription");
-                    console.error(`Error: ${error.message}`);
+                    Logger.error("Error: Automation skipped because of error during subscription");
+                    Logger.error(`Error: ${error.message}`);
                 }
             })
     
@@ -59,7 +59,7 @@ class Provisioning {
         });
     
         service.on('DELETE', 'tenant', async (req, next) => {
-            console.log('Unsubscribe Data: ', JSON.stringify(req.data));
+            Logger.log('Unsubscribe Data: ', JSON.stringify(req.data));
             const { subscribedSubdomain: subdomain, subscribedTenantId : tenant }  = req.data;
             
             await next();
@@ -68,7 +68,7 @@ class Provisioning {
                 const automator = new Automator(tenant, subdomain);
                 await automator.undeployTenantArtifacts();
                 
-                console.log("Success: Unsubscription completed!");
+                Logger.log("Success: Unsubscription completed!");
     
             } catch (error) {
                 const alertNotification = new AlertNotification();
@@ -86,8 +86,8 @@ class Provisioning {
                         }
                     }) : '';
     
-                console.error("Error: Automation skipped because of error during unsubscription");
-                console.error(`Error: ${error.message}`);
+                Logger.error("Error: Automation skipped because of error during unsubscription");
+                Logger.error(`Error: ${error.message}`);
             }
     
             return tenant;
@@ -97,7 +97,7 @@ class Provisioning {
         service.on('upgradeTenant', async (req, next) => {
             await next();
             const { instanceData, deploymentOptions } = cds.context.req.body;
-            console.log('UpgradeTenant: ', req.data.subscribedTenantId, req.data.subscribedSubdomain, instanceData, deploymentOptions);
+            Logger.log('UpgradeTenant: ', req.data.subscribedTenantId, req.data.subscribedSubdomain, instanceData, deploymentOptions);
         });
     
     
@@ -111,7 +111,7 @@ class Provisioning {
             dependencies.push({ xsappname: services.html5Runtime.uaa.xsappname });
             dependencies.push({ xsappname: services.destination.xsappname });
             
-            console.log("SaaS Dependencies:", JSON.stringify(dependencies));
+            Logger.log("SaaS Dependencies:", JSON.stringify(dependencies));
             return dependencies;
         });
     }
@@ -120,7 +120,7 @@ class Provisioning {
 class Kyma extends Provisioning {
     getTenantUrl(subdomain, custdomain){
         if(custdomain && custdomain !== '') { 
-            console.log(`Custom subdomain - ${custdomain} - used for tenant Url!`)
+            Logger.log(`Custom subdomain - ${custdomain} - used for tenant Url!`)
             return "https:\/\/" + `${custdomain}.${process.env["CLUSTER_DOMAIN"]}`
         }else{
             return "https:\/\/" + `${subdomain}-${process.env["ROUTER_NAME"]}-${process.env["KYMA_NAMESPACE"]}.${process.env["CLUSTER_DOMAIN"]}`;
