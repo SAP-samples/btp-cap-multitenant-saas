@@ -1,9 +1,9 @@
 import axios from 'axios';
 import xsenv from '@sap/xsenv';
 import TokenUtils from './token-utils.js';
-
+import cds from '@sap/cds'
 let ds = new Object()
-
+const Logger = cds.log('destination')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
     ds = xsenv.getServices({ ds: { tag: 'destination' } }).ds;
 }
@@ -29,11 +29,11 @@ class Destination {
             let response = await axios(dptions);
             let destination = JSON.parse(response.config.data);
     
-            console.log("Destination successfully created.")
+            Logger.log("Destination successfully created.")
             return destination;
         } catch (error) {
-            console.error("Error: Destination can not be created.")
-            console.error(`Error: ${error.message}`);
+            Logger.error("Error: Destination can not be created.")
+            Logger.error(`Error: ${error.message}`);
             throw error;
         }
     }
@@ -52,11 +52,11 @@ class Destination {
             }
             let response = await axios(dptions);
     
-            console.log("Destination successfully deleted.")
+            Logger.log("Destination successfully deleted.")
             return response;
         } catch (error) {
-            console.error("Error: Destination can not be deleted.")
-            console.error(`Error: ${error.message}`);
+            Logger.error("Error: Destination can not be deleted.")
+            Logger.error(`Error: ${error.message}`);
             throw error;
         }
     }
@@ -75,11 +75,11 @@ class Destination {
             }
             let response = await axios(dptions);
     
-            console.log("Destination successfully retrieved.")
+            Logger.log("Destination successfully retrieved.")
             return response.data;
         } catch (error) {
-            console.error("Error: Destination can not be retrieved.")
-            console.error(`Error: ${error.message}`);
+            Logger.error("Error: Destination can not be retrieved.")
+            Logger.error(`Error: ${error.message}`);
         }
     }
 

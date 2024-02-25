@@ -1,6 +1,7 @@
 
 import axios from 'axios';
-
+import cds from '@sap/cds'
+const Logger = cds.log('token-utils')
 class TokenUtils {
 
     static async getTokenWithClientCreds(tokenEndpoint, clientid, clientsecret) {
@@ -19,12 +20,12 @@ class TokenUtils {
             };
             let response = await axios(authOptions);
             let token = response.data.access_token;
-            
-            console.log("Token successfully retrieved!")
+            Logger.debug
+            ("Token successfully retrieved!")
             return token;
         } catch (error) {
-            console.error("Error: Token can not be retrieved!")
-            console.error(`Error: ${error.message}`)
+            Logger.error("Error: Token can not be retrieved!")
+            Logger.error(`Error: ${error.message}`)
             throw error;
         }
     }

@@ -1,6 +1,6 @@
 import cds from '@sap/cds';
 import UserManagement from "./utils/user-management.js";
-
+const Logger = cds.log('admin-service');
 export default cds.service.impl(async function() {
     const { Users } = this.entities;
 
@@ -31,7 +31,7 @@ export default cds.service.impl(async function() {
                     req.data.iasLocation = userInfo?.iasLocation;
                     req.data.shadowId = userInfo.shadow.id;
                     
-                    console.log("User successfully created!", JSON.stringify(userInfo));
+                    Logger.log("User successfully created!", JSON.stringify(userInfo));
                     req.notify(200, 'User successfully created!')
                 } else {
                     let diff = await req.diff();
@@ -41,13 +41,13 @@ export default cds.service.impl(async function() {
                         await userManagement.removeRoleCollectionFromUser(users[0].role_ID, users[0].shadowId);
                         await userManagement.assignRoleCollectionToUser(req.data.role_ID, users[0].shadowId);
 
-                        console.log("User successfully updated!");
+                        Logger.log("User successfully updated!");
                         req.notify(200, 'User successfully updated!')
                     }
                 }
             } catch(error){
-                console.error(`Error: An error occurred while saving the user!`);
-                console.error("Error: ", error.message);
+                Logger.error(`Error: An error occurred while saving the user!`);
+                Logger.error("Error: ", error.message);
                 req.reject(500, error.message)
             }
         })
@@ -80,12 +80,12 @@ export default cds.service.impl(async function() {
                     response.push({ ID: roleCollection.id, description: roleCollection.description });
                 })
 
-                console.log("Role collections successfully read!");
+                Logger.log("Role collections successfully read!");
 
                 req.reply(response);
             }catch(error){
-                console.error(`Error: An error occurred while reading the application roles!`);
-                console.error("Error: ", error.message);
+                Logger.error(`Error: An error occurred while reading the application roles!`);
+                Logger.error("Error: ", error.message);
                 req.reject(500, error.message)
             }
         })
@@ -102,11 +102,11 @@ export default cds.service.impl(async function() {
 
                 await userManagement.deleteUser(user[0]);
                 
-                console.log("User successfully deleted!");
+                Logger.log("User successfully deleted!");
                 req.notify(200, 'User successfully deleted!')
             }catch(error){
-                console.error(`Error: An error occurred while deleting the user!`);
-                console.error("Error: ", error.message);
+                Logger.error(`Error: An error occurred while deleting the user!`);
+                Logger.error("Error: ", error.message);
                 req.reject(500, error.message)
             }
         })
