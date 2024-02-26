@@ -16,11 +16,11 @@ Below you can find the solution architecture diagrams of our sample application.
 
 **Kyma**
 
-[<img src="./docu/4-expert/0-introduction-expert-features/images/App_Architecture_ExpertKyma.png" width="600" />](./docu/4-expert/0-introduction-expert-features/images/App_Architecture_ExpertKyma.png?raw=true)
+[<img src="./docu/4-expert/0-introduction-expert-features/images/Susaas_App_Architecture_ExpertKyma.png" width="600" />](./docu/4-expert/0-introduction-expert-features/images/Susaas_App_Architecture_ExpertKyma.png?raw=true)
 
 **Cloud Foundry**
 
-[<img src="./docu/4-expert/0-introduction-expert-features/images/App_Architecture_ExpertCf.png" width="600" />](./docu/4-expert/0-introduction-expert-features/images/App_Architecture_ExpertCf.png?raw=true)
+[<img src="./docu/4-expert/0-introduction-expert-features/images/Susaas_App_Architecture_ExpertCf.png" width="600" />](./docu/4-expert/0-introduction-expert-features/images/Susaas_App_Architecture_ExpertCf.png?raw=true)
 
 
 ## Content
