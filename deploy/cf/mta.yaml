@@ -155,6 +155,10 @@ modules:
       memory: 256MB
       disk-quota: 1024MB
       command: node ./node_modules/@sap/cds/bin/cds-serve
+      health-check-type: http
+      health-check-http-endpoint: /healthz
+      health-check-timeout: 180 # timeout at startup
+      health-check-invocation-timeout: 180 # timeout for polling
     properties:
       tenantSeparator: ~{susaas-router-api/tenant-separator}
       appDomain: ~{susaas-router-api/app-domain}
