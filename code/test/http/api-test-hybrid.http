@@ -1,8 +1,4 @@
-@xsuaaHostname = <<uaa.url in service key>>
-@btpXsuaaClient = <<uaa.clientid in service key>>
-@btpXsuaaSecret = <<uaa.clientsecret in service key>>
 @apiEndpoint = http://localhost:4005
-
 
 ##########################################
 # Get SAP XSUAA token 
@@ -10,13 +6,13 @@
 
 # @name getXsuaaToken
 
-POST {{xsuaaHostname}}/oauth/token
+POST {{$dotenv xsuaaHostname}}/oauth/token
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
-Authorization: Basic {{btpXsuaaClient}}:{{btpXsuaaSecret}}
+Authorization: Basic {{$dotenv btpXsuaaClient}}:{{$dotenv btpXsuaaSecret}}
 
-client_id={{btpXsuaaClient}}
-&client_secret={{btpXsuaaSecret}}
+client_id={{$dotenv btpXsuaaClient}}
+&client_secret={{$dotenv btpXsuaaSecret}}
 &grant_type=client_credentials
 
 
