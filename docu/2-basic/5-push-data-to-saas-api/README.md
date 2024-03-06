@@ -37,7 +37,8 @@ To connect to the SaaS API as a subscriber, make sure you followed all steps des
 
 The content of the file needs to be as follows:
 
-```xsuaaHostname=<<uaa.url in service key>>
+```
+xsuaaHostname=<<uaa.url in service key>>
 btpXsuaaClient='<<uaa.clientid in service key>>'
 btpXsuaaSecret='<<uaa.clientsecret in service key>>'
 apiEndpointBtp=<<apiUrl (!not uaa.apiUrl!) - field from Service Binding>>
@@ -55,12 +56,12 @@ Please use the marked fields for the input.
 ```http
 # @name getXsuaaToken
 
-POST {{xsuaaHostname}}/oauth/token
+POST {{$dotenv xsuaaHostname}}/oauth/token
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
 
-client_id={{btpXsuaaClient}}
-&client_secret={{btpXsuaaSecret}}
+client_id={{$dotenv btpXsuaaClient}}
+&client_secret={{$dotenv btpXsuaaSecret}}
 &grant_type=client_credentials
 ```
 
@@ -73,7 +74,7 @@ client_id={{btpXsuaaClient}}
 
 # @name uploadProductsBtp
 
-POST {{apiEndpointBtp}}/rest/api/bulkUpsertProducts
+POST {{$dotenv apiEndpointBtp}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 
@@ -99,7 +100,7 @@ Content-type: application/json
 ```http
 # @name uploadProductsExtendedBtp
 
-POST {{apiEndpointBtp}}/rest/api/bulkUpsertProducts
+POST {{$dotenv apiEndpointBtp}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 
