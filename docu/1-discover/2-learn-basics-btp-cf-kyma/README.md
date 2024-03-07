@@ -145,7 +145,7 @@ Besides using CAP for the definition of our SaaS **tenant data model**, as well 
 
 If you're to CAP, please acquaint yourself with the basics of CAP right now, before you start getting your head around our SaaS sample application deployment. Start by reading what CAP is all about (https://cap.cloud.sap/docs/about/), set foot on the Getting Started guide (https://cap.cloud.sap/docs/get-started/), run the Hello World application (https://cap.cloud.sap/docs/get-started/hello-world) and get the core features of CAP in a nutshell (https://cap.cloud.sap/docs/get-started/in-a-nutshell).
 
-Feel free to explore the following resources to learn more about CAP and check out the latest community discussions ([click here](https://blogs.sap.com/tags/9f13aee1-834c-4105-8e43-ee442775e5ce/)):
+Feel free to explore the following resources to learn more about CAP and check out the latest community discussions ([click here](https://community.sap.com/t5/c-khhcw49343/SAP+Cloud+Application+Programming+Model/pd-p/9f13aee1-834c-4105-8e43-ee442775e5ce)):
 
 - CAP Documentation - [https://cap.cloud.sap/docs/](https://cap.cloud.sap/docs/)
 - CAP Tutorials - [https://developers.sap.com/](https://developers.sap.com/tutorial-navigator.html?tag=software-product-function%3Asap-cloud-application-programming-model&tag=tutorial%3Atype%2Fmission)

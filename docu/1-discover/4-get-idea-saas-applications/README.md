@@ -45,4 +45,4 @@ This is why as a SaaS provider (especially if you're relying on powerful and exp
 
 Please use the following links to find further information on the topics above:
 
-* [SAP Blogs - Fundamentals of Multitenancy in SAP BTP](https://blogs.sap.com/2022/08/27/fundamentals-of-multitenancy-in-sap-btp/)
+* [SAP Blogs - Fundamentals of Multitenancy in SAP BTP](https://community.sap.com/t5/technology-blogs-by-sap/fundamentals-of-multitenancy-in-sap-btp/ba-p/13527283)
