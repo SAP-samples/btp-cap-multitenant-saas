@@ -9,9 +9,8 @@ In this chapter, you will learn how to prepare your SAP BTP Provider Subaccount 
   - [1. Prerequisites for Provider Subaccount](#1-prerequisites-for-provider-subaccount)
   - [2. Entitlements for Provider Subaccount](#2-entitlements-for-provider-subaccount)
   - [3. SAP HANA Cloud prerequisite](#3-sap-hana-cloud-prerequisite)
-  - [4. SAP Alert Notification Technical User](#4-sap-alert-notification-technical-user)
-  - [5. Limitations of free and trial services plans](#5-limitations-of-free-and-trial-services-plans)
-  - [6. Further information](#6-further-information)
+  - [4. Limitations of free and trial services plans](#4-limitations-of-free-and-trial-services-plans)
+  - [5. Further information](#5-further-information)
 
 
 ## 1. Prerequisites for Provider Subaccount
