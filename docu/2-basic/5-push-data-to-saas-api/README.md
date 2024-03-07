@@ -31,11 +31,21 @@ To connect to the SaaS API as a subscriber, make sure you followed all steps des
 
 1.1. Get started by switching to the **/code/test/http** directory. Here you will find sample API calls that you can use to push sample data to Tenant database containers using the multitenant SaaS API. In this sample we will push **Product** sample data (*apiProducts.http*) to the SaaS API which will be stored in the respective Tenant database container. Make sure you have the required plugin (e.g., for VS Code) installed to execute requests in HTTP files.  
 
-1.2. Each of the HTTP files contains a header section, in which you can provide the tenant-specific Client Credentials. Those are used to connect to the SaaS API as a specific Tenant. Please update the parameters using your Service Binding details. 
+1.2. Before executing the https calls, we need to create a **.env** file within the same folder **/code/test/http**, in which you can provide the tenant-specific Client Credentials.
 
 > **Important** - Make sure **not to commit** these details to GitHub! Either remove the credentials before saving or rename your HTTP files to **-private.http** (e.g., apiProducts-private.http), which are excluded by the *.gitignore* file. 
 
-[<img src="./images/API_HttpCreds.png" width="900" />](./images/API_HttpCreds.png?raw=true)
+The content of the file needs to be as follows:
+
+```
+xsuaaHostname=<<uaa.url in service key>>
+btpXsuaaClient='<<uaa.clientid in service key>>'
+btpXsuaaSecret='<<uaa.clientsecret in service key>>'
+apiEndpointBtp=<<apiUrl (!not uaa.apiUrl!) - field from Service Binding>>
+```
+
+Please use the marked fields for the input.
+[<img src="./images/API_HttpCreds-env.png" width="900" />](./images/API_HttpCreds.png?raw=true)
 
 > **Hint** - The *xsuaaHostname* is equal to the *uaa.url* parameter. The *apiEndpointBtp* equals the *apiUrl* parameter.
 
@@ -46,12 +56,12 @@ To connect to the SaaS API as a subscriber, make sure you followed all steps des
 ```http
 # @name getXsuaaToken
 
-POST {{xsuaaHostname}}/oauth/token
+POST {{$dotenv xsuaaHostname}}/oauth/token
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
 
-client_id={{btpXsuaaClient}}
-&client_secret={{btpXsuaaSecret}}
+client_id={{$dotenv btpXsuaaClient}}
+&client_secret={{$dotenv btpXsuaaSecret}}
 &grant_type=client_credentials
 ```
 
@@ -64,7 +74,7 @@ client_id={{btpXsuaaClient}}
 
 # @name uploadProductsBtp
 
-POST {{apiEndpointBtp}}/rest/api/bulkUpsertProducts
+POST {{$dotenv apiEndpointBtp}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 
@@ -90,7 +100,7 @@ Content-type: application/json
 ```http
 # @name uploadProductsExtendedBtp
 
-POST {{apiEndpointBtp}}/rest/api/bulkUpsertProducts
+POST {{$dotenv apiEndpointBtp}}/rest/api/bulkUpsertProducts
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 

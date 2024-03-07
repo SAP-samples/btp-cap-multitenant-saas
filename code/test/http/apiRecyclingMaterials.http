@@ -1,22 +1,16 @@
-@xsuaaHostname = <<uaa.url - field from Service Binding>>
-@btpXsuaaClient = <<uaa.clientid - field from Service Binding>>
-@btpXsuaaSecret = <<uaa.clientsecret - field from Service Binding>>
-@apiEndpointBtp = <<apiUrl (!not uaa.apiUrl!) - field from Service Binding>>
-
-
 ##########################################
 # Get SAP XSUAA token 
 ##########################################
 
 # @name getXsuaaToken
 
-POST {{xsuaaHostname}}/oauth/token
+POST {{$dotenv xsuaaHostname}}/oauth/token
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
-Authorization: Basic {{btpXsuaaClient}}:{{btpXsuaaSecret}}
+Authorization: Basic {{$dotenv btpXsuaaClient}}:{{$dotenv btpXsuaaSecret}}
 
-client_id={{btpXsuaaClient}}
-&client_secret={{btpXsuaaSecret}}
+client_id={{$dotenv btpXsuaaClient}}
+&client_secret={{$dotenv btpXsuaaSecret}}
 &grant_type=client_credentials
 
 
@@ -27,7 +21,7 @@ client_id={{btpXsuaaClient}}
 @access_token = {{getXsuaaToken.response.body.$.access_token}}
 
 # @name uploadRecyclingMaterialsBtp
-POST {{apiEndpointBtp}}/rest/api/bulkUpsertRecyclingMaterials
+POST {{$dotenv apiEndpointBtp}}/rest/api/bulkUpsertRecyclingMaterials
 Authorization: Bearer {{access_token}}
 Content-type: application/json
 
