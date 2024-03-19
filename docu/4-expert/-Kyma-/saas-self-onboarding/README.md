@@ -61,7 +61,7 @@ In case you need guidance on how to setup a new SAP Identity Authentication Serv
 - https://help.sap.com/docs/identity-authentication/identity-authentication/tenant-model-and-licensing (for other SAP BTP Account Types)
 
 
-In addition to this step-by-step guide, please make sure to check the corresponding [blog post](https://blogs.sap.com/2023/06/01/saas-self-onboarding-and-one-domain-concept-in-sap-btp-kyma-runtime-using-cap/), which will explain the architecture in closer detail! 
+In addition to this step-by-step guide, please make sure to check the corresponding [blog post](https://community.sap.com/t5/technology-blogs-by-sap/saas-self-onboarding-and-one-domain-concept-in-sap-btp-kyma-runtime-using/ba-p/13562474), which will explain the architecture in closer detail! 
 
 
 ## 2. Build and Push the Container Images
@@ -417,7 +417,7 @@ You are now ready to test your setup, by self-registering a new user in SAP Iden
 
 7.2. Follow the steps explained in our recent blog post, to register a new user in SAP Identity Authentication Service and to onboard a new subscriber tenant. 
 
-[SaaS Self-Onboarding and One-Domain Concept in SAP BTP, Kyma Runtime using CAP](https://blogs.sap.com/2023/06/01/saas-self-onboarding-and-one-domain-concept-in-sap-btp-kyma-runtime-using-cap/)
+[SaaS Self-Onboarding and One-Domain Concept in SAP BTP, Kyma Runtime using CAP](https://community.sap.com/t5/technology-blogs-by-sap/saas-self-onboarding-and-one-domain-concept-in-sap-btp-kyma-runtime-using/ba-p/13562474)
 
 7.3. Check the logs of the Kyma/Kubernetes Job, spinned up by your new CAP  Service, for potential errors and to get an idea of what's happening under the hood! 
 
