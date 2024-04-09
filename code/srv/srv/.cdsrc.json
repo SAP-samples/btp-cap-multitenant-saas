@@ -1,4 +1,4 @@
-{
+{   "alper":true,
     "requires": {
         "multitenancy": true,
         "toggles": true,
@@ -15,21 +15,10 @@
                 }
             ]
         },
-        "hana": {
-            "kind": "hana-cloud",
-            "vcap": {
-                "name": "hana",
-                "tags": [
-                    "hana"
-                ],
-                "plan": "hdi-shared",
-                "label": "hana"
-            }
-        },
         "db": {
-            "kind": "hana-cloud",
+            "kind": "hana-mt",
             "vcap": {
-                "label": "service-manager",
+                "label":false,
                 "plan": "container"
             },
             "pool": {
