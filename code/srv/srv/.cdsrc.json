@@ -1,4 +1,4 @@
-{   "alper":true,
+{  
     "requires": {
         "multitenancy": true,
         "toggles": true,
