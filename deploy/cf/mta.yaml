@@ -486,7 +486,7 @@ resources:
     parameters:
       service: alert-notification
       service-name: ${space}-susaas-alert-notification
-      service-plan: free
+      service-plan: standard
       path: ./config/alert-notif.json
 
   # ----------------- XSUAA - BROKER ---------------------------------
