@@ -378,7 +378,7 @@ helm install alert-notification ./charts/alert-notification -f ./charts/alert-no
 helm install <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
-helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
+helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n susaas
 ```
 
 4.6. If you want to make your application to make use of the SAP Alert Notification Service, please include a few additional lines in your **values-private.yaml** file before starting the deployment. This will generate a new Service Binding between the Alert Notification instance and your SaaS Backend Service. 
@@ -400,7 +400,7 @@ srv:
 helm install <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
-helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default 
+helm install susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n susaas 
 ```
 
 An alternative approach using the *helm upgrade* command would look as follows. This will either upgrade an existing installation of our SaaS sample application or install a new version if not available in the respective namespace yet. 
@@ -410,7 +410,7 @@ An alternative approach using the *helm upgrade* command would look as follows. 
 helm upgrade <ReleaseName> ./charts/sustainable-saas --install -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
-helm upgrade susaas ./charts/sustainable-saas --install -f ./charts/sustainable-saas/values-private.yaml  -n default
+helm upgrade susaas ./charts/sustainable-saas --install -f ./charts/sustainable-saas/values-private.yaml  -n susaas
 ```
 
 4.8. The deployment of the Helm Release to your Kyma cluster, will take a few minutes. 
@@ -432,7 +432,7 @@ helm upgrade susaas ./charts/sustainable-saas --install -f ./charts/sustainable-
 helm upgrade <ReleaseName> ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
-helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default 
+helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n susaas 
 ```
 
 4.12. To undeploy/uninstall a Helm Release, you can use the following command. 
@@ -444,7 +444,7 @@ helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/value
 helm uninstall <ReleaseName> -n <Namespace>
 
 # Example
-helm uninstall susaas -n default
+helm uninstall susaas -n susaas
 ```
 
 ## 5. Multiple Deployments
@@ -458,7 +458,7 @@ The (Helm) Release Name, is the value following the *helm install* command. You 
 helm install <ReleaseName>-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
 
 # Example
-helm install susaas-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default 
+helm install susaas-dev ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n susaas 
 ```
 
 - 1 ** n installations with different Release Names (using the same Kyma Namespace)
