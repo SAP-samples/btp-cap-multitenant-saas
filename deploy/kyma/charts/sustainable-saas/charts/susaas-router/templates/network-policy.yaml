@@ -15,11 +15,11 @@ spec:
             app: istio-ingressgateway
         namespaceSelector:
           matchLabels:
-            name: istio-system
+            kubernetes.io/metadata.name: istio-system
       - podSelector:
           matchLabels:
             app.kubernetes.io/name: oathkeeper
             app.kubernetes.io/instance: ory
         namespaceSelector:
           matchLabels:
-            name: kyma-system
+            kubernetes.io/metadata.name
