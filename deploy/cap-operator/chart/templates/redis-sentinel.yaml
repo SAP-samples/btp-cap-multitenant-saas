@@ -1,0 +1,18 @@
+{{- if and (eq .Values.router.externalSessionManagement.enabled "true") ( .Capabilities.APIVersions.Has "cache.cs.sap.com/v1alpha1" ) }}
+apiVersion: cache.cs.sap.com/v1alpha1
+kind: Redis
+metadata:
+  name: {{ .Values.app.name }}
+spec:
+  replicas: 3
+  sentinel:
+    enabled: true
+  metrics:
+    enabled: true
+    monitor:
+      enabled: true
+  tls:
+    enabled: false
+  binding:
+    template: "{ credentials: { cluster_mode: false, tls: false, sentinel_nodes: [{ hostname: {{`{{ .sentinelHost }}`}}, port: {{`{{ .sentinelPort }}`}} }], uri: redis://:{{`{{ .password }}`}}@{{`{{ .sentinelHost }}`}}:{{`{{ .sentinelPort }}`}}#mymaster, password: {{`{{ .password }}`}}, hostname: {{`{{ .host }}`}}, port: {{`{{ .port }}`}} }}"
+{{ end }}

@@ -1,0 +1,62 @@
+apiVersion: sme.sap.com/v1alpha1
+kind: CAPApplication
+metadata:
+  annotations:
+    sme.sap.com/primary-xsuaa: "{{.Values.services.xsuaaApi.shortName}}"
+    {{- with .Values.capApplicationAnnotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: cap-{{.Values.app.name}}
+spec:
+  domains:
+    primary: {{.Values.app.domains.primary}}
+    {{- if .Values.app.domains.secondary }}
+    secondary:
+      {{- range .Values.app.domains.secondary }}
+      - {{.}}
+      {{- end }}
+    {{- end }}
+    istioIngressGatewayLabels:
+    {{- range $k, $v := .Values.ingressGatewayLabels }}
+    - name: {{ $k }}
+      value: {{ $v | default "invalidValue"}}
+    {{ end }}
+  btpAppName: "{{.Values.app.name}}"
+  globalAccountId: "{{.Values.btp.globalAccountId}}"
+  provider:
+    subDomain: "{{.Values.btp.provider.subdomain}}"
+    tenantId: "{{.Values.btp.provider.tenantId}}"
+  btp:
+    services:
+      - class: "{{ include "xsuaaApiOffering" . }}"
+        name: "{{.Values.services.xsuaaApi.shortName}}"
+        secret: "{{ include "xsuaaApiSecret" . }}"
+      - class: "{{ include "serviceManagerContainerOffering" . }}"
+        name: "{{.Values.services.serviceManagerContainer.shortName}}"
+        secret: "{{ include "serviceManagerContainerSecret" . }}"
+      - class: "{{ include "destinationOffering" . }}"
+        name: "{{.Values.services.destination.shortName}}"
+        secret: "{{ include "destinationSecret" . }}"
+      - class: "{{ include "xsuaaOffering" . }}"
+        name: "{{.Values.services.xsuaa.shortName}}"
+        secret: "{{ include "xsuaaSecret" . }}"
+      - class: "{{ include "html5RepoHostOffering" . }}"
+        name: "{{.Values.services.html5RepoHost.shortName}}"
+        secret: "{{ include "html5RepoHostSecret" . }}"
+      - class: "{{ include "html5RepoRuntimeOffering" . }}"
+        name: "{{.Values.services.html5RepoRuntime.shortName}}"
+        secret: "{{ include "html5RepoRuntimeSecret" . }}"
+      - class: "{{ include "hanaHdiContainerOffering" . }}"
+        name: "{{.Values.services.hanaHdiContainer.shortName}}"
+        secret: "{{ include "hanaHdiContainerSecret" . }}"
+      - class: "{{ include "saasRegistryOffering" . }}"
+        name: "{{.Values.services.saasRegistry.shortName}}"
+        secret: "{{ include "saasRegistrySecret" . }}"
+      - class: "{{ include "serviceManagerAdminOffering" . }}"
+        name: "{{.Values.services.serviceManagerAdmin.shortName}}"
+        secret: "{{ include "serviceManagerAdminSecret" . }}"                   
+      {{- if and (eq .Values.router.externalSessionManagement.enabled "true") ( .Capabilities.APIVersions.Has "cache.cs.sap.com/v1alpha1" ) }}
+      - class: "{{ include "redisOffering" . }}"
+        name: "{{ include "redisInstance" . }}"
+        secret: "{{ include "redisSecret" . }}"        
+      {{- end }}
