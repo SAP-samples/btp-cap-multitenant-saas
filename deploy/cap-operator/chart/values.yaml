@@ -1,22 +1,22 @@
 app:
   # -- BTP application name (xsappname)
-  name: skr-susaas # mandatory let helm fail if not provided
+  name: # mandatory let helm fail if not provided
   domains:
     # -- primary domain to expose application routes (usually a subdomain of the cluster domain). Ensure this is under 62 chars.
-    primary: susaas.c-68d55f6.stage.kyma.ondemand.com
+    primary:
     # -- Customer specific domains for which dns entries are created (these can be stable and transferred between clusters)
     secondary: []
   # -- Domain (host) of the Subscription Server (CAP Operator), to be used as saas-registry subscription callback domain
-  subscriptionServerDomain: cap-op.c-68d55f6.stage.kyma.ondemand.com # mandatory
+  subscriptionServerDomain: # mandatory
 
 btp:
   # -- BTP Global account identifier where the application is hosted
-  globalAccountId: 600a39d6-f715-4b95-90b9-f5150dccc7fb # mandatory let helm fail if not provided
+  globalAccountId: # mandatory let helm fail if not provided
   provider:
     # -- Subdomain of the provider sub-account where application services are created
-    subdomain: skr-sandbox # mandatory let helm fail if not provided
+    subdomain: # mandatory let helm fail if not provided
     # -- Tenant identifier for the provider sub-account (usually a guid)
-    tenantId: 77bffa5f-bcc3-4c9e-8aa5-f6023bddf92e # mandatory let helm fail if not provided
+    tenantId: # mandatory let helm fail if not provided
 
 services:
   hanaHdiContainer:
@@ -73,21 +73,18 @@ ingressGatewayLabels:
   app: istio-ingressgateway
 
 # -- Labels used for logging and monitoring indexing
-appLabels:
-  app.kubernetes.io/name: susaas
-  app.kubernetes.io/instance: skr-susaas
+appLabels: {}
 
 # -- Image pull secrets
-registrySecrets:
-  - regcred
+registrySecrets: []
 
 srv:
   # -- Replicas of the CAP application server requested
   replicas: 1
   # -- Container image for CAP Application
-  image: "erp4sme.common.repositories.cloud.sap/local/i048856/btp-mt-saas/susaas-srv"
-  tag: "0.0.11" # by default replaced by Chart.AppVersion
-  debugLevel: "all"
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  debugLevel: "mtx"
   resources:
     limits:
       ephemeral-storage: 1G
@@ -124,7 +121,7 @@ srv:
   #   whenUnsatisfiable: DoNotSchedule
 
 router:
-  logLevel: "debug"
+  logLevel: "info"
   # Enable external session management using redis
   externalSessionManagement:
     enabled: "false"
@@ -134,8 +131,8 @@ router:
   # -- Replicas of AppRouter requested
   replicas: 1
   # -- Container image for AppRouter
-  image: "erp4sme.common.repositories.cloud.sap/local/i048856/btp-mt-saas/susaas-router"
-  tag: "0.0.1" # by default replaced by Chart.AppVersion
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
   resources:
     limits:
       cpu: 300m
@@ -191,8 +188,8 @@ api:
     periodSeconds: 15
     failureThreshold: 3
   # -- Container image for API server
-  image: "erp4sme.common.repositories.cloud.sap/local/i048856/btp-mt-saas/susaas-api"
-  tag: "0.0.1" # by default replaced by Chart.AppVersion
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
   resources:
     limits:
       cpu: 200m
@@ -232,8 +229,8 @@ broker:
     periodSeconds: 15
     failureThreshold: 3
   # -- Container image for Service Broker
-  image: "erp4sme.common.repositories.cloud.sap/local/i048856/btp-mt-saas/susaas-broker"
-  tag: "0.0.1" # by default replaced by Chart.AppVersion
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
   resources:
     limits:
       cpu: 150m
@@ -254,23 +251,23 @@ broker:
   #   topologyKey: kubernetes.io/hostname
   #   whenUnsatisfiable: DoNotSchedule
   catalog:
-    serviceId: 30a98629-04b2-4e35-adfc-7fe556e5fee7
+    serviceId:
     plans:
       default:
-        id: a1aa39cf-44ad-4267-acbb-f982c8ce3a82
+        id:
       trial:
-        id: e6d8a8e7-0592-4bda-a5ff-89f9c8c36535
+        id:
       premium:
-        id: afe56fd1-3185-4b97-999f-1fe99e5b79df
+        id:
   credentials:
-    user: YnJva2VyLXVzZXI=
-    password: cVRxU2FuM1NYZlVFTzJlUkNWbWdXVFBFaDBrMEpEMzk=
+    user:
+    password:
   
 
 hdiDeployer:
   # -- Container image for HDI Deployer (db-com)
-  image: "erp4sme.common.repositories.cloud.sap/local/i048856/btp-mt-saas/susaas-db-com"
-  tag: "0.0.1"
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
   resources:
     limits:
       cpu: 500m
@@ -281,8 +278,8 @@ hdiDeployer:
 
 html5AppsDeployer:
   # -- Container image for HTML5 Apps Deployer
-  image: "erp4sme.common.repositories.cloud.sap/local/i048856/btp-mt-saas/susaas-html5-deployer"
-  tag: "0.0.1"
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
   resources:
     limits:
       cpu: 500m
