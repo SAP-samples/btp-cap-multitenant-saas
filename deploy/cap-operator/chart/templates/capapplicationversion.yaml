@@ -131,8 +131,8 @@ spec:
       - name: EXT_SESSION_MGT
         value: '{"instanceName": "{{ include "redisInstance" . }}","storageType": "redis","sessionSecret": "{{.Values.router.externalSessionManagement.sessionSecret}}","defaultRetryTimeout": 10000,"backOffMultiplier": 10}'
       {{- end }}
-      - name: httpHeaders
-        value: "[{\"X-Content-Type-Options\": \"nosniff\"}, { \"Strict-Transport-Security\": \"max-age=63072000; includeSubDomains; preload\" }, { \"Content-Security-Policy\": \"default-src 'self'; script-src 'self' https://*.hana.ondemand.com 'unsafe-eval'; style-src 'self' https://*.hana.ondemand.com; object-src 'none'; base-uri 'self'; connect-src 'self' https://*.hana.ondemand.com https://help.sap.com; font-src 'self' https://sapui5.hana.ondemand.com https://help.sap.com; frame-src 'self' https://help.sap.com; img-src 'self' https://sapui5.hana.ondemand.com; manifest-src 'self'; media-src 'self'; worker-src 'self' https://sapui5.hana.ondemand.com blob:; frame-ancestors 'self';\"}]"
+      # - name: httpHeaders
+      #   value: "[{\"X-Content-Type-Options\": \"nosniff\"}, { \"Strict-Transport-Security\": \"max-age=63072000; includeSubDomains; preload\" }, { \"Content-Security-Policy\": \"default-src 'self'; script-src 'self' https://*.hana.ondemand.com 'unsafe-eval'; style-src 'self' https://*.hana.ondemand.com; object-src 'none'; base-uri 'self'; connect-src 'self' https://*.hana.ondemand.com https://help.sap.com; font-src 'self' https://sapui5.hana.ondemand.com https://help.sap.com; frame-src 'self' https://help.sap.com; img-src 'self' https://sapui5.hana.ondemand.com; manifest-src 'self'; media-src 'self'; worker-src 'self' https://sapui5.hana.ondemand.com blob:; frame-ancestors 'self';\"}]"
       volumeMounts:
       - name: tmp
         mountPath: /tmp
