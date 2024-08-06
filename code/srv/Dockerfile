@@ -1,7 +1,6 @@
 FROM alpine:3.20 as build
 
 RUN apk add -U --no-cache nodejs npm
-RUN node -v
 
 WORKDIR /usr/src/build
 COPY package*.json .

@@ -2,7 +2,7 @@ apiVersion: sme.sap.com/v1alpha1
 kind: CAPApplication
 metadata:
   annotations:
-    sme.sap.com/primary-xsuaa: "{{.Values.services.xsuaaApi.shortName}}"
+    sme.sap.com/primary-xsuaa: "{{.Values.services.xsuaa.shortName}}"
     {{- with .Values.capApplicationAnnotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}

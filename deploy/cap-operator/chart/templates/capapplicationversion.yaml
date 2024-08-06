@@ -118,7 +118,9 @@ spec:
       - name: XS_APP_LOG_LEVEL
         value: {{.Values.router.logLevel}}
       - name: plugins
-        value: '[{"name": "api", "source": "/api/(.*)$", "target": "$1", "destination": "susaas-api", "authenticationType": "none"}, {"name": "broker", "source": "/broker/(.*)$", "target": "$1", "destination": "susaas-broker", "authenticationType": "none"}]'
+        value: '[{"name": "susaas-api", "source": "^/api/(.*)$", "target": "/$1", "destination": "susaas-api", "authenticationType": "none"}, {"name": "susaas-broker", "source": "^/broker/(.*)$", "target": "/$1", "destination": "susaas-broker", "authenticationType": "none"}]'
+      - name: DIRECT_ROUTING_URI_PATTERNS
+        value: '["api", "broker"]'
       - name: PORT
         value: "5000"
       - name: TMPDIR
@@ -378,6 +380,158 @@ spec:
         {{- toYaml .Values.html5AppsDeployer.topologySpreadConstraints | trim | nindent 8 }}
       {{- end }}
 
+  #########################################
+  # MTXS (TenantOperation)
+  #########################################
+  - name: mtxs
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaa.shortName}}"
+    - "{{.Values.services.saasRegistry.shortName}}"
+    - "{{.Values.services.destination.shortName}}"
+    - "{{.Values.services.hanaHdiContainer.shortName}}"
+    - "{{.Values.services.serviceManagerContainer.shortName}}"
+    - "{{.Values.services.serviceManagerAdmin.shortName}}"
+    jobDefinition:
+      type: TenantOperation
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 600
+      image: "{{.Values.srv.image}}:{{.Values.srv.tag | default .Chart.AppVersion}}"
+      env:
+      - name: DEBUG
+        value: "{{.Values.srv.debugLevel}}"
+      - name: PORT
+        value: "8080"
+      - name: TMPDIR
+        value: /tmp
+      - name: SERVICE_REPLACEMENTS
+        value: '[{ "key" : "{{.Values.services.hanaHdiContainer.shortName}}", "service" : "{{ include "hanaHdiContainerInstance" . }}" }]'
+      - name: CDS_ENV
+        value: production
+      - name: MTX_COLLECT_LOGS
+        value: "true"
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000 # needed for mtxs, until CAP resolves gen, log folder creation issue
+        runAsGroup: 1000 # needed for mtxs
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.srv.resources | trim | nindent 8 }}
+      {{- if and .Values.srv .Values.srv.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.srv.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.tolerations }}
+      tolerations:
+        {{- toYaml .Values.srv.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.srv.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+  
+  #########################################
+  # Tenant Automator (CustomTenantOperation)
+  #########################################
+  - name: automator
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaa.shortName}}"
+    - "{{.Values.services.saasRegistry.shortName}}"
+    - "{{.Values.services.destination.shortName}}"
+    - "{{.Values.services.hanaHdiContainer.shortName}}"
+    - "{{.Values.services.serviceManagerContainer.shortName}}"
+    - "{{.Values.services.serviceManagerAdmin.shortName}}"
+    jobDefinition:
+      type: CustomTenantOperation
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 600
+      image: "{{.Values.srv.image}}:{{.Values.srv.tag | default .Chart.AppVersion}}"
+      command: ["node", "srv/utils/background-tenant-automator.js"]
+      env:
+      - name: DEBUG
+        value: "{{.Values.srv.debugLevel}}"
+      - name: PORT
+        value: "8080"
+      - name: TMPDIR
+        value: /tmp
+      - name: SERVICE_REPLACEMENTS
+        value: '[{ "key" : "{{.Values.services.hanaHdiContainer.shortName}}", "service" : "{{ include "hanaHdiContainerInstance" . }}" }]'
+      - name: CDS_ENV
+        value: production
+      - name: MTX_COLLECT_LOGS
+        value: "true"
+      - name: SBF_BROKER_CREDENTIALS
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: credentials.json
+      - name: BROKER_NAME
+        value: "{{.Values.app.name}}-broker"
+      - name: BROKER_URL
+        value: "https://{{.Values.btp.provider.subdomain}}.{{.Values.app.domains.primary}}/broker"
+      - name: CIS_INSTANCE_PREFIX
+        value: "{{.Values.app.name}}"
+      - name: DESTINATION_NAME_PREFIX
+        value: "{{.Values.app.name}}"
+      - name: PROVIDER_TENANT_ID
+        value: {{.Values.btp.provider.tenantId}}
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000 # needed for mtxs, until CAP resolves gen, log folder creation issue
+        runAsGroup: 1000 # needed for mtxs
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.srv.resources | trim | nindent 8 }}
+      {{- if and .Values.srv .Values.srv.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.srv.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.tolerations }}
+      tolerations:
+        {{- toYaml .Values.srv.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.srv.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
   contentJobs:
   - hdi-deployer
   - html5-apps-deployer
+
+  tenantOperations:
+    provisioning:
+    - workloadName: mtxs
+    - workloadName: automator
+    upgrade:
+    - workloadName: mtxs
+    deprovisioning:
+    - workloadName: mtxs
+    - workloadName: automator
