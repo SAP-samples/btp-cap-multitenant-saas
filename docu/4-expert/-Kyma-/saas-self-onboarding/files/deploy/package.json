@@ -6,7 +6,7 @@
   "description": "Sustainable SaaS Onboarding",
   "scripts": {
     "install": "npm install --include=dev --prefix ../code",
-    "build": "npx -p @sap/cds-dk@7 cds build -in ../code --profile production",
+    "build": "npx -p @sap/cds-dk@8 cds build -in ../code --profile production",
     "-----------------------": "",
     "-Manual HTML5 Deployment-": "",
     "/---------------------/": "",

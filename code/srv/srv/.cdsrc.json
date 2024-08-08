@@ -28,12 +28,7 @@
                 "fifo": true
             }
         },
-        "common-db": {
-            "kind": "hana",
-            "vcap": {
-                "label": "hana"
-            }
-        },
+
         "auth": {
             "kind": "xsuaa"
         }
