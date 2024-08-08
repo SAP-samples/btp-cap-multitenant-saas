@@ -37,6 +37,10 @@ spec:
         - name: SERVICE_BINDING_ROOT
           value: /bindings
         {{- end }}
+        {{- range $key, $value := .Values.envTpl }}
+        - name: {{ $key }}
+          value: {{ tpl $value $ | squote }}
+        {{- end }}
         - name: CLUSTER_SHOOTNAME
           value: {{ .Values.global.shootName | quote }}
         - name: CLUSTER_DOMAIN

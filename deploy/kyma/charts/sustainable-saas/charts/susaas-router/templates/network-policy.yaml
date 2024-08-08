@@ -22,4 +22,4 @@ spec:
             app.kubernetes.io/instance: ory
         namespaceSelector:
           matchLabels:
-            kubernetes.io/metadata.name
+            kubernetes.io/metadata.name: istio-system

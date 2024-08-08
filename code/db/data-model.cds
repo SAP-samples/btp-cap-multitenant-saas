@@ -172,6 +172,7 @@ context susaas.db {
 }
 
 context susaas.common {
+    @cds.persistence.exists
     entity Shared : cuid {
         value : String;
     };

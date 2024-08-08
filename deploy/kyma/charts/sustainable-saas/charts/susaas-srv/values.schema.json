@@ -629,6 +629,13 @@
             "uniqueItems": true,
             "default": []
         },
+        "envTpl": {
+            "$id": "#/properties/envTpl",
+            "description": "List of Kubernetes Secret names allowing templating syntax, used as sources for the Pod's environment variables.",
+            "type": "object",
+            "uniqueItems": true,
+            "default": []
+        },
         "expose": {
             "$id": "#/properties/expose",
             "title": "",
