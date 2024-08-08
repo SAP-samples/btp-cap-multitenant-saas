@@ -3,16 +3,7 @@ FROM alpine:3.20 as build
 RUN apk add -U --no-cache nodejs npm
 
 WORKDIR /usr/src/build
-COPY package*.json .
-COPY db db
-COPY db-com db-com
-COPY api api
-COPY srv srv
-
-RUN ["npm", "ci"]
-RUN ["npx", "--package=@sap/cds-dk@7", "cds", "build", "--production"]
-
-WORKDIR /usr/src/build/gen/srv
+COPY package*.json start.js ./
 
 RUN ["npm", "ci", "--production"]
 
@@ -29,6 +20,6 @@ RUN apk add -U --no-cache nodejs npm \
 USER node
 
 WORKDIR /usr/src/app
-COPY --chown=node:node --from=build /usr/src/build/gen/srv/ /usr/src/app/
+COPY --chown=node:node --from=build /usr/src/build/ /usr/src/app/
 
-CMD ["node", "node_modules/@sap/cds/bin/cds-serve.js"]
+CMD ["node", "start.js"]
