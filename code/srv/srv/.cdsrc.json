@@ -1,4 +1,4 @@
-{  
+{
     "requires": {
         "multitenancy": true,
         "toggles": true,
@@ -18,7 +18,7 @@
         "db": {
             "kind": "hana-mt",
             "vcap": {
-                "label":false,
+                "label": false,
                 "plan": "container"
             },
             "pool": {
@@ -26,8 +26,9 @@
                 "min": 0,
                 "max": 10,
                 "fifo": true
-              }
+            }
         },
+
         "auth": {
             "kind": "xsuaa"
         }
