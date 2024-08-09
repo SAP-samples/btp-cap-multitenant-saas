@@ -31,9 +31,9 @@ hpa: # Horizontal Pod Autoscaler
 
 health_check:
   liveness:
-    path: /healthz
+    path: /health
   readiness:
-    path: /healthz
+    path: /health
 
 securityContext:
   user:
