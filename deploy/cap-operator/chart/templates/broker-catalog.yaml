@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/resource-policy: keep
+  name: {{ template "capApplicationVersionName" . }}-brk-catalog
+data:
+  catalog.json: |
+    {
+      "services": [{
+        "id": "{{.Values.broker.catalog.serviceId}}",
+        "name": "{{.Values.app.name}}-api",
+        "description": "Sustainable SaaS API {{.Values.app.name}}",
+        "bindable": true,
+        "plans": [{
+            "name": "default",
+            "description": "Standard Plan",
+            "id": "{{.Values.broker.catalog.plans.default.id}}"
+          },{
+            "name": "premium",
+            "description": "Premium Plan",
+            "id": "{{.Values.broker.catalog.plans.premium.id}}"
+          },{
+            "name": "trial",
+            "description": "Trial Plan",
+            "id": "{{.Values.broker.catalog.plans.trial.id}}"
+          }
+        ]
+      }]
+    }

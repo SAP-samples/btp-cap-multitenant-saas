@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/resource-policy: keep
+  name: {{ template "capApplicationVersionName" . }}-brk-config
+data:
+  config.json: |
+    {   
+      "{{.Values.app.name}}-api": {
+        "extend_credentials": {
+          "shared": {
+            "apiUrl": "https://{{.Values.btp.provider.subdomain}}.{{.Values.app.domains.primary}}/api"
+          }
+        },
+        "extend_xssecurity": {
+          "per_plan": {
+            "default": {
+              "authorities": [
+                "$XSMASTERAPPNAME.plan_default"
+              ]
+            },"premium": {
+              "authorities": [
+                "$XSMASTERAPPNAME.plan_premium"
+              ]
+            },"trial": {
+              "authorities": [
+                "$XSMASTERAPPNAME.plan_trial"
+              ]
+            }
+          }
+        },
+        "extend_catalog": {
+          "metadata": {
+            "displayName": "Sustainable SaaS API ({{.Values.app.name}})"
+          }
+        }
+      }
+    }

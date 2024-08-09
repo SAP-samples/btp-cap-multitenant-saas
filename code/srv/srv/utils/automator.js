@@ -7,7 +7,7 @@ import CredStore from './credStore.js';
 import CfUtils from './cf-utils.js';
 import cds from '@sap/cds'
 const Logger = cds.log('automator')
-class TenantAutomator {
+export class TenantAutomator {
     serviceBroker;
     cisCentralName;
     destinationName;

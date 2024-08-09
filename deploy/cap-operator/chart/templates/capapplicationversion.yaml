@@ -1,0 +1,537 @@
+apiVersion: sme.sap.com/v1alpha1
+kind: CAPApplicationVersion
+metadata:
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/resource-policy: keep
+  name: {{ include "capApplicationVersionName" $ }}
+spec:
+  capApplicationInstance: "cap-{{.Values.app.name}}"
+  version: "{{ .Values.app.version | default .Release.Revision }}"
+  registrySecrets:
+    {{- range .Values.registrySecrets }}
+    - {{.}}
+    {{- end }}
+  workloads:
+
+  #########################################
+  # SRV
+  #########################################
+  - name: srv
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaa.shortName}}"
+    - "{{.Values.services.saasRegistry.shortName}}"
+    - "{{.Values.services.destination.shortName}}"
+    - "{{.Values.services.hanaHdiContainer.shortName}}"
+    - "{{.Values.services.serviceManagerContainer.shortName}}"
+    - "{{.Values.services.serviceManagerAdmin.shortName}}"
+    deploymentDefinition:
+      type: CAP
+      replicas: {{.Values.srv.replicas}}
+      ports:
+        - name: "srv-port"
+          port: 8080
+          appProtocol: http
+          routerDestinationName: susaas-srv-api
+      livenessProbe:
+        {{- toYaml .Values.srv.livenessProbe | trim | nindent 8 }}
+      readinessProbe:
+        {{- toYaml .Values.srv.readinessProbe | trim | nindent 8 }}
+      image: "{{.Values.srv.image}}:{{.Values.srv.tag | default .Chart.AppVersion}}"
+      env:
+          - name: DEBUG
+            value: "{{.Values.srv.debugLevel}}"
+          - name: PORT
+            value: "8080"
+          - name: TMPDIR
+            value: /tmp
+          - name: SERVICE_REPLACEMENTS
+            value: '[{ "key" : "{{.Values.services.hanaHdiContainer.shortName}}", "service" : "{{ include "hanaHdiContainerInstance" . }}" }]'
+          - name: CDS_ENV
+            value: production
+          - name: MTX_COLLECT_LOGS
+            value: "true"
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000 # needed for mtxs, until CAP resolves gen, log folder creation issue
+        runAsGroup: 1000 # needed for mtxs
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.srv.resources | trim | nindent 8 }}
+      {{- if and .Values.srv .Values.srv.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.srv.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.tolerations }}
+      tolerations:
+        {{- toYaml .Values.srv.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.srv.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+      
+  #########################################
+  # ROUTER
+  #########################################
+  - name: router
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaa.shortName}}"
+    - "{{.Values.services.saasRegistry.shortName}}"
+    - "{{.Values.services.destination.shortName}}"
+    - "{{.Values.services.html5RepoRuntime.shortName}}"
+    {{- if and (eq .Values.router.externalSessionManagement.enabled "true") ( .Capabilities.APIVersions.Has "cache.cs.sap.com/v1alpha1" ) }}
+    - "{{.Values.services.redis.shortName}}"
+    {{- end }}
+    deploymentDefinition:
+      type: Router
+      replicas: {{.Values.router.replicas}}
+      ports:
+      - appProtocol: http
+        name: router-port
+        networkPolicy: Application
+        port: 5000
+      livenessProbe:
+        {{- toYaml .Values.router.livenessProbe | trim | nindent 8 }}
+      readinessProbe:
+        {{- toYaml .Values.router.readinessProbe | trim | nindent 8 }}
+      image: "{{.Values.router.image}}:{{.Values.router.tag | default .Chart.AppVersion}}"
+      env:
+      - name: XS_APP_LOG_LEVEL
+        value: {{.Values.router.logLevel}}
+      - name: plugins
+        value: '[{"name": "susaas-api", "source": "^/api/(.*)$", "target": "/$1", "destination": "susaas-api", "authenticationType": "none"}, {"name": "susaas-broker", "source": "^/broker/(.*)$", "target": "/$1", "destination": "susaas-broker", "authenticationType": "none"}]'
+      - name: DIRECT_ROUTING_URI_PATTERNS
+        value: '["api", "broker"]'
+      - name: PORT
+        value: "5000"
+      - name: TMPDIR
+        value: /tmp
+      - name: TENANT_HOST_PATTERN
+        value: ^(.*).{{ template "domainPatterns" . }}
+      # - name: EXTERNAL_REVERSE_PROXY
+      #   value: "true"
+      {{- if and (eq .Values.router.externalSessionManagement.enabled "true") ( .Capabilities.APIVersions.Has "cache.cs.sap.com/v1alpha1" ) }}
+      - name: EXT_SESSION_MGT
+        value: '{"instanceName": "{{ include "redisInstance" . }}","storageType": "redis","sessionSecret": "{{.Values.router.externalSessionManagement.sessionSecret}}","defaultRetryTimeout": 10000,"backOffMultiplier": 10}'
+      {{- end }}
+      # - name: httpHeaders
+      #   value: "[{\"X-Content-Type-Options\": \"nosniff\"}, { \"Strict-Transport-Security\": \"max-age=63072000; includeSubDomains; preload\" }, { \"Content-Security-Policy\": \"default-src 'self'; script-src 'self' https://*.hana.ondemand.com 'unsafe-eval'; style-src 'self' https://*.hana.ondemand.com; object-src 'none'; base-uri 'self'; connect-src 'self' https://*.hana.ondemand.com https://help.sap.com; font-src 'self' https://sapui5.hana.ondemand.com https://help.sap.com; frame-src 'self' https://help.sap.com; img-src 'self' https://sapui5.hana.ondemand.com; manifest-src 'self'; media-src 'self'; worker-src 'self' https://sapui5.hana.ondemand.com blob:; frame-ancestors 'self';\"}]"
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.router.resources | trim | nindent 8 }}
+      {{- if and .Values.router .Values.router.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.router.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.router .Values.router.tolerations }}
+      tolerations:
+        {{- toYaml .Values.router.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.router .Values.router.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.router.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
+  #########################################
+  # API
+  #########################################
+  - name: api
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaaApi.shortName}}"
+    - "{{.Values.services.serviceManagerContainer.shortName}}"
+    deploymentDefinition:
+      type: Additional
+      replicas: {{.Values.api.replicas}}
+      ports:
+      - appProtocol: http
+        name: api-port
+        networkPolicy: Application
+        port: 5000
+        routerDestinationName: susaas-api
+      livenessProbe:
+        {{- toYaml .Values.api.livenessProbe | trim | nindent 8 }}
+      readinessProbe:
+        {{- toYaml .Values.api.readinessProbe | trim | nindent 8 }}
+      image: "{{.Values.api.image}}:{{.Values.api.tag | default .Chart.AppVersion}}"
+      env:
+      - name: PORT
+        value: "5000"
+      - name: TMPDIR
+        value: /tmp
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.api.resources | trim | nindent 8 }}
+      {{- if and .Values.api .Values.api.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.api.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.api .Values.api.tolerations }}
+      tolerations:
+        {{- toYaml .Values.api.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.api .Values.api.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.api.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
+  #########################################
+  # BROKER
+  #########################################
+  - name: broker
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaaApi.shortName}}"
+    deploymentDefinition:
+      type: Additional
+      replicas: {{.Values.broker.replicas}}
+      ports:
+      - appProtocol: http
+        name: broker-port
+        networkPolicy: Application
+        port: 5000
+        routerDestinationName: susaas-broker
+      livenessProbe:
+        {{- toYaml .Values.broker.livenessProbe | trim | nindent 8 }}
+      readinessProbe:
+        {{- toYaml .Values.broker.readinessProbe | trim | nindent 8 }}
+      image: "{{.Values.broker.image}}:{{.Values.broker.tag | default .Chart.AppVersion}}"
+      env:
+      - name: PORT
+        value: "5000"
+      - name: TMPDIR
+        value: /tmp
+      - name: SBF_ENABLE_AUDITLOG
+        value: "false"
+      - name: SBF_SERVICE_CONFIG
+        valueFrom:
+          configMapKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-config
+            key: config.json
+      - name: SBF_CATALOG_FILE
+        value: "/etc/config/catalog.json"
+      - name: SBF_BROKER_CREDENTIALS
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: credentials.json
+      - name: SBF_CREDENTIALS_PROVIDER_SERVICE
+        value: "{{ include "xsuaaApiInstance" . }}"
+      - name: VCAP_APPLICATION # TODO - remove unnecessary workaround after fixing broker/start.js
+        value: "{}"
+      - name: NODE_ENV
+        value: production
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      - name: broker-catalog
+        mountPath: "/etc/config"
+        readOnly: true
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      - name: broker-catalog
+        configMap: 
+          name: {{ template "capApplicationVersionName" . }}-brk-catalog
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.broker.resources | trim | nindent 8 }}
+      {{- if and .Values.broker .Values.broker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.broker.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.broker .Values.broker.tolerations }}
+      tolerations:
+        {{- toYaml .Values.broker.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.broker .Values.broker.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.broker.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
+  #########################################
+  # HDI DEPLOYER
+  #########################################
+  - name: hdi-deployer
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.hanaHdiContainer.shortName}}"
+    jobDefinition:
+      type: Content
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 600
+      image: "{{.Values.hdiDeployer.image}}:{{.Values.hdiDeployer.tag | default .Chart.AppVersion}}"
+      env:
+      - name: EXIT
+        value: "true"
+      resources:
+        {{- toYaml .Values.hdiDeployer.resources | trim | nindent 8 }}
+      {{- if and .Values.hdiDeployer .Values.hdiDeployer.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.hdiDeployer.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.hdiDeployer .Values.hdiDeployer.tolerations }}
+      tolerations:
+        {{- toYaml .Values.hdiDeployer.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.hdiDeployer .Values.hdiDeployer.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.hdiDeployer.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
+  #########################################
+  # HTML5 APPS DEPLOYER
+  #########################################
+  - name: html5-apps-deployer
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.html5RepoHost.shortName}}"
+    jobDefinition:
+      type: Content
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 600
+      image: "{{.Values.html5AppsDeployer.image}}:{{.Values.html5AppsDeployer.tag | default .Chart.AppVersion}}"
+      env:
+      - name: EXIT_PROCESS_AFTER_UPLOAD
+        value: "true"
+      - name: ASYNC_UPLOAD
+        value: "true"
+      - name: PORT
+        value: "5000"
+      resources:
+        {{- toYaml .Values.html5AppsDeployer.resources | trim | nindent 8 }}
+      {{- if and .Values.html5AppsDeployer .Values.html5AppsDeployer.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.html5AppsDeployer.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.html5AppsDeployer .Values.hdiDeployer.tolerations }}
+      tolerations:
+        {{- toYaml .Values.html5AppsDeployer.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.html5AppsDeployer .Values.html5AppsDeployer.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.html5AppsDeployer.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
+  #########################################
+  # MTXS (TenantOperation)
+  #########################################
+  - name: mtxs
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaa.shortName}}"
+    - "{{.Values.services.saasRegistry.shortName}}"
+    - "{{.Values.services.destination.shortName}}"
+    - "{{.Values.services.hanaHdiContainer.shortName}}"
+    - "{{.Values.services.serviceManagerContainer.shortName}}"
+    - "{{.Values.services.serviceManagerAdmin.shortName}}"
+    jobDefinition:
+      type: TenantOperation
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 600
+      image: "{{.Values.srv.image}}:{{.Values.srv.tag | default .Chart.AppVersion}}"
+      env:
+      - name: DEBUG
+        value: "{{.Values.srv.debugLevel}}"
+      - name: PORT
+        value: "8080"
+      - name: TMPDIR
+        value: /tmp
+      - name: SERVICE_REPLACEMENTS
+        value: '[{ "key" : "{{.Values.services.hanaHdiContainer.shortName}}", "service" : "{{ include "hanaHdiContainerInstance" . }}" }]'
+      - name: CDS_ENV
+        value: production
+      - name: MTX_COLLECT_LOGS
+        value: "true"
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000 # needed for mtxs, until CAP resolves gen, log folder creation issue
+        runAsGroup: 1000 # needed for mtxs
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.srv.resources | trim | nindent 8 }}
+      {{- if and .Values.srv .Values.srv.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.srv.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.tolerations }}
+      tolerations:
+        {{- toYaml .Values.srv.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.srv.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+  
+  #########################################
+  # Tenant Automator (CustomTenantOperation)
+  #########################################
+  - name: automator
+    labels:
+      {{- range $k, $v := .Values.appLabels }}
+      {{ $k }}: {{ $v }}
+      {{ end }}
+    consumedBTPServices:
+    - "{{.Values.services.xsuaa.shortName}}"
+    - "{{.Values.services.saasRegistry.shortName}}"
+    - "{{.Values.services.destination.shortName}}"
+    - "{{.Values.services.hanaHdiContainer.shortName}}"
+    - "{{.Values.services.serviceManagerContainer.shortName}}"
+    - "{{.Values.services.serviceManagerAdmin.shortName}}"
+    jobDefinition:
+      type: CustomTenantOperation
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 600
+      image: "{{.Values.srv.image}}:{{.Values.srv.tag | default .Chart.AppVersion}}"
+      command: ["node", "srv/utils/background-tenant-automator.js"]
+      env:
+      - name: DEBUG
+        value: "{{.Values.srv.debugLevel}}"
+      - name: PORT
+        value: "8080"
+      - name: TMPDIR
+        value: /tmp
+      - name: SERVICE_REPLACEMENTS
+        value: '[{ "key" : "{{.Values.services.hanaHdiContainer.shortName}}", "service" : "{{ include "hanaHdiContainerInstance" . }}" }]'
+      - name: CDS_ENV
+        value: production
+      - name: MTX_COLLECT_LOGS
+        value: "true"
+      - name: SBF_BROKER_CREDENTIALS
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: credentials.json
+      - name: BROKER_NAME
+        value: "{{.Values.app.name}}-broker"
+      - name: BROKER_URL
+        value: "https://{{.Values.btp.provider.subdomain}}.{{.Values.app.domains.primary}}/broker"
+      - name: CIS_INSTANCE_PREFIX
+        value: "{{.Values.app.name}}"
+      - name: DESTINATION_NAME_PREFIX
+        value: "{{.Values.app.name}}"
+      - name: PROVIDER_TENANT_ID
+        value: {{.Values.btp.provider.tenantId}}
+      volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+      volumes:
+      - emptyDir: {}
+        name: tmp
+      securityContext:
+        runAsUser: 1000 # needed for mtxs, until CAP resolves gen, log folder creation issue
+        runAsGroup: 1000 # needed for mtxs
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        privileged: false
+        readOnlyRootFilesystem: false
+      resources:
+        {{- toYaml .Values.srv.resources | trim | nindent 8 }}
+      {{- if and .Values.srv .Values.srv.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.srv.nodeSelector | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.tolerations }}
+      tolerations:
+        {{- toYaml .Values.srv.tolerations | trim | nindent 8 }}
+      {{- end }}
+      {{- if and .Values.srv .Values.srv.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.srv.topologySpreadConstraints | trim | nindent 8 }}
+      {{- end }}
+
+  contentJobs:
+  - hdi-deployer
+  - html5-apps-deployer
+
+  tenantOperations:
+    provisioning:
+    - workloadName: mtxs
+    - workloadName: automator
+    upgrade:
+    - workloadName: mtxs
+    deprovisioning:
+    - workloadName: mtxs
+    - workloadName: automator

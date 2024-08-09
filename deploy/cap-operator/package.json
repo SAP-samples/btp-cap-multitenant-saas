@@ -1,0 +1,19 @@
+{
+  "name": "susaas-with-cap-operator",
+  "version": "0.0.1",
+  "description": "scripts to build Docker images for Sustainable Saas",
+  "scripts": {
+    "build:all": "npm run build:srv && npm run build:db-com && npm run build:api && npm run build:html5-deployer && npm run build:router && npm run build:broker",
+    "build:srv": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-srv:$IMAGE_TAG --platform=linux/amd64 --no-cache --target=srv ../../code -f ../../code/Dockerfile",
+    "build:api": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-api:$IMAGE_TAG --platform=linux/amd64 --no-cache --target=api ../../code -f ../../code/Dockerfile",
+    "build:db-com": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-db-com:$IMAGE_TAG --platform=linux/amd64 --no-cache --target=db-com ../../code -f ../../code/Dockerfile",
+    "build:router": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-router:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/router -f ../../code/router/Dockerfile",
+    "build:broker": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-broker:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/broker -f ../../code/broker/Dockerfile",
+    "build:html5-deployer": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-html5-deployer:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/app/html5-deployer -f ../../code/app/html5-deployer/Dockerfile"
+  },
+  "keywords": [
+    "cap",
+    "operator"
+  ],
+  "license": "Apache License 2.0"
+}
