@@ -7,7 +7,6 @@ alert_notification:
   serviceOfferingName: alert-notification
   servicePlanName: free
   parameters:
-    enableCloudControllerAuditEvents: true
     configuration:
       actions:
       - name: send-email
