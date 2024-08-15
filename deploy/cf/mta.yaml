@@ -154,7 +154,6 @@ modules:
       app-name: susaas-srv-${space}
       memory: 256MB
       disk-quota: 1024MB
-      command: node ./node_modules/@sap/cds/bin/cds-serve
       health-check-type: http
       health-check-http-endpoint: /healthz
       health-check-timeout: 180 # timeout at startup
@@ -281,7 +280,6 @@ modules:
       app-name: susaas-api-srv-${space}
       memory: 256MB
       disk-quota: 1024MB
-      command: node ./node_modules/@sap/cds/bin/cds-serve
     build-parameters:
       builder: npm
       ignore: [ '.DS_Store', 'node_modules/', 'default-env.json', 'manifest*.yml' ]
