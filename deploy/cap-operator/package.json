@@ -5,11 +5,18 @@
   "scripts": {
     "build:all": "npm run build:srv && npm run build:db-com && npm run build:api && npm run build:html5-deployer && npm run build:router && npm run build:broker",
     "build:srv": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-srv:$IMAGE_TAG --platform=linux/amd64 --no-cache --target=srv ../../code -f ../../code/Dockerfile",
-    "build:api": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-api:$IMAGE_TAG --platform=linux/amd64 --no-cache --target=api ../../code -f ../../code/Dockerfile",
-    "build:db-com": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-db-com:$IMAGE_TAG --platform=linux/amd64 --no-cache --target=db-com ../../code -f ../../code/Dockerfile",
+    "build:api": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-api:$IMAGE_TAG --platform=linux/amd64 --target=api ../../code -f ../../code/Dockerfile",
+    "build:db-com": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-db-com:$IMAGE_TAG --platform=linux/amd64 --target=db-com ../../code -f ../../code/Dockerfile",
     "build:router": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-router:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/router -f ../../code/router/Dockerfile",
     "build:broker": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-broker:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/broker -f ../../code/broker/Dockerfile",
-    "build:html5-deployer": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-html5-deployer:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/app/html5-deployer -f ../../code/app/html5-deployer/Dockerfile"
+    "build:html5-deployer": "DOCKER_BUILDKIT=1 docker build -t $IMAGE_PREFIX/susaas-html5-deployer:$IMAGE_TAG --platform=linux/amd64 --no-cache ../../code/app/html5-deployer -f ../../code/app/html5-deployer/Dockerfile",
+    "push:all": "npm run push:srv && npm run push:db-com && npm run push:api && npm run push:html5-deployer && npm run push:router && npm run push:broker",
+    "push:srv": "docker push $IMAGE_PREFIX/susaas-srv:$IMAGE_TAG",
+    "push:api": "docker push $IMAGE_PREFIX/susaas-api:$IMAGE_TAG",
+    "push:db-com": "docker push $IMAGE_PREFIX/susaas-db-com:$IMAGE_TAG",
+    "push:router": "docker push $IMAGE_PREFIX/susaas-router:$IMAGE_TAG",
+    "push:broker": "docker push $IMAGE_PREFIX/susaas-broker:$IMAGE_TAG",
+    "push:html5-deployer": "docker push $IMAGE_PREFIX/susaas-html5-deployer:$IMAGE_TAG"
   },
   "keywords": [
     "cap",

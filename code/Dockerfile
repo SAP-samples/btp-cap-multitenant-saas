@@ -50,7 +50,7 @@ FROM runner AS srv
 WORKDIR /usr/src/app
 COPY --chown=node:node --from=builder /usr/src/build/gen/srv/ /usr/src/app/
 
-CMD ["node", "node_modules/@sap/cds/bin/cds-serve.js"]
+CMD ["node", "node_modules/@sap/cds/bin/serve.js"]
 
 ################################################
 # API (target: aoi)
@@ -61,7 +61,7 @@ FROM runner AS api
 WORKDIR /usr/src/app
 COPY --chown=node:node --from=builder /usr/src/build/gen/api/ /usr/src/app/
 
-CMD ["node", "node_modules/@sap/cds/bin/cds-serve.js"]
+CMD ["node", "node_modules/@sap/cds/bin/serve.js"]
 
 ################################################
 # HDI-DEPLOYER (target: db-com)
