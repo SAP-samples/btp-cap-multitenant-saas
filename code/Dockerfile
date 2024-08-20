@@ -14,7 +14,7 @@ COPY api api
 COPY srv srv
 
 RUN ["npm", "ci"]
-RUN ["npx", "--package=@sap/cds-dk@7", "cds", "build", "--production"]
+RUN ["npx", "--package=@sap/cds-dk@8", "cds", "build", "--production"]
 
 WORKDIR /usr/src/build/gen/srv
 RUN ["npm", "ci", "--production"]
@@ -32,8 +32,6 @@ RUN ["npm", "install", "--production"]
 FROM alpine:3.20 as runner
 
 RUN addgroup -g 1000 node && adduser -u 1000 -G node -s /bin/sh -D node
-
-RUN apk add --no-cache --update --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main openssl zlib icu-data-full libuv
 
 RUN apk add -U --no-cache nodejs npm \
     && apk -U upgrade \
