@@ -97,7 +97,7 @@ npm run install
 
 ```sh
 ## Run in ./deploy/kyma ## 
-npx -p @sap/cds-dk@7 cds build -in ../../code --profile production
+npx -p @sap/cds-dk@8 cds build -in ../../code --profile production
 ```
 
 Alternatively, you can also run the following npm script.
