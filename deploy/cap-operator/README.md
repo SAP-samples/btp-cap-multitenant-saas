@@ -23,13 +23,11 @@ kubectl apply -n cap-operator-system -f https://github.com/SAP/cap-operator-life
 ```
 
 > NOTE: The (second) command above, applies a custom resource which specifies how CAP Operator will be installed on your cluster. The resource looks something like this:
-  ```
+  ```yaml
   apiVersion: operator.sme.sap.com/v1alpha1
   kind: CAPOperator
   metadata:
     name: cap-operator
-    labels:
-      ...
   spec:
     subscriptionServer:
       subDomain: cap-op # -> this exposes a domain cap-op.<kyma-cluster-domain> which can be called from SaaS Provisioning service during tenant subscription
