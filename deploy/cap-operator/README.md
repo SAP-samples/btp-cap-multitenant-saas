@@ -31,7 +31,7 @@ kubectl apply -n cap-operator-system -f https://github.com/SAP/cap-operator-life
   spec:
     subscriptionServer:
       subDomain: cap-op # -> this exposes a domain cap-op.<kyma-cluster-domain> which can be called from SaaS Provisioning service during tenant subscription
-    ingressGatewayLabels:
+    ingressGatewayLabels: # -> these are the label values used to identify the ingress gateway pods/service configured during istio installation; you do not have to change this for Kyma clusters
     - name: istio
       value: ingressgateway
     - name: app
@@ -145,8 +145,16 @@ npx cross-env IMAGE_PREFIX=<your-docker-registry>/btp-mt-saas IMAGE_TAG=0.0.1 np
         image: "<your-docker-registry>/btp-mt-saas/susaas-html5-deployer"
         tag: "0.0.1"
    ```
+
 4. To deploy the application, install the Helm chart to your cluster. This step will not only create the resources managed by the CAP operator, but also create the required service instances and bindings managed by the [SAP BTP Service Operator](https://github.com/SAP/sap-btp-service-operator).
     ```
     ## execute from deploy/cap-operator to create a helm release names "susaas" ##
     helm upgrade -i -n susaas susaas chart -f chart/values-private.yaml
     ```
+
+That is it! The CAP Operator will now be creating the various workloads, networking and trying to provision the provider tenant which can be used as soon as it is ready.
+Read on for more insights into how to to provision tenants, upgrade etc.
+
+# Verifying the deployed application - and Kyma Dashboard views
+
+**COMING SOON...**
