@@ -42,7 +42,7 @@
     "build:api": "cross-env-shell pack build $IMAGE_PREFIX/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/serve.js",
     "build:broker": "cross-env-shell pack build $IMAGE_PREFIX/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js",
     "build:router": "cross-env-shell docker build -t $IMAGE_PREFIX/susaas-router ../../code/router",
-    "build:html5-deployer": "cross-env-shell docker build -t $IMAGE_PREFIX/susaas-html5-deployer ../../code/app/html5-deployer",
+    "build:html5-deployer": "cross-env-shell docker build -t $IMAGE_PREFIX/susaas-html5-deployer ../../code/app",
     "---------------------------": "",
     "-Container Push Scripts-": "",
     "--- RUN LIKE npx --yes cross-env IMAGE_PREFIX=sap-demo npm run push:all ---": "",

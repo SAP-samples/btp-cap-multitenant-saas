@@ -104,24 +104,24 @@ npx cross-env IMAGE_PREFIX=<your-docker-registry> IMAGE_TAG=0.0.1 npm run push:a
     # The following sections describe how the container images are used and related configuration
     srv: # -> server workload details (CAP) 
         replicas: 1
-        image: "<your-docker-registry>/susaas-srv"
+        image: "<your-docker-registry>/capop-susaas-srv"
         tag: "0.0.1"
 
     router: # -> app-router workload details
         externalSessionManagement: # -> set to false for now; an advanced tutorial to scale the app-router is in the works
             enabled: "false"
         replicas: 1
-        image: "<your-docker-registry>/susaas-router"
+        image: "<your-docker-registry>/capop-susaas-router"
         tag: "0.0.1"
 
     api: # -> api workload details
         replicas: 1
-        image: "<your-docker-registry>/susaas-api"
+        image: "<your-docker-registry>/capop-susaas-api"
         tag: "0.0.1"
 
     broker: # -> service broker workload details
         replicas: 1
-        image: "<your-docker-registry>/susaas-broker"
+        image: "<your-docker-registry>/capop-susaas-broker"
         tag: "0.0.1"
         catalog:
             serviceId: # -> set a guid; try https://www.uuidgenerator.net/
@@ -138,11 +138,11 @@ npx cross-env IMAGE_PREFIX=<your-docker-registry> IMAGE_TAG=0.0.1 npm run push:a
   
 
     hdiDeployer: # -> db-com (hdi-deployer) job details
-        image: "<your-docker-registry>/susaas-db-com"
+        image: "<your-docker-registry>/capop-susaas-db-com"
         tag: "0.0.1"
 
     html5AppsDeployer: # -> html5 apps deployer (job) details
-        image: "<your-docker-registry>/susaas-html5-deployer"
+        image: "<your-docker-registry>/capop-susaas-html5-deployer"
         tag: "0.0.1"
    ```
 
