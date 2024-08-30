@@ -46,13 +46,13 @@ This section uses [Docker](https://docs.docker.com/get-started/get-docker/) to b
 To build your images execute the following command:
 ```
 ## execute from deploy/cap-operator ##
-npx cross-env IMAGE_PREFIX=<your-docker-registry>/btp-mt-saas IMAGE_TAG=0.0.1 npm run build:all
+npx cross-env IMAGE_PREFIX=<your-docker-registry> IMAGE_TAG=0.0.1 npm run build:all
 ```
 
 To push the container images to your registry (repository from which it can be pulled to the cluster) execute the following command:
 ```
 ## execute from deploy/cap-operator ##
-npx cross-env IMAGE_PREFIX=<your-docker-registry>/btp-mt-saas IMAGE_TAG=0.0.1 npm run push:all
+npx cross-env IMAGE_PREFIX=<your-docker-registry> IMAGE_TAG=0.0.1 npm run push:all
 ```
 
 ## Deploying the application
@@ -104,24 +104,24 @@ npx cross-env IMAGE_PREFIX=<your-docker-registry>/btp-mt-saas IMAGE_TAG=0.0.1 np
     # The following sections describe how the container images are used and related configuration
     srv: # -> server workload details (CAP) 
         replicas: 1
-        image: "<your-docker-registry>/btp-mt-saas/susaas-srv"
+        image: "<your-docker-registry>/susaas-srv"
         tag: "0.0.1"
 
     router: # -> app-router workload details
         externalSessionManagement: # -> set to false for now; an advanced tutorial to scale the app-router is in the works
             enabled: "false"
         replicas: 1
-        image: "<your-docker-registry>/btp-mt-saas/susaas-router"
+        image: "<your-docker-registry>/susaas-router"
         tag: "0.0.1"
 
     api: # -> api workload details
         replicas: 1
-        image: "<your-docker-registry>/btp-mt-saas/susaas-api"
+        image: "<your-docker-registry>/susaas-api"
         tag: "0.0.1"
 
     broker: # -> service broker workload details
         replicas: 1
-        image: "<your-docker-registry>/btp-mt-saas/susaas-broker"
+        image: "<your-docker-registry>/susaas-broker"
         tag: "0.0.1"
         catalog:
             serviceId: # -> set a guid; try https://www.uuidgenerator.net/
@@ -138,11 +138,11 @@ npx cross-env IMAGE_PREFIX=<your-docker-registry>/btp-mt-saas IMAGE_TAG=0.0.1 np
   
 
     hdiDeployer: # -> db-com (hdi-deployer) job details
-        image: "<your-docker-registry>/btp-mt-saas/susaas-db-com"
+        image: "<your-docker-registry>/susaas-db-com"
         tag: "0.0.1"
 
     html5AppsDeployer: # -> html5 apps deployer (job) details
-        image: "<your-docker-registry>/btp-mt-saas/susaas-html5-deployer"
+        image: "<your-docker-registry>/susaas-html5-deployer"
         tag: "0.0.1"
    ```
 
