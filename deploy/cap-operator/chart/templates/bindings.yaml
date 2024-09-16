@@ -1,0 +1,60 @@
+{{- range $serviceName, $serviceSpec := .Values.services }}
+
+{{- $enabledTemplateName := (printf "%sEnabled" $serviceName) }}
+{{- $offeringTemplateName := (printf "%sOffering" $serviceName) }}
+{{- $planTemplateName := (printf "%sPlan" $serviceName) }}
+{{- $instanceTemplateName := (printf "%sInstance" $serviceName) }}
+{{- $bindingTemplateName := (printf "%sBinding" $serviceName) }}
+{{- $instanceParametersTemplateName := (printf "%sInstanceParameters" $serviceName) }}
+{{- $bindingParametersTemplateName := (printf "%sBindingParameters" $serviceName) }}
+{{- $secretTemplateName := (printf "%sSecret" $serviceName) }}
+
+{{- if include $enabledTemplateName $ }}
+
+{{- if eq $serviceSpec.provider "btp-operator" }}
+---
+apiVersion: services.cloud.sap.com/v1alpha1
+kind: ServiceInstance
+metadata:
+  name: {{ $.Values.app.name }}-{{ $serviceSpec.shortName }}
+spec:
+  serviceOfferingName: {{ include $offeringTemplateName $ }}
+  servicePlanName: {{ include $planTemplateName $ }}
+  externalName: {{ include $instanceTemplateName $ }}
+  {{- with (include $instanceParametersTemplateName $) }}
+  parameters:
+    {{- . | nindent 4 }}
+  {{- end }}
+---
+apiVersion: services.cloud.sap.com/v1alpha1
+kind: ServiceBinding
+metadata:
+  name: {{ $.Values.app.name }}-{{ $serviceSpec.shortName }}
+spec:
+  serviceInstanceName: {{ $.Values.app.name }}-{{ $serviceSpec.shortName }}
+  credentialsRotationPolicy:
+    enabled: true
+    rotatedBindingTTL: 48h
+    rotationFrequency: 600h
+  externalName: {{ include $bindingTemplateName $ }}
+  secretKey: credentials
+  secretName: {{ include $secretTemplateName $ }}
+  {{- with (include $bindingParametersTemplateName $) }}
+  parameters:
+    {{- . | nindent 4 }}
+  {{- end }}
+
+{{- else if eq $serviceSpec.provider "secret" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include $secretTemplateName $ }}
+type: Opaque
+data: {{ include "secretData" (default (dig $serviceName "credentials" dict (merge (dict) $.Values)) $serviceSpec.credentials) | nindent 2 }}
+
+{{- end }}
+
+{{- end }}
+
+{{- end }}

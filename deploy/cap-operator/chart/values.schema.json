@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "required": ["app", "srv", "router", "api", "broker", "btp"],
+  "properties": {
+    "app": {
+      "type": "object",
+      "required": ["name", "domains", "subscriptionServerDomain"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "domains": {
+          "type": "object",
+          "required": ["primary"],
+          "properties": {
+            "primary": {
+              "type": "string",
+              "pattern": "^[a-z0-9-.]+$"
+            },
+            "secondary": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9-.]+$"
+              }
+            }
+          }
+        },
+        "subscriptionServerDomain": {
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-.]+$"
+          }
+        }
+      }
+    },
+    "btp": {
+      "type": "object",
+      "required": ["globalAccountId", "provider"],
+      "properties": {
+        "globalAccountId": {
+          "type": "string"
+        },
+        "provider": {
+          "$ref": "#/definitions/subaccount"
+        }
+      }
+    },
+    "registrySecrets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "srv": {
+      "$ref": "#/definitions/deployedComponent"
+    },
+    "router": {
+      "$ref": "#/definitions/deployedComponent"
+    },
+    "api": {
+      "$ref": "#/definitions/deployedComponent"
+    },
+    "broker": {
+      "$ref": "#/definitions/deployedComponent"
+    }
+  },
+  "definitions": {
+    "subaccount": {
+      "type": "object",
+      "required": ["subdomain", "tenantId"],
+      "properties": {
+        "subdomain": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "tenantId": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        }
+      }
+    },
+    "deployedComponent": {
+      "type": "object",
+      "required": ["image", "tag"],
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "tag": {
+          "type":"string"
+        },
+        "replicas": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

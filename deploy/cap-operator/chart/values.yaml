@@ -1,0 +1,293 @@
+app:
+  # -- BTP application name (xsappname)
+  name: # mandatory let helm fail if not provided
+  domains:
+    # -- primary domain to expose application routes (usually a subdomain of the cluster domain). Ensure this is under 62 chars.
+    primary:
+    # -- Customer specific domains for which dns entries are created (these can be stable and transferred between clusters)
+    secondary: []
+  # -- Domain (host) of the Subscription Server (CAP Operator), to be used as saas-registry subscription callback domain
+  subscriptionServerDomain: # mandatory
+
+btp:
+  # -- BTP Global account identifier where the application is hosted
+  globalAccountId: # mandatory let helm fail if not provided
+  provider:
+    # -- Subdomain of the provider sub-account where application services are created
+    subdomain: # mandatory let helm fail if not provided
+    # -- Tenant identifier for the provider sub-account (usually a guid)
+    tenantId: # mandatory let helm fail if not provided
+
+services:
+  hanaHdiContainer:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: com-hdi-container
+  destination:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: destintation
+  html5RepoHost:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: html5-repo-host
+  html5RepoRuntime:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: html5-repo-runtime
+  saasRegistry:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: saas-registry
+    # --- Callback timeout for subscription response in milliseconds
+    callbackTimeoutMillis: 300000
+  serviceManagerAdmin:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: sm-admin
+  serviceManagerContainer:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: sm-container
+  xsuaa:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: xsuaa
+  xsuaaApi:
+    # -- Provider used to create service instance (`btp-operator` or `secret`)
+    provider: btp-operator
+    # -- Short name used to generate name of service bindings, secrets etc.
+    shortName: xsuaa-api
+
+# -- Labels used to identify the istio ingress-gateway component and its corresponding namespace
+ingressGatewayLabels:
+  istio: ingressgateway
+  app: istio-ingressgateway
+
+# -- Labels used for logging and monitoring indexing
+appLabels: {}
+
+# -- Image pull secrets
+registrySecrets: []
+
+srv:
+  # -- Replicas of the CAP application server requested
+  replicas: 1
+  # -- Container image for CAP Application
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  debugLevel: "mtx"
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      cpu: 500m
+      ephemeral-storage: 1G
+      memory: 500M
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 8080
+    initialDelaySeconds: 20
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 8080
+    initialDelaySeconds: 20
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  # topologySpreadConstraints:
+  # - labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: srv
+  #       app.kubernetes.io/instance: susaas
+  #       app.kubernetes.io/component: srv
+  #       app.kubernetes.io/partOf: susaas
+  #   maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: DoNotSchedule
+
+router:
+  logLevel: "info"
+  # Enable external session management using redis
+  externalSessionManagement:
+    enabled: "false"
+    # Secret to be used to generate a session cookie. Please generate a unique string with at least 64 characters.
+    # Example value for session secret: 'sI3CMdIcw5DSeb460lZiTEmrtTcXjE6NA5mDf78vdXQunB3QNjLWj1fEt2QIHV0UeOMnCT'
+    sessionSecret: ""
+  # -- Replicas of AppRouter requested
+  replicas: 1
+  # -- Container image for AppRouter
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  resources:
+    limits:
+      cpu: 300m
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      cpu: 300m
+      ephemeral-storage: 1G
+      memory: 500M
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 5000
+    initialDelaySeconds: 20
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 5000
+    initialDelaySeconds: 25
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  # topologySpreadConstraints:
+  # - labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: router
+  #       app.kubernetes.io/instance: susaas
+  #       app.kubernetes.io/component: router
+  #       app.kubernetes.io/partOf: susaas
+  #   maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: DoNotSchedule
+
+api:
+  replicas: 1
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 5000
+    initialDelaySeconds: 20
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 5000
+    initialDelaySeconds: 25
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  # -- Container image for API server
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  resources:
+    limits:
+      cpu: 200m
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      cpu: 200m
+      ephemeral-storage: 1G
+      memory: 500M
+  # topologySpreadConstraints:
+  # - labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: api
+  #       app.kubernetes.io/instance: susaas
+  #       app.kubernetes.io/component: api
+  #       app.kubernetes.io/partOf: susaas
+  #   maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: DoNotSchedule
+
+broker: 
+  replicas: 1
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 5000
+    initialDelaySeconds: 20
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 5000
+    initialDelaySeconds: 25
+    timeoutSeconds: 2
+    periodSeconds: 15
+    failureThreshold: 3
+  # -- Container image for Service Broker
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  resources:
+    limits:
+      cpu: 150m
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      cpu: 100m
+      ephemeral-storage: 1G
+      memory: 500M
+  # topologySpreadConstraints:
+  # - labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: broker
+  #       app.kubernetes.io/instance: susaas
+  #       app.kubernetes.io/component: broker
+  #       app.kubernetes.io/partOf: susaas
+  #   maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: DoNotSchedule
+  catalog:
+    serviceId:
+    plans:
+      default:
+        id:
+      trial:
+        id:
+      premium:
+        id:
+  credentials:
+    user:
+    password:
+  
+
+hdiDeployer:
+  # -- Container image for HDI Deployer (db-com)
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1G
+    requests:
+      cpu: 500m
+      memory: 1G
+
+html5AppsDeployer:
+  # -- Container image for HTML5 Apps Deployer
+  image: # mandatory
+  tag: "" # by default replaced by Chart.AppVersion
+  resources:
+    limits:
+      cpu: 500m
+      memory: 500M
+    requests:
+      cpu: 300m
+      memory: 500M
+
+db:
+  # -- HANA Cloud database instance identifier to be used by the application
+  hanaInstanceId:
