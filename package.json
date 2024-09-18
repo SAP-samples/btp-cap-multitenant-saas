@@ -5,7 +5,7 @@
     "license": "Apache License 2.0",
     "description": "Sustainable SaaS",
     "engines": {
-        "node": "^18.x"
+        "node": "^20.x"
     },
     "scripts": {
         "cds-build": "npm --prefix ./deploy/kyma run install && npm --prefix ./deploy/kyma run build && npm --prefix ./deploy/kyma run ui:apps"

@@ -5,16 +5,16 @@
   "license": "Apache License 2.0",
   "description": "Sustainable SaaS",
   "engines": {
-    "node": "^18.x"
+    "node": "^20.x"
   },
   "type": "module",
   "dependencies": {
     "@cap-js-community/odata-v2-adapter": "^1.12.8",
     "@kubernetes/client-node": "^0.20.0",
     "@sap_oss/alert-notification-client": "^1.4.0",
-    "@sap/cds": "^8.1.0",
+    "@sap/cds": "^8.2.2",
     "@sap/cds-hana": "^2.0.0",
-    "@sap/cds-mtxs": "^2.0.5",
+    "@sap/cds-mtxs": "^2.1.0",
     "@sap/xsenv": "^5.2.0",
     "@sap/xssec": "^3.6.1",
     "axios": "^1.6.8",
@@ -29,7 +29,7 @@
     "@sap/cds-common-content": "^1.4.0",
     "@sap/html5-app-deployer": "^6.2.0",
     "@sap/html5-repo-mock": "^2.1.9",
-    "@sap/sbf": "^6.6.9",
+    "@sap/sbf": "^6.7.3",
     "@sap/ui5-builder-webide-extension": "^1.1.9",
     "@sap/ux-specification": "^1.96.4",
     "@types/chai-as-promised": "^7.1.8",
@@ -114,7 +114,8 @@
               "api/srv",
               "srv/srv",
               "@sap/cds-mtxs/db/extensions",
-              "@sap/cds-mtxs/srv/bootstrap"
+              "@sap/cds-mtxs/srv/bootstrap",
+              "@sap/cds-common-content"
             ]
           }
         },
@@ -126,7 +127,8 @@
             "model": [
               "srv/srv",
               "@sap/cds-mtxs/srv/bootstrap",
-              "@sap/cds-mtxs/db/extensions"
+              "@sap/cds-mtxs/db/extensions",
+              "@sap/cds-common-content"
             ]
           }
         },
