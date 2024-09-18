@@ -1,9 +1,3 @@
-@xsuaaHostname = <<uaa.url - field from Service Binding>>
-@btpXsuaaClient = <<uaa.clientid - field from Service Binding>>
-@btpXsuaaSecret = <<uaa.clientsecret - field from Service Binding>>
-@apiEndpointBtp = <<apiUrl (!not uaa.apiUrl!) - field from Service Binding>>
-
-
 ##########################################
 # Get SAP XSUAA token 
 ##########################################

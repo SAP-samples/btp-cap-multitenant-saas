@@ -53,7 +53,7 @@ annotate db.MaterialSplits with @title : '{i18n>materialSplit.typeNamePlural}' {
 
 annotate db.CircularityMetrics with @title : '{i18n>circularityMetric.typeNamePlural}' {
     ID                   @title            : '{i18n>circularityMetric}';
-    countryRecyclability @title            : '{i18n>countryRecyclability}'  @Common.Text : countryRecyclability.name  @Common.TextArrangement : #TextFirst;
+    countryRecyclability @title            : '{i18n>countryRecyclability}';
     eoLRecyclability     @title            : '{i18n>eolRecyclability}';
 };
 
@@ -63,8 +63,8 @@ annotate db.SalesSplits with @title : '{i18n>salesSplit.typeNamePlural}' {
     traditionalProductSales @title  : '{i18n>traditionalProductSales}';
     repairServicesSales     @title  : '{i18n>repairServicesSales}';
     reSellSales             @title  : '{i18n>reSellSales}';
-    currency                @title  : '{i18n>currencyCode}'  @Common.Text : currency.name  @Common.TextArrangement : #TextFirst;
-    country                 @title  : '{i18n>country}'  @Common.Text : country.name  @Common.TextArrangement : #TextFirst;
+    currency                @title  : '{i18n>currencyCode}';
+    country                 @title  : '{i18n>country}';
 };
 
 

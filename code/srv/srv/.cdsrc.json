@@ -1,4 +1,5 @@
-{
+{   
+    "fiori": { "draft_compat":true },
     "requires": {
         "multitenancy": true,
         "toggles": true,

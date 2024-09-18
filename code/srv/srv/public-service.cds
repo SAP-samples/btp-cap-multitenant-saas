@@ -100,20 +100,20 @@ service PublicService @(path : '/catalog/PublicService', impl: 'srv/public-servi
   
   entity Roles as projection on db.Roles excluding { 
     createdAt, createdBy, modifiedAt, modifiedBy
-  }
+  };
  
-  entity CircularityMetrics as projection on db.CircularityMetrics
+  entity CircularityMetrics as projection on db.CircularityMetrics;
 
-  entity SalesSplits as projection on db.SalesSplits
+  entity SalesSplits as projection on db.SalesSplits;
 
-  entity MaterialSplits as projection on db.MaterialSplits
+  entity MaterialSplits as projection on db.MaterialSplits;
 
-  entity SalesOrders as projection on db.SalesOrders 
+  entity SalesOrders as projection on db.SalesOrders;
 
-  entity Products as projection on db.Products
+  entity Products as projection on db.Products;
 
-  entity RecyclingCountries as projection on db.RecyclingCountries 
+  entity RecyclingCountries as projection on db.RecyclingCountries;
 
-  entity RecyclingMaterials as projection on db.RecyclingMaterials 
+  entity RecyclingMaterials as projection on db.RecyclingMaterials;
 
 };

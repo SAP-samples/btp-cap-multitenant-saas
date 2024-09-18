@@ -15,7 +15,7 @@
     },
     "devDependencies": {
         "@sap/ui5-builder-webide-extension": "^1.1.8",
-        "@ui5/cli": "^3.9.1",
+        "@ui5/cli": "^4.0.8",
         "mbt": "^1.2.27",
         "shx": "^0.3.4",
         "ui5-task-zipper": "^3.1.3"
