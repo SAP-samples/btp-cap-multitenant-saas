@@ -4,7 +4,6 @@ import ProvisioningService from './provisioning.js'
 import xsenv from '@sap/xsenv'
 
 cds.on('bootstrap', async (app) => {
-    app.get('/healthz', (_, res) => res.status(200).send('OK'));
     app.use(cov2ap());
 
     // Workaround to be removed for common db deployment on Kyma scenario.
