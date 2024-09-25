@@ -16,7 +16,7 @@ annotate service.CircularityMetrics with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : countryRecyclability,
+            Value : countryRecyclability_code,
             ![@UI.Importance] : #High
         },
         {
@@ -49,7 +49,7 @@ annotate service.CircularityMetrics with @(
         AggregatableProperties : [{
              Property : eoLRecyclability
         }],
-        GroupableProperties : [countryRecyclability]
+        GroupableProperties : [countryRecyclability_code]
     }
 );
 
@@ -73,7 +73,7 @@ annotate service.CircularityMetrics with @(
     UI.Chart #columnChartCircularityMetrics : {
         ChartType           : #Column,
         Measures            : [sumEoLRecyclability],
-        Dimensions          : [countryRecyclability],
+        Dimensions          : [countryRecyclability_code],
         Title               : '{i18n>chartCircularityMetrics}',
         MeasureAttributes   : [{
             $Type   : 'UI.ChartMeasureAttributeType',
