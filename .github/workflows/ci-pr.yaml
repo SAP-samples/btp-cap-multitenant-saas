@@ -55,4 +55,4 @@ jobs:
     # Step 8: Verify MTA Archive built successfully
     - name: Deploy to CF
       run: |
-        cf deploy ./deploy/cf/mta_archives/susaas_0.0.1.mtar
+        cf deploy ./deploy/cf/mta_archives/susaas_0.0.1.mtar -f 
