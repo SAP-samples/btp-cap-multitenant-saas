@@ -7,3 +7,8 @@ modules:
   - name: susaas-api-sb
     properties:
       cicd: true 
+resources:
+  - name: susaas-credstore
+    parameters:
+      service-plan: standard
+  
