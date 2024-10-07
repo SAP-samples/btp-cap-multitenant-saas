@@ -1,0 +1,56 @@
+name: CI for Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - main  # Run the workflow for PRs targeting the "main" branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the code from the PR branch
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    # Step 3: Install MBT and dependencies
+    - name: Install MBT and dependencies
+      run: |
+        npm install -g mbt
+        cd code
+        npm install --production
+
+    # Step 4: Install CF Cli
+    - name: Install CF Cli
+      run: |
+         wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+         echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+
+    # Step 5: Install Multiapps Plugin
+    - name: Install Multiapps Plugin
+      run: |
+        cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+        cf install-plugin multiapps -f
+
+    # Step 6: Login to CF
+    - name: Log in to Cloud Foundry
+      run: |
+        cf login -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }} -a ${{ secrets.CF_API }}
+      
+    # Step 7: Build the project
+    - name: Build MTA Archive
+      run: |
+        cd deploy/cf
+        mbt build 
+
+    # Step 8: Verify MTA Archive built successfully
+    - name: Deploy to CF
+      run: |
+        cf deploy ./deploy/cf/mta_archives/susaas_0.0.1.mtar
