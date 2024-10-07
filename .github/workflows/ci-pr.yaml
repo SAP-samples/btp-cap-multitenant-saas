@@ -30,9 +30,11 @@ jobs:
     # Step 4: Install CF Cli
     - name: Install CF Cli
       run: |
-         wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+         wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | gpg --dearmor -o /usr/share/keyrings/cli.cloudfoundry.org.gpg
          echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-
+         sudo apt-get update
+         sudo apt-get install cf8-cli
+    
     # Step 5: Install Multiapps Plugin
     - name: Install Multiapps Plugin
       run: |
@@ -48,7 +50,7 @@ jobs:
     - name: Build MTA Archive
       run: |
         cd deploy/cf
-        mbt build 
+        mbt build -e ./mtaext/ci.mtaext
 
     # Step 8: Verify MTA Archive built successfully
     - name: Deploy to CF
