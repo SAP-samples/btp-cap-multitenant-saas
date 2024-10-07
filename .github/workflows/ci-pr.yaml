@@ -50,6 +50,8 @@ jobs:
     - name: Build MTA Archive
       run: |
         cd deploy/cf
+        sed -i 's|{{BROKER_USER}}|'"${{ secrets.BROKER_USER }}"'|g' ./mtaext/ci.mtaext
+        sed -i 's|{{BROKER_PASSWORD}}|'"${{ secrets.BROKER_PASSWORD }}"'|g' ./mtaext/ci.mtaext
         mbt build -e ./mtaext/ci.mtaext
 
     # Step 8: Verify MTA Archive built successfully

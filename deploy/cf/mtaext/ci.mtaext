@@ -7,6 +7,10 @@ modules:
   - name: susaas-api-sb
     properties:
       cicd: true 
+      BROKER_USER: {{BROKER_USER}}
+      BROKER_PASSWORD: {{BROKER_PASSWORD}}
+
+
 resources:
   - name: susaas-credstore
     parameters:
