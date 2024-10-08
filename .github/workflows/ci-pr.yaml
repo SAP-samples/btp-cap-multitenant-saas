@@ -38,6 +38,7 @@ jobs:
     # Step 6: Download and Install SAP BTP CLI
     - name: Install BTP CLI
       run: |
+        dpkg --print-architecture
         curl -LJO https://tools.hana.ondemand.com/additional/btp-cli-linux-arm64-latest.tar.gz --cookie "eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt"
         tar -xzf btp-cli-linux-arm64-latest.tar.gz
         ls -a
