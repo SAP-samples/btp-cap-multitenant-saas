@@ -39,10 +39,10 @@ jobs:
     - name: Install BTP CLI
       run: |
         dpkg --print-architecture
-        curl -LJO https://tools.hana.ondemand.com/additional/btp-cli-linux-arm64-latest.tar.gz --cookie "eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt"
-        tar -xzf btp-cli-linux-arm64-latest.tar.gz
+        curl -LJO https://tools.hana.ondemand.com/additional/btp-cli-linux-amd64-latest.tar.gz --cookie "eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt"
+        tar -xzf btp-cli-linux-amd64-latest.tar.gz
         ls -a
-        mv linux-arm64/btp /usr/local/bin
+        mv linux-amd64/btp /usr/local/bin
         chmod +x /usr/local/bin/btp
 
     - name: Verify BTP CLI Installation
