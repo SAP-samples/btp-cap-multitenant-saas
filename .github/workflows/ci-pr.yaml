@@ -43,6 +43,11 @@ jobs:
         ls -a
         mv linux-arm64/btp /usr/local/bin
         chmod +x /usr/local/bin/btp
+
+    - name: Verify BTP CLI Installation
+      run: | 
+        btp --version
+        
     
     # Step 5: Install Multiapps Plugin
     - name: Install Multiapps Plugin
