@@ -40,6 +40,7 @@ jobs:
       run: |
         curl -LJO https://tools.hana.ondemand.com/additional/btp-cli-linux-arm64-latest.tar.gz --cookie "eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt"
         tar -xzf btp-cli-linux-arm64-latest.tar.gz
+        ls -a
         mv btp /usr/local/bin
         chmod +x /usr/local/bin/btp
     
