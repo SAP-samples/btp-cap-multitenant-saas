@@ -36,7 +36,7 @@ annotate service.SalesSplits with @(
         {
             Property : reSellSales
         }],
-        GroupableProperties : [ country],
+        GroupableProperties : [ country_code],
     },
     Analytics.AggregatedProperties : [
         {
@@ -96,7 +96,7 @@ annotate service.SalesSplits with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : country,
+            Value : country_code,
             ![@UI.Importance] : #High
         }
     ]}
@@ -107,7 +107,7 @@ annotate service.SalesSplits with @(
     UI.Chart #columnChartSalesSplits : {
         ChartType           : #Column,
         Measures            : [sumTotalRevenue],
-        Dimensions          : [country],
+        Dimensions          : [country_code],
         Title               : '{i18n>chartSalesSplits}',
         MeasureAttributes   : [{
             $Type   : 'UI.ChartMeasureAttributeType',
