@@ -191,6 +191,7 @@ check_subaccount_removal() {
 }
 
 # Main script execution
+btp_login
 create_subaccount
 check_subaccount_status
 subscribe_to_application
