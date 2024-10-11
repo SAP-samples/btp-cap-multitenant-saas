@@ -77,6 +77,6 @@ jobs:
       env:
         BTP_USERNAME: ${{ secrets.CF_USERNAME }}
         BTP_PASSWORD: ${{ secrets.CF_PASSWORD }}
-        BTP_GLOBAL_ACCOUNT: ${{ secrets.BTP_SUBDOMAIN }}
+        BTP_SUBDOMAIN: ${{ secrets.BTP_SUBDOMAIN }}
         
 
