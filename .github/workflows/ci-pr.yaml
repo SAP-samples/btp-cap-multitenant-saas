@@ -35,7 +35,7 @@ jobs:
          sudo apt-get update
          sudo apt-get install cf8-cli
 
-    # Step 6: Download and Install SAP BTP CLI
+    # Step 5: Download and Install SAP BTP CLI
     - name: Install BTP CLI
       run: |
         dpkg --print-architecture
@@ -44,24 +44,19 @@ jobs:
         ls -a
         mv linux-amd64/btp /usr/local/bin
         chmod +x /usr/local/bin/btp
-
-    - name: Verify BTP CLI Installation
-      run: | 
-        btp --version
-        
     
-    # Step 5: Install Multiapps Plugin
+    # Step 6: Install Multiapps Plugin
     - name: Install Multiapps Plugin
       run: |
         cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
         cf install-plugin multiapps -f
 
-    # Step 6: Login to CF
+    # Step 7: Login to CF
     - name: Log in to Cloud Foundry
       run: |
         cf login -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }} -a ${{ secrets.CF_API }}
       
-    # Step 7: Build the project
+    # Step 8: Build the project
     - name: Build MTA Archive
       run: |
         cd deploy/cf
@@ -69,7 +64,19 @@ jobs:
         sed -i 's|{{BROKER_PASSWORD}}|'"${{ secrets.BROKER_PASSWORD }}"'|g' ./mtaext/ci.mtaext
         mbt build -e ./mtaext/ci.mtaext
 
-    # Step 8: Verify MTA Archive built successfully
+    # Step 9: Verify MTA Archive built successfully
     - name: Deploy to CF
       run: |
         cf deploy ./deploy/cf/mta_archives/susaas_0.0.1.mtar -f 
+
+    # Step 10: Verify MTA Archive built successfully
+    - name: Run Subscription Test Script
+      run: |
+        chmod +x ./code/test/subscription-test.sh
+        ./code/test/subscription-test.sh
+      env:
+        BTP_USERNAME: ${{ secrets.CF_USERNAME }}
+        BTP_PASSWORD: ${{ secrets.CF_PASSWORD }}
+        BTP_GLOBAL_ACCOUNT: ${{ secrets.BTP_SUBDOMAIN }}
+        
+
