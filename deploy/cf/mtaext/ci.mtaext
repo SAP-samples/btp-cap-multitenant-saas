@@ -1,0 +1,18 @@
+ID: susaas.trial
+_schema-version: 3.2.0
+version: 1.0.0
+extends: susaas
+
+modules:
+  - name: susaas-api-sb
+    properties:
+      cicd: true 
+      BROKER_USER: {{BROKER_USER}}
+      BROKER_PASSWORD: {{BROKER_PASSWORD}}
+
+
+resources:
+  - name: susaas-credstore
+    parameters:
+      service-plan: standard
+  

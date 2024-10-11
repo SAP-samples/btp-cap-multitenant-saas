@@ -1,0 +1,82 @@
+name: CI for Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - main  # Run the workflow for PRs targeting the "main" branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the code from the PR branch
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    # Step 3: Install MBT and dependencies
+    - name: Install MBT and dependencies
+      run: |
+        npm install -g mbt
+        cd code
+        npm install --production
+
+    # Step 4: Install CF Cli
+    - name: Install CF Cli
+      run: |
+         wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | gpg --dearmor -o /usr/share/keyrings/cli.cloudfoundry.org.gpg
+         echo "deb [trusted=yes] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+         sudo apt-get update
+         sudo apt-get install cf8-cli
+
+    # Step 5: Download and Install SAP BTP CLI
+    - name: Install BTP CLI
+      run: |
+        dpkg --print-architecture
+        curl -LJO https://tools.hana.ondemand.com/additional/btp-cli-linux-amd64-latest.tar.gz --cookie "eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt"
+        tar -xzf btp-cli-linux-amd64-latest.tar.gz
+        ls -a
+        mv linux-amd64/btp /usr/local/bin
+        chmod +x /usr/local/bin/btp
+    
+    # Step 6: Install Multiapps Plugin
+    - name: Install Multiapps Plugin
+      run: |
+        cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
+        cf install-plugin multiapps -f
+
+    # Step 7: Login to CF
+    - name: Log in to Cloud Foundry
+      run: |
+        cf login -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }} -a ${{ secrets.CF_API }}
+      
+    # Step 8: Build the project
+    - name: Build MTA Archive
+      run: |
+        cd deploy/cf
+        sed -i 's|{{BROKER_USER}}|'"${{ secrets.BROKER_USER }}"'|g' ./mtaext/ci.mtaext
+        sed -i 's|{{BROKER_PASSWORD}}|'"${{ secrets.BROKER_PASSWORD }}"'|g' ./mtaext/ci.mtaext
+        mbt build -e ./mtaext/ci.mtaext
+
+    # Step 9: Verify MTA Archive built successfully
+    - name: Deploy to CF
+      run: |
+        cf deploy ./deploy/cf/mta_archives/susaas_0.0.1.mtar -f 
+
+    # Step 10: Verify MTA Archive built successfully
+    - name: Run Subscription Test Script
+      run: |
+        chmod +x ./code/test/subscription-test.sh
+        ./code/test/subscription-test.sh
+      env:
+        BTP_USERNAME: ${{ secrets.CF_USERNAME }}
+        BTP_PASSWORD: ${{ secrets.CF_PASSWORD }}
+        BTP_SUBDOMAIN: ${{ secrets.BTP_SUBDOMAIN }}
+        
+
