@@ -1,7 +1,7 @@
 name: CI for Pull Requests - Deployment and Subscription test
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main  # Run the workflow for PRs targeting the "main" branch
 
