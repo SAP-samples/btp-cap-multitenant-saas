@@ -29,7 +29,6 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 
 * Local and hybrid development - ([click here](../local-hybrid-development/README.md))
 * Terraform automation setup - ([click here](../btp-terraform-setup/README.md))
-* Self-Onboarding of SaaS tenants - ([click here](../saas-self-onboarding/README.md))
 * Custom domain for SAP IAS - ([click here](../custom-domain-for-ias/README.md))
 * Send emails using Microsoft Graph - ([click here](../send-emails-graph-api/README.md))
 * Feature Toggles - ([click here](../feature-toggles/README.md))
@@ -43,7 +42,6 @@ The **Expert Features** will cover topics from backups of Tenant database contai
 ### Kyma
 
 * Setup a Continuous Integration Scenario - ([Kyma](../-Kyma-/setup-cicd-for-project/README.md))
-* Onboarding Automation and One Domain - ([Kyma](../-Kyma-/saas-self-onboarding/README.md))
 * Custom domain usage - ([Kyma](../-Kyma-/custom-domain-usage/README.md))
 
 

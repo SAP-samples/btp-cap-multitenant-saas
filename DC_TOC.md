@@ -46,7 +46,6 @@ Prerequisites
     - [Integrate a consumer's IdP](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/integrate-consumers-idp/README.md)<!-- dc-card: {"label":  ["Basics"]} dc-card -->
     - [Use local/hybrid development](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/local-hybrid-development/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Manage tenant database containers](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/manage-tenant-containers/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
-    - [Self-Onboarding of SaaS tenants](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/saas-self-onboarding/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Send emails using Microsoft Graph API](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/send-emails-graph-api/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Update tenant databases containers](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/update-tenant-containers/README.md)<!-- dc-card: {"label":  ["Hands-On"]} dc-card -->
     - [Cloud Foundry - Use SAP Transport Management](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/-CloudFoundry-/configure-transport-management/README.md)<!-- dc-card: {"label":  ["Hands-On","Cloud Foundry"]} dc-card -->
@@ -57,7 +56,6 @@ Prerequisites
     - [Cloud Foundry - Using the SAP Theme Designer](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/-CloudFoundry-/using-sap-theme-designer/README.md)<!-- dc-card: {"label":  ["Hands-On","Cloud Foundry"]} dc-card -->
     - [Cloud Foundry - External Session Management](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/-CloudFoundry-/approuter-external-session-management/README.md)<!-- dc-card: {"label":  ["Hands-On","Cloud Foundry"]} dc-card -->
     - [Kyma - Setup custom domain usage](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/-Kyma-/custom-domain-usage/README.md)<!-- dc-card: {"label":  ["Hands-On","Kyma"]} dc-card -->
-    - [Kyma - Self-Onboarding and One-Domain](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/4-expert/-Kyma-/saas-self-onboarding/README.md)<!-- dc-card: {"label":  ["Hands-On","Kyma"]} dc-card -->
 - Complete 
     - [Share your Feedback](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/5-complete/share-feedback/README.md)
     - [Complete the Mission](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/5-complete/complete-mission/README.md)
