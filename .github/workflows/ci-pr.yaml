@@ -1,4 +1,4 @@
-name: CI for Pull Requests - Deployment and Subscription test
+name: Deployment and Subscription Test
 
 on:
   pull_request_target:
