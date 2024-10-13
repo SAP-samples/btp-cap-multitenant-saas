@@ -1,7 +1,7 @@
 name: CI for Pull Requests - Deployment and Subscription test
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main  # Run the workflow for PRs targeting the "main" branch
 
@@ -50,7 +50,9 @@ jobs:
       run: |
         cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
         cf install-plugin multiapps -f
-
+    - name: echo cf space
+      run : |
+        echo ${{ secrets.CF_SPACE }}
     # Step 7: Login to CF
     - name: Log in to Cloud Foundry
       run: |
