@@ -92,7 +92,6 @@ After adding some or all of the Advanced Features, the following **Expert Featur
 **Kyma** (only)
 
 - [Custom domain usage](./docu/4-expert/-Kyma-/custom-domain-usage/README.md)
-- [Onboarding Automation and One Domain](./docu/4-expert/-Kyma-/saas-self-onboarding/README.md)
 - [Setup a Continuous Integration Scenario](./docu/4-expert/-Kyma-/setup-cicd-for-project/README.md)
 
 
@@ -182,7 +181,7 @@ Please check the below details on these additional entitlements required for the
   - Automated Credential Rotation (Workaround available - 2023/06/09)
     - **Problem**: Users are facing a callback authentication error after successful login via SAP IAS as part of the One-Domain concept. 
     - **Issue**: Activating the automated credential rotation of the SAP BTP Service Operator renews the X.509 certificate of the respective SAP IAS service bindings. As the Application Router caches the binding details for performance reasons, the cached X.509 certificate is not valid anymore after rotation. This results in an authentication error between Application Router and SAP IAS. 
-    - **Workaround**: A restart of the Application Router after credential rotation will solve this issue and the latest X.509 certificate is being cached. This restart can be automated in a Kubernetes/Kyma CronJob, starting a new Deployment rollout according to your credential rotation cycle. You can find an example incl. roles and service accounts in the respective Expert Features ([click here](./docu/4-expert/-Kyma-/saas-self-onboarding/files/yaml/deployment-restart.yaml)). Combined with an external Redis cache for Application Router session management, downtimes can be minimized or completely mitigated! Make sure to have a sufficient overlap of both, the old and new X.509 certificate (*rotatedBindingTTL: 24h* & *rotationFrequency: 48h*), so the cached credentials are still valid until the restart has happened!
+    - **Workaround**: A restart of the Application Router after credential rotation will solve this issue and the latest X.509 certificate is being cached. This restart can be automated in a Kubernetes/Kyma CronJob, starting a new Deployment rollout according to your credential rotation cycle. Combined with an external Redis cache for Application Router session management, downtimes can be minimized or completely mitigated! Make sure to have a sufficient overlap of both, the old and new X.509 certificate (*rotatedBindingTTL: 24h* & *rotationFrequency: 48h*), so the cached credentials are still valid until the restart has happened!
     - **Solution**: Issue has been addressed and a potential notification mechanism might trigger an automated update of the Application Router cache in the future (subject to change). 
   - Consumer extension API issue (Workaround available - 2022/12/19)
     - **Problem**: Applying a Consumer extension currently results in the Push API not being usable by the extended Tenant anymore. 
