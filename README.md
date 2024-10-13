@@ -1,6 +1,6 @@
 # Develop a multitenant Software as a Service application in SAP BTP using CAP (Kyma + Cloud Foundry)
 
-[![Deployment and Subscription Test for CF](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml/badge.svg?branch=main)](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml)
+[![Deployment and Subscription Test on CF](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml/badge.svg)](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml)
 
 ## Description
 
