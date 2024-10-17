@@ -38,13 +38,6 @@
     "--- DB Settings ---": "---",
     " ------------------": "---",
     "db": {
-      "[hybrid]": {
-        "kind": "hana",
-        "vcap": {
-          "label": "service-manager",
-          "plan": "container"
-        }
-      },
       "[local-with-mtx]": {
         "kind": "sqlite",
         "credentials": {

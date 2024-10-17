@@ -10,10 +10,10 @@
   "type": "module",
   "dependencies": {
     "@cap-js-community/odata-v2-adapter": "^1.12.8",
+    "@cap-js/hana": "^1",
     "@kubernetes/client-node": "^0.20.0",
     "@sap_oss/alert-notification-client": "^1.4.0",
     "@sap/cds": "^8.2.2",
-    "@sap/cds-hana": "^2.0.0",
     "@sap/cds-mtxs": "^2.1.0",
     "@sap/sbf": "^6.7.5",
     "@sap/xsenv": "^5.2.0",

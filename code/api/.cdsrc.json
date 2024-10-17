@@ -18,13 +18,6 @@
       "multitenancy": false
     },
     "db": {
-      "[hybrid]": {
-        "kind": "hana-cloud",
-        "vcap": {
-          "label": "service-manager",
-          "plan": "container"
-        }
-      },
       "[local-with-mtx]": {
         "kind": "sqlite",
         "credentials": {
