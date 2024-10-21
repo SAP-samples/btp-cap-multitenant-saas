@@ -25,6 +25,7 @@ Below you can find the solution architecture diagrams of our sample application.
 
 ## Content
 
+
 To get started, we recommend to **Discover** some basic skills and learnings first. The following parts of the documentation will introduce you to the basics of this scenario, the concepts of multitenancy, and Software as a Service applications. 
 
 - [1 - Discover the tutorial target](./docu/1-discover/1-discover-tutorial-target/README.md)
