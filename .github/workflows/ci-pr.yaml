@@ -34,6 +34,7 @@ jobs:
          echo "deb [trusted=yes] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
          sudo apt-get update
          sudo apt-get install cf8-cli
+         echo 'test'
 
     # Step 5: Download and Install SAP BTP CLI
     - name: Install BTP CLI
