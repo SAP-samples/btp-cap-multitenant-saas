@@ -50,9 +50,7 @@ jobs:
       run: |
         cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
         cf install-plugin multiapps -f
-    - name: echo cf space
-      run : |
-        echo ${{ secrets.CF_SPACE }}
+
     # Step 7: Login to CF
     - name: Log in to Cloud Foundry
       run: |
@@ -80,5 +78,7 @@ jobs:
         BTP_USERNAME: ${{ secrets.CF_USERNAME }}
         BTP_PASSWORD: ${{ secrets.CF_PASSWORD }}
         BTP_SUBDOMAIN: ${{ secrets.BTP_SUBDOMAIN }}
+        CF_SPACE: ${{ secrets.CF_SPACE }}
+        CF_ORG: ${{ secrets.CF_SPACE }}
         
 
