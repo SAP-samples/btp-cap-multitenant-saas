@@ -190,11 +190,137 @@ check_subaccount_removal() {
   done
 }
 
+# Function to validate if the service broker registration is successful, with retry logic
+validate_osb_registration() {
+  local CF_APP_NAME="susaas-api-$CF_SPACE-$CF_ORG"
+  local MAX_ATTEMPTS=3
+  local ATTEMPT=0
+  local INTERVAL=5  # Time in seconds between attempts
+  local TIMEOUT=15   # Total timeout in seconds
+  local START_TIME=$(date +%s)
+
+  echo "Validating OSB registration for $CF_APP_NAME..."
+
+  while (( ATTEMPT < MAX_ATTEMPTS )); do
+    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq '$CF_APP_NAME'")
+    
+    # Check if the response contains a valid offering
+    SERVICE_OFFERING_ID=$(echo "$RESPONSE" | jq -r '.[0].id')
+    IS_READY=$(echo "$RESPONSE" | jq -r '.[0].ready')
+    SERVICE_OFFERING_NAME=$(echo "$RESPONSE" | jq -r '.[0].metadata.displayName')
+
+    if [[ "$SERVICE_OFFERING_ID" != "null" && "$IS_READY" == "true" ]]; then
+      echo "Service broker registration is successful. Offering Name: $SERVICE_OFFERING_NAME"
+      return 0  # Exit function on success
+    fi
+
+    # Calculate elapsed time
+    local CURRENT_TIME=$(date +%s)
+    local ELAPSED_TIME=$(( CURRENT_TIME - START_TIME ))
+
+    if (( ELAPSED_TIME >= TIMEOUT )); then
+      echo "Error: OSB registration validation timed out after $TIMEOUT seconds."
+      exit 1
+    fi
+
+    echo "Attempt $(( ATTEMPT + 1 )) failed. Retrying in $INTERVAL seconds..."
+    sleep "$INTERVAL"
+    (( ATTEMPT++ ))
+  done
+
+  echo "Error: Service broker registration failed after $MAX_ATTEMPTS attempts."
+  exit 1
+}
+
+#!/bin/bash
+validate_common_db_entity() {
+  local SERVICE_NAME="susaas-uaa"
+  local SERVICE_KEY_NAME="ci-key"
+  local APP_NAME="susaas-srv-$CF_SPACE"
+    
+  echo "Creating service key for service $SERVICE_NAME..."
+  cf create-service-key $CF_SPACE-$SERVICE_NAME $SERVICE_KEY_NAME -w
+ 
+  echo "Retrieving service key GUID..."
+  SERVICE_KEY_GUID=$(cf service-key $CF_SPACE-$SERVICE_NAME $SERVICE_KEY_NAME --guid | tr -d '[:space:]')  # Remove whitespace
+
+  if [[ -z "$SERVICE_KEY_GUID" ]]; then
+    echo "Error: Failed to retrieve service key GUID."
+    exit 1
+  fi
+
+echo "Fetching subdomain for subaccount GUID $SUBACCOUNT_GUID..."
+
+SUBDOMAIN=$(btp --format json get accounts/subaccount $SUBACCOUNT_GUID | jq '.subdomain')
+
+if [[ -z "$SUBDOMAIN" || "$SUBDOMAIN" == "null" ]]; then
+  echo "Error: Failed to retrieve subdomain."
+  exit 1
+fi
+
+echo "Fetching credentials for service key GUID $SERVICE_KEY_GUID..."
+
+CLIENT_ID=$(cf curl /v3/service_credential_bindings/$SERVICE_KEY_GUID/details | jq -r '.credentials.clientid')
+CLIENT_SECRET=$(cf curl /v3/service_credential_bindings/$SERVICE_KEY_GUID/details | jq -r '.credentials.clientsecret')
+OAUTH_URL=$(cf curl /v3/service_credential_bindings/$SERVICE_KEY_GUID/details | jq -r '.credentials.url' | sed "s/^[^.]*\./$SUBDOMAIN./")
+
+if [[ -z "$CLIENT_ID" || -z "$CLIENT_SECRET" || -z "$OAUTH_URL" ]]; then
+  echo "Error: Failed to retrieve credentials for service key."
+  exit 1
+fi
+
+echo "OAuth URL: $OAUTH_URL"
+echo "Credentials for service key retrieved successfully."
+
+# Fetch the OAuth token
+TOKEN=$(curl -s "$OAUTH_URL/oauth/token" \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  -u "$CLIENT_ID:$CLIENT_SECRET" \
+  --data-urlencode 'grant_type=client_credentials' \
+  --data-urlencode 'response_type=token' | jq -r '.access_token')
+
+if [[ -z "$TOKEN" || "$TOKEN" == "null" ]]; then
+  echo "Error: Failed to retrieve OAuth token."
+  exit 1
+fi
+echo "OAuth token retrieved successfully.."
+
+
+# Fetch the Common DB entity with the token
+echo "Fetching GUID for app $APP_NAME..."
+
+APP_GUID=$(cf curl "/v3/apps?names=$APP_NAME" | jq -r '.resources[0].guid')
+
+  if [[ -z "$APP_GUID" || "$APP_GUID" == "null" ]]; then
+    echo "Error: Failed to retrieve GUID for app $APP_NAME."
+    exit 1
+  fi
+
+  # Fetch the route for the app using the app GUID
+  echo "Fetching route for app $APP_NAME..."
+  APP_ROUTE=$(cf curl "/v3/apps/$APP_GUID/routes" | jq -r '.resources[0].url')
+  APP_URL="https://$APP_ROUTE"
+  echo "App URL has been retrieved:$APP_URL"
+  RESPONSE_BODY=$(curl -s -X GET "$APP_URL/catalog/AdminService/SharedEntity" \
+    --header "Authorization: Bearer $TOKEN" \
+    --header "Content-Type: application/json")
+ 
+  ERROR_PRESENT=$(echo "$RESPONSE_BODY" | jq '.error // empty')
+  # If there is an error, extract and display the error details
+  if [[ -n "$ERROR_PRESENT" ]]; then
+    ERROR_CODE=$(echo "$RESPONSE_BODY" | jq -r '.error.code')
+    ERROR_MESSAGE=$(echo "$RESPONSE_BODY" | jq -r '.error.message')
+    echo "Error: Received error code $ERROR_CODE with message: $ERROR_MESSAGE"
+    exit 1
+  fi
+}
+
 # Main script execution
 btp_login
 create_subaccount
 check_subaccount_status
 subscribe_to_application
+validate_osb_registration
+validate_common_db_entity
 unsubscribe_from_application
 delete_subaccount
-
