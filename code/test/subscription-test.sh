@@ -196,13 +196,13 @@ validate_osb_registration() {
   local MAX_ATTEMPTS=3
   local ATTEMPT=0
   local INTERVAL=5  # Time in seconds between attempts
-  local TIMEOUT=15   # Total timeout in seconds
+  local TIMEOUT=30   # Total timeout in seconds
   local START_TIME=$(date +%s)
 
-  echo "Validating OSB registration for $CF_APP_NAME..."
+  echo "Validating OSB registration for $BROKER_NAME..."
 
   while (( ATTEMPT < MAX_ATTEMPTS )); do
-    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq '$BROKER_NAME'")
+    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq 'susaas-api-$CF_SPACE-$CF_ORG'")
     
     # Check if the response contains a valid offering
     SERVICE_OFFERING_ID=$(echo "$RESPONSE" | jq -r '.[0].id')
