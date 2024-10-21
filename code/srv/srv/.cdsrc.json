@@ -17,7 +17,6 @@
             ]
         },
         "db": {
-            "kind": "hana-mt",
             "vcap": {
                 "label": false,
                 "plan": "container"
@@ -29,7 +28,6 @@
                 "fifo": true
             }
         },
-
         "auth": {
             "kind": "xsuaa"
         }

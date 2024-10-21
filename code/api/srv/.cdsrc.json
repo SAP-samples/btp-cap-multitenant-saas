@@ -6,7 +6,6 @@
         "cds.xt.DeploymentService": false,
         "cds.xt.SaasProvisioningService": false,
         "db": {
-            "kind": "hana-cloud",
             "vcap": {
                 "label": "service-manager",
                 "plan": "container"

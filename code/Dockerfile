@@ -70,4 +70,4 @@ FROM runner AS db-com
 WORKDIR /usr/src/app
 COPY --chown=node:node --from=builder /usr/src/build/gen/db-com/ /usr/src/app/
 
-CMD ["node", "node_modules/@sap/hdi-deploy/deploy.js"]
+CMD ["node", "node_modules/@sap/hdi-deploy/deploy.js", "--use-hdb"]

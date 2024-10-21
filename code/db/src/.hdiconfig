@@ -123,6 +123,18 @@
         },
         "txt": {
             "plugin_name": "com.sap.hana.di.copyonly"
+        },
+        "hdbafllangprocedure": {
+            "plugin_name": "com.sap.hana.di.afllangprocedure"
+        },
+        "hdbcollection": {
+            "plugin_name": "com.sap.hana.di.collection"
+        },
+        "hdbhadoopmrjob": {
+            "plugin_name": "com.sap.hana.di.virtualfunctionpackage.hadoop"
+        },
+        "hdbeshconfig": {
+            "plugin_name": "com.sap.hana.di.eshconfig"
         }
     }
 }
