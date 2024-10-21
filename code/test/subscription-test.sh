@@ -192,7 +192,7 @@ check_subaccount_removal() {
 
 # Function to validate if the service broker registration is successful, with retry logic
 validate_osb_registration() {
-  local CF_APP_NAME="susaas-api-$CF_SPACE-$CF_ORG"
+  local BROKER_NAME="susaas-api-$CF_SPACE-$CF_ORG"
   local MAX_ATTEMPTS=3
   local ATTEMPT=0
   local INTERVAL=5  # Time in seconds between attempts
@@ -202,7 +202,7 @@ validate_osb_registration() {
   echo "Validating OSB registration for $CF_APP_NAME..."
 
   while (( ATTEMPT < MAX_ATTEMPTS )); do
-    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq '$CF_APP_NAME'")
+    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq '$BROKER_NAME'")
     
     # Check if the response contains a valid offering
     SERVICE_OFFERING_ID=$(echo "$RESPONSE" | jq -r '.[0].id')
@@ -257,6 +257,7 @@ if [[ -z "$SUBDOMAIN" || "$SUBDOMAIN" == "null" ]]; then
   echo "Error: Failed to retrieve subdomain."
   exit 1
 fi
+echo "Subdomain:$SUBDOMAIN"
 
 echo "Fetching credentials for service key GUID $SERVICE_KEY_GUID..."
 
