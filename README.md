@@ -1,7 +1,7 @@
 # Develop a multitenant Software as a Service application in SAP BTP using CAP (Kyma + Cloud Foundry)
-[![REUSE status](https://api.reuse.software/badge/github.com/sap-samples/btp-cap-multitenant-saas)](https://api.reuse.software/info/github.com/sap-samples/btp-cap-multitenant-saas)
-[![Deployment and Subscription Test on CF](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml/badge.svg)](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml)
 
+[![Deployment and Subscription Test on CF](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml/badge.svg)](https://github.com/SAP-samples/btp-cap-multitenant-saas/actions/workflows/ci-pr.yaml)
+[![REUSE status](https://api.reuse.software/badge/github.com/sap-samples/btp-cap-multitenant-saas)](https://api.reuse.software/info/github.com/sap-samples/btp-cap-multitenant-saas)
 ## Description
 
 The **Sustainable SaaS (SusaaS)** sample application has been built in a partner collaboration to help interested developers, partners, and customers in developing multitenant Software as a Service applications using CAP and deploying them to the SAP Business Technology Platform (SAP BTP). For this use-case, the **SAP BTP, Cloud Foundry** and **Kyma Runtime** were chosen. Still, you can also develop similar SaaS applications in the **SAP BTP, ABAP environment** ([click here](https://help.sap.com/docs/btp/sap-business-technology-platform/multitenancy-and-saas-applications) for further details).
