@@ -193,7 +193,7 @@ check_subaccount_removal() {
 # Function to validate if the service broker registration is successful, with retry logic
 validate_osb_registration() {
   local BROKER_NAME="susaas-api-$CF_SPACE-$CF_ORG"
-  local MAX_ATTEMPTS=3
+  local MAX_ATTEMPTS=6
   local ATTEMPT=0
   local INTERVAL=5  # Time in seconds between attempts
   local TIMEOUT=30   # Total timeout in seconds
@@ -208,7 +208,8 @@ validate_osb_registration() {
     SERVICE_OFFERING_ID=$(echo "$RESPONSE" | jq -r '.[0].id')
     IS_READY=$(echo "$RESPONSE" | jq -r '.[0].ready')
     SERVICE_OFFERING_NAME=$(echo "$RESPONSE" | jq -r '.[0].metadata.displayName')
-
+    echo "Service Offering Name $SERVICE_OFFERING_NAME" 
+    echo "Is ready:$IS_READY"
     if [[ "$SERVICE_OFFERING_ID" != "null" && "$IS_READY" == "true" ]]; then
       echo "Service broker registration is successful. Offering Name: $SERVICE_OFFERING_NAME"
       return 0  # Exit function on success
