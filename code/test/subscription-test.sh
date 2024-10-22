@@ -193,44 +193,33 @@ check_subaccount_removal() {
 # Function to validate if the service broker registration is successful, with retry logic
 validate_osb_registration() {
   local BROKER_NAME="susaas-api-$CF_SPACE-$CF_ORG"
-  local MAX_ATTEMPTS=6
-  local ATTEMPT=0
-  local INTERVAL=5  # Time in seconds between attempts
-  local TIMEOUT=30   # Total timeout in seconds
   local START_TIME=$(date +%s)
 
   echo "Validating OSB registration for $BROKER_NAME..."
 
-  while (( ATTEMPT < MAX_ATTEMPTS )); do
-    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq 'susaas-api-$CF_SPACE-$CF_ORG'")
-    
-    # Check if the response contains a valid offering
-    SERVICE_OFFERING_ID=$(echo "$RESPONSE" | jq -r '.[0].id')
-    IS_READY=$(echo "$RESPONSE" | jq -r '.[0].ready')
-    SERVICE_OFFERING_NAME=$(echo "$RESPONSE" | jq -r '.[0].metadata.displayName')
-    echo "Service Offering Name $SERVICE_OFFERING_NAME" 
-    echo "Is ready:$IS_READY"
-    if [[ "$SERVICE_OFFERING_ID" != "null" && "$IS_READY" == "true" ]]; then
-      echo "Service broker registration is successful. Offering Name: $SERVICE_OFFERING_NAME"
-      return 0  # Exit function on success
-    fi
-
-    # Calculate elapsed time
+  while true; do
     local CURRENT_TIME=$(date +%s)
     local ELAPSED_TIME=$(( CURRENT_TIME - START_TIME ))
 
     if (( ELAPSED_TIME >= TIMEOUT )); then
-      echo "Error: OSB registration validation timed out after $TIMEOUT seconds."
+      echo "Error: Service Broker registration check timed out after $TIMEOUT seconds."
       exit 1
     fi
 
-    echo "Attempt $(( ATTEMPT + 1 )) failed. Retrying in $INTERVAL seconds..."
-    sleep "$INTERVAL"
-    (( ATTEMPT++ ))
-  done
+    RESPONSE=$(btp --format json list services/offering --subaccount "$SUBACCOUNT_GUID" --fields-filter "name eq 'susaas-api-$CF_SPACE-$CF_ORG'")
+        # Check if the response contains a valid offering
+    SERVICE_OFFERING_ID=$(echo "$RESPONSE" | jq -r '.[0].id')
+    IS_READY=$(echo "$RESPONSE" | jq -r '.[0].ready')
+    SERVICE_OFFERING_NAME=$(echo "$RESPONSE" | jq -r '.[0].metadata.displayName')
 
-  echo "Error: Service broker registration failed after $MAX_ATTEMPTS attempts."
-  exit 1
+    if [[ "$SERVICE_OFFERING_ID" != "null" && "$IS_READY" == "true" ]]; then
+      echo "Service broker registration is successful. Offering ID: $SERVICE_OFFERING_ID"
+      return 0  # Exit function on success
+    fi
+
+    echo "Service Broker is not yet registered. Checking again in $POLL_INTERVAL seconds..."
+    sleep "$POLL_INTERVAL"
+  done
 }
 
 #!/bin/bash
@@ -250,9 +239,11 @@ validate_common_db_entity() {
     exit 1
   fi
 
+echo "Service key GUID:$SERVICE_KEY_GUID" 
+
 echo "Fetching subdomain for subaccount GUID $SUBACCOUNT_GUID..."
 
-SUBDOMAIN=$(btp --format json get accounts/subaccount $SUBACCOUNT_GUID | jq '.subdomain')
+SUBDOMAIN=$(btp --format json get accounts/subaccount $SUBACCOUNT_GUID | jq -r '.subdomain')
 
 if [[ -z "$SUBDOMAIN" || "$SUBDOMAIN" == "null" ]]; then
   echo "Error: Failed to retrieve subdomain."
@@ -271,7 +262,8 @@ if [[ -z "$CLIENT_ID" || -z "$CLIENT_SECRET" || -z "$OAUTH_URL" ]]; then
   exit 1
 fi
 
-echo "OAuth URL: $OAUTH_URL"
+OAUTH_URL="https://$OAUTH_URL"
+echo "Token URL:$OAUTH_URL"
 echo "Credentials for service key retrieved successfully."
 
 # Fetch the OAuth token
