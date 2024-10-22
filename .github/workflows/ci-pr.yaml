@@ -79,6 +79,6 @@ jobs:
         BTP_PASSWORD: ${{ secrets.CF_PASSWORD }}
         BTP_SUBDOMAIN: ${{ secrets.BTP_SUBDOMAIN }}
         CF_SPACE: ${{ secrets.CF_SPACE }}
-        CF_ORG: ${{ secrets.CF_SPACE }}
+        CF_ORG: ${{ secrets.CF_ORG}}
         
 
