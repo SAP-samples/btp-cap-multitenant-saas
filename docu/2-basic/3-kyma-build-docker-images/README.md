@@ -189,10 +189,10 @@ This simplifies the containerization process and allows you to build a Docker Im
 **Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
-"build:api": "pack build sap-demo/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
+"build:api": "pack build sap-demo/susaas-api --path ../../code/gen/api --builder paketobuildpacks/builder-jammy-base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
 ```
 
->**Hint** - The *paketobuildpacks/builder:base* provides a minimal Docker Image based on Ubuntu, with the addition of a few packages (so-called "mixins") ([click here](https://hub.docker.com/r/paketobuildpacks/builder) for more details).
+>**Hint** - The *paketobuildpacks/builder-jammy-base* provides a minimal Docker Image based on Ubuntu, with the addition of a few packages (so-called "mixins") ([click here](https://hub.docker.com/r/paketobuildpacks/builder) for more details).
 
 
 ### Backend Service (srv)
@@ -206,7 +206,7 @@ Doing so (as for the API Service), a Docker Image can be build without having to
 **Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
-"build:srv": "pack build sap-demo/susaas-srv --path ../../code/gen/srv --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
+"build:srv": "pack build sap-demo/susaas-srv --path ../../code/gen/srv --builder paketobuildpacks/builder-jammy-base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/cds/bin/cds-serve.js"
 ```
 
 
@@ -262,7 +262,7 @@ This way (as for the API and SaaS Backend Service), a Docker Image can be build 
 **Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
-"build:broker": "pack build sap-demo/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js"
+"build:broker": "pack build sap-demo/susaas-broker --path ../../code/broker --builder paketobuildpacks/builder-jammy-base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./start.js"
 ```
 
 
@@ -335,7 +335,7 @@ After running the CDS build (compiling the CDS files of our CAP Backend, CAP API
 **Npm script to build the Docker Image using Paketo** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
-"build:db-com": "pack build sap-demo/susaas-db-com --path ../../code/gen/db-com --builder paketobuildpacks/builder:base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/hdi-deploy/deploy.js"
+"build:db-com": "pack build sap-demo/susaas-db-com --path ../../code/gen/db-com --builder paketobuildpacks/builder-jammy-base --buildpack gcr.io/paketo-buildpacks/nodejs -e BP_LAUNCHPOINT=./node_modules/@sap/hdi-deploy/deploy.js"
 ```
 
 Now you should be covered and well in the know about the different approaches used to containerize our SaaS application components. Let us continue with some more details on how to push your Docker Images to your Container Registry now. 
