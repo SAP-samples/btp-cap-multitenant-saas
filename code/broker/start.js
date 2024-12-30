@@ -31,7 +31,8 @@ if (process.env.cicd) {
                         "id": "ba609874-a1da-4f9c-a22b-f61de0c71a9e"
                         }
                     ]
-                }`
+                }`             
+    delete process.env.SBF_BROKER_CREDENTIALS_HASH;
     let brokerConfig = { brokerCredentials: { [process.env["BROKER_USER"]]: process.env["BROKER_PASSWORD"] }, catalog: JSON.parse(catalog) }
     new Broker(brokerConfig).start()
 }
