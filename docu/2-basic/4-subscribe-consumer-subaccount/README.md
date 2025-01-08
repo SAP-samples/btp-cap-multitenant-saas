@@ -20,13 +20,14 @@ In this part of the tutorial, you will learn how to subscribe your first Tenant 
 
 [<img src="./images/SUB_SubsTenant.png" width="600"/>](./images/SUB_SubsTenant.png?raw=true)
 
-1.2. In the new Tenant Subaccount, **do not** enable any kind of runtime (like Kyma or Cloud Foundry).
+> **Important** -  In the new Tenant Subaccount, **do not have to** enable any kind of runtime (like Kyma or Cloud Foundry).
+> If you have tenant-specific workloads that are independent of the SaaS solution, you can enable the relevant runtime in the tenant subaccount. Otherwise, enabling a runtime in the tenant subaccount is not a prerequisite for consuming a SaaS solution on SAP BTP.
 
-1.3. Create a new subscription in the Tenant Subaccount. Therefore, please go to **Instances and Subscriptions** and click on **Create**. 
+1.2. Create a new subscription in the Tenant Subaccount. Therefore, please go to **Instances and Subscriptions** and click on **Create**. 
 
 [<img src="./images/SUB_CreateSub01.png" width="600"/>](./images/SUB_CreateSub01.png?raw=true)
 
-1.4. Select the **Sustainable SaaS** service from the dropdown list.
+1.3. Select the **Sustainable SaaS** service from the dropdown list.
 
 > **Hint** - In case of multiple deployments in the SAP BTP region (e.g., different Cloud Foundry Spaces or different Kyma Namespaces), make sure to use the correct service offering by checking the unique Service Id format in case of Kyma **\<ReleaseName>-\<Namespace>-\<ShootName>** and in case of Cloud Foundry **susaas-\<Space>-\<Organization>**.
 
@@ -38,9 +39,9 @@ In this part of the tutorial, you will learn how to subscribe your first Tenant 
 
 [<img src="./images/SUB_CreateSub02Cf.png" width="400"/>](./images/SUB_CreateSub02Cf.png?raw=true)
 
-1.5. Select a plan of your choice (e.g., **default**). In the Kyma version of this sample application, click on **Next**. In the Cloud Foundry scenario, please ignore the next step.  
+1.4. Select a plan of your choice (e.g., **default**). In the Kyma version of this sample application, click on **Next**. In the Cloud Foundry scenario, please ignore the next step.  
 
-1.6. In the Kyma scenario, you can now define a **custom subdomain** for your Subscriber Tenant. Please make sure to understand this feature before making use of it. If you leave this field blank, the URL of your Subscriber Tenant will be created in the following format.
+1.5. In the Kyma scenario, you can now define a **custom subdomain** for your Subscriber Tenant. Please make sure to understand this feature before making use of it. If you leave this field blank, the URL of your Subscriber Tenant will be created in the following format.
 
 > **\<SubaccountSubdomain>-\<ReleaseName>-router-\<Namespace>.\<ShootName>.kyma.ondemand.com**<br>
 > e.g., subscriber-c3b2a1-susaas-router-default.a1b2c3.kyma.ondemand.com
@@ -52,9 +53,9 @@ While this may result in long and inconvenient URLs for your subscribers, the un
 
 In this sample, we did not implement a check for the uniqueness of the value provided. It is in your responsibility to ensure, not to double-assign the same custom subdomain to your subscribers! 
 
-1.7. Click on **Create** to setup the subscription for your Subscriber Tenant. 
+1.6. Click on **Create** to setup the subscription for your Subscriber Tenant. 
 
-1.8. Wait until your subscription is in status **Subscribed**, which can take a few minutes. In the background, the Backend Service running in your Cloud Foundry environment or Kyma Cluster will setup a new HDI Database Container for the Subscriber Tenant and create a new Cloud Foundry Route or Kyma API Rule to expose the Subscriber subdomain. This might even take a few seconds longer than implied by the **Subscribed** status.
+1.7. Wait until your subscription is in status **Subscribed**, which can take a few minutes. In the background, the Backend Service running in your Cloud Foundry environment or Kyma Cluster will setup a new HDI Database Container for the Subscriber Tenant and create a new Cloud Foundry Route or Kyma API Rule to expose the Subscriber subdomain. This might even take a few seconds longer than implied by the **Subscribed** status.
 
 [<img src="./images/SUB_CreateSub03.png" width="600"/>](./images/SUB_CreateSub03.png?raw=true)
 
