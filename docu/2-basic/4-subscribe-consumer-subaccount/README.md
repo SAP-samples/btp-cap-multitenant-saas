@@ -20,7 +20,8 @@ In this part of the tutorial, you will learn how to subscribe your first Tenant 
 
 [<img src="./images/SUB_SubsTenant.png" width="600"/>](./images/SUB_SubsTenant.png?raw=true)
 
-1.2. In the new Tenant Subaccount, **do not** enable any kind of runtime (like Kyma or Cloud Foundry).
+1.2. In the new Tenant Subaccount, **do not have to** enable any kind of runtime (like Kyma or Cloud Foundry)
+> **Hint** - If you have tenant-specific workloads that are independent of the SaaS solution, you can enable the relevant runtime in the tenant subaccount. Otherwise, enabling a runtime in the tenant subaccount is not a prerequisite for consuming a SaaS solution on SAP BTP.
 
 1.3. Create a new subscription in the Tenant Subaccount. Therefore, please go to **Instances and Subscriptions** and click on **Create**. 
 

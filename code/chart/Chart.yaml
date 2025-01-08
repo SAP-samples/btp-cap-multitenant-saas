@@ -1,0 +1,45 @@
+apiVersion: v2
+name: susaas
+description: Sustainable SaaS
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+annotations:
+  app.kubernetes.io/managed-by: cds-dk/helm
+dependencies:
+  - name: web-application
+    alias: srv
+    version: ">0.0.0"
+  - name: web-application
+    alias: api
+    version: ">0.0.0"
+  - name: web-application
+    alias: broker
+    version: ">0.0.0"  
+  - name: web-application
+    alias: approuter
+    version: ">0.0.0"
+  - name: content-deployment
+    alias: hana-deployer
+    version: ">0.0.0"
+  - name: content-deployment
+    alias: html5-apps-deployer
+    version: ">0.0.0"
+  - name: service-instance
+    alias: common-db
+    version: ">0.0.0"
+  - name: service-instance
+    alias: saas-registry
+    version: ">0.0.0"
+  - name: service-instance
+    alias: xsuaa
+    version: ">0.0.0"
+  - name: service-instance
+    alias: html5-apps-repo-host
+    version: ">0.0.0"
+  - name: service-instance
+    alias: html5-apps-repo-runtime
+    version: ">0.0.0"
+  - name: service-instance
+    alias: destination
+    version: ">0.0.0"

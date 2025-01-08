@@ -1,0 +1,133 @@
+global:
+  domain: c-2b24635.kyma.ondemand.com
+  imagePullSecret:
+    name: docker-registry
+  image:
+    registry: registry-name
+    tag: latest
+srv:
+  bindings:
+    db:
+      serviceInstanceName: hana
+  image:
+    repository: susaas-srv
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      ephemeral-storage: 1G
+      cpu: 500m
+      memory: 500M
+  health:
+    liveness:
+      path: /health
+    readiness:
+      path: /health
+approuter:
+  image:
+    repository: susaas-router
+  env:
+    TENANT_HOST_PATTERN: ^(.*)-{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }} # change if expose.host is set
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      ephemeral-storage: 1G
+      cpu: 500m
+      memory: 500M
+  health:
+    liveness:
+      path: /
+    readiness:
+      path: /
+  envFrom:
+    - configMapRef:
+        name: "{{ .Release.Name }}-{{ .Release.Namespace }}-approuter-configmap"
+  bindings:
+    html5-apps-repo-runtime:
+      serviceInstanceName: 'html5-apps-repo-runtime'
+    auth:
+      serviceInstanceName: xsuaa
+        
+html5-apps-deployer:
+  env:
+    SAP_CLOUD_SERVICE: null
+  image:
+    repository: "susaas-html5-deployer"
+  bindings:
+    xsuaa:
+      serviceInstanceName: xsuaa
+    destination:
+      serviceInstanceName: destination
+    html5-apps-repo:
+      serviceInstanceName: html5-apps-repo-host
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 1G
+    requests:
+      cpu: 1000m
+      memory: 1G
+  envFrom:
+    - configMapRef:
+        name: "{{ .Release.Name }}-html5-apps-deployer-configmap"
+
+hana-deployer:
+  image:
+    repository: susaas-hana-deployer
+  bindings:
+    hana:
+      serviceInstanceName: hana
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 1G
+    requests:
+      cpu: 1000m
+      memory: 1G
+
+service-manager:
+  serviceOfferingName: service-manager
+  servicePlanName: container
+
+common-db:
+  serviceOfferingName: hana
+  servicePlanName: hdi-shared
+
+xsuaa:
+  serviceOfferingName: xsuaa
+  servicePlanName: application
+  parameters:
+    tenant-mode: shared
+    xsappname: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+
+html5-apps-repo-host:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-host
+
+html5-apps-repo-runtime:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-runtime
+
+saas-registry:
+  serviceOfferingName: saas-registry
+  servicePlanName: application
+  parameters:
+    displayName: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    description: Sustainable SaaS Application
+    category: "Partner Solution"
+    appUrls:
+      onSubscriptionAsync: true
+      onUnSubscriptionAsync: true
+      onUpdateDependenciesAsync: true
+      callbackTimeoutMillis: 300000
+      getDependencies: https://{{ .Release.Name }}-sidecar-{{ .Release.Namespace }}.{{ .Values.global.domain }}/-/cds/saas-provisioning/dependencies
+      onSubscription: https://{{ .Release.Name }}-sidecar-{{ .Release.Namespace }}.{{ .Values.global.domain }}/-/cds/saas-provisioning/tenant/{tenantId}
+    xsappname: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    appName: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+
+backendDestinations:
+  srv-api:
+    service: srv
