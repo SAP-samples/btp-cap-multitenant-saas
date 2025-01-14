@@ -60,7 +60,7 @@ jobs:
       
     - name: Init Broker Catalog
       run: |
-        cd broker
+        cd code/broker
         npm run init
         
     # Step 8: Build the project
