@@ -58,6 +58,11 @@ jobs:
       run: |
         cf login -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }} -a ${{ secrets.CF_API }}
       
+    - name: Init Broker Catalog
+      run: |
+        cd broker
+        npm run init
+        
     # Step 8: Build the project
     - name: Build MTA Archive
       run: |
