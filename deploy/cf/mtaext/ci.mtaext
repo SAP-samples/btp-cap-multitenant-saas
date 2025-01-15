@@ -6,9 +6,10 @@ extends: susaas
 modules:
   - name: susaas-api-sb
     properties:
-      cicd: true 
-      BROKER_USER: {{BROKER_USER}}
-      BROKER_PASSWORD: {{BROKER_PASSWORD}}
+      SBF_BROKER_CREDENTIALS:  >
+        {
+          "{{BROKER_USER}}": "{{BROKER_PASSWORD}}"
+        }
 
 
 resources:
