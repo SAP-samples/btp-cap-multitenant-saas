@@ -1,15 +1,15 @@
-using {
-  managed,
-  cuid,
-  Currency,
-  Country,
-  Language
-} from '@sap/cds/common';
+using { managed, cuid, Currency, Country, Language } from '@sap/cds/common';
+
 using from '@sap/cds-common-content';
 using {Percentage} from './data-types';
 
 // Define reusable aspects for common patterns
-aspect ManagedCuid : cuid, managed;
+aspect ManagedCuid {
+  key ID  : UUID @default: uuid();
+  createdAt : Timestamp;
+  modifiedAt : Timestamp;
+}
+
 
 context susaas.db {
   entity Projects : ManagedCuid {
@@ -22,11 +22,12 @@ context susaas.db {
     members     : Composition of many Members on members.project = $self;
   };
 
-  @assert.unique.membersUserProject: [user, project]
+  @assert.unique
   entity Members : ManagedCuid {
-    user    : Association to Users;
-    project : Association to Projects;
-  }
+  user    : Association to Users;
+  project : Association to Projects;
+}
+
 
   @assert.unique.usersEmail: [email]
   entity Users : ManagedCuid {
