@@ -6,7 +6,7 @@ using {
   Language
 } from '@sap/cds/common';
 using from '@sap/cds-common-content';
-using {Percentage} from './data-types';
+using {Percentage} from './data-types'; 
 
 // Define reusable aspects for common patterns
 aspect ManagedCuid : cuid, managed;
