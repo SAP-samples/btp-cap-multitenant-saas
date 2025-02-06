@@ -1,4 +1,4 @@
-using { managed, cuid, Currency, Country, Language } from '@sap/cds/common';
+using { managed, cuid, Currency, Country, Language } from '@sap/cds/common'; 
 
 using from '@sap/cds-common-content';
 using {Percentage} from './data-types'; 
