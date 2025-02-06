@@ -127,6 +127,7 @@ context susaas.db {
     recyclingMaterials        : Composition of many RecyclingMaterials on recyclingMaterials.product = $self;
   }
 
+
   entity RecyclingCountries {
     key product          : Association to Products;
     key country          : Country;
