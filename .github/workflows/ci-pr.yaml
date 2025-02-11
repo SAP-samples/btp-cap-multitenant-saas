@@ -6,9 +6,10 @@ on:
       - main  # Run the workflow for PRs targeting the "main" branch
 
 jobs:
-  test:
+  cf-test:
     runs-on: ubuntu-latest
-
+    environment:
+      name: ${{ github.event.pull_request.head.repo.fork == true && 'ci-forked' || 'ci-owner' }}
     steps:
     # Step 1: Check out the code from the PR branch
     - name: Checkout code
