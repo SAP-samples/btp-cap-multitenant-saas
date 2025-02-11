@@ -4,7 +4,8 @@ on:
   pull_request_target:
     branches:
       - main  # Run the workflow for PRs targeting the "main" branch
-
+    paths-ignore:
+      - '**/*.md'
 jobs:
   cf-test:
     runs-on: ubuntu-latest
