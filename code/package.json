@@ -10,7 +10,7 @@
   "type": "module",
   "dependencies": {
     "@cap-js-community/odata-v2-adapter": "^1.12.8",
-    "@cap-js/hana": "^1",
+    "@cap-js/hana": "^1.6",
     "@kubernetes/client-node": "^0.22.1",
     "@sap_oss/alert-notification-client": "^1.4.0",
     "@sap/cds": "^8.6.0",
@@ -111,20 +111,8 @@
             "model": [
               "db",
               "db/hana",
-              "srv/srv",
-              "@sap/cds-mtxs/db/extensions",
-              "@sap/cds-mtxs/srv/bootstrap",
-              "@sap/cds-common-content"
-            ]
-          }
-        },
-        {
-          "for": "hana",
-          "options": {
-            "model": [
-              "db",
-              "db/hana",
               "api/srv",
+              "srv/srv",
               "@sap/cds-mtxs/db/extensions",
               "@sap/cds-mtxs/srv/bootstrap",
               "@sap/cds-common-content"
