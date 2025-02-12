@@ -111,8 +111,20 @@
             "model": [
               "db",
               "db/hana",
-              "api/srv",
               "srv/srv",
+              "@sap/cds-mtxs/db/extensions",
+              "@sap/cds-mtxs/srv/bootstrap",
+              "@sap/cds-common-content"
+            ]
+          }
+        },
+        {
+          "for": "hana",
+          "options": {
+            "model": [
+              "db",
+              "db/hana",
+              "api/srv",
               "@sap/cds-mtxs/db/extensions",
               "@sap/cds-mtxs/srv/bootstrap",
               "@sap/cds-common-content"
