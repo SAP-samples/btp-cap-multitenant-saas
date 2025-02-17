@@ -1,5 +1,5 @@
-import { TenantAutomator } from "./automator.js";
-import cds from '@sap/cds'
+const { TenantAutomator } = require("./automator.js");
+const cds = require('@sap/cds')
 const Logger = cds.log('background-tenant-automator')
 
 class BackgroundTenantAutomator extends TenantAutomator {

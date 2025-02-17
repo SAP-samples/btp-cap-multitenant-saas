@@ -1,7 +1,7 @@
-import axios from 'axios';
-import xsenv from '@sap/xsenv';
-import TokenUtils from './token-utils.js';
-import cds from '@sap/cds'
+const axios = require('axios') 
+const xsenv = require('@sap/xsenv') 
+const TokenUtils = require('./token-utils.js') ;
+const cds = require('@sap/cds') 
 let ds = new Object()
 const Logger = cds.log('destination')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
@@ -90,4 +90,4 @@ class Destination {
 }
 
 
-export default Destination 
+module.exports = Destination 

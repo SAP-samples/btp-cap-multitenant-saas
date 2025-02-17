@@ -1,8 +1,8 @@
 
-import fetch from 'node-fetch';
-import jose from 'node-jose';
-import xsenv from '@sap/xsenv';
-import cds from '@sap/cds';
+const fetch = require('node-fetch') 
+const jose = require('node-jose') 
+const xsenv = require('@sap/xsenv')
+const cds = require('@sap/cds') 
 let credStore = new Object(); 
 const Logger = cds.log('credstore')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
@@ -24,7 +24,7 @@ class CredStore {
         );
     }
 
-    async readCredentialValue(namespace, type, name) {
+    aconstialValue(namespace, type, name) {
         return this.#fetchAndDecryptValue(
             credStore.encryption.client_private_key,
             `${credStore.url}/${type}?name=${encodeURIComponent(name)}`, 
@@ -78,4 +78,4 @@ class CredStore {
     }
 }
 
-export default CredStore;
+module.exports = CredStore;

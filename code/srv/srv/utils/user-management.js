@@ -1,18 +1,16 @@
-import axios from 'axios';
-import xsenv from '@sap/xsenv';
-import https from 'https';
-import cds from '@sap/cds'
+const axios= require('axios');
+const xsenv= require('@sap/xsenv');
+const https= require('https');
+const cds = require('@sap/cds')
 let xsuaa, ias = new Object();
 const Logger = cds.log('user-management')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
     xsuaa = xsenv.getServices({ xsuaa: { tag: 'xsuaa' }}).xsuaa;
-    
     try{ 
         ias = xsenv.getServices({ ias: { label: 'identity' }}).ias;
     }catch(error){
         Logger.log("[cds] - IAS Binding is missing, therefore user management will not interact with any IAS instance");
     }
- 
 }
 
 class UserManagement {
@@ -320,4 +318,4 @@ class UserManagement {
     }
 }
 
-export default UserManagement;
+module.exports = UserManagement;

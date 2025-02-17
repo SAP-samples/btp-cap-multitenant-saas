@@ -1,4 +1,4 @@
-import cds from '@sap/cds';
+const cds = require('@sap/cds');
 
 class ApiService extends cds.ApplicationService {
   async init() {
@@ -99,4 +99,4 @@ class ApiService extends cds.ApplicationService {
   }
 }
 
-export { ApiService }
+module.exports = { ApiService }
