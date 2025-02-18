@@ -1,13 +1,13 @@
-import cfenv from 'cfenv';
-import ServiceManager from './service-manager.js';
-import CisCentral from './cis-central.js';
-import Destination from './destination.js';
-import KymaUtils from './kyma-utils.js';
-import CredStore from './credStore.js';
-import CfUtils from './cf-utils.js';
-import cds from '@sap/cds'
+const cfenv = require('cfenv');
+const ServiceManager = require('./service-manager.js');
+const CisCentral = require('./cis-central.js');
+const Destination = require('./destination.js');
+const KymaUtils = require('./kyma-utils.js');
+const CredStore = require('./credStore.js');
+const CfUtils = require('./cf-utils.js');
+const cds = require('@sap/cds')
 const Logger = cds.log('automator')
-export class TenantAutomator {
+class TenantAutomator {
     serviceBroker;
     cisCentralName;
     destinationName;
@@ -73,7 +73,7 @@ export class TenantAutomator {
             throw error;
         }
     }
-    
+
     async cleanUpCreatedServices() {
         try {
             // Delete Service Manager from tenant subaccount
@@ -89,7 +89,7 @@ export class TenantAutomator {
             throw error;
         }
     }
-    
+
     async registerBTPServiceBroker() {
         try {
             await this.serviceManager.createServiceBroker(
@@ -137,7 +137,7 @@ export class TenantAutomator {
             Logger.error(`Error: ${error.message}`);
         }
     }
-    
+
     async deleteSampleDestination() {
         try {
             const destName = this.destinationName;
@@ -183,8 +183,8 @@ class Kyma extends TenantAutomator {
         }
     }
 
-    async undeployTenantArtifacts(){
-        try{
+    async undeployTenantArtifacts() {
+        try {
             await super.undeployTenantArtifacts();
             const kymaUtils = new KymaUtils(this.subdomain);
             await kymaUtils.deleteApiRule(kymaUtils.getApiRuleTmpl());
@@ -238,20 +238,20 @@ class CloudFoundry extends TenantAutomator {
         }
     }
 
-    async deployTenantArtifacts(){
+    async deployTenantArtifacts() {
         try {
             await super.deployTenantArtifacts();
             // Don't create route in case of '.' used as tenant separator - wildcard route used!
             process.env.tenantSeparator !== '.' && await this.createRoute();
             Logger.log("Automation: Deployment has been completed successfully!")
         } catch (error) {
-            Logger.error("Error: Tenant artifacts cannot be deployed!") 
+            Logger.error("Error: Tenant artifacts cannot be deployed!")
             throw error;
         }
     }
 
-    async undeployTenantArtifacts(){
-        try{
+    async undeployTenantArtifacts() {
+        try {
             await super.undeployTenantArtifacts();
             // Don't create route in case of '.' used as tenant separator - wildcard route used!
             process.env.tenantSeparator !== '.' && await this.deleteRoute();
@@ -273,7 +273,7 @@ class CloudFoundry extends TenantAutomator {
 
     async deleteRoute() {
         try {
-            await this.cfUtils.deleteRoute(this.subdomain + process.env.tenantSeparator  + process.env.appName, process.env.appName);
+            await this.cfUtils.deleteRoute(this.subdomain + process.env.tenantSeparator + process.env.appName, process.env.appName);
         } catch (error) {
             Logger.error("Error: Route could not be deleted!")
             throw error;
@@ -291,7 +291,7 @@ class CloudFoundry extends TenantAutomator {
 
             this.serviceBroker.user = serviceBroker.username;
             this.serviceBroker.password = serviceBroker.value;
-            
+
             Logger.log("Credentials retrieved from credential store successfully");
         } catch (error) {
             Logger.error('Unable to retrieve credentials from cred store, please make sure that they are created! Automation skipped!');
@@ -301,4 +301,4 @@ class CloudFoundry extends TenantAutomator {
 
 }
 
-export default (process.env.VCAP_APPLICATION ? CloudFoundry : Kyma)
+module.exports = (process.env.VCAP_APPLICATION ? CloudFoundry : Kyma)

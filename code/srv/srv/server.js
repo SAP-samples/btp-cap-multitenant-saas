@@ -1,7 +1,7 @@
-import cds from '@sap/cds';
-import cov2ap from '@cap-js-community/odata-v2-adapter'
-import ProvisioningService from './provisioning.js'
-import xsenv from '@sap/xsenv'
+const cds = require('@sap/cds');
+const cov2ap = require('@cap-js-community/odata-v2-adapter')
+const ProvisioningService = require('./provisioning.js')
+const xsenv = require('@sap/xsenv')
 
 cds.on('bootstrap', async (app) => {
     app.get('/healthz', (_, res) => res.status(200).send('OK'));
@@ -19,7 +19,7 @@ cds.on('bootstrap', async (app) => {
             hana: [
                 {
                     "name": "common-db",
-                    "tags":["hana"],
+                    "tags": ["hana"],
                     "credentials": {
                         ...services.hana
                     },
@@ -33,11 +33,11 @@ cds.on('served', async () => {
     const { 'cds.xt.SaasProvisioningService': provisioning } = cds.services
 
     // Add provisioning logic if only multitenancy is there
-    if(provisioning){
+    if (provisioning) {
         provisioning.prepend(new ProvisioningService().service);
-    }else{
+    } else {
         cds.log().warn("There is no service, therefore does not serve multitenancy!");
     }
 });
 
-export default cds.server;
+module.exports = cds.server;

@@ -1,7 +1,7 @@
-import cds from '@sap/cds';
-import xsenv from '@sap/xsenv';
-import Automator from './utils/automator.js';
-import AlertNotification from './utils/alertNotification.js';
+const cds = require('@sap/cds');
+const xsenv = require('@sap/xsenv');
+const Automator = require('./utils/automator.js');
+const AlertNotification = require('./utils/alertNotification.js');
 const Logger = cds.log('provisioning')
 class Provisioning {    
     service = (service) => {
@@ -135,4 +135,4 @@ class CloudFoundry extends Provisioning {
 }
 
 
-export default process.env.VCAP_APPLICATION ? CloudFoundry : Kyma;
+module.exports =  process.env.VCAP_APPLICATION ? CloudFoundry : Kyma;

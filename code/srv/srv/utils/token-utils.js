@@ -1,6 +1,6 @@
 
-import axios from 'axios';
-import cds from '@sap/cds'
+const axios = require('axios') ;
+const cds = require('@sap/cds') 
 const Logger = cds.log('token-utils')
 class TokenUtils {
 
@@ -31,4 +31,4 @@ class TokenUtils {
     }
 }
 
-export default TokenUtils
+module.exports = TokenUtils

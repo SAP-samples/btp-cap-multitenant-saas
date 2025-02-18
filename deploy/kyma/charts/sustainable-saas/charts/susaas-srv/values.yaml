@@ -49,8 +49,8 @@ health_check:
     path: /healthz
   
 securityContext:
-  user:
-  group: 
+  user: 1002
+  group: 1000
 
 startupTimeout: 60
 resources:

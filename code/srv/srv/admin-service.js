@@ -1,16 +1,16 @@
-import cds from '@sap/cds';
-import UserManagement from "./utils/user-management.js";
+const cds = require("@sap/cds")
+const UserManagement = require("./utils/user-management.js");
 const Logger = cds.log('admin-service');
-export default cds.service.impl(async function() {
+module.exports = cds.service.impl(async function () {
     const { Users } = this.entities;
 
     // Scope check for local development
-    if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
+    if (cds.env.profiles.find(p => p.includes("hybrid") || p.includes("production"))) {
         this.before("SAVE", Users, async (req) => {
-            try{
+            try {
                 let user = req.data;
 
-                const { req : request } = cds.context.http
+                const { req: request } = cds.context.http
                 const tenantHost = request.get('x-forwarded-host') ?? request.host;
                 const tenantProto = request.get('x-forwarded-proto') ?? request.protocol;
 
@@ -30,7 +30,7 @@ export default cds.service.impl(async function() {
 
                     req.data.iasLocation = userInfo?.iasLocation;
                     req.data.shadowId = userInfo.shadow.id;
-                    
+
                     Logger.log("User successfully created!", JSON.stringify(userInfo));
                     req.notify(200, 'User successfully created!')
                 } else {
@@ -45,7 +45,7 @@ export default cds.service.impl(async function() {
                         req.notify(200, 'User successfully updated!')
                     }
                 }
-            } catch(error){
+            } catch (error) {
                 Logger.error(`Error: An error occurred while saving the user!`);
                 Logger.error("Error: ", error.message);
                 req.reject(500, error.message)
@@ -54,10 +54,10 @@ export default cds.service.impl(async function() {
     }
 
     // Scope check for local development
-    if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
+    if (cds.env.profiles.find(p => p.includes("hybrid") || p.includes("production"))) {
         this.on("READ", 'Roles', async (req) => {
-            try{
-                const { req : request } = cds.context.http
+            try {
+                const { req: request } = cds.context.http
                 let loggedInUserToken = request.authInfo.getTokenInfo().getTokenValue()
                 let userManagement = new UserManagement(loggedInUserToken);
                 let pagination = {
@@ -83,7 +83,7 @@ export default cds.service.impl(async function() {
                 Logger.log("Role collections successfully read!");
 
                 req.reply(response);
-            }catch(error){
+            } catch (error) {
                 Logger.error(`Error: An error occurred while reading the application roles!`);
                 Logger.error("Error: ", error.message);
                 req.reject(500, error.message)
@@ -92,19 +92,19 @@ export default cds.service.impl(async function() {
     }
 
     // Scope check for local development
-    if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
+    if (cds.env.profiles.find(p => p.includes("hybrid") || p.includes("production"))) {
         this.before("DELETE", 'Users', async (req) => {
             try {
-                const { req : request } = cds.context.http
+                const { req: request } = cds.context.http
                 let loggedInUserToken = request.authInfo.getTokenInfo().getTokenValue();
                 let userManagement = new UserManagement(loggedInUserToken);
                 let user = await cds.run(SELECT.from("susaas.db.Users").where({ ID: req.data.ID }));
 
                 await userManagement.deleteUser(user[0]);
-                
+
                 Logger.log("User successfully deleted!");
                 req.notify(200, 'User successfully deleted!')
-            }catch(error){
+            } catch (error) {
                 Logger.error(`Error: An error occurred while deleting the user!`);
                 Logger.error("Error: ", error.message);
                 req.reject(500, error.message)

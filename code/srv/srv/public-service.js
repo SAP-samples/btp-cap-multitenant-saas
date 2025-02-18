@@ -1,7 +1,6 @@
-import cds from '@sap/cds';
+const cds = require('@sap/cds');
 
-export default cds.service.impl(async function() {
-
+module.exports = cds.service.impl(async function () {
     const {
         SalesOrders,
         SalesSplits,
@@ -19,7 +18,7 @@ export default cds.service.impl(async function() {
             const [id] = req.params;
 
             // Check if entity in draft state exists and is locked
-            let entity = await SELECT.one.from(Assessments).where `ID = ${id.ID}`;
+            let entity = await SELECT.one.from(Assessments).where`ID = ${id.ID}`;
 
             // Reject action if entity currently locked
             if (entity && entity.HasDraftEntity) {
@@ -27,9 +26,9 @@ export default cds.service.impl(async function() {
                 return;
             }
 
-             // Reject if percentage sum !== 100
+            // Reject if percentage sum !== 100
             if ((parseFloat(traditionalProductSales) + parseFloat(repairServicesSales) + parseFloat(reSellSales)) != 100
-                && parseFloat(traditionalProductSales) + parseFloat(repairServicesSales) + parseFloat(reSellSales) != 1 ) {
+                && parseFloat(traditionalProductSales) + parseFloat(repairServicesSales) + parseFloat(reSellSales) != 1) {
                 req.error(500, 'error.action.wrong_perc_add_up');
                 return;
             }
@@ -40,25 +39,25 @@ export default cds.service.impl(async function() {
                     country_code as country_code,
                     currency_code as currency_code,
                     grossAmount as totalRevenue ,
-                    grossAmount * ( ${parseFloat(traditionalProductSales)/(parseFloat(traditionalProductSales) > 1 ? 100 : 1)}) as traditionalProductSales ,
-                    grossAmount * ( ${parseFloat(repairServicesSales)/(parseFloat(repairServicesSales) > 1 ? 100 : 1)}) as repairServicesSales ,
-                    grossAmount * ( ${parseFloat(reSellSales)/(parseFloat(reSellSales) > 1 ? 100 : 1)}) as reSellSales,
+                    grossAmount * ( ${parseFloat(traditionalProductSales) / (parseFloat(traditionalProductSales) > 1 ? 100 : 1)}) as traditionalProductSales ,
+                    grossAmount * ( ${parseFloat(repairServicesSales) / (parseFloat(repairServicesSales) > 1 ? 100 : 1)}) as repairServicesSales ,
+                    grossAmount * ( ${parseFloat(reSellSales) / (parseFloat(reSellSales) > 1 ? 100 : 1)}) as reSellSales,
                 }`
-                .groupBy `country_code, currency_code, grossAmount`
-                .where `product_ID = ${productId}`
-            
-            if(!salesData || salesData.length === 0){
+                .groupBy`country_code, currency_code, grossAmount`
+                .where`product_ID = ${productId}`
+
+            if (!salesData || salesData.length === 0) {
                 req.error(500, 'error.action.no_prefill_data');
                 return;
             }
 
-            await DELETE.from(SalesSplits).where `assessment_ID = ${id.ID}`;
+            await DELETE.from(SalesSplits).where`assessment_ID = ${id.ID}`;
             await INSERT.into(SalesSplits).entries(salesData);
 
             req.notify('success.action.values_prefilled');
 
         } catch (err) {
-            req.reject(500, 'error.action.generic_error' , [err]);
+            req.reject(500, 'error.action.generic_error', [err]);
         }
     });
 
@@ -71,7 +70,7 @@ export default cds.service.impl(async function() {
             let entity = await SELECT
                 .one
                 .from(Assessments)
-                .where `ID = ${id.ID}`;
+                .where`ID = ${id.ID}`;
 
             // Reject action if entity currently locked
             if (entity && entity.HasDraftEntity) {
@@ -88,8 +87,8 @@ export default cds.service.impl(async function() {
                     recycleShare as shareRecycled
                 }`
                 .where`product_ID = ${productId}`
-            
-            if(!materialsData || materialsData.length === 0){
+
+            if (!materialsData || materialsData.length === 0) {
                 req.error(500, 'error.action.no_prefill_data');
                 return;
             }
@@ -100,7 +99,7 @@ export default cds.service.impl(async function() {
             req.notify('success.action.values_prefilled');
 
         } catch (err) {
-            req.reject(500, 'error.action.generic_error' , [err]);
+            req.reject(500, 'error.action.generic_error', [err]);
         }
     });
 
@@ -130,8 +129,8 @@ export default cds.service.impl(async function() {
                     eolRecyclability as eoLRecyclability
                 }`
                 .where`product_ID = ${productId}`
-                        
-            if(!circularityData || circularityData.length === 0){
+
+            if (!circularityData || circularityData.length === 0) {
                 req.error(500, 'error.action.no_prefill_data');
                 return;
             }
@@ -142,7 +141,7 @@ export default cds.service.impl(async function() {
             req.notify('success.action.values_prefilled');
 
         } catch (err) {
-            req.reject(500, 'error.action.generic_error' , [err]);
+            req.reject(500, 'error.action.generic_error', [err]);
         }
     });
 
@@ -169,8 +168,8 @@ export default cds.service.impl(async function() {
                     eolProductDesign as eolProductDesign,
                 }`
                 .where`ID = ${productId}`
-            
-            if(!eolProductDesign || eolProductDesign.length === 0){
+
+            if (!eolProductDesign || eolProductDesign.length === 0) {
                 req.error(500, 'error.action.no_prefill_data');
             }
 
@@ -179,7 +178,7 @@ export default cds.service.impl(async function() {
             req.notify('success.action.values_prefilled');
 
         } catch (err) {
-            req.reject(500, 'error.action.generic_error' , [err]);
+            req.reject(500, 'error.action.generic_error', [err]);
         }
     });
 

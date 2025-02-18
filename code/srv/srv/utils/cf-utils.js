@@ -1,9 +1,9 @@
-import axios from 'axios';
-import cfenv from 'cfenv';
+const axios = require('axios');
+const cfenv = require('cfenv');
 
 const { getAppEnv } = cfenv;
 const appEnv = getAppEnv();
-import cds from '@sap/cds'
+const cds = require('@sap/cds')
 const Logger = cds.log('cf-utils')
 class CfUtils {
 
@@ -169,4 +169,4 @@ class CfUtils {
         }
     }
 }
-export default CfUtils
+module.exports = CfUtils

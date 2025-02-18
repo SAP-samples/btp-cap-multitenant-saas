@@ -1,6 +1,6 @@
-import axios from 'axios';
-import TokenUtils from './token-utils.js';
-import cds from '@sap/cds'
+const axios = require('axios') ;
+const TokenUtils = require('./token-utils.js') ;
+const cds = require('@sap/cds') 
 const Logger = cds.log('sm-utils')
 class ServiceManager {
     tokenStore = new Object()
@@ -225,4 +225,4 @@ class ServiceManager {
     }
 }
 
-export default ServiceManager;
+module.exports = ServiceManager;

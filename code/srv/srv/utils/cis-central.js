@@ -1,7 +1,7 @@
-import axios from 'axios';
-import xsenv from '@sap/xsenv';
-import TokenUtils from './token-utils.js';
-import cds from '@sap/cds'
+const axios = require('axios') 
+const xsenv = require('@sap/xsenv');
+const TokenUtils = require('./token-utils.js');
+const cds = require('@sap/cds')
 let sm = new Object();
 const Logger = cds.log('cloud-management-service')
 if (cds.env.profiles.find( p =>  p.includes("hybrid") || p.includes("production"))) {
@@ -183,4 +183,4 @@ class CloudManagementCentral{
     }
 }
 
-export default CloudManagementCentral
+module.exports = CloudManagementCentral

@@ -1,6 +1,6 @@
-import crypto from 'crypto';
-import k8s from '@kubernetes/client-node';
-import cds from '@sap/cds'
+const crypto= require( 'crypto');
+const k8s = require('@kubernetes/client-node');
+const cds = require('@sap/cds')
 const Logger = cds.log('kyma-utils')
 const kc = new k8s.KubeConfig();
 kc.loadFromCluster();
@@ -132,4 +132,4 @@ class KymaUtils {
     }
 }
 
-export default KymaUtils
+module.exports = KymaUtils
