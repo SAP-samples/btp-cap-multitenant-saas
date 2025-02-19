@@ -52,6 +52,9 @@ Continue your journey and deploy the **Basic Version** of the SaaS sample applic
   - [Discover Helm and Kyma Resources](./docu/2-basic/7-kyma-resources-helm/README.md) (**Kyma** only)
 - [8 - Unsubscribe Consumer Subaccounts](./docu/2-basic/8-unsubscribe-consumer-subaccount/README.md)
 - [9 - Undeploy the SaaS application](./docu/2-basic/9-undeploy-saas-application/README.md)
+- 10 - Obeservability with Cloud Logging Services
+  - [Enable observability on Cloud Foundry](./docu/2-basic/11-cf-add-cls/README.md) (**Cloud Foundry** only)
+  - [Enable observability on Kyma](./docu/2-basic/11-kyma-add-cls/README.md) (**Kyma** only) (Coming Soon)
 
  Once you successfully deployed the Basic features of the SaaS sample application to your Cloud Foundry landscape or Kyma Cluster, feel free to enhance it with more features as part of the **Advanced Version**. This includes for example a SAP API Management integration to monitor and manage your SaaS API endpoints or SAP Identity Authentication to provide a Central User Management without relying on SAP ID service. Furthermore, you will learn and see a sample of how to integrate a backend system like SAP S/4HANA from a SaaS Consumer perspective. 
 
