@@ -8,7 +8,7 @@ This part of the tutorial will provide deeper insights into creating a custom me
 ## Steps
 
 Follow these steps to create a custom metric that counts the number of requests to the service for each tenant, and then display the metric in the SAP Cloud Logging service.
-- Add below code in [server.js](../../../code/srv/srv/server.js) file to create a custom metric and update the metric value for each request.
+- Add below code in [server.js](../../../code/srv/srv/server.js) file to create a custom metric and update the metric value for each request.    
   ```js
   const { metrics } = require('@opentelemetry/api');
   let counterRequestCountByTenant;
@@ -23,17 +23,22 @@ Follow these steps to create a custom metric that counts the number of requests 
       counterRequestCountByTenant.add(1, { 'susaas_tenant_id': cds.context.tenant })
       next()
   })
-  ```
-  Explanation: In the above code, first, a custom counter is initialized with the name **_req.count.per.tenant_** once the server is ready and is listening to incoming erquests. Then, a middleware is added to the application to update the counter value for each request. The counter value is incremented by 1 for each request, and the tenant ID is used as a label to differentiate the requests from different tenants.
+  ```     
+  _explanation_: In the above code, first, a custom counter is initialized with the name **_req.count.per.tenant_** once the server is ready and is listening to incoming erquests. Then, a middleware is added to the application to update the counter value for each request. The counter value is incremented by 1 for each request, and the tenant ID is used as a label to differentiate the requests from different tenants.
+
 - Once the code is added, build and deploy the application. Then you can explore the custom metric in the SAP Cloud Logging service.
+
 - Custom metric is automatically part of the OpenTelemetry explorer dashboard in the SAP Cloud Logging service.     
-  [<img src="./images/cls-dashboard-ot-custom-metric-1.png" width="700"/>](./images/cls-dashboard-ot-custom-metric-1.png?raw=true)
+  [<img src="./images/cls-dashboard-ot-custom-metric-1.png" width="700"/>](./images/cls-dashboard-ot-custom-metric-1.png?raw=true)    
+
 - Similarly, you can explore more details about custom metric using '**_metrics-otel-v1-*_**' data source.     
-  [<img src="./images/cls-dashboard-ot-custom-metric-2.png" width="700"/>](./images/cls-dashboard-ot-custom-metric-2.png?raw=true)
+  [<img src="./images/cls-dashboard-ot-custom-metric-2.png" width="700"/>](./images/cls-dashboard-ot-custom-metric-2.png?raw=true)    
+
 - Lastly, you can also create a custom dashboard and visualization using the custom metric.    
-  [<img src="./images/cls-dashboard-ot-custom-metric-3.png" width="700"/>](./images/cls-dashboard-ot-custom-metric-3.png?raw=true)
+  [<img src="./images/cls-dashboard-ot-custom-metric-3.png" width="700"/>](./images/cls-dashboard-ot-custom-metric-3.png?raw=true)     
 
-
+  **Note**: If you are not able to see attributes of metric in the dashboard (e.g. susaas_tenant_id), It is due to indexing and can be refreshed by navigating to **_Stack Management_** --> **_Index Patterns_** and then open the index pattern **_metrics-otel-v1-*_** and click on **_Refresh field list_** button.     
+  [<img src="./images/cls-ip-refresh-list.png" width="700"/>](./images/cls-ip-refresh-list.png?raw=true)
 
 ## Further information
 
