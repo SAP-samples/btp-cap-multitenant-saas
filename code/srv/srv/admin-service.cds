@@ -32,4 +32,3 @@ service AdminService @(path : '/catalog/AdminService', impl: 'srv/admin-service'
   entity SharedEntity as projection on common.Shared;
 
 };
-
