@@ -13,7 +13,8 @@ btp_login() {
   btp login --url "https://cli.btp.cloud.sap" \
             --user "$BTP_USERNAME" \
             --password "$BTP_PASSWORD" \
-            --subdomain "$BTP_SUBDOMAIN"
+            --subdomain "$BTP_SUBDOMAIN" \
+            --idp "saptfe"
   
   if [[ $? -ne 0 ]]; then
     echo "Error: BTP login failed."

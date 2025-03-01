@@ -59,7 +59,7 @@ jobs:
     # Step 7: Login to CF
     - name: Log in to Cloud Foundry
       run: |
-        cf login -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }} -a ${{ secrets.CF_API }}
+        cf login -u ${{ secrets.CF_USERNAME }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }} -a ${{ secrets.CF_API }} --origin saptfe-platform
       
     - name: Init Broker Catalog
       run: |
