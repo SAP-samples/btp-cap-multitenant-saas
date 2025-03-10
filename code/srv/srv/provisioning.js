@@ -16,7 +16,7 @@ class Provisioning {
             const { custSubdomain: custdomain = null } = params;
             const tenantURL = this.getTenantUrl(subdomain, custdomain);
             await next();
-            await runWorkflow(subscribedTenantId,subscribedSubdomain,"provisioning")
+            await runWorkflow(tenant,subdomain,"provisioning")
             return tenantURL;
         });
     
