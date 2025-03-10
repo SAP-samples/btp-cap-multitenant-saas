@@ -13,7 +13,8 @@ btp_login() {
   btp login --url "https://cli.btp.cloud.sap" \
             --user "$BTP_USERNAME" \
             --password "$BTP_PASSWORD" \
-            --subdomain "$BTP_SUBDOMAIN"
+            --subdomain "$BTP_SUBDOMAIN" \
+            --idp "saptfe"
   
   if [[ $? -ne 0 ]]; then
     echo "Error: BTP login failed."
@@ -179,7 +180,7 @@ check_subaccount_removal() {
 
     RESPONSE=$(btp --format json get accounts/subaccount "$SUBACCOUNT_GUID" 2>&1)
 
-    if echo "$RESPONSE" | grep -q "404 Not Found"; then
+    if echo $RESPONSE | grep -q "\[Error: 20004/404\]"; then
       echo "Subaccount removed successfully."
       break
     else

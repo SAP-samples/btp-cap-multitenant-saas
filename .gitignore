@@ -33,3 +33,5 @@ _out
 !fts.zip
 !ext.zip
 Makefile
+code/srv/package.json
+code/api/package.json

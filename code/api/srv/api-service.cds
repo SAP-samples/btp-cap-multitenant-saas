@@ -3,9 +3,9 @@ using {
      sap.common
 } from '../../db/data-model';
 
-annotate sap.common.Countries with @cds.autoexpose: false;
-annotate sap.common.Languages with @cds.autoexpose: false;
-annotate sap.common.Currencies with @cds.autoexpose: false;
+// annotate sap.common.Countries with @cds.autoexpose: false;
+// annotate sap.common.Languages with @cds.autoexpose: false;
+// annotate sap.common.Currencies with @cds.autoexpose: false;
 
 service ApiService @(
      path    : '/rest/api',
