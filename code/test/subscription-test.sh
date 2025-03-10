@@ -180,7 +180,7 @@ check_subaccount_removal() {
 
     RESPONSE=$(btp --format json get accounts/subaccount "$SUBACCOUNT_GUID" 2>&1)
 
-    if echo "$RESPONSE" | grep -q "404 Not Found"; then
+    if echo $RESPONSE | grep -q "\[Error: 20004/404\]"; then
       echo "Subaccount removed successfully."
       break
     else
