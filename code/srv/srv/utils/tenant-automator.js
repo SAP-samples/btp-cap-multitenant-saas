@@ -33,25 +33,25 @@ const executeWorkflow = async (steps, context = {}) => {
     let currentStep;
     try {
         for (const step of steps) {
-            console.log(`Executing step: ${step.name}`);
+            logger.log(`Executing step: ${step.name}`);
             currentStep = step.name
             await step.operation(context);
             executedSteps.unshift(step);
-            console.log(`Executed step: ${step.name}`);
+            logger.log(`Executed step: ${step.name}`);
         }
         return context;
     } catch (error) {
-        console.error(`Error in step ${currentStep}:`, error.message);
-        console.error('Error details:', error.details)
-        console.log("Rollback will be initiated for:", JSON.stringify(executedSteps))
+        logger.error(`Error in step ${currentStep}:`, error.message);
+        logger.error('Error details:', error.details)
+        logger.log("Rollback will be initiated for:", JSON.stringify(executedSteps))
         for (const step of executedSteps) {
             if (step.rollback) {
-                console.log(`Rolling back step: ${step.name} with ${step.rollback.name}`);
+                logger.log(`Rolling back step: ${step.name} with ${step.rollback.name}`);
                 try {
                     await step.rollback(context);
-                    console.log('Rollback completed:', step.rollback.name)
+                    logger.log('Rollback completed:', step.rollback.name)
                 } catch (rollbackError) {
-                    console.error(`Rollback error in ${step.name}:`, rollbackError.message);
+                    logger.error(`Rollback error in ${step.name}:`, rollbackError.message);
                 }
             }
         }
@@ -317,7 +317,7 @@ const deregisterServiceBroker = async (context) => {
         const name = `${process.env.brokerName}-${appEnv.app.space_name}-${context.tenant}`
         const broker = await sm.getServiceBroker(context.smtenant, name)
         if (!broker) {
-            console.debug('broker can not be found, deletion skipped.')
+            logger.debug('broker can not be found, deletion skipped.')
             return;
         }
         await sm.deleteServiceBroker(context.smtenant, broker.id)
@@ -425,9 +425,9 @@ const runWorkflow = async (tenant, subdomain, operation) => {
         const context = { tenant, subdomain, btp: {}, broker: {}, smadmin: {}, smtenant: {}, cis: {}, cf: {} };
         
         await executeWorkflow(steps, context);
-        console.log('Workflow completed successfully:', { tenant, subdomain });
+        logger.log('Workflow completed successfully:', { tenant, subdomain });
     } catch (error) {
-        console.error('Workflow failed:', { tenant, subdomain, error: error.message });
+        logger.error('Workflow failed:', { tenant, subdomain, error: error.message });
         throw error;
     }
 };

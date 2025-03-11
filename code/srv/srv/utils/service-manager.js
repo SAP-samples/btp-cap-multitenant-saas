@@ -89,10 +89,10 @@ async function deleteServiceInstance(serviceCredentials, serviceInstanceId) {
                     message: error.description
                 }
             }
+        } else {
+            return
         }
-        const data = await response.json();
-        Logger.debug(`Service instance ${serviceInstanceId} successfully deleted`);
-        return data;
+
     } catch (error) {
         Logger.debug(`Error: Service instance can not be deleted`);
         Logger.debug(`Error: ${error.message}`);
