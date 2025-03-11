@@ -167,9 +167,9 @@ async function createServiceManager(binding, tenant) {
 // Function to delete a service manager
 async function deleteServiceManager(binding,tenant) {
     try {
-        const credentials = sm.credentials;
-        const { clientid, clientsecret, uaa } = credentials;
-        const tokenEndpoint = `${uaa.url}/oauth/token`;
+        const clientid = binding.credentials.uaa.clientid;
+        const clientsecret = binding.credentials.uaa.clientsecret;
+        const tokenEndpoint = `${binding.credentials.uaa.url}/oauth/token`;
         const token = await TokenUtils.getTokenWithClientCreds(tokenEndpoint, clientid, clientsecret);
         const authOptions = {
             method: 'DELETE',
@@ -178,7 +178,7 @@ async function deleteServiceManager(binding,tenant) {
                 Authorization: `Bearer ${token}`
             }
         };
-        const response = await fetch(`${credentials.endpoints.accounts_service_url}/accounts/v1/subaccounts/${tenant}/serviceManagementBinding`, authOptions);
+        const response = await fetch(`${binding.credentials.endpoints.accounts_service_url}/accounts/v1/subaccounts/${tenant}/serviceManagementBinding`, authOptions);
 
         if (!response.ok) {
             throw new Error(`Failed to delete service manager: ${response.status} ${response.statusText}`);
