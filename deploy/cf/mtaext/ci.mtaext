@@ -11,6 +11,9 @@ modules:
           "{{BROKER_USER}}": "{{BROKER_PASSWORD}}"
         }
 
+  - name: susaas-srv
+    properties: 
+      IDP_ORIGIN: "saptfe-platform"
 
 resources:
   - name: susaas-credstore

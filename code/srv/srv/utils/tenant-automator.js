@@ -175,7 +175,7 @@ const removeTenantServiceManager = async (context) => {
             logger.debug(`service manager not found in tenant subaccount, skipped.`, context.subdomain)
             return
         }
-        //   await cis.deleteServiceManager(context.smtenant,context.tenant)
+        await cis.deleteServiceManager(context.cis.binding, context.tenant)
         logger.debug('deleted service manager in tenant subaccount, subdomain', context.subdomain)
     } catch (e) {
         throw {
