@@ -181,12 +181,18 @@ async function deleteServiceManager(binding,tenant) {
         const response = await fetch(`${binding.credentials.endpoints.accounts_service_url}/accounts/v1/subaccounts/${tenant}/serviceManagementBinding`, authOptions);
 
         if (!response.ok) {
-            throw new Error(`Failed to delete service manager: ${response.status} ${response.statusText}`);
+            if (response.status === 404) {
+                return;
+            } else {
+                const error = await response.json();
+                throw {
+                    message: error.description
+                }
+            }
+        }else {
+           Logger.debug(`Service manager in tenant subaccount ${tenant} successfully deleted`);    
+           return;
         }
-
-        const data = await response.json();
-        Logger.debug(`Service manager in tenant subaccount ${tenant} successfully deleted`);
-        return data;
     } catch (error) {
         Logger.debug(`Error: Service manager cannot be deleted from tenant subaccount ${tenant}`);
         Logger.debug(`Error: ${error.message}`);
