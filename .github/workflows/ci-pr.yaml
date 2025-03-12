@@ -8,6 +8,7 @@ on:
       - '**/*.md'
 jobs:
   cf-test:
+    if: github.event.pull_request.draft == false  #Skip on draft PRs
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.event.pull_request.head.repo.fork == true && 'ci-forked' || 'ci-owner' }}
