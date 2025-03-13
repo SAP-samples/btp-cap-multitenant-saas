@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const xsenv = require('@sap/xsenv');
 const TokenUtils = require('./token-helper.js');
 const cds = require('@sap/cds');
