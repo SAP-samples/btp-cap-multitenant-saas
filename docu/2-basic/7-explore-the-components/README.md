@@ -108,4 +108,4 @@ Please use the following links to find further information on the topics above:
 * [GitHub - SAP Fiori Elements for OData V4 Feature Showcase](https://github.com/SAP-samples/fiori-elements-feature-showcase/)
 * [CAP documentation - Serving Fiori UIs](https://cap.cloud.sap/docs/advanced/fiori)
 * [CAP documentation - Welcome to CAP](https://cap.cloud.sap/docs/)
-* [SAP Blog - The hidden life of ServiceManager handled containers](https://blogs.sap.com/2021/02/15/the-hidden-life-of-servicemanager-handled-containers/)
+* [SAP Blog - The hidden life of ServiceManager handled containers](https://community.sap.com/t5/technology-blogs-by-sap/the-hidden-life-of-servicemanager-handled-containers/ba-p/13477851)

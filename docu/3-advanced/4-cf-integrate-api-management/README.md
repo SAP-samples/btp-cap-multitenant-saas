@@ -49,7 +49,7 @@ Please ensure the **API Management** capability of your **SAP Integration Suite*
 
 ## 3. APIM as route service
 
-To connect your SaaS API with SAP API Management, you can use an SAP BTP service called "APIM-as-route-service", which is also explained in greater detail by the following blog posts [click here](https://blogs.sap.com/2020/10/10/sap-apim-route-service-plan-to-manage-cloud-foundry-apps/) and [here](https://blogs.sap.com/2020/08/10/part-3-service-plan-of-sap-api-management-in-cloud-foundry-environment/). Further information about route services can be found in the official Cloud Foundry documentation [click here](https://docs.cloudfoundry.org/services/route-services.html).
+To connect your SaaS API with SAP API Management, you can use an SAP BTP service called "APIM-as-route-service", which is also explained in greater detail by the following blog posts [click here](https://community.sap.com/t5/technology-blogs-by-members/sap-apim-route-service-to-manage-cloud-foundry-apps/ba-p/13475494) and [here](https://community.sap.com/t5/technology-blogs-by-sap/part-3-service-plan-of-sap-api-management-in-cloud-foundry-environment/ba-p/13489636). Further information about route services can be found in the official Cloud Foundry documentation [click here](https://docs.cloudfoundry.org/services/route-services.html).
 
 Combining this service instance with your API route allows you to enforce API policies like Spike Arrest or Quotas no matter whether the accessing client is calling the API Proxy URL or the standard route of your API. So please set up an instance of the **apim-as-a-route-service** offering as you can see in the following screenshot. 
 
@@ -268,8 +268,8 @@ Please use the following links to find further information on the topics above:
 * [SAP Help - SAP API Management in the Cloud Foundry Environment](https://help.sap.com/docs/SAP_CLOUD_PLATFORM_API_MANAGEMENT/66d066d903c2473f81ec33acfe2ccdb4/7d8514b4ab46455e8416723003b414d7.html?locale=en-US)
 * [Cloud Foundry CLI Reference Guide - v8](https://cli.cloudfoundry.org/en-US/v8/)
 * [Cloud Foundry CLI Reference Guide - v7](https://cli.cloudfoundry.org/en-US/v7/)
-* [SAP Blog - SAP APIM - Route Service to Manage Cloud Foundry Apps](https://blogs.sap.com/2020/10/10/sap-apim-route-service-plan-to-manage-cloud-foundry-apps/)
-* [SAP Blog - Service Plan of SAP API Management in Cloud Foundry Environment](https://blogs.sap.com/2020/08/10/part-3-service-plan-of-sap-api-management-in-cloud-foundry-environment/)
+* [SAP Blog - SAP APIM - Route Service to Manage Cloud Foundry Apps](https://community.sap.com/t5/technology-blogs-by-members/sap-apim-route-service-to-manage-cloud-foundry-apps/ba-p/13475494)
+* [SAP Blog - Service Plan of SAP API Management in Cloud Foundry Environment](https://community.sap.com/t5/technology-blogs-by-sap/part-3-service-plan-of-sap-api-management-in-cloud-foundry-environment/ba-p/13489636)
 * [Cloud Foundry Documentation - Route Services](https://docs.cloudfoundry.org/services/route-services.html)
 * [apigee Documentation - Policy reference overview](https://docs.apigee.com/api-platform/reference/policies/reference-overview-policy)
 * [apigee Documentation - SpikeArrest policy](https://docs.apigee.com/api-platform/reference/policies/spike-arrest-policy)

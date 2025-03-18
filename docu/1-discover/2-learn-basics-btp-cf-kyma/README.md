@@ -53,7 +53,7 @@ We highly suggest to create such an **Enterprise Account** for the purpose of va
 
 The key pillars of developing business applications on SAP BTP are the runtimes which can be chosen based on the customer's requirement and expertise. In this scenario, the established **Cloud Foundry Runtime** as well as SAP's managed Kubernetes offering called **Kyma Runtime** will be covered in greater detail below. 
 
- If you are new to SAP BTP, or in case you already used the **Cloud Foundry Runtime** and now wonder whether you should also discover the **Kyma Runtime**, please read the runtime introductions below and check out the great runtime comparison in the following blog post [click here](https://blogs.sap.com/2023/04/28/developing-an-application-on-sap-cloud-foundry-runtime-and-sap-kyma-runtime-a-comparative-analysis/). If you are interested in scenarios covering the **ABAP Cloud** environment, please check out the [developers.sap.com](https://developers.sap.com/tutorial-navigator.html?tag=software-product%3Atechnology-platform%2Fsap-business-technology-platform%2Fsap-btp-abap-environment) for a bunch of great tutorials!
+ If you are new to SAP BTP, or in case you already used the **Cloud Foundry Runtime** and now wonder whether you should also discover the **Kyma Runtime**, please read the runtime introductions below and check out the great runtime comparison in the following blog post [click here](https://community.sap.com/t5/technology-blogs-by-sap/developing-an-application-on-sap-btp-cloud-foundry-runtime-and-sap-btp-kyma/ba-p/13550062). If you are interested in scenarios covering the **ABAP Cloud** environment, please check out the [developers.sap.com](https://developers.sap.com/tutorial-navigator.html?tag=software-product%3Atechnology-platform%2Fsap-business-technology-platform%2Fsap-btp-abap-environment) for a bunch of great tutorials!
 
 **Further links**
 
@@ -120,7 +120,7 @@ These resources provide detailed information, guides, and examples to help you u
 
 **Hint** - To successfully follow along this tutorial, please take a short break and read the following blog post of Maximilian Streifeneder. He has written a great summary containing all relevant basics required when planning to deploy CAP-based workloads to SAP BTP, Kyma Environment. We will link this blog post a few more times throughout the tutorial, so take your time and take a first glimpse right now! It will give you an idea of what to expect when approaching our Kyma-based tutorial.
 
-[Surviving and Thriving with the SAP Cloud Application Programming Model: Deployment to SAP BTP, Kyma runtime](https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/)
+[Surviving and Thriving with the SAP Cloud Application Programming Model: Deployment to SAP BTP, Kyma runtime](https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264)
 
 Additionally, check out the following resources, to learn more about Kyma.
 

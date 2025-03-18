@@ -394,7 +394,7 @@ To understand the usage of Volumes, let us go one step back to the Pod level. Yo
 
 All containers share the resources of the Pod they are running in. This includes Network Components, CPU, RAM or other compute resources. But - unlike a normal computer (where processes also share the same file system), Containers in Pods behave differently. In a Pod, each Container has its own file system. While required Volumes are defined on Pod level, they are separately mounted into the file systems of the respective Containers. 
 
-In this sample, Volumes are primarily being used to provide the SAP BTP [Service Binding](#service-binding) credentials to our workloads. By mounting those Volumes to a predefined path called */bindings/*, frameworks like CAP are able to use the Service Bindings at runtime ([click here](https://blogs.sap.com/2022/07/12/the-new-way-to-consume-service-bindings-on-kyma-runtime/) to learn more). To find different examples of how to use Volumes e.g., for [ConfigMaps](#config-map), please visit the [respective chapter](#config-map) in this tutorial. 
+In this sample, Volumes are primarily being used to provide the SAP BTP [Service Binding](#service-binding) credentials to our workloads. By mounting those Volumes to a predefined path called */bindings/*, frameworks like CAP are able to use the Service Bindings at runtime ([click here](https://community.sap.com/t5/technology-blogs-by-sap/the-new-way-to-consume-service-bindings-on-kyma-runtime/ba-p/13540594) to learn more). To find different examples of how to use Volumes e.g., for [ConfigMaps](#config-map), please visit the [respective chapter](#config-map) in this tutorial. 
 
 So much for the introduction of Deployments and Volumes. Let us check out a concrete sample - in this case for the Application Router Deployment.
 
@@ -850,7 +850,7 @@ spec:
 
 > **Learn more** <br>
 > https://istio.io/latest/docs/reference/config/networking/sidecar/ <br>
-> https://blogs.sap.com/2022/05/02/optimising-istio-sidecar-usage-in-kyma-runtime/
+> https://community.sap.com/t5/technology-blogs-by-sap/optimising-istio-sidecar-usage-in-kyma-runtime/ba-p/13538653
 
 By default, Istio enables communication between all [Services](#service) in the mesh, storing required details in each Sidecar Proxy. While not extremely relevant in a small sample scenario, with a growing number of [Services](#service) in your Service Mesh, this will become a huge overhead, as usually a micro service only needs to communicate with a few other microservices but not with the full mesh. To optimize the communication between your [Services](#service) (and the required configurations stored in your Sidecar Proxies), you can define so-called Sidecars resources.
 
@@ -1480,7 +1480,7 @@ spec:
 
 The second important scenario for Secret usage is the SAP BTP [Service Binding](#service-binding). Whenever a SAP BTP [Service Binding](#service-binding) is required by our Kyma workloads, the respective Kyma [Service Binding](#service-binding) resource will automatically generate a Secret, which contains the Client Credentials or X.509 keys. 
 
-> **Learn more** - https://blogs.sap.com/2022/07/12/the-new-way-to-consume-service-bindings-on-kyma-runtime/
+> **Learn more** - https://community.sap.com/t5/technology-blogs-by-sap/the-new-way-to-consume-service-bindings-on-kyma-runtime/ba-p/13540594
 
 These "Service Binding" Secrets are then mounted to the container file systems using the **bindings** path. This makes the SAP BTP [Service Binding](#service-binding) credentials available to workloads and frameworks like CAP, being able to consume them at runtime by using the @sap/xsenv package.
 
@@ -1607,7 +1607,7 @@ spec:
 
 > **Learn more** <br>
 > https://help.sap.com/docs/btp/sap-business-technology-platform/using-sap-btp-services-in-kyma-environment <br>
-> https://blogs.sap.com/2022/07/12/the-new-way-to-consume-service-bindings-on-kyma-runtime/
+> https://community.sap.com/t5/technology-blogs-by-sap/the-new-way-to-consume-service-bindings-on-kyma-runtime/ba-p/13540594
 
 A Service Binding is a custom Kyma resource and simplifies the integration of SAP BTP [Service Instances](#service-instance). Creating a new Service Binding resource for a corresponding [Service Instances](#service-instance), will result in new Client Credentials or X.509 Certificates. These credentials or certificates will be automatically stored in Kubernetes [Secrets](#secret). These [Secrets](#secret) can then be consumed in your workloads, by mounting them as a volume to a specific path in your containers. Check the respective documentation on [Secrets](#secret) to learn more. Using npm packages like @sap/xsenv, CAP can consume these bindings as you are used to from the Cloud Foundry environment. 
 
@@ -1643,7 +1643,7 @@ type: Opaque
 
 > **Learn more** <br>
 > https://help.sap.com/docs/btp/sap-business-technology-platform/using-sap-btp-services-in-kyma-environment <br>
-> https://blogs.sap.com/2022/07/12/the-new-way-to-consume-service-bindings-on-kyma-runtime/
+> https://community.sap.com/t5/technology-blogs-by-sap/the-new-way-to-consume-service-bindings-on-kyma-runtime/ba-p/13540594
 
 Like [Service Bindings](#service-binding), also SAP BTP Service Instances are custom Kyma resources and act as kind of counterpart. Using the SAP BTP Service Manager (available in each Kyma Cluster), the usage of Service Instances allows you to create and maintain SAP BTP Service Instances from within your Cluster. The definition of such Service Instances is comparable to the mta.yaml-based definitions in the Cloud Foundry environment. 
 

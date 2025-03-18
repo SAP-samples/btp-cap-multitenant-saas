@@ -91,8 +91,8 @@ While multi-region deployments can be used to support failover scenarios, please
 
 If you're interested in high availability patterns using globally distributed persistency options of hyperscalers like AWS (e.g. Aurora DB) or Azure (e.g. Cosmos DB), check out the following blog posts:
 
-* [SAP Blog - SAP CAP Application Dynamic Data Source Routing](https://blogs.sap.com/2022/11/10/sap-cap-application-dynamic-data-source-routing/)
-* [SAP Blog - Distributed Resiliency of SAP CAP applications using Amazon Aurora (Read Replica) with Amazon Route 53](https://blogs.sap.com/2022/11/14/distributed-resiliency-of-sap-cap-applications-using-amazon-aurora-read-replica-with-amazon-route-53/)
+* [SAP Blog - SAP CAP Application Dynamic Data Source Routing](https://community.sap.com/t5/technology-blogs-by-sap/sap-cap-application-dynamic-data-source-routing/ba-p/13558920)
+* [SAP Blog - Distributed Resiliency of SAP CAP applications using Amazon Aurora (Read Replica) with Amazon Route 53](https://community.sap.com/t5/technology-blogs-by-sap/distributed-resiliency-of-sap-cap-applications-using-amazon-aurora-read/ba-p/13570134)
 
 While these setups are a great option for standalone CAP applications, the PostgreSQL support of CAP is still limited and mainly community driven. Especially for SaaS scenarios in a CAP context (requiring tenant isolation using containers), **SAP HANA Cloud** is the database of choice. 
 
@@ -177,8 +177,8 @@ The screenshots below show the result of such a smart routing feature. One and t
 
 If you want to learn more about-multi region or high-availability scenarios, we recommend starting with the following sources.
 
-* [SAP Blog - SAP BTP Multi-Region reference architectures for High Availability and Resiliency](https://blogs.sap.com/2022/07/21/sap-btp-multi-region-reference-architectures-for-high-availability-and-resiliency/)
-* [SAP Blog - Architecting solutions on SAP BTP for High Availability](https://blogs.sap.com/2021/08/17/architecting-solutions-on-sap-btp-for-high-availability/)
+* [SAP Blog - SAP BTP Multi-Region reference architectures for High Availability and Resiliency](https://community.sap.com/t5/technology-blogs-by-members/sap-btp-multi-region-reference-architectures-for-high-availability-and/ba-p/13524196)
+* [SAP Blog - Architecting solutions on SAP BTP for High Availability](https://community.sap.com/t5/technology-blogs-by-members/architecting-solutions-on-sap-btp-for-high-availability/ba-p/13498943)
 * [SAP Help - Setting Up Your Account Model](https://help.sap.com/docs/BTP/df50977d8bfa4c9a8a063ddb37113c43/2db81f42f5194454beecde6cd4994dda.html?locale=en-US)
 * [SAP Help - Planning Failover on SAP BTP](https://help.sap.com/docs/BTP/df50977d8bfa4c9a8a063ddb37113c43/8c46464783664ac4a748e70a91e08508.html?locale=en-US)
 * [SAP Help - Implementing Failover](https://help.sap.com/docs/BTP/df50977d8bfa4c9a8a063ddb37113c43/df972c5529004c428e05a90966d17dca.html?locale=en-US)

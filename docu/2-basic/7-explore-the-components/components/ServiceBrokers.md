@@ -467,4 +467,4 @@ Having the credentials, a Tenant is now ready to call the backing service **Sust
 
 # 6. Further learnings
 
-Please check this [blog post](https://blogs.sap.com/2022/03/08/exploring-service-brokers-and-cf-on-sap-business-technology-platform) and [video series](https://www.youtube.com/watch?v=5_Ns0ihQPD4&list=PL6RpkC85SLQDaxcABfWlLuIDR79DxDrLi) by DJ Adams if you want to deep dive into this concept.
+Please check this [blog post](https://community.sap.com/t5/technology-blogs-by-sap/exploring-service-brokers-and-service-consumption-on-sap-business/ba-p/13524313) and [video series](https://www.youtube.com/watch?v=5_Ns0ihQPD4&list=PL6RpkC85SLQDaxcABfWlLuIDR79DxDrLi) by DJ Adams if you want to deep dive into this concept.

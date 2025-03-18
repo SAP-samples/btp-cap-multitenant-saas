@@ -36,8 +36,8 @@ For more details about the SAP BTP, Terraform provider please check the followin
 - [Terraform Provider for SAP BTP](https://registry.terraform.io/providers/SAP/btp/0.2.0-beta2)
 - [Terraform Provider for SAP BTP - Docu](https://registry.terraform.io/providers/SAP/btp/latest/docs)
 - [Terraform Provider for SAP BTP - GitHub Repository](https://github.com/SAP/terraform-provider-btp)
-- [Terraform Provider for SAP BTP Announcement - Blog Post](https://blogs.sap.com/2023/06/26/terraform-provider-for-sap-btp-now-available-for-non-productive-use/)
-- [Terraform Provider for SAP BTP Sample Scenario - Blog Post](https://blogs.sap.com/2023/07/03/automating-sap-btp-setup-with-the-new-terraform-provider-for-sap-btp/)
+- [Terraform Provider for SAP BTP Announcement - Blog Post](https://community.sap.com/t5/technology-blogs-by-sap/terraform-provider-for-sap-btp-now-available-for-non-productive-use/ba-p/13569715)
+- [Terraform Provider for SAP BTP Sample Scenario - Blog Post](https://community.sap.com/t5/technology-blogs-by-members/automating-sap-btp-setup-with-the-new-terraform-provider-for-sap-btp/ba-p/13549469)
 
 
 **Prerequisites**

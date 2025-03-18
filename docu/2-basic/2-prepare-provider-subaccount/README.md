@@ -38,7 +38,7 @@ Please make sure to cater the following prerequisites:
 
 * Set up a SAP HANA Cloud instance (**hana-free** service plan) using the **SAP HANA Cloud Tools** (**tools** service plan).
   > **Hint** - In Trial environments, you have to assign the **hana** service plan to your subaccount. <br>
-  > **Hint** - Check the following blog post to find more details about how to setup your SAP HANA Cloud instance using the HANA Tools ([click here](https://blogs.sap.com/2022/09/21/sap-hana-cloud-goes-multi-environment-part-2-getting-started/)).
+  > **Hint** - Check the following blog post to find more details about how to setup your SAP HANA Cloud instance using the HANA Tools ([click here](https://community.sap.com/t5/technology-blogs-by-sap/sap-hana-cloud-goes-multi-environment-part-2-getting-started/ba-p/13522923)).
 
 > **Important** - Please make sure to select the correct free service plans in PAYG or CPEA scenarios, as paid service plans will generate costs in your account! 
 
@@ -99,7 +99,7 @@ Once you created the SAP HANA Cloud instance, please map it with your Cloud Foun
 
 **Kyma** (only)
 
-More information on how to share your SAP HANA Cloud instance with your Kyma Cluster can be found in the following blog post ([click here](https://blogs.sap.com/2022/12/15/consuming-sap-hana-cloud-from-the-kyma-environment/)). 
+More information on how to share your SAP HANA Cloud instance with your Kyma Cluster can be found in the following blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/consuming-sap-hana-cloud-from-the-kyma-environment/ba-p/13552718)). 
 
 > **Important** - Please make sure to use the new **SAP HANA Cloud Tools** service (service plan **tools**) for this purpose! The instance mapping feature for Kyma is not available in the SAP HANA Cloud Central UI. 
 
@@ -118,7 +118,7 @@ When using **free** SAP BTP services plans like **trial** for Kyma or **hana-fre
 **Kyma** (only)
 
 - Your **Free Kyma Clusters** in **trial**, PAYG and CPEA accounts have a restrictive resource limitation. Make sure you have enough resources left before deploying the sample application. Check out the details provided in [Discovery Center](https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime?region=all&tab=service_plan&service_plan=free&commercialModel=cloud) to learn more.
-- SAP BTP Kyma **trial** service plan is usable for 14 days only ([click here](https://blogs.sap.com/2022/09/13/sap-btp-kyma-runtime-trial-clusters-lifespan-limited-to-14-days/)). After this period, you need to setup a new SAP BTP Kyma Cluster. This limitation does not exist in CPEA or PAYG accounts using the **free tier** service plans. Therefore, we highly recommend to use a PAYG or CPEA account combined with **free tier** service plans. 
+- SAP BTP Kyma **trial** service plan is usable for 14 days only ([click here](https://community.sap.com/t5/technology-blogs-by-sap/sap-btp-kyma-runtime-trial-clusters-lifespan-limited-to-14-days/ba-p/13539467)). After this period, you need to setup a new SAP BTP Kyma Cluster. This limitation does not exist in CPEA or PAYG accounts using the **free tier** service plans. Therefore, we highly recommend to use a PAYG or CPEA account combined with **free tier** service plans. 
 
 **Cloud Foundry** (only)
 

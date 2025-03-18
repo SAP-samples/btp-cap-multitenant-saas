@@ -29,7 +29,7 @@ As a consequence, IMAP or POP protocol usage with basic authentication will not 
 
 Given all these security-related restrictions, Microsoft recommends switching to alternative protocols like the **Microsoft Graph API** which will be covered by the following Expert Feature tutorial. 
 
-> **Hint** - If you are using a different e-mail service provider, enabled SMTP AUTH and Basic Authentication in your environment, or host your own e-mail server in an On-Premise landscape, considering a destination of type **MAIL** or usage of **SAP Cloud Integration** might still be an option for you ([click here](https://blogs.sap.com/2020/01/08/cloud-integration-connect-cpi-with-your-on-premise-mail-server/)). SAP Cloud Integration also offers an OAuth2 based integration with Microsoft Exchange ([click here](https://blogs.sap.com/2020/08/20/cloud-intgration-connect-to-microsoft-365-mail-with-oauth2/)).
+> **Hint** - If you are using a different e-mail service provider, enabled SMTP AUTH and Basic Authentication in your environment, or host your own e-mail server in an On-Premise landscape, considering a destination of type **MAIL** or usage of **SAP Cloud Integration** might still be an option for you ([click here](https://community.sap.com/t5/technology-blogs-by-sap/cloud-integration-connect-cpi-with-your-on-premise-mail-server/ba-p/13454396)). SAP Cloud Integration also offers an OAuth2 based integration with Microsoft Exchange ([click here](https://community.sap.com/t5/integration-blog-posts/cloud-integration-connect-to-microsoft-365-mail-with-oauth2/ba-p/13465693)).
 
 
 ## 2. Prerequisites
@@ -222,9 +222,9 @@ client.api('/users/<<mail.address@sample.user>>/sendMail')   // User e-mail addr
 
 Please use the following links to find further information on the topics above:
 
-* [SAP Blog - Cloud Integration – Connect to Microsoft 365 Mail with OAuth2](https://blogs.sap.com/2020/08/20/cloud-intgration-connect-to-microsoft-365-mail-with-oauth2/)
-* [SAP Blog - Cloud Integration – Connect CPI with Your On-Premise Mail Server](https://blogs.sap.com/2020/01/08/cloud-integration-connect-cpi-with-your-on-premise-mail-server/)
-* [SAP Blog - Send an email from a nodejs application](https://blogs.sap.com/2019/11/28/send-an-email-from-a-nodejs-application/)
+* [SAP Blog - Cloud Integration – Connect to Microsoft 365 Mail with OAuth2](https://community.sap.com/t5/integration-blog-posts/cloud-integration-connect-to-microsoft-365-mail-with-oauth2/ba-p/13465693)
+* [SAP Blog - Cloud Integration – Connect CPI with Your On-Premise Mail Server](https://community.sap.com/t5/technology-blogs-by-sap/cloud-integration-connect-cpi-with-your-on-premise-mail-server/ba-p/13454396)
+* [SAP Blog - Send an email from a nodejs application](https://community.sap.com/t5/technology-blogs-by-members/send-an-email-from-a-nodejs-application/ba-p/13459036)
 * [Microsoft - Azure Free Trial](https://azure.microsoft.com/en-us/free/)
 * [Microsoft - Exchange Online](https://www.microsoft.com/en-us/microsoft-365/exchange/exchange-online)
 * [Microsoft - About shared mailboxes](https://learn.microsoft.com/en-us/microsoft-365/admin/email/about-shared-mailboxes?view=o365-worldwide)
