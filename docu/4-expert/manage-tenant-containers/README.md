@@ -92,5 +92,5 @@ Please use the following links to find further information on the topics above:
 * [SAP Help - The Default Access Role for HDI Containers](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/9235c9dd8dbf410f915ffe305296a032.html?locale=en-US)
 * [SAP Help - Using the Subscription Management Dashboard](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/434be695f9e946ccb4c28911dd1e16d0.html?locale=en-US)
 * [SAP Blog - The hidden life of ServiceManager handled containers](https://community.sap.com/t5/technology-blogs-by-sap/the-hidden-life-of-servicemanager-handled-containers/ba-p/13477851)
-* [CAP documentation - Deploy as Multitenant SaaS Application](https://cap.cloud.sap/docs/guides/deployment/as-saas#intro--overview)
+* [CAP documentation - Deploy as Multitenant SaaS Application](https://cap.cloud.sap/docs/guides/deployment/)
 * [SAP Help - SAP Service Manager Broker Plans](https://help.sap.com/docs/SERVICEMANAGEMENT/09cc82baadc542a688176dce601398de/917a8a7c926444cf99d0230c82db1831.html?locale=en-US&q=container)

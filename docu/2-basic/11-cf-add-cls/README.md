@@ -61,7 +61,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     [<img src="./images/local-metrics-1.png" width="750"/>](./images/local-metrics-1.png?raw=true)     
     <br/>
     Additionally, @cap-js/telemetry instantiates and provides host metrics like cpu usage and memory usage etc ([@opentelemetry/host-metrics](https://www.npmjs.com/package/@opentelemetry/host-metrics)).       
-    [<img src="./images/local-metrics-2.png" width="750"/>](./images/local-metrics.png-2?raw=true)
+    [<img src="./images/local-metrics-2.png" width="750"/>](./images/local-metrics-2.png?raw=true)
 
 ## 3. Deply and Bind to SAP Cloud Logging service
 - **Prepare for Deployment**
@@ -120,7 +120,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
   ```
   To learn more about each parameter and adjust the initialization settings, review the [configuration parameters](https://help.sap.com/docs/SAP_CLOUD_LOGGING/d82d23dc499c44079e1e779c1d3a5191/configuration-parameters) documentation.
 
-  > Note: It is also possible to **_share the same instance of the SAP Cloud Logging service across different spaces_** within a Cloud Foundry organization. This allows for the consolidation of observability data from multiple spaces, streamlining monitoring and analysis. For more details, refer to the [documentation]((https://help.sap.com/docs/SAP_CLOUD_LOGGING/d82d23dc499c44079e1e779c1d3a5191/ingest-via-cloud-foundry-runtime#loiof5a7c993743c4ee79722479371b90b37__share_service_instance_across_different_spaces)).
+  > Note: It is also possible to **_share the same instance of the SAP Cloud Logging service across different spaces_** within a Cloud Foundry organization. This allows for the consolidation of observability data from multiple spaces, streamlining monitoring and analysis. For more details, refer to the [documentation]((https://help.sap.com/docs/cloud-logging/sap-cloud-logging/ingest-via-cloud-foundry-runtime#loiof5a7c993743c4ee79722479371b90b37__share_service_instance_across_different_spaces)).
 
   If you have created the instance separately, you can declare it in your `mta.yaml` file as a existing resource.
 
@@ -156,7 +156,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
 
   - You can see traces and metrics data that is auto collected by Telemetry plugin in OpenTelemetry/Metrics Tab as shown below:     
     [<img src="./images/cls-dashboard-ot-1.png" width="750"/>](./images/cls-dashboard-ot-1.png?raw=true)    
-    [<img src="./images/cls-dashboard-ot-2.png" width="750"/>](./images/cls-dashboard-ot-.png?raw=true)     
+    [<img src="./images/cls-dashboard-ot-2.png" width="750"/>](./images/cls-dashboard-ot-2.png?raw=true)     
     
   - If you want to explore metrics in more details, you can navigate to '**_Discover_**' menu item and choose '**_metrics-otel-v1-*_**' data source.     
     [<img src="./images/cls-dashboard-ot-3.png" width="750"/>](./images/cls-dashboard-ot-3.png?raw=true)    

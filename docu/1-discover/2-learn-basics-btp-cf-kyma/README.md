@@ -114,7 +114,6 @@ To explore SAP BTP, Kyma Environment further and understand its capabilities in 
 - Official SAP BTP Documentation: [SAP BTP Documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/)
 - Kyma on SAP BTP : [Environment Introduction](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-environment) 
 - Kyma Project Official Website: [Kyma Project Website](https://kyma-project.io/)
-- Kyma Documentation: [Kyma Documentation](https://kyma-project.io/docs/kyma/latest)
 
 These resources provide detailed information, guides, and examples to help you understand and leverage the unique features of SAP BTP, Kyma Environment. Whether you require extensibility, event-driven architecture, or seamless integration capabilities, Kyma offers a robust platform to accelerate your application development and enhance your SAP BTP experience.
 
@@ -143,13 +142,13 @@ As our SaaS sample application is based on the so-called **Cloud Application Pro
 
 Besides using CAP for the definition of our SaaS **tenant data model**, as well as the data model shared amongst all subscribers, we are using much more features as part of this SaaS sample application. Based on these **data models**, CAP provides the required **OData Services** including **Annotations** used by our Fiori Elements UIs out-of-the-box, CAP is backing our multitenant **SaaS Inbound API**, and handles security checks across our application. Last but not least, we are making use of the latest **@sap/mtxs** package ([click here](https://cap.cloud.sap/docs/guides/multitenancy/mtxs)), utilized to simplify multitenant related requirements like **tenant provisioning** ([click here](https://cap.cloud.sap/docs/guides/multitenancy/mtxs#saasprovisioningservice)), **extensibility** ([click here](https://cap.cloud.sap/docs/guides/multitenancy/mtxs#extensibilityservice)) or even **feature toggle** support ([click here](https://cap.cloud.sap/docs/guides/extensibility/feature-toggles)). 
 
-If you're to CAP, please acquaint yourself with the basics of CAP right now, before you start getting your head around our SaaS sample application deployment. Start by reading what CAP is all about (https://cap.cloud.sap/docs/about/), set foot on the Getting Started guide (https://cap.cloud.sap/docs/get-started/), run the Hello World application (https://cap.cloud.sap/docs/get-started/hello-world) and get the core features of CAP in a nutshell (https://cap.cloud.sap/docs/get-started/in-a-nutshell).
+If you're to CAP, please acquaint yourself with the basics of CAP right now, before you start getting your head around our SaaS sample application deployment. Start by reading what CAP is all about (https://cap.cloud.sap/docs/about/), set foot on the Getting Started guide (https://cap.cloud.sap/docs/get-started/), and get the core features of CAP in a nutshell (https://cap.cloud.sap/docs/get-started/in-a-nutshell).
 
 Feel free to explore the following resources to learn more about CAP and check out the latest community discussions ([click here](https://community.sap.com/t5/c-khhcw49343/SAP+Cloud+Application+Programming+Model/pd-p/9f13aee1-834c-4105-8e43-ee442775e5ce)):
 
 - CAP Documentation - [https://cap.cloud.sap/docs/](https://cap.cloud.sap/docs/)
 - CAP Tutorials - [https://developers.sap.com/](https://developers.sap.com/tutorial-navigator.html?tag=software-product-function%3Asap-cloud-application-programming-model&tag=tutorial%3Atype%2Fmission)
-  - Build an Application End-to-End Using CAP, Node.js and VS Code - [click here](https://developers.sap.com/group.btp-app-cap-create.html)
+  - Build a Business Application Using CAP for Node.js - [click here](https://developers.sap.com/mission.cp-starter-extensions-cap.html)
   - Create an SAP Cloud Application Programming Model Project for SAP HANA Cloud - [click here](https://developers.sap.com/tutorials/hana-cloud-cap-create-project.html)
   - ...
 - Node.js CAP Samples - [https://github.com/sap-samples/cloud-cap-samples](https://github.com/sap-samples/cloud-cap-samples)

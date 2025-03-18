@@ -25,7 +25,7 @@ Let us have a brief look at the tool prerequisites, which are essential to build
 
 If you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
+[https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html](https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html)
 
 ## 1. Prerequisites
 
@@ -173,7 +173,7 @@ Once again, I highly suggest to have a quick break and scroll through the excell
 
 [https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264](https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264)
 
-Docker Images created using Paketo and Cloud Native Buildpacks are secure, efficient, production-ready and come with a lot of features, which are hard to provided using Dockerfiles and would require much more manual effort. To get an idea of the features provided by Cloud Native Buildpacks, check out the official documentation ([click here](https://buildpacks.io/features/)). To learn about the general concepts behind Cloud Native Buildpacks (turning your source-code into a read-to-use Docker Image), check out the respective documentation ([click here](https://buildpacks.io/docs/concepts/)).
+Docker Images created using Paketo and Cloud Native Buildpacks are secure, efficient, production-ready and come with a lot of features, which are hard to provided using Dockerfiles and would require much more manual effort. To get an idea of the features provided by Cloud Native Buildpacks, check out the official documentation ([click here](https://buildpacks.io/features/)). To learn about the general concepts behind Cloud Native Buildpacks (turning your source-code into a read-to-use Docker Image), check out the respective documentation ([click here](https://buildpacks.io/docs/for-app-developers/concepts/)).
 
 So much for the introduction. Let us now check, how the various components of our SaaS sample application are being containerized either using Paketo and Cloud Native Buildpacks or existing SAP Standard Docker Images. 
 

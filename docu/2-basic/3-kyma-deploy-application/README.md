@@ -18,7 +18,7 @@ Before you deploy the sample application to your **SAP BTP, Kyma Runtime**, plea
 
 If you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
+[https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html](https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html)
 
 
 ## 1. Introduction
@@ -138,8 +138,6 @@ EXPORT KUBECONFIG=/sample/path/config
 
 kubectl get pods --kubeconfig=/sample/path/config
 ```
-
-If you are facing issues in this step of the tutorial, feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime** ([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)), which describes this step in further detail!
 
 > **Hint** - If you have to manage multiple Kyma or Kubernetes Clusters, make sure to research the **kubectx** command line tool (https://github.com/ahmetb/kubectx)! It provides you a very convenient way to switch the context between various clusters. 
 
