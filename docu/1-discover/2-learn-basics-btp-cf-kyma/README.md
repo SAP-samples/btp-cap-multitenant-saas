@@ -150,7 +150,6 @@ Feel free to explore the following resources to learn more about CAP and check o
 - CAP Tutorials - [https://developers.sap.com/](https://developers.sap.com/tutorial-navigator.html?tag=software-product-function%3Asap-cloud-application-programming-model&tag=tutorial%3Atype%2Fmission)
   - Build a Business Application Using CAP for Node.js - [click here](https://developers.sap.com/mission.cp-starter-extensions-cap.html)
   - Create an SAP Cloud Application Programming Model Project for SAP HANA Cloud - [click here](https://developers.sap.com/tutorials/hana-cloud-cap-create-project.html)
-  - ...
 - Node.js CAP Samples - [https://github.com/sap-samples/cloud-cap-samples](https://github.com/sap-samples/cloud-cap-samples)
 - Java CAP Samples - [https://github.com/SAP-samples/cloud-cap-samples-java](https://github.com/SAP-samples/cloud-cap-samples-java)
 - CAP and Fiori Elements - [https://github.com/SAP-samples/cap-sflight](https://github.com/SAP-samples/cap-sflight)

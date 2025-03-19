@@ -217,7 +217,7 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 
     > **Hint** - This value needs to contain the reference to a potential Image Pull Secret of your Container Registry. If you're using a free Docker Hub account and public Docker Images, this property can be left unchanged (empty object). Otherwise, please make sure to create a Kyma **Secret** containing your imagePullSecret and provide the reference to your Secret here. 
     
-    > Find more details in the following blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/ba-p/13566191)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)). Our colleagues will get you covered! 
+    > Find more details in the following blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/ba-p/13566191)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html)). Our colleagues will get you covered! 
 
   * domain - Your Kyma Cluster default or custom domain.
 

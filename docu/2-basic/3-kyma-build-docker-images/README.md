@@ -296,7 +296,7 @@ Similar to the Application Router, the Dockerfile residing in the *code/app/html
 
 > **Hint** - The package.json file is part of the *code/app/html5-deployer* directory for local testing purposes only. As the Docker Base Image *sapse/html5-app-deployer* already contains a corresponding package.json file, we will reuse the start script of this SAP-provided package.json.
 
-**Dockerfile based on sapse/html5-app-deployer Docker Image** ([*/code/app/html5-deployer/Dockerfile*](../../../code/app/html5-deployer/Dockerfile))
+**Dockerfile based on sapse/html5-app-deployer Docker Image** ([*/code/app/Dockerfile*](../../../code/app/Dockerfile))
 
 ```Dockerfile
 # Image based on SAP provided sapse/html5-app-deployer image
