@@ -27,4 +27,4 @@ As an SAP partner, make sure to check out the latest SAP Discovery Center featur
 Please use the following links to find further information on the topics above:
 
 * [sap.com - SAP PartnerEdge - Build](https://www.sap.com/partners/partner-program/build.html)
-* [SAP Blog - Step-By-Step Guide to Pay-As-You-Go for Partners](https://blogs.sap.com/2021/09/21/step-by-step-guide-to-pay-as-you-go-for-partners/)
+* [SAP Blog - Step-By-Step Guide to Pay-As-You-Go for Partners](https://community.sap.com/t5/technology-blogs-by-sap/step-by-step-guide-to-pay-as-you-go-for-partners/ba-p/13499561)

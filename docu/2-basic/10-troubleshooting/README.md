@@ -26,7 +26,7 @@ The most probable reasons why your deployment might fail are listed below.
   }
 ```
 
-1.4. If the deployment fails because of service plan-related issues, you're probably deploying to an SAP BTP Trial subaccount. The default **Basic Version** deployment descriptor contains e.g., the Credential Store **free** service plan which is not available in Trial accounts. Please use the respective MTA Extension Descriptor file ([trial.mtaext](../../../deploy/cf/mtaext/trial.mtaext)) for Trial deployments to use the correct service plans (see snippet below).
+1.4. If the deployment fails because of service plan-related issues, you're probably deploying to an SAP BTP Trial subaccount. The default **Basic Version** deployment descriptor contains e.g., the Credential Store **free** service plan which is not available in Trial accounts. Please use the respective MTA Extension Descriptor file ([trial.mtaext](../../../deploy/cf/mtaext/trial-basic.mtaext)) for Trial deployments to use the correct service plans (see snippet below).
 
 ```yaml
 ID: susaas.trial
@@ -41,7 +41,7 @@ resources:
       service-plan: trial
 ```
 
-1.5 If you are using SAP Business Application Studio and having deployment issues because of the npm registry problem, please see this [issue](https://github.com/SAP-samples/btp-cf-cap-multitenant-susaas/issues/5).
+1.5 If you are using SAP Business Application Studio and having deployment issues because of the npm registry problem, please see this [issue](https://github.com/SAP-archive/btp-cf-cap-multitenant-susaas/issues/5).
 
 
 ## 2. Service Broker Issues

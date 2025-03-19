@@ -311,6 +311,6 @@ Please use the following links to find further information on the topics above:
 
 * [SAP Help - SAP Cloud Transport Management](https://help.sap.com/docs/TRANSPORT_MANAGEMENT_SERVICE?locale=en-US)
 * [Project Piper - Integrate SAP Cloud Transport Management Into Your CI/CD Pipeline](https://www.project-piper.io/scenarios/TMS_Extension/)
-* [SAP Blog - How to integrate SAP Cloud Transport Management into your CI/CD pipeline](https://blogs.sap.com/2019/08/20/how-to-integrate-sap-cloud-platform-transport-management-into-your-cicd-pipeline/)
+* [SAP Blog - How to integrate SAP Cloud Transport Management into your CI/CD pipeline](https://community.sap.com/t5/technology-blogs-by-sap/how-to-integrate-sap-cloud-transport-management-into-your-ci-cd-pipeline/ba-p/13407521)
 * [Discovery Center - SAP Cloud Transport Management](https://discovery-center.cloud.sap/serviceCatalog/cloud-transport-management)
 * [SAP-Samples - Enhance core ERP business processes with resilient applications on SAP BTP](https://github.com/SAP-samples/btp-build-resilient-apps/)

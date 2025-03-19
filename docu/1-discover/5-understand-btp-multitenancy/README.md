@@ -58,9 +58,7 @@ Please refer to the official CAP MTXS documentation for further details ([click 
 
 Please use the following links to find further information on the topics above:
 
-* [Youtube - SAP BTP - Multitenant Business Applications](https://www.youtube.com/playlist?list=PLkzo92owKnVx3Sh0nemX8GoSNzJGfsWJM)
 * [SAP Cloud SDK - Introduction to multi-tenant concepts](https://sap.github.io/cloud-sdk/docs/js/tutorials/multi-tenant-application)
-* [GitHub - generator-saphanaacademy-saas](https://github.com/saphanaacademy/generator-saphanaacademy-saas)
 * [SAP Help - Multitenant Applications in the Cloud Foundry Environment](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/5e8a2b74e4f2442b8257c850ed912f48.html)
 * [SAP Blogs - Fundamentals of Multitenancy in SAP BTP](https://community.sap.com/t5/technology-blogs-by-sap/fundamentals-of-multitenancy-in-sap-btp/ba-p/13527283)
-* [SAP Blogs - Getting your head into Cloud Application Programming model multitenancy](https://blogs.sap.com/2020/08/20/getting-your-head-into-cloud-application-programming-model-multitenancy/)
+* [SAP Blogs - Getting your head into Cloud Application Programming model multitenancy](https://community.sap.com/t5/technology-blogs-by-sap/getting-your-head-into-cloud-application-programming-model-multitenancy/ba-p/13472677)

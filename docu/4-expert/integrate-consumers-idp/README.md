@@ -59,7 +59,7 @@ Instead of an In-App User Management, you can e.g., provide your consumers an op
 
 Keeping potential code changes in mind, this is the first option to outsource the user management and role assignment to the consumers and their existing Identity Providers. 
 
-A great step-by-step guide on how to set up a **Corporate Identity Provider** in SAP IAS can be found in the Tutorial Navigator ([click here](https://developers.sap.com/tutorials/cp-ias-azure-ad.html)) or in the SAP HANA Academy ([click here](https://www.youtube.com/watch?v=4qo8acsxRgU)). Further details on the integration of SAP BTP with Microsoft Azure Active Directory can be found in the official Microsoft documentation ([click here](https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/scenario-azure-first-sap-identity-integration)).
+A great step-by-step guide on how to set up a **Corporate Identity Provider** in SAP IAS can be found in the Tutorial Navigator ([click here](https://developers.sap.com/tutorials/cp-ias-azure-ad.html)). Further details on the integration of SAP BTP with Microsoft Azure Active Directory can be found in the official Microsoft documentation ([click here](https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/scenario-azure-first-sap-identity-integration)).
 
 Below you can find screenshots showing a respective setup process and a sample Group Mapping. Please be aware, that the below setup is very simplified and e.g., claims have to be configured differently in a production scenario.
 
@@ -108,7 +108,7 @@ When a SAP IAS tenant is mapped to a different SAP CRM customer number, it will 
 
 A variation of - [Integration with SAP IAS](README.md#3a-integration-with-sap-ias) - is to completely skip SAP IAS and directly federate SAP XSUAA authentication requests to the Consumer Identity Providers. Therefore, you need to set up a SAML trust between the Consumer Subaccounts and the Consumer Identity Providers (e.g., Azure Active Directory). While no SAP IAS tenant and Corporate Identity Provider configuration is required anymore, you still need to establish a Group Mapping and again, re-think the assignment of **Member** users to projects. 
 
-Check the following blog post ([click here](https://blogs.sap.com/2019/03/07/how-to-integrate-azure-ad-with-sap-cloud-platform-cloud-foundry/)) or SAP HANA Academy tutorial ([click here](https://www.youtube.com/watch?v=KvAzoGHKPA0)) to find detailed instructions on how to directly integrate an Identity Provider (in this case Azure Active Directory) with SAP XSUAA. 
+Check the following blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/how-to-integrate-azure-ad-with-sap-btp-cloud-foundry-environment/ba-p/13398216)) to find detailed instructions on how to directly integrate an Identity Provider (in this case Azure Active Directory) with SAP XSUAA. 
 
 
 Below you can find screenshots showing a respective trust setup and sample Group Mapping between SAP XSUAA and a Consumer IdP (in this case Azure Active Directory). For further screenshots also check [Central SAP IAS tenant](README.md#2a-central-sap-ias-tenant) as most process steps are similar. 
@@ -125,9 +125,6 @@ Below you can find screenshots showing a respective trust setup and sample Group
 Please use the following links to find further information on the topics above:
 
 * [SAP Help - Configure Trust with SAML 2.0 Corporate Identity Provider](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/33832e58695345eea2cd91a2cc8ab24c.html?locale=en-US)
-* [SAP HANA Academy - Azure AD as IdP and SAP Identity Authentication Service as SAML Federation Proxy](https://www.youtube.com/watch?v=4qo8acsxRgU)
-* [SAP HANA Academy - Using Azure AD as Identity Provider](https://www.youtube.com/watch?v=KvAzoGHKPA0)
 * [SAP Tutorial Navigator - Connect Azure Active Directory to Identity Authentication Service](https://developers.sap.com/tutorials/cp-ias-azure-ad.html)
-* [SAP Blog - How to integrate Azure AD with SAP BTP, Cloud Foundry environment](https://blogs.sap.com/2019/03/07/how-to-integrate-azure-ad-with-sap-cloud-platform-cloud-foundry/)
+* [SAP Blog - How to integrate Azure AD with SAP BTP, Cloud Foundry environment](https://community.sap.com/t5/technology-blogs-by-sap/how-to-integrate-azure-ad-with-sap-btp-cloud-foundry-environment/ba-p/13398216)
 * [Microsoft Documentation - Azure Active Directory single sign-on (SSO) integration with SAP Cloud Identity Services](https://learn.microsoft.com/en-us/azure/active-directory/saas-apps/sap-hana-cloud-platform-identity-authentication-tutorial)
-* [SAP HANA Academy - Cloud Identity Services Identity Authentication](https://www.youtube.com/watch?v=2ON6NKyKsSY)

@@ -406,7 +406,7 @@ my_config_map:
     value: testvalue
 ```
 
-Switch to your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file and edit it as shown below:
+Switch to your **my-config-map.yaml** file in [templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) folder and edit it as shown below:
 
 ```yaml
 apiVersion: v1

@@ -159,7 +159,7 @@ Service Manager (subaccount admin plan) in Provider Subaccount
 ## 4. Service Manager Helper (service-manager.js)
 The Service Manager is a central registry for service brokers and platforms. It tracks service instances creation and allows sharing of services and service instances between different platform instances. The Service Manager allows an application to use services and service instances of multiple platforms.
 
-The [Service Manager helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/service-manager.js) module is used for (un-)registering the custom API Service Broker in the Sustainable SaaS App context by interacting with the [Service Manager service instance](https://api.sap.com/api/APIServiceManagment/overview), created in the Consumer Subaccount by the Cloud Management Service (central plan).
+The [Service Manager helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/service-manager.js) module is used for (un-)registering the custom API Service Broker in the Sustainable SaaS App context by interacting with the [Service Manager service instance](https://api.sap.com/api/APIServiceManager/overview), created in the Consumer Subaccount by the Cloud Management Service (central plan).
 
 
 ## 5. Token Helper (token-helper.js)
@@ -171,7 +171,7 @@ The [Destination helper](https://github.com/SAP-samples/btp-cap-multitenant-saas
 
 
 ## 7. Credential Store Helper (credential-store.js)
-The [Credential Store helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/credential-store.js) module is used to interact with the [SAP Credential Store](https://api.sap.com/package/CredentialStore/rest) service in the provider subaccount and is being used as part of the **Cloud Foundry** based scenario. In the Kyma scenario, Kubernetes Secrets are used instead. 
+The [Credential Store helper](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/srv/srv/utils/credential-store.js) module is used to interact with the [SAP Credential Store](https://api.sap.com/api/credentials_api_for_applications/overview) service in the provider subaccount and is being used as part of the **Cloud Foundry** based scenario. In the Kyma scenario, Kubernetes Secrets are used instead. 
 
 
 ## 8. User Management Helper (user-management.js)

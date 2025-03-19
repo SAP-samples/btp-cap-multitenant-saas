@@ -27,7 +27,7 @@ Depending on which of the Advanced Version features you would like to set up, th
 | Service                                                                                                         | Free (Tier) / Trial Plans                            |
 | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | [SAP Integration Suite](https://discovery-center.cloud.sap/serviceCatalog/integration-suite?region=all)         | Free (Application) <br> *Trial: trial (Application)* |
-| [Cloud Identity Services](https://discovery-center.cloud.sap/serviceCatalog/identity-authentication?region=all) | default (Application) <br> Application               |
+| [Cloud Identity Services](https://discovery-center.cloud.sap/serviceCatalog/cloud-identity-services?region=all) | default (Application) <br> Application               |
 | SAP S/4HANA 2021 (or newer)                                                                                     |                                                      |
 |                                                                                                                 |
 

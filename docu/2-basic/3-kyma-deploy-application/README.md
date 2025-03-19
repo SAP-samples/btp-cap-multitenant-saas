@@ -18,14 +18,14 @@ Before you deploy the sample application to your **SAP BTP, Kyma Runtime**, plea
 
 If you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
+[https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html](https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html)
 
 
 ## 1. Introduction
 
 The deployment of the Sustainable Saas solution to your SAP BTP Kyma Cluster is handled by [Helm](https://helm.sh/). To learn more about the basic concepts of Helm, visit the respective chapter of the tutorial ([click here](../7-kyma-resources-helm/README.md)). Repeating myself, I also suggest to read and inhale the brilliant blog post of Maximilian Streifeneder on the topics of Kyma, Helm, Paketo and a lot more! It will give you a great overview and introduction if you are new to the Kubernetes, Docker and Kyma world!
 
-[https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/](https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/)
+[https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264](https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264)
 
 Furthermore, if you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
@@ -80,7 +80,7 @@ The Helm deployment will create a list of SAP BTP Service Instances and correspo
 [<img src="./images/ServiceInstancesKyma.png" width="400"/>](./images/ServiceInstancesKyma.png?raw=true)
 [<img src="./images/ServiceInstancesCf.png" width="360"/>](./images/ServiceInstancesCf.png?raw=true)
 
-> **Hint** - SAP BTP Service Bindings will create corresponding Kyma Secrets, which are consumed by your Kubernetes workloads (Pods, Jobs) and allow your applications to communicate with the respective SAP BTP Service Instances like you know it from the Cloud Foundry context. Npm packages like @sap/xsenv ([see here](https://blogs.sap.com/2022/07/12/the-new-way-to-consume-service-bindings-on-kyma-runtime/)) natively support these kind of Service Bindings in Kyma and Cloud Foundry. Check out Max Streifeneder's blog post ([click here](https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/)), who also provides a great summary of this concept (just search for "How does CAP know where to get the service binding information from?"). 
+> **Hint** - SAP BTP Service Bindings will create corresponding Kyma Secrets, which are consumed by your Kubernetes workloads (Pods, Jobs) and allow your applications to communicate with the respective SAP BTP Service Instances like you know it from the Cloud Foundry context. Npm packages like @sap/xsenv ([see here](https://community.sap.com/t5/technology-blogs-by-sap/the-new-way-to-consume-service-bindings-on-kyma-runtime/ba-p/13540594)) natively support these kind of Service Bindings in Kyma and Cloud Foundry. Check out Max Streifeneder's blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264)), who also provides a great summary of this concept (just search for "How does CAP know where to get the service binding information from?"). 
 
 
 ## 2. Create a new Kyma namespace
@@ -138,8 +138,6 @@ EXPORT KUBECONFIG=/sample/path/config
 
 kubectl get pods --kubeconfig=/sample/path/config
 ```
-
-If you are facing issues in this step of the tutorial, feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime** ([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)), which describes this step in further detail!
 
 > **Hint** - If you have to manage multiple Kyma or Kubernetes Clusters, make sure to research the **kubectx** command line tool (https://github.com/ahmetb/kubectx)! It provides you a very convenient way to switch the context between various clusters. 
 
@@ -219,7 +217,7 @@ Let's get started with the preparation of our **Helm deployment** or **Helm inst
 
     > **Hint** - This value needs to contain the reference to a potential Image Pull Secret of your Container Registry. If you're using a free Docker Hub account and public Docker Images, this property can be left unchanged (empty object). Otherwise, please make sure to create a Kyma **Secret** containing your imagePullSecret and provide the reference to your Secret here. 
     
-    > Find more details in the following blog post ([click here](https://blogs.sap.com/2022/12/04/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/btp-app-kyma-prepare-dev-environment.html)). Our colleagues will get you covered! 
+    > Find more details in the following blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/sap-btp-kyma-kubernetes-how-to-pull-from-private-repository/ba-p/13566191)) or check out the **Deploy Your CAP Application on SAP BTP Kyma Runtime** tutorial in the SAP Tutorial Navigator([click here](https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html)). Our colleagues will get you covered! 
 
   * domain - Your Kyma Cluster default or custom domain.
 

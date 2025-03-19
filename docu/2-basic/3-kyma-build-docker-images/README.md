@@ -25,7 +25,7 @@ Let us have a brief look at the tool prerequisites, which are essential to build
 
 If you are facing any issues during the following steps of our tutorial, please feel free to consult the excellent **Developer Tutorial** on **Deploy Your CAP Application on SAP BTP Kyma Runtime**. It describes similar steps and will get you covered in great detail, in case you get stuck in our sample scenario.
 
-[https://developers.sap.com/mission.btp-deploy-cap-kyma.html](https://developers.sap.com/mission.btp-deploy-cap-kyma.html)
+[https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html](https://developers.sap.com/tutorials/remote-service-deploy-with-mock-kyma.html)
 
 ## 1. Prerequisites
 
@@ -171,9 +171,9 @@ Building **Dockerfiles** for Kubernetes workloads is not always easy. Especially
 
 Once again, I highly suggest to have a quick break and scroll through the excellent blog post of Maximilian Streifeneder, who gets you covered on the topic of Paketo as well as some nice little tricks how to further analyze generated Docker Images!
 
-[https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/](https://blogs.sap.com/2023/03/07/surviving-and-thriving-with-the-sap-cloud-application-programming-model-deployment-to-sap-btp-kyma-runtime/)
+[https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264](https://community.sap.com/t5/technology-blogs-by-sap/surviving-and-thriving-with-the-sap-cloud-application-programming-model/ba-p/13570264)
 
-Docker Images created using Paketo and Cloud Native Buildpacks are secure, efficient, production-ready and come with a lot of features, which are hard to provided using Dockerfiles and would require much more manual effort. To get an idea of the features provided by Cloud Native Buildpacks, check out the official documentation ([click here](https://buildpacks.io/features/)). To learn about the general concepts behind Cloud Native Buildpacks (turning your source-code into a read-to-use Docker Image), check out the respective documentation ([click here](https://buildpacks.io/docs/concepts/)).
+Docker Images created using Paketo and Cloud Native Buildpacks are secure, efficient, production-ready and come with a lot of features, which are hard to provided using Dockerfiles and would require much more manual effort. To get an idea of the features provided by Cloud Native Buildpacks, check out the official documentation ([click here](https://buildpacks.io/features/)). To learn about the general concepts behind Cloud Native Buildpacks (turning your source-code into a read-to-use Docker Image), check out the respective documentation ([click here](https://buildpacks.io/docs/for-app-developers/concepts/)).
 
 So much for the introduction. Let us now check, how the various components of our SaaS sample application are being containerized either using Paketo and Cloud Native Buildpacks or existing SAP Standard Docker Images. 
 
@@ -296,7 +296,7 @@ Similar to the Application Router, the Dockerfile residing in the *code/app/html
 
 > **Hint** - The package.json file is part of the *code/app/html5-deployer* directory for local testing purposes only. As the Docker Base Image *sapse/html5-app-deployer* already contains a corresponding package.json file, we will reuse the start script of this SAP-provided package.json.
 
-**Dockerfile based on sapse/html5-app-deployer Docker Image** ([*/code/app/html5-deployer/Dockerfile*](../../../code/app/html5-deployer/Dockerfile))
+**Dockerfile based on sapse/html5-app-deployer Docker Image** ([*/code/app/Dockerfile*](../../../code/app/Dockerfile))
 
 ```Dockerfile
 # Image based on SAP provided sapse/html5-app-deployer image

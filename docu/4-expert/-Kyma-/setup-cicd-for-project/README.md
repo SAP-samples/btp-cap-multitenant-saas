@@ -77,7 +77,7 @@ For a deployment to your SAP BTP, Kyma Cluster, the SAP BTP, CI/CD Service requi
 kubectl apply -f ./files/service-account.sample.yaml -n default
 ```
 
-3.2. You will need to generate so-called **kubeconfig** definition for your Service Account. Please check the following blog post ([click here](https://blogs.sap.com/2023/06/01/service-accounts-easy-with-sap-btp-kyma-runtime/)) to figure out how to simplify this process. 
+3.2. You will need to generate so-called **kubeconfig** definition for your Service Account. Please check the following blog post ([click here](https://community.sap.com/t5/technology-blogs-by-sap/service-accounts-easy-with-sap-btp-kyma-runtime/ba-p/13564534)) to figure out how to simplify this process. 
 
 One simple option is to create the **kubeconfig** details is using a plugin such as **kubectl-view-serviceaccount-kubeconfig-plugin** ([click here](https://github.com/superbrothers/kubectl-view-serviceaccount-kubeconfig-plugin)). For the plugin installation you will need **krew** [click here](https://krew.sigs.k8s.io/), which is a plugin manager for kubectl. 
 

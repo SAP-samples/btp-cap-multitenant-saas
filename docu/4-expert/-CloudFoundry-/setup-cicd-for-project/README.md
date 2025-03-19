@@ -480,7 +480,7 @@ The reason is very simple. Under the hood, the SAP CI/CD service also uses Proje
 
 If you want to learn more and become an expert in SAP CI/CD topics, check the following tutorial ([click here](https://developers.sap.com/tutorials/cicd-wdi5-cap.html)) in the **Tutorial Navigator**. Here you will learn, how to set up your own Docker-based Jenkins instance and you will create system tests with UIVeri5 using the UI5 Test Recorder for CAP-based projects.
 
-Last but not least, visit the OpenSAP course **Efficient DevOps with SAP** ([click here](https://open.sap.com/courses/devops1), in which you can learn a lot about SAP DevOps in general but also discover more examples of how to use the SAP CI/CD service in the context of CAP applications.
+Last but not least, visit the learning journey **Efficient DevOps with SAP** ([click here](https://learning.sap.com/courses/efficient-devops-with-sap), in which you can learn a lot about SAP DevOps in general but also discover more examples of how to use the SAP CI/CD service in the context of CAP applications.
 
 
 ## 15. Further Information

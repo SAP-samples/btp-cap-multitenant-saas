@@ -199,7 +199,7 @@ And press **Save & Publish** again to finalize saving.
 
 Go to your [launchpad.html](https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/code/app/launchpad.html) file in your application and edit as described below.
 
-[<img src="./images/modify-index.jpg" width="700"/>](./images/modify-index.jpg?raw=true)
+[<img src="./images/modify-index.png" width="700"/>](./images/modify-index.png?raw=true)
 
 These properties must be added or modified as shown in the screenshot: 
 ```js
