@@ -1,6 +1,6 @@
 const jose = require('node-jose');  // Decrypting with JOSE
 const xsenv = require('@sap/xsenv');
-const credStore = {}
+let credStore = {}
 try {
     credStore = xsenv.getServices({ credStore: { tag: 'credstore' } }).credStore;
 } catch (e) {
