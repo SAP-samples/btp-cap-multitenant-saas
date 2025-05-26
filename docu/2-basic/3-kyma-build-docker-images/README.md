@@ -321,7 +321,7 @@ CMD [ "npm", "start" ]
 **Build Docker Image based on Dockerfile above** ([*/deploy/kyma/package.json*](../../../deploy/kyma/package.json))
 
 ```json
-"build:html5-deployer": "docker build -t sap-demo/susaas-html5-deployer ../../code/app/html5-deployer"
+"build:html5-deployer": "docker build -t sap-demo/susaas-html5-deployer ../../code/app"
 ```
 
 ### HDI Container Deployer (db-com)
