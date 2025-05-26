@@ -189,7 +189,7 @@ const removeTenantServiceManager = async (context) => {
  * Creates a destination in tenant subaccount using destination service instance.
  * @param {Object} context - The execution context.
  * @throws {Object} If service creation fails.
- */ 
+ */
 const createDestination = async (context) => {
     try {
         const name = process.env.VCAP_APPLICATION ? `${process.env.appName}-${appEnv.app.space_name}_S4HANA_CLOUD` : `${process.env["HELM_RELEASE"].toUpperCase()}_${process.env["KYMA_NAMESPACE"].toUpperCase()}_S4HANA_CLOUD`
@@ -216,7 +216,7 @@ const createDestination = async (context) => {
  * Deletes a destination in tenant subaccount using destination service instance.
  * @param {Object} context - The execution context.
  * @throws {Object} If service creation fails.
- */ 
+ */
 const deleteDestination = async (context) => {
     try {
         await destination.deleteDestination(context.destination.name)
@@ -232,15 +232,21 @@ const deleteDestination = async (context) => {
  * Reads credentials from BTP credential store
  * @param {Object} context - The execution context.
  * @throws {Object} If service creation fails.
- */ 
+ */
 const readBTPCredentials = async (context) => {
     try {
-        const btp = await credstore.readCredential("susaas", "password", "btp-admin-user")
-        const broker = await credstore.readCredential("susaas", "password", "susaas-broker-credentials")
-        context.broker.user = broker.username;
-        context.broker.password = broker.value;
-        context.btp.user = btp.username;
-        context.btp.password = btp.value
+        if (context.runtime === "cf") {
+            const btp = await credstore.readCredential("susaas", "password", "btp-admin-user")
+            const broker = await credstore.readCredential("susaas", "password", "susaas-broker-credentials")
+            context.broker.user = broker.username;
+            context.broker.password = broker.value;
+            context.btp.user = btp.username;
+            context.btp.password = btp.value
+        } else {
+            context.broker.user = process.env.BROKER_USER;
+            context.broker.password = process.env.BROKER_PASSWORD;
+        }
+
     } catch (e) {
         throw {
             message: `can not read credentials. \n Please check this page: https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/2-basic/3-cf-build-deploy-application/README.md#2-setup-the-credential-store`,
@@ -254,7 +260,7 @@ const readBTPCredentials = async (context) => {
  * Logs into CF 
  * @param {Object} context - The execution context.
  * @throws {Object} If service creation fails.
- */ 
+ */
 const loginCF = async (context) => {
     try {
         context.cf.token = await cf.login(context.btp.user, context.btp.password)
@@ -270,7 +276,7 @@ const loginCF = async (context) => {
  * Creates route on tenant provisioning
  * @param {Object} context - The execution context.
  * @throws {Object} If service creation fails.
- */ 
+ */
 const createCFRoute = async (context) => {
     try {
         context.cf.route = await cf.createRoute(context.subdomain + process.env.tenantSeparator + process.env.appName, process.env.appName, context.cf.token)
@@ -286,7 +292,7 @@ const createCFRoute = async (context) => {
  * Deletes route on tenant deprovisioning
  * @param {Object} context - The execution context.
  * @throws {Object} If service creation fails.
- */ 
+ */
 const deleteCFRoute = async (context) => {
     try {
         await cf.deleteRoute(context.subdomain + process.env.tenantSeparator + process.env.appName, process.env.appName, context.cf.token)
@@ -301,12 +307,18 @@ const deleteCFRoute = async (context) => {
 
 const registerServiceBroker = async (context) => {
     try {
-        const name = `${process.env.brokerName}-${appEnv.app.space_name}`
-        await sm.registerServiceBroker(context.smtenant, name, process.env.brokerUrl, 'SusaaS API Service', context.broker.user, context.broker.password)
+        const name = context.runtime === "cf"
+            ? `${process.env.brokerName}-${appEnv.app.space_name}`
+            : process.env.BROKER_NAME;
+         const url = context.runtime === "cf"
+            ? process.env.brokerUrl
+            : process.env.BROKER_URL;
+        await sm.registerServiceBroker(context.smtenant, name, url, 'SusaaS API Service', context.broker.user, context.broker.password)
         context.broker.name = name
     } catch (e) {
+
         throw {
-            message: `service broker for tenant can not be registered.\n Please check this page and make sure you followed steps: https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/2-basic/3-cf-build-deploy-application/README.md#2-setup-the-credential-store`,
+            message: `service broker for tenant can not be registered.\n Please check this if you are on CF page and make sure you followed steps: https://github.com/SAP-samples/btp-cap-multitenant-saas/blob/main/docu/2-basic/3-cf-build-deploy-application/README.md#2-setup-the-credential-store`,
             details: e.message
         }
     }
@@ -314,7 +326,10 @@ const registerServiceBroker = async (context) => {
 
 const deregisterServiceBroker = async (context) => {
     try {
-        const name = `${process.env.brokerName}-${appEnv.app.space_name}-${context.tenant}`
+        const name = context.runtime === "cf"
+            ? `${process.env.brokerName}-${appEnv.app.space_name}-${context.tenant}`
+            : `${process.env.BROKER_NAME}-${context.tenant}`;
+            
         const broker = await sm.getServiceBroker(context.smtenant, name)
         if (!broker) {
             logger.debug('broker can not be found, deletion skipped.')
@@ -339,61 +354,61 @@ const deleteKymaApiRule = async (context) => {
 }
 
 const workflowStepsCFOnboarding = [
-    createStep(readBTPCredentials), 
-    createStep(readServiceManagerAdminCredentials), 
+    createStep(readBTPCredentials),
+    createStep(readServiceManagerAdminCredentials),
     createStep(createCISInstance, removeCISInstance),
     createStep(createCISBinding, removeCISBinding),
     createStep(createTenantServiceManager, removeTenantServiceManager),
     createStep(registerServiceBroker, deregisterServiceBroker),
-    createStep(loginCF), 
+    createStep(loginCF),
     createStep(createCFRoute, deleteCFRoute),
-    createStep(removeTenantServiceManager), 
-    createStep(removeCISBinding),    
-    createStep(removeCISInstance)     
+    createStep(removeTenantServiceManager),
+    createStep(removeCISBinding),
+    createStep(removeCISInstance)
 ];
 
 
 
 const workflowStepsCFOffboarding = [
-    createStep(readBTPCredentials), 
-    createStep(readServiceManagerAdminCredentials), 
+    createStep(readBTPCredentials),
+    createStep(readServiceManagerAdminCredentials),
     createStep(createCISInstance, removeCISInstance),
     createStep(createCISBinding, removeCISBinding),
     createStep(createTenantServiceManager, removeTenantServiceManager),
     createStep(deregisterServiceBroker),
-    createStep(loginCF), 
+    createStep(loginCF),
     createStep(deleteCFRoute),
-    createStep(removeTenantServiceManager), 
-    createStep(removeCISBinding),     
-    createStep(removeCISInstance)   
+    createStep(removeTenantServiceManager),
+    createStep(removeCISBinding),
+    createStep(removeCISInstance)
 ];
 
 
 const workflowStepsKymaOnboarding = [
     createStep(readBTPCredentials),
-    createStep(readServiceManagerAdminCredentials), 
+    createStep(readServiceManagerAdminCredentials),
     createStep(createCISInstance, removeCISInstance),
     createStep(createCISBinding, removeCISBinding),
     createStep(createTenantServiceManager, removeTenantServiceManager),
     createStep(registerServiceBroker, deregisterServiceBroker),
     createStep(createKymaApiRule, deleteKymaApiRule),
-    createStep(removeTenantServiceManager), 
-    createStep(removeCISBinding),     
-    createStep(removeCISInstance)    
+    createStep(removeTenantServiceManager),
+    createStep(removeCISBinding),
+    createStep(removeCISInstance)
 ];
 
 
 const workflowStepsKymaOffboarding = [
-    createStep(readBTPCredentials), 
-    createStep(readServiceManagerAdminCredentials), 
+    createStep(readBTPCredentials),
+    createStep(readServiceManagerAdminCredentials),
     createStep(createCISInstance, removeCISInstance),
     createStep(createCISBinding, removeCISBinding),
     createStep(createTenantServiceManager, removeTenantServiceManager),
     createStep(deregisterServiceBroker),
     createStep(deleteKymaApiRule),
-    createStep(removeTenantServiceManager), 
-    createStep(removeCISBinding),    
-    createStep(removeCISInstance)    
+    createStep(removeTenantServiceManager),
+    createStep(removeCISBinding),
+    createStep(removeCISInstance)
 ];
 
 /**
@@ -422,8 +437,8 @@ const runWorkflow = async (tenant, subdomain, operation) => {
             throw new Error(`Invalid operation: ${operation}. Must be "provisioning" or "deprovisioning".`);
         }
 
-        const context = { tenant, subdomain, btp: {}, broker: {}, smadmin: {}, smtenant: {}, cis: {}, cf: {} };
-        
+        const context = { runtime, tenant, subdomain, btp: {}, broker: {}, smadmin: {}, smtenant: {}, cis: {}, cf: {} };
+
         await executeWorkflow(steps, context);
         logger.log('Workflow completed successfully:', { tenant, subdomain });
     } catch (error) {
