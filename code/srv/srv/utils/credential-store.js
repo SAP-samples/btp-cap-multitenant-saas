@@ -1,6 +1,13 @@
 const jose = require('node-jose');  // Decrypting with JOSE
 const xsenv = require('@sap/xsenv');
-const credStore = xsenv.getServices({ credStore: { tag: 'credstore' } }).credStore;
+const credStore = {}
+try {
+    credStore = xsenv.getServices({ credStore: { tag: 'credstore' } }).credStore;
+} catch (e) {
+    // if deployment is on Kyma, then credstore is not a must.
+    if (process.env.VCAP_APPLICATION) throw e;
+}
+
 
 async function readCredential(namespace, type, name) {
     return fetchAndDecrypt(
@@ -23,9 +30,9 @@ async function getCredentialValue(namespace, type, name) {
 async function decryptPayload(privateKey, payload) {
     const { JWE, JWK } = jose;
     const key = await JWK.asKey(
-        `-----BEGIN PRIVATE KEY-----${privateKey}-----END PRIVATE KEY-----`, 
-        'pem', 
-        {alg: "RSA-OAEP-256", enc: "A256GCM"}
+        `-----BEGIN PRIVATE KEY-----${privateKey}-----END PRIVATE KEY-----`,
+        'pem',
+        { alg: "RSA-OAEP-256", enc: "A256GCM" }
     );
     const decrypt = await JWE.createDecrypt(key).decrypt(payload);
     return decrypt.plaintext.toString();
@@ -60,7 +67,7 @@ function headers(credStore, namespace) {
 
     return {
         'Authorization': `Basic ${Buffer.from(`${credStore.username}:${credStore.password}`).toString('base64')}`,
-        'sapcp-credstore-namespace':namespace
+        'sapcp-credstore-namespace': namespace
     }
 }
 
