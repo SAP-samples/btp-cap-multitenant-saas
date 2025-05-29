@@ -1,12 +1,13 @@
 {{ if .Values.expose.enabled}}
-apiVersion: gateway.kyma-project.io/v1beta1
+apiVersion: gateway.kyma-project.io/v2alpha1
 kind: APIRule
 metadata:
   name: {{ include "susaas-router.fullname" . }}
   labels: {{- include "susaas-router.labels" . | nindent 4 }}
 spec:
   gateway: {{ .Values.global.gateway | default "kyma-system/kyma-gateway" }}
-  host: {{ printf "%s.%s" ( include "susaas-router.exposeHost" . ) $.Values.global.domain }}
+  hosts: 
+    - {{ printf "%s.%s" ( include "susaas-router.exposeHost" . ) $.Values.global.domain }}
   rules:
   - methods:
       - GET
@@ -14,9 +15,8 @@ spec:
       - PUT
       - DELETE
       - HEAD
-    path: /.*
-    accessStrategies:
-      - handler: allow
+    path: /*
+    noAuth: true
   service:
     name: {{ include "susaas-router.fullname" . }}
     port: {{ .Values.port }}

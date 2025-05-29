@@ -1,17 +1,17 @@
 {{ if .Values.expose.enabled }}
-apiVersion: gateway.kyma-project.io/v1beta1
+apiVersion: gateway.kyma-project.io/v2alpha1
 kind: APIRule
 metadata:
   name: {{ include "susaas-srv.fullname" . }}
   labels: {{- include "susaas-srv.labels" . | nindent 4 }}
 spec:
   gateway: {{ .Values.global.gateway | default "kyma-system/kyma-gateway" }}
-  host: {{ printf "%s.%s" ( include "susaas-srv.exposeHost" . ) $.Values.global.domain }}
+  hosts: 
+    - {{ printf "%s.%s" ( include "susaas-srv.exposeHost" . ) $.Values.global.domain }}
   rules:
   - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
-    path: /-/cds/.*
-    accessStrategies:
-      - handler: allow
+    path: /-/cds/{**}
+    noAuth: true
   service:
     name: {{ include "susaas-srv.fullname" . }}
     port: {{ .Values.port }}

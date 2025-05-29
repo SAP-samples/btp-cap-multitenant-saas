@@ -70,7 +70,7 @@ envSecretNamesTpl:
 env:
   cds_features: '{ "emulate_vcap_services" : true }'
   KYMA_APIRULE_GROUP: gateway.kyma-project.io
-  KYMA_APIRULE_VERSION: v1beta1
+  KYMA_APIRULE_VERSION: v2alpha1
   KYMA_APIRULE_PLURAL: apirules
   KYMA_DEPLOYMENT: 'true'
 

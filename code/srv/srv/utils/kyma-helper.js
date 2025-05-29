@@ -74,7 +74,7 @@ async function createApiRule(apiRuleTempl) {
                 Logger.debug("API Rule created!");
             }
         } catch (error) {
-            Logger.error(`Error: ${error.message}`);
+            throw error;
         }
     }
 }
@@ -82,9 +82,9 @@ async function createApiRule(apiRuleTempl) {
 function getApiRuleTmpl(subdomain, custSubdomain = null) {
     try {
         const access_strategy = {
-            path: '/.*',
+            path: '/*',
             methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD'],
-            accessStrategies: [{ handler: 'noop' }],
+            noAuth: true,
             mutators: [{
                 handler: 'header',
                 config: {
@@ -113,7 +113,7 @@ function getApiRuleTmpl(subdomain, custSubdomain = null) {
             },
             spec: {
                 gateway: kymaGateway,
-                host: `${host}.${clusterDomain}`,
+                hosts: [`${host}.${clusterDomain}`],
                 service: {
                     name: routerName,
                     port: parseInt(routerPort),
