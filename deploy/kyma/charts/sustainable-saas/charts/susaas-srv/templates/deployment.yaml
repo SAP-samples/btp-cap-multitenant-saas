@@ -50,7 +50,7 @@ spec:
         - name: HELM_RELEASE
           value: {{ .Release.Name }}
         - name: KYMA_GATEWAY
-          value: {{ default "kyma-gateway.kyma-system.svc.cluster.local" .Values.global.gateway }}
+          value: {{ default "kyma-system/kyma-gateway" .Values.global.gateway }}
         - name: PORT
           value: {{ .Values.port | quote }}
         - name: TMPDIR
