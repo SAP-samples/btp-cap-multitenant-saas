@@ -8,25 +8,26 @@
     "node": "^20.x"
   },
   "dependencies": {
-    "@cap-js-community/odata-v2-adapter": "^1.12.8",
+    "@cap-js-community/odata-v2-adapter": "^1.14.4",
     "@cap-js/hana": "^1.6",
     "@kubernetes/client-node": "^0.22.1",
-    "@sap_oss/alert-notification-client": "^1.4.0",
-    "@sap/cds": "^8.6.0",
-    "@sap/cds-mtxs": "^2.4.2",
-    "@sap/sbf": "^6.7.5",
-    "@sap/xsenv": "^5.2.0",
-    "@sap/xssec": "^3.6.1",
-    "axios": "^1.6.8",
+    "@sap_oss/alert-notification-client": "^1.9.0",
+    "@sap/cds": "^8.9.4",
+    "@sap/cds-mtxs": "^2.7.2",
+    "@sap/sbf": "^6.9.4",
+    "@sap/xsenv": "^5.6.1",
+    "@sap/xssec": "^4.7.0",
+    "axios": "^1.9.0",
     "cfenv": "^1.2.4",
     "express": "^4.18.2",
     "node-jose": "^2.2.0",
-    "passport": "^0.7.0"
+    "passport": "^0.7.0",
+    "ui5-task-zipper": "^3.4.1"
   },
   "devDependencies": {
-    "@sap/approuter": "^16.3.0",
+    "@sap/approuter": "^20.5.0",
     "@sap/cds-common-content": "^1.4.0",
-    "@sap/html5-app-deployer": "^6.2.0",
+    "@sap/html5-app-deployer": "^7.0.2",
     "@sap/html5-repo-mock": "^2.1.9",
     "@sap/ui5-builder-webide-extension": "^1.1.9",
     "@sap/ux-specification": "^1.96.4",
@@ -37,8 +38,7 @@
     "mbt": "^1.2.27",
     "mocha": "^10.4.0",
     "shx": "^0.3.4",
-    "sqlite3": "^5.1.7",
-    "ui5-task-zipper": "^3.1.3"
+    "sqlite3": "^5.1.7"
   },
   "scripts": {
     "start": "cds-serve",
