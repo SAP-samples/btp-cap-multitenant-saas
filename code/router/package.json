@@ -7,6 +7,6 @@
     "start": "node node_modules/@sap/approuter/approuter.js"
   },
   "dependencies": {
-    "@sap/approuter": "^16.9.0"
+    "@sap/approuter": "^20.5.0"
   }
 }
