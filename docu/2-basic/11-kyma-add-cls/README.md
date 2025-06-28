@@ -1,4 +1,4 @@
-# Kyma - Obeservability with Cloud Logging Service
+# Kyma - Observability with Cloud Logging Service
 
 - **Kyma** ✅ 
 - **Cloud Foundry** ❌
@@ -7,7 +7,7 @@
 
 In this tutorial, You will also learn how to ship logs, traces, and metrics from your saas application to the SAP Cloud Logging service using the Telemetry plugin.
 
-- [Kyma - Obeservability with Cloud Logging Service](#kyma---obeservability-with-cloud-logging-service)
+- [Kyma - Observability with Cloud Logging Service](#kyma---observability-with-cloud-logging-service)
   - [1. Introduction to SAP Cloud Logging Service](#1-introduction-to-sap-cloud-logging-service)
   - [2. Add Observability with Telemetry plugin](#2-add-observability-with-telemetry-plugin)
   - [3. Deploy and Integrate to Cloud Logging.](#3-deploy-and-integrate-to-cloud-logging)
