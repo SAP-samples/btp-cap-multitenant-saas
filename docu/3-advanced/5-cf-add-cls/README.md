@@ -1,4 +1,4 @@
-# Cloud Foundry - Obeservability with Cloud Logging Service
+# Cloud Foundry - Observability with Cloud Logging Service
 
 - **Kyma** ❌
 - **Cloud Foundry** ✅
@@ -8,7 +8,7 @@
 
 In this section, you will learn how to create a new instance of the SAP Cloud Logging service and bind it to your Cloud Foundry application. This will enable you to monitor your application's logs using the SAP Cloud Logging service.
 
-- [Cloud Foundry - Obeservability with Cloud Logging Service](#cloud-foundry---obeservability-with-cloud-logging-service)
+- [Cloud Foundry - Observability with Cloud Logging Service](#cloud-foundry---obeservability-with-cloud-logging-service)
   - [1. Introduction to SAP Cloud Logging Service](#1-introduction-to-sap-cloud-logging-service)
   - [2. Add Observability with Telemetry plugin](#2-add-observability-with-telemetry-plugin)
   - [3. Deply and Bind to SAP Cloud Logging service](#3-deply-and-bind-to-sap-cloud-logging-service)
