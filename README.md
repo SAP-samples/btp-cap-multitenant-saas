@@ -52,9 +52,6 @@ Continue your journey and deploy the **Basic Version** of the SaaS sample applic
   - [Discover Helm and Kyma Resources](./docu/2-basic/7-kyma-resources-helm/README.md) (**Kyma** only)
 - [8 - Unsubscribe Consumer Subaccounts](./docu/2-basic/8-unsubscribe-consumer-subaccount/README.md)
 - [9 - Undeploy the SaaS application](./docu/2-basic/9-undeploy-saas-application/README.md)
-- 10 - Obeservability with Cloud Logging Services
-  - [Enable observability on Cloud Foundry](./docu/2-basic/11-cf-add-cls/README.md) (**Cloud Foundry** only)
-  - [Enable observability on Kyma](./docu/2-basic/11-kyma-add-cls/README.md) (**Kyma** only) (Coming Soon)
 
  Once you successfully deployed the Basic features of the SaaS sample application to your Cloud Foundry landscape or Kyma Cluster, feel free to enhance it with more features as part of the **Advanced Version**. This includes for example a SAP API Management integration to monitor and manage your SaaS API endpoints or SAP Identity Authentication to provide a Central User Management without relying on SAP ID service. Furthermore, you will learn and see a sample of how to integrate a backend system like SAP S/4HANA from a SaaS Consumer perspective. 
 
@@ -65,7 +62,9 @@ Continue your journey and deploy the **Basic Version** of the SaaS sample applic
 - 4 - Make your API enterprise-ready
   - [Connect Cloud Foundry with SAP API Management](./docu/3-advanced/4-cf-integrate-api-management/README.md) (**Cloud Foundry** only)
   - [Integrate Kyma with SAP API Management](./docu/3-advanced/4-kyma-integrate-api-management/README.md) (**Kyma** only)
-
+- 5 - Obeservability with Cloud Logging Services
+  - [Enable observability on Cloud Foundry](./docu/3-advanced/5-cf-add-cls/README.md) (**Cloud Foundry** only)
+  - [Enable observability on Kyma](./docu/3-advanced/5-kyma-add-cls/README.md) (**Kyma** only)
 
 After adding some or all of the Advanced Features, the following **Expert Features** contain a variety of different topics, which will make your application and life as a SaaS developer even more convenient. You will learn about management and backup of your Tenant database containers, multi-region deployments of SaaS applications and how to tackle topics like Custom Domain usage. Most of the Advanced Features can be tested with both, the Cloud Foundry and the Kyma Runtime, while some of the features are (as of now) available for a specific runtime only.  
 
