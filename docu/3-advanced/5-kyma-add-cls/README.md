@@ -87,8 +87,9 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
         endpoint: http://telemetry-otlp-traces.kyma-system.svc.cluster.local:4317
     ```
   - Build and Deploy your application.
-- Enable telemetry module in your Kyma cluster. For details, see [Adding and Deleting a Kyma Module](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module).
-  [<img src="./images/telemetry-module.png" width="750"/>](./images/telemetry-module.png?raw=true)
+- **Enable telemetry module** 
+  - Enable telemetry module in your Kyma cluster. For details, see [Adding and Deleting a Kyma Module](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module).
+    [<img src="./images/telemetry-module.png" width="750"/>](./images/telemetry-module.png?raw=true)
 
   - The Telemetry module focuses only on the signals of application logs, distributed traces, and metrics. Other kinds of signals are not considered. Also, audit logs are not in scope.
   - The telemetry module ships a kubernetes operator [Telemetry Manager](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-manager) as its core component. Telemetry Manager manages the whole lifecycle of all other components covered in the telemetry module. Telemetry Manager watches module configuration for changes and sync the module status to it. It also watches for the user-created Kubernetes resources: LogPipeline, TracePipeline, and MetricPipeline. In these resources, you specify what data of a signal type to collect and where to ship it. For more details, see [Module Lifecycle](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-manager#module-lifecycle).
@@ -107,7 +108,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     kubectl apply -f ./cls/cls-instance-binding.yaml
     ```
 - **Enable Configurations in Kyma and Ship Logs, Traces, Metrices to SAP Cloud Logging**  
-  - **_Ship application logs:_**
+  - **_Ship application logs:_** <br/>
     Application running in Kyma runtime will send logs to stdout or stderr. To ship these logs to SAP Cloud Logging a LogPipeline (customer resources) needs to be created. The Telemetry module based on the LogPipeline details will capture and ship them to SAP Cloud Logging. 
      ```cmd
     ## Run in ./deploy/kyma ##
@@ -156,7 +157,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     ```
     This will push all application logs within susaas namespace to logs-json-kyma-* index pattern. Note that the logs will be automaically filled with tenant id. Also in above configuration, you can specify input details to control log shipping from selected applications, containers, and namespaces.
     [<img src="./images/logs-json-kyma.png" width="750"/>](./images/logs-json-kyma.png?raw=true)
-  - **_Ship istio access logs_**
+  - **_Ship istio access logs_** <br/>
     Istio access logs provide fine-grained details about the traffic when accessing the workloads. The Istio access logs provide useful information relating to 4 golden signals, such as latency, traffic, errors, and saturation as well as any troubleshooting anomalies.
     ```cmd
     ## Run in ./deploy/kyma ##
@@ -218,7 +219,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
                   key: ingest-mtls-key
           uri: /customindex/istio-envoy-kyma
     ```
-    There are pre-build visulization available to analyze the data such as _**Four Golden Signals**_ (i.e. Latency, Traffic, Errors, and Saturation). 
+    There are pre-build visulization available to analyze the data such as _**Four Golden Signals**_ (i.e. Latency, Traffic, Errors, and Saturation). <br/>
     [<img src="./images/kyma-fgs-latency.png" width="750"/>](./images/kyma-fgs-latency.png?raw=true) 
     [<img src="./images/kyma-fgs-traffic.png" width="750"/>](./images/kyma-fgs-traffic.png?raw=true) 
     [<img src="./images/kyma-fgs-errors.png" width="750"/>](./images/kyma-fgs-errors.png?raw=true)  
@@ -284,7 +285,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     - Find trace based on trace id in observability - trace analytics.
       [<img src="./images/kyma-traces-3.png" width="750"/>](./images/kyma-traces-3.png?raw=true)
       [<img src="./images/kyma-traces-4.png" width="750"/>](./images/kyma-traces-4.png?raw=true)
-  - **_Ship Metric Details_**
+  - **_Ship Metric Details_** <br/>
     To metrices to SAP Cloud Logging following MetricPipeline needs to be created.
     ```cmd
     ## Run in ./deploy/kyma ##
@@ -336,15 +337,15 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     [<img src="./images/kyma-metrices.png" width="750"/>](./images/kyma-metrices.png?raw=true)
 
 - **Access SAP Cloud Logging Service and Explore Dashboards** 
-  You can explore the dashboard and check the request details, logs, traces, and metrics data of your application under Kyma tab (as shown below). There are pre-build visulization available to analyze the data. Some of the visulizations are as below:
-  [<img src="./images/kyma-dashboard-1.png" width="750"/>](./images/kyma-dashboard-1.png?raw=true)     
-  [<img src="./images/kyma-dashboard-2.png" width="750"/>](./images/kyma-dashboard-2.png?raw=true)   
-  [<img src="./images/kyma-dashboard-3.png" width="750"/>](./images/kyma-dashboard-3.png?raw=true)   
-  [<img src="./images/kyma-dashboard-4.png" width="750"/>](./images/kyma-dashboard-4.png?raw=true) 
-  [<img src="./images/kyma-dashboard-5.png" width="750"/>](./images/kyma-dashboard-5.png?raw=true)   
-  [<img src="./images/kyma-dashboard-6.png" width="750"/>](./images/kyma-dashboard-6.png?raw=true) 
+  - You can explore the dashboard and check the request details, logs, traces, and metrics data of your application under Kyma tab (as shown below). There are pre-build visulization available to analyze the data. Some of the visulizations are as below:
+    [<img src="./images/kyma-dashboard-1.png" width="750"/>](./images/kyma-dashboard-1.png?raw=true)     
+    [<img src="./images/kyma-dashboard-2.png" width="750"/>](./images/kyma-dashboard-2.png?raw=true)   
+    [<img src="./images/kyma-dashboard-3.png" width="750"/>](./images/kyma-dashboard-3.png?raw=true)   
+    [<img src="./images/kyma-dashboard-4.png" width="750"/>](./images/kyma-dashboard-4.png?raw=true) 
+    [<img src="./images/kyma-dashboard-5.png" width="750"/>](./images/kyma-dashboard-5.png?raw=true)   
+    [<img src="./images/kyma-dashboard-6.png" width="750"/>](./images/kyma-dashboard-6.png?raw=true) 
 
-> **NOTE**: It is also possible to add custom metric and visualize it in the dashboard. To learn more about creating a custom metric, refer to the [Create a Custom Metric](../11-cf-add-cls/custom-metric.md) documentation.
+> **NOTE**: It is also possible to add custom metric and visualize it in the dashboard. To learn more about creating a custom metric, refer to the [Create a Custom Metric](../5-cf-add-cls/custom-metric.md) documentation.
 
 ## 4. Further information
 

@@ -161,7 +161,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
   - If you want to explore metrics in more details, you can navigate to '**_Discover_**' menu item and choose '**_metrics-otel-v1-*_**' data source.     
     [<img src="./images/cls-dashboard-ot-3.png" width="750"/>](./images/cls-dashboard-ot-3.png?raw=true)    
 
-> **NOTE**: It is also possible to add custom metric and visualize it in the dashboard. To learn more about creating a custom metric, refer to the [Create a Custom Metric](../11-cf-add-cls/custom-metric.md) documentation.
+> **NOTE**: It is also possible to add custom metric and visualize it in the dashboard. To learn more about creating a custom metric, refer to the [Create a Custom Metric](./custom-metric.md) documentation.
 
 ## 4. Further information
 
