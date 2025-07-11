@@ -6,7 +6,7 @@
   "description": "Sustainable SaaS",
   "scripts": {
     "install": "cd ../../code && npm install --include=dev",
-    "build": "npx -p @sap/cds-dk@8 cds build -in ../../code --profile production",
+    "build": "cd ../../code && npx -p @sap/cds-dk@8 cds build --profile production",
     "-----------------------": "",
     "-Manual HTML5 Deployment-": "",
     "/---------------------/": "",

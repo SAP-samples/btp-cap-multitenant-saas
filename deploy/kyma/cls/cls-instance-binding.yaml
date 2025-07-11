@@ -1,0 +1,30 @@
+apiVersion: services.cloud.sap.com/v1
+kind: ServiceInstance
+metadata:
+  name: susaas-logging
+  labels:
+    app.kubernetes.io/name: cloud-logging
+  namespace: susaas
+spec:
+    serviceOfferingName: cloud-logging
+    servicePlanName: standard
+    parameters:
+      retentionPeriod: 30
+      ingest_otlp:
+        enabled: true
+      dashboards:
+        custom_label: susaas-logging
+---
+apiVersion: services.cloud.sap.com/v1
+kind: ServiceBinding
+metadata:
+  name: susaas-logging
+  labels:
+    app.kubernetes.io/name: susaas
+  namespace: susaas
+spec:
+  serviceInstanceName: susaas-logging
+  credentialsRotationPolicy:
+    enabled: true
+    rotationFrequency: "720h"
+    rotatedBindingTTL: "24h"

@@ -41,6 +41,14 @@ spec:
         - name: {{ $key }}
           value: {{ tpl $value $ | squote }}
         {{- end }}
+        {{- if .Values.global.otlp.traces.enabled }}
+        - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+          value: {{ .Values.global.otlp.traces.endpoint }}
+        {{- end }}
+        {{- if .Values.global.otlp.metrics.enabled }}
+        - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+          value: {{ .Values.global.otlp.metrics.endpoint }}
+        {{- end }}
         - name: CLUSTER_SHOOTNAME
           value: {{ .Values.global.shootName | quote }}
         - name: CLUSTER_DOMAIN

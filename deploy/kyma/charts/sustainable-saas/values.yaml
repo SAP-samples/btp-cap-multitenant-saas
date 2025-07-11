@@ -16,7 +16,13 @@ global:
     fullName: # leave empty to apply default logic - $Release.Name-router (e.g. susaas-router)
     deploymentHost: # leave empty to apply default logic - $Release.Name-router-$Release.Namespace (e.g. susaas-router-default)
     port: # leave empty to apply default value - 5000
-
+  otlp:
+    metrics:
+      enabled: false
+      endpoint: http://telemetry-otlp-metrics.kyma-system.svc.cluster.local:4317
+    traces:
+      enabled: false
+      endpoint: http://telemetry-otlp-traces.kyma-system.svc.cluster.local:4317
 
 # Application Router Workload
 router:
