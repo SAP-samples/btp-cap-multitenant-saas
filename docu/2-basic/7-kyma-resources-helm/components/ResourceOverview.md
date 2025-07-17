@@ -240,7 +240,7 @@ A Cluster Role allows you to define a collection of custom permissions for your 
 
 [<img src="./images/KOCustomDomain.png" width="400"/>](./images/KOCustomDomain.png?raw=true)
 
-The required [Cluster Role](../../../../deploy/kyma/charts/sustainable-saas/charts/susaas-srv/templates/cluster-role.yaml) in oru sample scenario, contains permissions to create, delete and modify [API Rules](#api-rule). This Cluster Role is assigned to a dedicated [Service Account](#service-account) using a so-called [Role Binding](#role-binding). In our example, the Cluster Role is bound to a [Service Account](#service-account), which is (in turn) assigned to the SaaS Backend Application workload (Pod). At runtime, the Backend Application can interact with the Kyma Cluster on behalf of this [Service Account](#service-account), as the respective [Service Account](#service-account) token is so-called auto-mounted to the workload. 
+The required Cluster Role in your sample scenario, contains permissions to create, delete and modify [API Rules](#api-rule). This Cluster Role is assigned to a dedicated [Service Account](#service-account) using a so-called [Role Binding](#role-binding). In our example, the Cluster Role is bound to a [Service Account](#service-account), which is (in turn) assigned to the SaaS Backend Application workload (Pod). At runtime, the Backend Application can interact with the Kyma Cluster on behalf of this [Service Account](#service-account), as the respective [Service Account](#service-account) token is so-called auto-mounted to the workload. 
 
 Auto-mounting a [Service Account](#service-account) token to your workload, lets you fetch the credentials to connect to the Cluster API as follows (Node.js): 
 

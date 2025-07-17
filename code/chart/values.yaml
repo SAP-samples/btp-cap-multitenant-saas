@@ -1,0 +1,509 @@
+# yaml-language-server: $schema=./values.schema.json
+
+global:
+  domain:  # here comes your kyma cluster domain c-12312312.com
+  image:
+    registry:  # here comes your dockerhub username example:alper1903
+    tag: latest
+    
+
+## Workloads
+
+### Approuter
+approuter:
+  image:
+    repository: susaas-router
+  env:
+    TENANT_HOST_PATTERN: ^(.*)-{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }} # change if expose.host is set
+  resources:
+    limits:
+      ephemeral-storage: 512Mi
+      memory: 256Mi
+    requests:
+      ephemeral-storage: 512Mi
+      cpu: 100m
+      memory: 128Mi
+  health:
+    liveness:
+      path: /
+    readiness:
+      path: /
+  envFrom:
+    - configMapRef:
+        name: "{{ .Release.Name }}-approuter-configmap"
+  bindings:
+    auth:
+      serviceInstanceName: xsuaa
+    html5-apps-repo-runtime:
+      serviceInstanceName: html5-apps-repo-runtime
+    destination:
+      serviceInstanceName: destination
+  expose:
+    APIRule:
+      experimental: true
+    rules:
+      - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+        path: /*
+        noAuth: true
+  runAsUser: 1000
+
+### Backend Service
+srv:
+  bindings:
+    db:
+      serviceInstanceName: service-manager-container
+    auth:
+      serviceInstanceName: xsuaa
+    sr:
+      serviceInstanceName: saas-registry
+    sm:
+      serviceInstanceName: service-manager-admin
+    dest:
+      serviceInstanceName: destination
+    html5-runtime:
+      serviceInstanceName: html5-apps-repo-runtime
+    ans:
+      serviceInstanceName: alert-notification
+    hana:
+      serviceInstanceName: common-db
+  image:
+    repository: susaas-srv
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+    requests:
+      ephemeral-storage: 1G
+      cpu: 500m
+      memory: 500M
+  health:
+    liveness:
+      path: /health
+    readiness:
+      path: /health
+  env:
+    cds_features: '{ "emulate_vcap_services" : true }'
+    KYMA_APIRULE_GROUP: gateway.kyma-project.io
+    KYMA_APIRULE_VERSION: v2alpha1
+    KYMA_APIRULE_PLURAL: apirules
+    KYMA_GATEWAY: kyma-system/kyma-gateway
+    KYMA_DEPLOYMENT: 'true'
+    ROUTER_NAME: '{{ .Release.Name }}-approuter'
+    ROUTER_PORT: 8080
+    SERVICE_REPLACEMENTS: '[{ "key" : "com-hdi-container", "service" : "common-db" }]'
+    KYMA_NAMESPACE: '{{ .Release.Namespace }}'
+    HELM_RELEASE: '{{ .Release.Name }}'
+    CLUSTER_DOMAIN: '{{ .Values.global.domain }}'
+    BROKER_URL: https://{{ .Release.Name }}-broker-{{ .Release.Namespace }}.{{ .Values.global.domain }}
+    ROUTER_URL: https://{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }}
+    BROKER_NAME: '{{ .Release.Name }}-{{ .Release.Namespace }}-susaas'
+  expose:
+    gateway: 
+    enabled: false
+    rules:
+      - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+        path: /-/cds/{**}
+        noAuth: true
+    APIRule:
+      experimental: true
+  envFrom:
+    - secretRef:
+        name: "{{ $.Release.Name }}-broker-secret"
+  rbac:
+    rules: 
+      - apiGroups: ["gateway.kyma-project.io"]
+        resources: ["apirules"]
+        verbs: ["get", "list", "create", "update", "patch", "delete"]
+  networkSecurity:
+    allowNamespaceInternal: true
+
+### Service Broker 
+broker:
+  image:
+    repository: susaas-broker
+  bindings:
+    auth:
+      serviceInstanceName: broker-xsuaa
+  resources:
+    limits:
+      ephemeral-storage: 1G
+      memory: 500M
+      cpu: 150m
+    requests:
+      ephemeral-storage: 1G
+      cpu: 100m
+      memory: 500M
+  expose:
+    APIRule:
+      experimental: true
+    rules:
+      - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+        path: /*
+        noAuth: true
+  additionalVolumes:
+    - name: catalog-json
+      volumeMount:
+        mountPath: /etc/broker/catalog.json
+        subPath: catalog.json
+      configMap:
+        name: "{{ .Release.Name }}-broker-configmap"
+  health:
+    liveness: 
+      path: /health
+    readiness: 
+      path: /health
+
+  envFrom:
+    - secretRef:
+        name: "{{ $.Release.Name }}-broker-secret"
+  env:
+    SBF_ENABLE_AUDITLOG: 'false'
+    SBF_CATALOG_FILE: /etc/broker/catalog.json
+    SBF_CATALOG_SUFFIX: cat-{{ .Release.Name }}-{{ .Release.Namespace }}
+    SBF_SERVICE_CONFIG: >
+       {
+        "susaas-api": {
+          "extend_credentials": {
+            "shared": {
+              "apiUrl": "https://{{ .Release.Name }}-api-{{ .Release.Namespace }}.{{ .Values.global.domain }}"
+            }
+          },
+          "extend_xssecurity": {
+            "per_plan": {
+              "trial": {
+                "authorities": [
+                  "$XSMASTERAPPNAME.plan_trial"
+                ]
+              },
+              "default": {
+                "authorities": [
+                  "$XSMASTERAPPNAME.plan_default"
+                ]
+              },
+              "premium": {
+                "authorities": [
+                  "$XSMASTERAPPNAME.plan_premium"
+                ]
+              }
+            }
+          },
+          "extend_catalog": {
+            "metadata": {
+              "displayName": "Sustainable SaaS API {{ .Release.Name }}"
+            }
+          }
+        }
+        }
+         
+
+# Shared Database Container Deployer Job
+common-db-deployer:
+  image:
+    repository: susaas-db-com
+  bindings:
+    hana:
+      serviceInstanceName: common-db
+  resources:
+    limits:
+      cpu: 200m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+
+### Backend API                 
+api: 
+  image:
+    repository: susaas-api
+  bindings:
+    auth:
+      serviceInstanceName: broker-xsuaa
+    db:
+      serviceInstanceName: service-manager-container
+  resources:
+    limits:
+      ephemeral-storage: 512Mi
+      memory: 256Mi
+    requests:
+      ephemeral-storage: 256Mi
+      cpu: 100m
+      memory: 128Mi
+  expose:
+    APIRule:
+      experimental: true
+    rules:
+      - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+        path: /*
+        noAuth: true
+
+### Frontend Deployer
+html5-apps-deployer:
+  image:
+    repository: susaas-html5-deployer
+  resources:
+    limits:
+      ephemeral-storage: 512Mi
+      memory: 256Mi
+    requests:
+      ephemeral-storage: 256Mi
+      memory: 128Mi
+  bindings:
+    xsuaa: 
+      serviceInstanceName: xsuaa
+    destination:
+      serviceInstanceName: destination
+    html5-apps-repo-host:
+      serviceInstanceName: html5-apps-repo-host
+  runAsUser: 1000
+
+## Services
+backendDestinations:
+  susaas-srv-api:
+    service: srv
+
+xsuaa:
+   servicePlanName: application
+   serviceOfferingName: xsuaa
+   parameters:
+    xsappname: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    tenant-mode: shared
+
+    oauth2-configuration:
+      token-validity: 3600
+      redirect-uris:
+        - "http://localhost:5000"
+        - "http://*.localhost:5000/**"
+        - "http*://*.{{ .Values.global.domain }}/**"
+
+    foreign-scope-references:
+      - xs_authorization.read
+      - xs_authorization.write
+      - xs_user.read
+      - xs_user.write
+      - xs_idp.read
+      - xs_idp.write
+
+    scopes:
+      - name: "$XSAPPNAME.mtcallback"
+        description: "SaaS Provisioning"
+        grant-as-authority-to-apps:
+          - "$XSAPPNAME(application,sap-provisioning,tenant-onboarding)"
+      - name: "$XSAPPNAME.mtdeployment"
+        description: "SaaS Model Upgrade"
+      - name: "$XSAPPNAME.MtxDiagnose"
+        description: "SaaS Diagnose"
+      - name: "uaa.user"
+        description: "UAA"
+      - name: "$XSAPPNAME.Member"
+        description: "Member"
+      - name: "$XSAPPNAME.Admin"
+        description: "Administrator"
+      - name: "$XSAPPNAME.cds.ExtensionDeveloper"
+        description: "Develop Extensions"
+
+    authorities:
+      - "$XSAPPNAME.mtcallback"
+      - "$XSAPPNAME.mtdeployment"
+      - "$XSAPPNAME.MtxDiagnose"
+      - "$XSAPPNAME.cds.ExtensionDeveloper"
+
+    role-templates:
+      - name: Token_Exchange
+        description: UAA Token Exchange
+        scope-references:
+          - uaa.user
+
+      - name: Member
+        description: Member
+        scope-references:
+          - "$XSAPPNAME.Member"
+
+      - name: Admin
+        description: Administrator
+        scope-references:
+          - "$XSAPPNAME.Admin"
+          - xs_authorization.read
+          - xs_authorization.write
+          - xs_user.read
+          - xs_user.write
+          - xs_idp.read
+          - xs_idp.write
+
+      - name: SaaSAdmin
+        description: SaaS Administrator
+        scope-references:
+          - "$XSAPPNAME.mtcallback"
+          - "$XSAPPNAME.mtdeployment"
+          - "$XSAPPNAME.MtxDiagnose"
+
+      - name: ExtensionDeveloper
+        description: Extension Developer
+        scope-references:
+          - "$XSAPPNAME.cds.ExtensionDeveloper"
+
+      - name: UserManagementAdmin
+        description: Manage authorizations, trusted identity providers, and users.
+        default-role-name: "User and Role Administrator"
+        scope-references:
+          - xs_authorization.read
+          - xs_authorization.write
+          - xs_user.read
+          - xs_user.write
+          - xs_idp.read
+          - xs_idp.write
+
+      - name: UserManagementAuditor
+        description: Read-only access for authorizations, trusted identity providers, and users.
+        default-role-name: "User and Role Auditor"
+        scope-references:
+          - xs_authorization.read
+          - xs_user.read
+          - xs_idp.read
+
+    role-collections:
+      - name: Susaas Member ( {{ .Release.Name }} )
+        description: Member Access
+        role-template-references:
+          - "$XSAPPNAME.Member"
+          - "$XSAPPNAME.Token_Exchange"
+
+      - name: Susaas Administrator ( {{ .Release.Name }} )
+        description: Administrator Access
+        role-template-references:
+          - "$XSAPPNAME.Admin"
+          - "$XSAPPNAME.SaaSAdmin"
+          - "$XSAPPNAME.UserManagementAdmin"
+          - "$XSAPPNAME.Token_Exchange"
+
+      - name: Susaas Extension Developer ( {{ .Release.Name }} )
+        description: Extension Developer Access
+        role-template-references:
+          - "$XSAPPNAME.ExtensionDeveloper"
+          - "$XSAPPNAME.Token_Exchange"
+
+        
+common-db:
+  serviceOfferingName: hana
+  servicePlanName: hdi-shared
+
+service-manager-container:
+  serviceOfferingName: service-manager
+  servicePlanName: container
+  parameters:
+    polling_timeout_seconds: 240
+    config:
+      acquireTimeoutMillis: max
+      pollint_timeout_seconds: 480
+
+service-manager-admin:
+  serviceOfferingName: service-manager
+  servicePlanName: subaccount-admin
+
+saas-registry:
+  serviceOfferingName: saas-registry
+  servicePlanName: application
+  parameters:
+    displayName: Sustainable SaaS {{ .Release.Name }}
+    description: Sustainable SaaS Application
+    category: SaaS Multitenant Apps
+    appUrls:
+      onSubscriptionAsync: false
+      onUnSubscriptionAsync: false
+      onUpdateDependenciesAsync: false
+      getDependencies: https://{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }}/-/cds/saas-provisioning/dependencies
+      onSubscription: https://{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }}/-/cds/saas-provisioning/tenant/{tenantId}
+    xsappname: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    appName: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    appPlans:
+      - name: trial
+        description: Sustainable SaaS trial plan
+      - name: default
+        description: Sustainable SaaS default plan
+      - name: premium
+        description: Sustainable SaaS premium plan
+
+html5-apps-repo-host:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-host
+  parameters:
+    sizeLimit: 2
+
+ias:
+  serviceOfferingName: identity
+  servicePlanName: application
+  parameters:
+    display-name: Susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    xsuaa-cross-consumption: false
+    multi-tenant: false
+    oauth2-configuration: 
+      redirect-uris:
+        - https://*.{{ .Values.global.domain }}/login/callback?authType=ias
+      post-logout-redirect-uris:
+        - https://*.{{ .Values.global.domain }}/logout/**
+      grant-types: ["authorization_code"]
+      credential-types: ["binding-secret","x509"]
+
+broker-xsuaa:
+  serviceOfferingName: xsuaa
+  servicePlanName: broker
+  parameters:
+    xsappname: susaas-api-{{ .Release.Namespace }}-{{ .Release.Name }}
+
+html5-apps-repo-runtime:
+  serviceOfferingName: html5-apps-repo
+  servicePlanName: app-runtime
+
+destination:
+  serviceOfferingName: destination
+  servicePlanName: lite
+  parameters:
+    HTML5Runtime_enabled: true
+    version: 1.0.0
+    init_data:
+      instance:
+        existing_destinations_policy: update
+        destinations:
+          - Name: susaas-srv-api
+            Description: SusaaS Service API
+            URL: https://{{ .Release.Name }}-srv-{{ .Release.Namespace }}.{{ .Values.global.domain }}
+            Type: HTTP
+            ProxyType: Internet
+            Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            forwardAuthToken: true
+          - Name: SUSAAS_NORTHWIND
+            Description: SusaaS Northwind
+            URL: https://services.odata.org/v4/Northwind/Northwind.svc
+            Type: HTTP
+            ProxyType: Internet
+            Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+
+alert-notification:
+  serviceOfferingName: alert-notification
+  servicePlanName: standard
+  parameters:
+    configuration:
+      actions:
+      - name: send-email
+        properties:
+          destination: john.doe@example.org
+        state: ENABLED
+        type: EMAIL
+      conditions:
+      - name: Alert-App-Generic
+        predicate: EQUALS
+        propertyKey: eventType
+        propertyValue: alert.app.generic
+      subscriptions:
+      - actions:
+        - send-email
+        conditions:
+        - Alert-App-Generic
+        name: App-Alerts
+        state: ENABLED
+
+
+
+

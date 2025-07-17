@@ -1,6 +1,0 @@
-apiVersion: v2
-name: alert-notification
-description: A Helm chart for SAP Alert Notification
-kubeVersion: ">= 1.21"
-type: application
-version: 0.1.0

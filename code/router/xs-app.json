@@ -1,21 +1,28 @@
 {
-    "welcomeFile": "/sapsusaasuipublicflp/",
-    "authenticationMethod": "route",
-    "logout": {
-      "logoutEndpoint": "/logout"
+  "welcomeFile": "/sapsusaasuipublicflp/",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/logout"
+  },
+  "routes": [
+    {
+      "source": "^/user-api(.*)",
+      "target": "$1",
+      "service": "sap-approuter-userapi",
+      "authenticationType": "xsuaa"
     },
-    "routes": [
-      {
-        "source": "^/user-api(.*)",
-        "target": "$1",
-        "service": "sap-approuter-userapi",
-        "authenticationType": "xsuaa"
-      },
-      {
-        "source": "^(/.*)$",
-        "target": "$1",
-        "service": "html5-apps-repo-rt",
-        "authenticationType": "xsuaa"
-      }
-    ]
-  }
+    {
+      "source": "^/-/cds/(.*)$",
+      "target": "/-/cds/$1",
+      "destination": "susaas-srv-api",
+      "preferLocal": true,
+      "authenticationType": "none"
+    },
+    {
+      "source": "^(/.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

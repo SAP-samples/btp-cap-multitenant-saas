@@ -68,11 +68,12 @@ Build, push (in case of Kyma) and deploy your latest changes from the respective
 > **Hint** - The below commands are just samples. Please replace the **container image prefix** and also add additional yaml files, in case your current deployment includes the **Central User Management** or the **API Management Integration**.
 
 ```sh
-## Run in ./deploy/kyma ##
-npm run build
-npx cross-env IMAGE_PREFIX=sap-demo npm run build:srv
-npx cross-env IMAGE_PREFIX=sap-demo npm run push:srv
-helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
+## Run in ./code ##
+make build
+make pack IMAGE_PREFIX=sap-demo 
+make push-all IMAGE_PREFIX=sap-demo
+
+helm upgrade susaas gen/chart -n mtenant
 ```
 
 **Cloud Foundry**

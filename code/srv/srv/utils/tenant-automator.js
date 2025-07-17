@@ -80,7 +80,7 @@ const createCISInstance = async (context) => {
     } catch (e) {
         throw {
             message: 'please make sure that service offering:cis, plan:central is entitled to your provider subaccount.',
-            details: e.message
+            additional: e.message
         }
     }
 
@@ -110,16 +110,18 @@ const createCISBinding = async (context) => {
  */
 const removeCISInstance = async (context) => {
     try {
+        
+        context.cis = await sm.getServiceInstanceByName(context.smadmin,`cis-${context.tenant}`)
         if (!context.cis) {
             logger.debug(`no cis-central found for tenant:${context.tenant}`)
             return
         }
         await sm.deleteServiceInstance(context.smadmin, context.cis.id)
-        logger.debug('deleted cis-central service instance with id:', context.cis.id)
+        logger.log('deleted cis-central service instance with id:', context.cis.id)
         delete context.cis
     } catch (e) {
         throw {
-            message: `service instance for cis-central can not be deleted for tenant:${context.tenant}`,
+            message: `service instance for cis-central can not be deleted for tenant ${context.subdomain} : ${e.message}`,
             details: e.message
         }
     }
@@ -132,17 +134,21 @@ const removeCISInstance = async (context) => {
  */
 const removeCISBinding = async (context) => {
     try {
-        if (!context.cis) {
-            logger.debug(`no cis-central binding found for instance:${context.cis.id}`)
+         console.log("BINDING DELETION:", context.cis.binding.id)
+         console.log("SUBDOMAIN:",context.subdomain)
+         context.cis.binding = await sm.getServiceBindingsByName(context.smadmin,context.subdomain)
+        if (!context.cis.binding) {
+            logger.debug(`no cis-central binding found for instance:${context.cis.id}`) // which is fine in this case.
             return
         }
+ 
         await sm.deleteServiceBinding(context.smadmin, context.cis.binding.id)
-        logger.debug('deleted cis-central service binding with id:', context.cis.binding.id)
+        logger.log('deleted cis-central service binding with id:', context.cis.binding.id)
         delete context.cis.binding
     } catch (e) {
+        logger.log("Context during removeCISBinding Error:",JSON.stringify(context))
         throw {
-            message: `service binding for cis-central can not be deleted for tenant:${context.tenant}`,
-            details: e.message
+            message: `service binding for cis-central can not be deleted for tenant ${context.subdomain}: ${e.message}`
         }
     }
 };

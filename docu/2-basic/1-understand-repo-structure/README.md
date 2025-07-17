@@ -59,7 +59,7 @@ The **ui-public-flp** UI module contains a Sandbox Launchpad. The [Application R
 
 ## 4. API Broker
 
-The **broker** directory contains the API Service Broker implementation. In the Kyma-based scenario, the *catalog.json* file content (which is required to define service plans provided by the Service Broker) is part of the Helm Charts ([click here](../../../deploy/kyma/charts/sustainable-saas/charts/susaas-broker/templates/broker-catalog.yaml)), as the required details are only available upon deployment to your Kyma Cluster. 
+The **broker** directory contains the API Service Broker implementation. In the Kyma-based scenario, the *catalog.json* file content (which is required to define service plans provided by the Service Broker) is part of the Helm Charts as the required details are only available upon deployment to your Kyma Cluster. 
 
 > **Hint** - Using Kyma, the API Service Broker container image is build using *Cloud Native Buildpacks*, therefore the directory does not contain a separate Dockerfile. Further details on the build process are provided in another part of the tutorial!
 

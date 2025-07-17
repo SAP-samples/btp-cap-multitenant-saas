@@ -62,21 +62,27 @@ Understanding the fundamental ideas of Helm is necessary if you want to use Helm
 
 A Helm Chart is a package that contains all the necessary information and configuration to deploy and manage an application on a Kubernetes/Kyma Cluster. It is used by Helm, which is a package manager for Kubernetes, to automate the deployment and management of applications on the Cluster.
 
-A Helm Chart is defined using a YAML file called [Chart.yaml](../../../../deploy/kyma/charts/sustainable-saas/Chart.yaml), which contains metadata about the chart such as its name, version, and description. The chart also includes a collection of templates written in Go Templating Language, that define the configuration for Kubernetes resources such as Pods, Services, Deployments.
+A Helm Chart is defined using a YAML file called [Chart.yaml](../../../../code/chart/Chart.yaml), which contains metadata about the chart such as its name, version, and description. The chart also includes a collection of templates written in Go Templating Language, and also other chart dependencies that define the configuration for Kubernetes resources such as Pods, Services, Deployments.
 
 For more detailed information, please refer to the official Helm documentation ([click here](https://helm.sh/)).
 
 
-## 3. Getting Started with the sample application Helm Charts
+## 3. Understanding CAP Generated Helm Charts
 
-As you might see from the repository, the chart directory looks as below.
+CAP provides a configurable Helm chart for Node.js and Java applications, which can be added like so:
 
-[<img src="./images/HELM_Chart_Dir.png" width="300"/>](./images/HELM_Chart_Dir.png?raw=true)
+```sh
+cds add helm
+```
 
-In following sections you will be inspecting the files and their purposes in the [chart](../../../../deploy/kyma/charts/sustainable-saas/) directory.
+As you might see from the repository, the chart directory looks as below after the command.
+
+[<img src="../../3-kyma-deploy-application/images/ChartRepoStruct.png" width="300"/>](./images/HELM_Chart_Dir.png?raw=true)
+
+In following sections you will be inspecting the files and their purposes in the [chart](../../../../code/chart) directory.
 
 
-### 3.1. [Chart.yaml](../../../../deploy/kyma/charts/sustainable-saas/Chart.yaml) file
+### 3.1. [Chart.yaml](../../../../code/chart/Chart.yaml) file
 
 Chart.yaml is a file in a Helm Chart that contains metadata about the chart, including its name, version, description, and other information. This file is used by Helm to manage the chart and its dependencies, and it is required for every Helm Chart.
 
@@ -90,60 +96,80 @@ The Chart.yaml file contains information about the Helm Chart such as:
  - **type**: The type field specifies the type of the Helm Chart (in this case **application**)
 
     ```yaml
-    apiVersion: v2  
-    name: susaas-app
-    description: Sustainable SaaS
-    type: application
-    version: 0.0.1
-    appVersion: 0.0.1
-    dependencies:
-      - name: susaas-srv
-        alias: srv
-        version: 0.1.0
-      - name: susaas-router
-        alias: router
-        version: 0.1.0
-      - name: susaas-broker
-        alias: broker
-        version: 0.1.0
-      - name: susaas-api
-        alias: api
-        version: 0.1.0
+      apiVersion: v2
+      name: helmtest
+      description: A simple CAP project.
+      type: application
+      version: 1.0.0
+      appVersion: 1.0.0
+      annotations:
+        app.kubernetes.io/managed-by: cds-dk/helm
+      dependencies:
+        - name: web-application
+          alias: srv
+          version: ">0.0.0"
+        - name: service-instance
+          alias: xsuaa
+          version: ">0.0.0"
+        - name: web-application
+          alias: api
+          version: ">0.0.0"
+        - name: service-instance
+          alias: saas-registry
+          version: ">0.0.0"
+          ...
     ```
 
-     > **Hint** - This Helm Chart contains four so-called Subcharts as dependencies. These charts are separate Helm Charts and the relation will be covered in detail by this documentation.
+     > **Hint** - This Helm Chart contains so-called Subcharts as dependencies. These charts are separate Helm Charts and the relation will be covered in detail by this documentation.
 
 
-### 3.2. [Values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file
+### 3.2. [Values.yaml](../../../../code/chart/values.yaml) file
 
-The [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file is used to specify a range of options and settings that control the behavior and configuration of a chart. 
+The [values.yaml](../../../../code/chart/values.yaml) file is used to specify a range of options and settings that control the behavior and configuration of a chart. 
 
 For example, it might include values for resource limits, image names, feature flags, and other settings that control the behavior and appearance of the components defined in a chart.
 
-Please take a look at the given section of [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file below, to get a better understanding.
+Please take a look at the given section of [values.yaml](../../../../code/chart/values.yaml) file below, to get a better understanding.
 
 ```yaml
 ...
-router:
-  bindings:
-    xsuaa:
-      serviceInstanceName: xsuaa
-    destination:
-      serviceInstanceName: destination
-    html5-apps-repo:
-      serviceInstanceName: html5-repo-runtime
+### Approuter
+approuter:
   image:
-    repository: sap-demo/susaas-router
-    tag: latest
+    repository: susaas-router
+  env:
+    TENANT_HOST_PATTERN: ^(.*)-{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }} # change if expose.host is set
   resources:
     limits:
-      ephemeral-storage: 1G
-      memory: 500M
-      cpu: 300m
+      ephemeral-storage: 512Mi
+      memory: 256Mi
     requests:
-      ephemeral-storage: 1G
-      cpu: 300m
-      memory: 500M
+      ephemeral-storage: 512Mi
+      cpu: 100m
+      memory: 128Mi
+  health:
+    liveness:
+      path: /
+    readiness:
+      path: /
+  envFrom:
+    - configMapRef:
+        name: "{{ .Release.Name }}-approuter-configmap"
+  bindings:
+    auth:
+      serviceInstanceName: xsuaa
+    html5-apps-repo-runtime:
+      serviceInstanceName: html5-apps-repo-runtime
+    destination:
+      serviceInstanceName: destination
+  expose:
+    APIRule:
+      experimental: true
+    rules:
+      - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+        path: /*
+        noAuth: true
+  runAsUser: 1000
 ...
 ```
 
@@ -151,7 +177,7 @@ Above part is the section of a YAML file used for configuring a Kubernetes Deplo
 
 The Deployment consists of:
 
-- A Docker image located at "sap-demo/susaas-router" with the "latest" tag
+- A Docker image located at "yourimageprefix/susaas-router" with the "latest" tag
 - Resource requests and limits for the Deployment
   - Ephemeral storage: 1G
   - Memory: 500M
@@ -163,7 +189,7 @@ The Deployment also has three SAP BTP Service Instances bound to it:
 - html5-apps-repo (HTML5 Application Repository Service)
 
 
-### 3.3. [values.schema.json](../../../../deploy/kyma/charts/sustainable-saas/values.schema.json) file
+### 3.3. [values.schema.json](../../../../code/chart/values.schema.json) file
 
 This JSON file is a so-called schema file. A JSON schema is a standard for describing the structure and constraints of JSON data, and it is also used to validate *values.yaml* values. This ensures that values provided by the user follow the schema laid out by the chart maintainer, providing better error reporting when the user provides an incorrect set of values for a chart.
 
@@ -177,34 +203,51 @@ For example, let us add a test property in the **router** section of the *values
 
 ```yaml
 ...
-router:
-  bindings:
-    xsuaa:
-      serviceInstanceName: xsuaa
-    destination:
-      serviceInstanceName: destination
-    html5-apps-repo:
-      serviceInstanceName: html5-repo-runtime
+### Approuter
+approuter:
   image:
-    repository: sap-demo/susaas-router
-    tag: latest
+    repository: susaas-router
+  env:
+    TENANT_HOST_PATTERN: ^(.*)-{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }} # change if expose.host is set
   resources:
     limits:
-      ephemeral-storage: 1G
-      memory: 500M
-      cpu: 300m
+      ephemeral-storage: 512Mi
+      memory: 256Mi
     requests:
-      ephemeral-storage: 1G
-      cpu: 300m
-      memory: 500M
-  test: my value ## This property has been added
+      ephemeral-storage: 512Mi
+      cpu: 100m
+      memory: 128Mi
+  health:
+    liveness:
+      path: /
+    readiness:
+      path: /
+  envFrom:
+    - configMapRef:
+        name: "{{ .Release.Name }}-approuter-configmap"
+  bindings:
+    auth:
+      serviceInstanceName: xsuaa
+    html5-apps-repo-runtime:
+      serviceInstanceName: html5-apps-repo-runtime
+    destination:
+      serviceInstanceName: destination
+  expose:
+    APIRule:
+      experimental: true
+    rules:
+      - methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"]
+        path: /*
+        noAuth: true
+  runAsUser: 1000
 ...
 ```
 
-Try to run the following command in the root directory:
+Try to run the following command in the ./code directory:
 
 ```yaml
-helm template ./deploy/kyma/charts/sustainable-saas 
+cds build --production
+helm template gen/chart
 ```
 
 You should instantly face an error, because **test** is an invalid value according to the JSON schema configuration.
@@ -218,19 +261,19 @@ router:
 Proper schema files can be used to validate template parameters, which becomes especially useful when shipping your Helm Charts to a broader audience! For now, please remove the **test** property again, to make the chart installable and valid for upcoming sections again.
 
 
-### 3.4. [Templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) in Helm Chart
+### 3.4. [Templates](../../../../code/chart/templates/) in Helm Chart
 
 Templates in Helm Charts are files that define how resources should be deployed to a Kyma Cluster. They are used to generate manifest files for Kyma/Kubernetes resources, such as Pods, Services or Service Bindings, based on chart-defined values and configuration parameters. Templates are written in the **Helm template language(*)** and use its syntax and features to dynamically generate the manifests based on user-defined and default values of the chart.
 
  > **Hint** - (*) Helm Template Language definition according to [Helm official documentation](https://helm.sh/docs/chart_template_guide/functions_and_pipelines/): "While we talk about the "Helm template language" as if it is Helm-specific, it is actually a combination of the Go template language, some extra functions, and a variety of wrappers to expose certain objects to the templates. Many resources on Go templates may be helpful as you learn about templating."
 
-[*/code/chart/templates/*](../../../../deploy/kyma/charts/sustainable-saas/templates/) directory contains the templates of the Helm Chart.
+[*/code/chart/templates/*](../../../../code/chart/templates/) directory contains the templates of the Helm Chart.
 
 [<img src="./images/HELM_Chart_Temp_Dir.png" width="250"/>](./images/HELM_Chart_Temp_Dir.png?raw=true)
 
-The [templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) directory contains the template files, which will be converted to Kubernetes resource definitions when running *helm template* or *helm install*. 
+The [templates](../../../../code/chart/templates/) directory contains the template files, which will be converted to Kubernetes resource definitions when running *helm template* or *helm install*. 
 
-> **Important** - Filenames starting with an underscore (_) are assumed not to contain a manifest template inside. These files are not converted to Kubernetes resource definitions, but are available within other chart templates for reuse purposes. Details will be covered in further sections.
+> **Important** - Filenames starting with an underscore (_) are assumed not to contain a manifest template inside. These files are not converted to Kubernetes resource definitions, but are available within other chart templates for reuse purposes.
 
 
 ### 3.5. Render Helm Chart to preview the Kyma Resources 
@@ -240,8 +283,8 @@ Without actually deploying a chart to a Kyma/Kubernetes Cluster, you can use the
 Feel free to run the command below, to see the generated Kubernetes resources of the sample application.
 
 ```sh
-# Run from root directory #
-helm template ./deploy/kyma/charts/sustainable-saas
+# Run from ./code directory #
+helm template gen/chart 
 ```
 
 Running this command will provide you a yaml-based console output. This output contains all necessary Kyma/Kubernetes resources to deploy the Sustainable SaaS application on a Kyma Cluster. 
@@ -250,7 +293,6 @@ Running this command will provide you a yaml-based console output. This output c
 
 ```yaml
 ...
-# Source: susaas/charts/srv/templates/api-rule.yaml
 apiVersion: gateway.kyma-project.io/v1beta1
 kind: APIRule
 metadata:
@@ -275,7 +317,6 @@ spec:
     name: release-name-srv
     port: 8080
 ---
-# Source: susaas/charts/router/templates/istio-dest-rule.yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
@@ -302,7 +343,8 @@ spec:
 
 ## 4. Customizing the Helm Chart using templates
 
-Now that you have learned about the Helm Chart basics of Sustainable SaaS Application, you can add your own custom template to get a better understand of how templates work.
+Customizing the CAP Generated Helm Chart is described [in the official CAP documentation](https://cap.cloud.sap/docs/guides/deployment/to-kyma#customize-helm-chart).
+
 
 Making your own template file can be a worthwhile learning experience. You gain a deeper understanding of Helm's behavior and how to use it to manage your resources in a Kyma Cluster.
 
@@ -311,7 +353,7 @@ Making your own template file can be a worthwhile learning experience. You gain 
 
 ### 4.1. Creating a Config Map and adding it as a template
 
-In the [templates directory](../../../../deploy/kyma/charts/sustainable-saas/templates/), create a file called **my-config-map.yaml**, and paste the below content inside the file.
+In the [templates directory](../../../../code/chart/templates/), create a file called **my-config-map.yaml**, and paste the below content inside the file.
 
 ```yaml
 apiVersion: v1
@@ -322,11 +364,12 @@ data:
   exampleKey: "exampleValue"
 ```
 
-After doing so, run the following command from your root directory:
+After doing so, run the following commands from your root directory:
 
 ```sh
-# Run from root directory #
-helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
+# Run from ./code directory #
+cds build --production 
+helm template gen/chart >> test.yaml
 ```
 
 You should now see a file called **test.yaml** in your root directory. Open the **test.yaml* file and search for "my-config-map". 
@@ -350,11 +393,12 @@ data:
   exampleKey: "exampleValue"
 ```
 
-After the modification please run the command below.
+After the modification please run the commands below.
 
 ```sh
-# Run from root directory #
-helm template myrelease ./deploy/kyma/charts/sustainable-saas > test.yaml
+# Run from ./code directory #
+cds build --production
+helm template myrelease ./gen/chart > test.yaml
 ```
 
 Search once again for the term **my-config-map** in your *test.yaml* file, you should see that your release name **myrelease** is now used as a prefix.
@@ -376,12 +420,12 @@ data:
 As you can see, *.Release.Name* is a built-in object (similar to a variable) in Helm. It is set to the release name you provide to the **helm template** command. There are also other built-in objects set by Helm automatically. A list of those objects can be seen found in the [official documentation](https://helm.sh/docs/chart_template_guide/builtin_objects/).
 
 
-### 4.3. Using values from the [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file
+### 4.3. Using values from the [values.yaml](../../../../code/chart/values.yaml) file
 
-One of the Helm key concepts, is generating the Kubernetes/Kyma manifest files in a more dynamic way, using configuration details defined in the [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) file.
+One of the Helm key concepts, is generating the Kubernetes/Kyma manifest files in a more dynamic way, using configuration details defined in the [values.yaml](../../../../code/chart/values.yaml) file.
 In this section you will be adding a new configuration to the *values.yaml* file and then reference it from within your template.
 
-Open your [values.yaml](../../../../deploy/kyma/charts/sustainable-saas/values.yaml) and append the following configuration.
+Open your [values.yaml](../../../../code/chart/values.yaml) and append the following configuration.
 
 ```yaml
 ...
@@ -406,7 +450,7 @@ my_config_map:
     value: testvalue
 ```
 
-Switch to your **my-config-map.yaml** file in [templates](../../../../deploy/kyma/charts/sustainable-saas/templates/) folder and edit it as shown below:
+Switch to your **my-config-map.yaml** file in [templates](../../../../code/chart/templates/) folder and edit it as shown below:
 
 ```yaml
 apiVersion: v1
@@ -420,11 +464,12 @@ data:
 After editing, run the following command:
 
 ```sh
-# Run from root directory #
-helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
+# Run from ./code directory #
+cds build --production
+helm template gen/chart > test.yaml
 ```
 
-Check the updated *test.yaml* file in your root directory. Searching for your Config Map, should see the below output:
+Check the updated *test.yaml* file in your code directory. Searching for your Config Map, should see the below output:
 
 ```yaml
 ---
@@ -447,7 +492,7 @@ For this purpose, [built-in Helm template functions](https://helm.sh/docs/chart_
 
 In this section you will use a built-in template function provided by Helm, allowing you to apply dynamic changes to your Deployments.
 
-Imagine you would like to "quote" the value you set in [step 4.3](#43-using-values-from-valuesyaml-file). To be able to "quote" a value, the built-in Helm **quote** function can be used in your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file.
+Imagine you would like to "quote" the value you set in [step 4.3](#43-using-values-from-valuesyaml-file). To be able to "quote" a value, the built-in Helm **quote** function can be used in your [my-config-map.yaml](../../../../code/chart/templates/my-config-map.yaml) file.
 
 ```yaml
 apiVersion: v1
@@ -461,8 +506,9 @@ data:
 Run the command below to see the effect of the function in action.
 
 ```sh
-# Run from root directory #
-helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
+# Run from ./code directory #
+cds build --production
+helm template gen/chart > test.yaml
 ```
 
 Searching once again in your *test.yaml* file, you should find your updated Config Map resource definition as below. As expected, the **exampleKey** value is now quoted.
@@ -516,9 +562,9 @@ After defining the named template **mysecret**, you can simply refer to it in an
 
 ### Reusing existing named templates from helper files
 
-With this theoretical background in mind, the following section explains you how to reuse an existing *named template* defined in the [_helpers.tpl](../../../../deploy/kyma/charts/sustainable-saas/templates/_helpers.tpl) file.
+With this theoretical background in mind, the following section explains you how to reuse an existing *named template* defined in the [_helpers.tpl](../../../../code/chart/templates/_helpers.tpl) file.
 
-Open the [_helpers.tpl](../../../../deploy/kyma/charts/sustainable-saas/templates/_helpers.tpl) file and search for "cap.labels". You should see that a named template called "cap.labels" is defined as below.
+Open the [_helpers.tpl](../../../../code/chart/templates/_helpers.tpl) file and search for "cap.labels". You should see that a named template called "cap.labels" is defined as below.
 
 > **Hint** - Please note that named templates are usually defined in files starting with an underscore, since those files are not considered as Kubernetes or Kyma manifests by Helm.
 
@@ -540,7 +586,7 @@ app.kubernetes.io/version: {{ .Chart.AppVersion }}
 ...
 ```
 
-In your *my-config-map.yaml* file, you can now reuse this *named template*. Open your [my-config-map.yaml](../../../../deploy/kyma/charts/sustainable-saas/templates/my-config-map.yaml) file and edit it as shown below.
+In your *my-config-map.yaml* file, you can now reuse this *named template*. Open your [my-config-map.yaml](../../../../code/chart/templates/my-config-map.yaml) file and edit it as shown below.
 
 ```yaml
 apiVersion: v1
@@ -558,8 +604,9 @@ Adding this line, will automatically add all labels to your Config Map including
 Run the usual helm template command to see your changes in action.
 
 ```sh
-# Run from root directory #
-helm template ./deploy/kyma/charts/sustainable-saas > test.yaml
+# Run from ./code directory #
+cds build --production
+helm template gen/chart > test.yaml
 ```
 
 Search for "my-config-map" in the updated *test.yaml* file, and you will see that your Config Map resource is now generated as shown below.
@@ -567,7 +614,7 @@ Search for "my-config-map" in the updated *test.yaml* file, and you will see tha
 ```yaml
 ...
 ---
-# Source: susaas-app/templates/my-config-map.yaml
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -596,42 +643,86 @@ With the help of Helm's *Subcharts* feature, you can manage and organize complic
 
 According to the official Helm documentation: "*The current best practice for composing a complex application from discrete parts is to create a top-level umbrella chart that exposes the global configurations, and then use the chart's subdirectory to embed each of the components.*".
 
-Which is exactly the approach chosen in our sample application.
+Which is exactly the approach chosen by CAP Framework.
+
 
 ```yaml
-apiVersion: v2  
-name: susaas-app
-description: Sustainable SaaS
+apiVersion: v2
+name: helmtest
+description: A simple CAP project.
 type: application
-version: 0.0.1
-appVersion: 0.0.1
+version: 1.0.0
+appVersion: 1.0.0
+annotations:
+  app.kubernetes.io/managed-by: cds-dk/helm
 dependencies:
-  - name: susaas-srv
+  - name: web-application
     alias: srv
-    version: 0.1.0
-  - name: susaas-router
-    alias: router
-    version: 0.1.0
-  - name: susaas-broker
-    alias: broker
-    version: 0.1.0
-  - name: susaas-api
+    version: ">0.0.0"
+  - name: service-instance
+    alias: xsuaa
+    version: ">0.0.0"
+  - name: web-application
     alias: api
-    version: 0.1.0
+    version: ">0.0.0"
+  - name: service-instance
+    alias: saas-registry
+    version: ">0.0.0"
+  - name: web-application
+    alias: approuter
+    version: ">0.0.0"
+  - name: web-application
+    alias: broker
+    version: ">0.0.0"
+  - name: service-instance
+    alias: html5-apps-repo-host
+    version: ">0.0.0"
+  - name: content-deployment
+    alias: html5-apps-deployer
+    version: ">0.0.0"
+  - name: content-deployment
+    alias: common-db-deployer
+    version: ">0.0.0"
+  - name: service-instance
+    alias: html5-apps-repo-runtime
+    version: ">0.0.0"
+  - name: service-instance
+    alias: service-manager-container
+    version: ">0.0.0"
+  - name: service-instance
+    alias: service-manager-admin
+    version: ">0.0.0"
+  - name: service-instance
+    alias: ias
+    version: ">0.0.0"
+  - name: service-instance
+    alias: broker-xsuaa
+    version: ">0.0.0"
+  - name: service-instance
+    alias: destination
+    version: ">0.0.0"
+  - name: service-instance
+    alias: alert-notification
+    version: ">0.0.0"
+  - name: service-instance
+    alias: common-db
+    version: ">0.0.0"
+  - name: service-instance
+    alias: xsuaa
+    version: ">0.0.0"
+
 ```
 
-As you can see above, **susaas-app** is the Umbrella Chart and 
- - susaas-srv
- - susaas-router
- - susaas-broker
- - susaas-api
+As you can see above, our chart is the Umbrella Chart and 
+ - service-instance
+ - web-application
+ - content-deployment
   
-are the Subcharts, all located in the [charts](../../../../deploy/kyma/charts/sustainable-saas/charts/) directory of the corresponding Umbrella Chart.
+are the Subcharts, all generated by CAP framework in the [code/gen/chart](../../../../code/gen/chart) directory after you run `cds build --production`.
 
-In short, **susaas-app** is - the one Helm Cart to rule them all - and the respective Subcharts are receiving their configurations from the *values.yaml* file of the **susaas-app** chart.
 
 ## 7. Further Readings
-
+- [Deploy to Kyma - CAP official documentation](https://cap.cloud.sap/docs/guides/deployment/to-kyma#deploy-to-kyma)
 - [Helm official documentation](https://helm.sh/docs/)
 - [Why do dev-ops engineers love Helm?](https://www.cncf.io/blog/2020/08/26/why-do-devops-engineers-love-helm/)
 - [Relevant resources on medium](https://medium.com/tag/helm-chart)

@@ -36,7 +36,7 @@ async function createServiceInstance(serviceCredentials, serviceName, serviceOff
     return data;
 }
 
-async function createServiceBinding(serviceCredentials, serviceInstanceId, subscribingSubdomain) {
+async function createServiceBinding(serviceCredentials, serviceInstanceId, name) {
     try {
         const token = await getToken(serviceCredentials);
 
@@ -46,12 +46,12 @@ async function createServiceBinding(serviceCredentials, serviceInstanceId, subsc
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ name: subscribingSubdomain, service_instance_id: serviceInstanceId })
+            body: JSON.stringify({ name: name, service_instance_id: serviceInstanceId })
         });
 
         if (!response.ok) {
             if (response.status === 409) {
-                return await getServiceBindingsByName(serviceCredentials, subscribingSubdomain, token)
+                return await getServiceBindingsByName(serviceCredentials, name, token)
             } else {
                 const error = await response.json();
                 throw {
@@ -73,7 +73,7 @@ async function deleteServiceInstance(serviceCredentials, serviceInstanceId) {
     try {
         const token = await getToken(serviceCredentials);
 
-        const response = await fetch(serviceCredentials.sm_url + `/v1/service_instances/${serviceInstanceId}`, {
+        const response = await fetch(serviceCredentials.sm_url + `/v1/service_instances/${serviceInstanceId}?async=false`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ async function registerServiceBroker(serviceCredentials, name, url, description,
             body: JSON.stringify(body)
         });
         if (!response.ok) {
-            if(response.status===409){
+            if (response.status === 409) {
                 // already exist ? then ok...
                 Logger.debug(`service broker ${name} already registered to subaccount.`)
                 return
@@ -246,7 +246,9 @@ async function getServiceInstanceByName(serviceCredentials, name, token) {
     const query = `name eq '${name}'`;
     const encodedQuery = encodeURIComponent(query);
     const url = `${serviceCredentials.sm_url}/v1/service_instances?fieldQuery=${encodedQuery}`;
-
+    if (!token) {
+        token = await getToken(serviceCredentials)
+    }
     const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -270,7 +272,9 @@ async function getServiceBindingsByName(serviceCredentials, name, token) {
     const query = `name eq '${name}'`;
     const encodedQuery = encodeURIComponent(query);
     const url = `${serviceCredentials.sm_url}/v1/service_bindings?fieldQuery=${encodedQuery}`;
-
+    if (!token) {
+        token = await getToken(serviceCredentials)
+    }
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -281,6 +285,7 @@ async function getServiceBindingsByName(serviceCredentials, name, token) {
         });
 
         if (!response.ok) {
+            console.log("Error on Get SB name")
             throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
 
@@ -299,5 +304,7 @@ module.exports = {
     deleteServiceBinding,
     registerServiceBroker,
     deleteServiceBroker,
-    getServiceBroker
+    getServiceBroker,
+    getServiceBindingsByName,
+    getServiceInstanceByName
 };

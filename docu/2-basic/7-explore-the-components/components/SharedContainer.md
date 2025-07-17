@@ -25,7 +25,7 @@ Depending on your runtime of choice, the shared database container is set up dif
 
 ### Kyma Helm Chart
 
-The HDI container required for the shared data is defined in the *values.yaml* file ([click here](../../../../deploy/kyma/charts/sustainable-saas/values.yaml)) of our Umbrella Chart and created during the deployment of the SaaS application to the Provider Subaccount. 
+The HDI container required for the shared data is defined in the *values.yaml* file ([click here](../../../../code/chart/values.yaml)) of our Umbrella Chart and created during the deployment of the SaaS application to the Provider Subaccount. 
 
 > **Hint** - For the Tenant database container instances, SAP Service Manager (container plan) takes care of the whole container lifecycle. Therefore, there is no need to specify additional HDI resources for these containers in the *values.yaml* file. 
 
@@ -74,7 +74,7 @@ srv:
       serviceInstanceName: com-hdi-container
 ```
 
-As you might know it from Cloud Foundry deployments, also in Kyma a so-called **Service Replacement** definition is required for this cross-container-access scenario. The respective environment variable is defined in the following *values.yaml* file ([click here](../../../../deploy/kyma/charts/sustainable-saas/charts/susaas-srv/values.yaml)).
+As you might know it from Cloud Foundry deployments, also in Kyma a so-called **Service Replacement** definition is required for this cross-container-access scenario. The respective environment variable is defined in the following *values.yaml* file ([click here](../../../../code/chart/values.yaml)).
 
 ```yaml
 env:

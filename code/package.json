@@ -149,6 +149,18 @@
           "options": {
             "model": "db-com"
           }
+        },
+        {
+          "for": "helm",
+          "src": ".",
+          "options": {
+            "model": [
+              "db",
+              "srv",
+              "./",
+              "."
+            ]
+          }
         }
       ]
     }

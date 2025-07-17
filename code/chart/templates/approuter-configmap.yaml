@@ -1,0 +1,13 @@
+# Please do not modify this file. This file may be overwritten.
+
+{{- $defaultParameters :=  dict "forwardAuthToken" true }}
+{{- $ := dict "root" . "defaultParameters" $defaultParameters }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}-approuter-configmap"
+  namespace: "{{ .Release.Namespace }}"
+data:
+  destinations: >
+    {{ include "cap.backendDestinations" $ }}
