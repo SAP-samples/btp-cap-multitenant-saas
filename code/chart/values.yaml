@@ -116,6 +116,13 @@ srv:
         verbs: ["get", "list", "create", "update", "patch", "delete"]
   networkSecurity:
     allowNamespaceInternal: true
+  otlp:
+    traces:
+      enabled: true
+      endpoint: http://telemetry-otlp-traces.kyma-system.svc.cluster.local:4317
+    metrics:
+      enabled: true
+      endpoint: http://telemetry-otlp-metrics.kyma-system.svc.cluster.local:4317
 
 ### Service Broker 
 broker:

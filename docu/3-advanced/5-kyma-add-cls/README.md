@@ -22,7 +22,15 @@ The SAP Cloud Logging service offers multiple service plans (e.g., Standard, Lar
 
 For more information, see the [SAP Cloud Logging](https://help.sap.com/docs/SAP_CLOUD_LOGGING/454331d80e3b42b1804d83a672cf098b/what-is-sap-cloud-logging?locale=en-US&state=PRODUCTION&version=Cloud) and its [plans](https://help.sap.com/docs/SAP_CLOUD_LOGGING/454331d80e3b42b1804d83a672cf098b/service-plans?locale=en-US&state=PRODUCTION&version=Cloud) documentation. You can also check the [service innovation guide](https://community.sap.com/t5/technology-blogs-by-sap/from-application-logging-to-cloud-logging-service-innovation-guide/ba-p/13938380) to understand the innovation journey from SAP Application Logging Service towards SAP Cloud Logging Service and its benefits.
 
-## 2. Add Observability with Telemetry plugin
+## 2. Enable Telemetry Module in Kyma 
+  - Enable telemetry module in your Kyma cluster. For details, see [Adding and Deleting a Kyma Module](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module).
+    [<img src="./images/telemetry-module.png" width="750"/>](./images/telemetry-module.png?raw=true)
+
+  - The Telemetry module focuses only on the signals of application logs, distributed traces, and metrics. Other kinds of signals are not considered. Also, audit logs are not in scope.
+  - The telemetry module ships a kubernetes operator [Telemetry Manager](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-manager) as its core component. Telemetry Manager manages the whole lifecycle of all other components covered in the telemetry module. Telemetry Manager watches module configuration for changes and sync the module status to it. It also watches for the user-created Kubernetes resources: LogPipeline, TracePipeline, and MetricPipeline. In these resources, you specify what data of a signal type to collect and where to ship it. For more details, see [Module Lifecycle](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-manager#module-lifecycle).
+  - If Telemetry Manager detects a configuration, it deploys the related [gateway components](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-gateways) and [agent components](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-telemetry-module#:~:text=Telemetry%20Gateways.-,Log%20Agent,-The%20log%20agent) accordingly and keeps them in sync with the requested pipeline definition. For more details see [Architecture](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-telemetry-module#architecture) of the telemetry module.
+
+## 3. Add Observability with Telemetry plugin
 The [Telemetry (@cap-js/telemetry) plugin](https://github.com/cap-js/telemetry) provides observability features such as tracing and metrics, including [automatic OpenTelemetry instrumentation](https://opentelemetry.io/docs/concepts/instrumentation/zero-code/). By enabling the plugin in your project, various kinds of telemetry data will be automatically collected.
 
 Let's add the Telemetry plugin to the project and enable it by customizing few configurations. 
@@ -62,7 +70,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     Additionally, @cap-js/telemetry instantiates and provides host metrics like cpu usage and memory usage etc ([@opentelemetry/host-metrics](https://www.npmjs.com/package/@opentelemetry/host-metrics)).       
     [<img src="./images/local-metrics-2.png" width="750"/>](./images/local-metrics-2.png?raw=true)
 
-## 3. Deploy and Integrate to Cloud Logging.
+## 4. Deploy and Integrate to Cloud Logging.
 - **Prepare for Deployment**
   - Ensure that you have installed following dependencies in your project (check in [code/package.json](../../../code/package.json)).
     ```bash
@@ -75,25 +83,24 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
       "kind": "to-otlp"
     } 
     ```    
-  - Enable otlp config under global in helm chart as shown below in [/charts/sustainable-saas/Values.yaml](../../../deploy/kyma/charts/sustainable-saas/values.yaml)
-    ```yaml
-    ## setting enabled: true ##
-    otlp:
-      metrics:
-        enabled: true
-        endpoint: http://telemetry-otlp-metrics.kyma-system.svc.cluster.local:4317
-      traces:
-        enabled: true
-        endpoint: http://telemetry-otlp-traces.kyma-system.svc.cluster.local:4317
-    ```
-  - Build and Deploy your application.
-- **Enable telemetry module** 
-  - Enable telemetry module in your Kyma cluster. For details, see [Adding and Deleting a Kyma Module](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module).
-    [<img src="./images/telemetry-module.png" width="750"/>](./images/telemetry-module.png?raw=true)
+  - Enable otlp config for your backend application in helm chart as shown below in your [yaml](../../../code/chart/values.yaml)
 
-  - The Telemetry module focuses only on the signals of application logs, distributed traces, and metrics. Other kinds of signals are not considered. Also, audit logs are not in scope.
-  - The telemetry module ships a kubernetes operator [Telemetry Manager](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-manager) as its core component. Telemetry Manager manages the whole lifecycle of all other components covered in the telemetry module. Telemetry Manager watches module configuration for changes and sync the module status to it. It also watches for the user-created Kubernetes resources: LogPipeline, TracePipeline, and MetricPipeline. In these resources, you specify what data of a signal type to collect and where to ship it. For more details, see [Module Lifecycle](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-manager#module-lifecycle).
-  - If Telemetry Manager detects a configuration, it deploys the related [gateway components](https://help.sap.com/docs/btp/sap-business-technology-platform/telemetry-gateways) and [agent components](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-telemetry-module#:~:text=Telemetry%20Gateways.-,Log%20Agent,-The%20log%20agent) accordingly and keeps them in sync with the requested pipeline definition. For more details see [Architecture](https://help.sap.com/docs/btp/sap-business-technology-platform/kyma-telemetry-module#architecture) of the telemetry module.
+```yaml
+ ### Backend Service
+srv:
+  ...
+  otlp:
+    traces:
+      enabled: true
+      endpoint: http://telemetry-otlp-traces.kyma-system.svc.cluster.local:4317
+    metrics:
+      enabled: true
+      endpoint: http://telemetry-otlp-metrics.kyma-system.svc.cluster.local:4317
+
+```
+
+  - Build and Deploy your application.
+
 - **Service Instance Creation / Binding**   
   There are multiple methods to create an instance of the SAP Cloud Logging service as follows.     
     - [Create an SAP Cloud Logging Instance through SAP BTP Cockpit](https://help.sap.com/docs/SAP_CLOUD_LOGGING/d82d23dc499c44079e1e779c1d3a5191/create-sap-cloud-logging-instance-through-sap-btp-cockpit)     
@@ -102,17 +109,17 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     - [Create an SAP Cloud Logging Instance through SAP BTP Service Operator](https://help.sap.com/docs/cloud-logging/cloud-logging/create-sap-cloud-logging-instance-through-sap-btp-service-operator?version=Cloud)
 
   Preferred approach for Kyma environment would be to use BTP Service Operator. It helps in creating necessary secrets and also telemetry module intelligently rortates and switches to new credentials without any action from developer.
-  - [cls-instance-binding.yaml](../../../deploy/kyma/cls/cls-instance-binding.yaml)
+  - [cls-instance-binding.yaml](../docu/3-advanced/5-kyma-add-cls/cls/cls-instance-binding.yaml)
     ```cmd
-    ## Run in ./deploy/kyma ##
-    kubectl apply -f ./cls/cls-instance-binding.yaml
+    ## Run in ./code ##
+    kubectl apply -f ../docu/3-advanced/5-kyma-add-cls/cls/
     ```
 - **Enable Configurations in Kyma and Ship Logs, Traces, Metrices to SAP Cloud Logging**  
   - **_Ship application logs:_** <br/>
     Application running in Kyma runtime will send logs to stdout or stderr. To ship these logs to SAP Cloud Logging a LogPipeline (customer resources) needs to be created. The Telemetry module based on the LogPipeline details will capture and ship them to SAP Cloud Logging. 
      ```cmd
-    ## Run in ./deploy/kyma ##
-    kubectl apply -f ./cls/logpipeline-app-logs.yaml
+    ## Run in ./code ##
+    kubectl apply -f ../docu/3-advanced/5-kyma-add-cls/cls/logpipeline-app-logs.yaml
     ```
     You can check the status of pipeline whether telemetry flow is healthy. 
     [<img src="./images/logpipeline-status.png" width="750"/>](./images/logpipeline-status.png?raw=true)
@@ -130,7 +137,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
               - istio-proxy
           namespaces:
             include:
-              - susaas
+              - mtenant
       output:
         http:
           dedot: true
@@ -138,20 +145,20 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
             valueFrom:
               secretKeyRef:
                 name: susaas-logging
-                namespace: susaas
+                namespace: mtenant
                 key: ingest-mtls-endpoint
           tls:
             cert:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-mtls-cert
             key:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-mtls-key
           uri: /customindex/kyma
     ```
@@ -160,9 +167,9 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
   - **_Ship istio access logs_** <br/>
     Istio access logs provide fine-grained details about the traffic when accessing the workloads. The Istio access logs provide useful information relating to 4 golden signals, such as latency, traffic, errors, and saturation as well as any troubleshooting anomalies.
     ```cmd
-    ## Run in ./deploy/kyma ##
-    kubectl apply -f ./cls/istio-trace-default.yaml
-    kubectl apply -f ./cls/logpipeline-istio-logs.yaml
+    ## Run in ./code ##
+    kubectl apply -f ../docu/3-advanced/5-kyma-add-cls/cls/istio-trace-default.yaml
+    kubectl apply -f ../docu/3-advanced/5-kyma-add-cls/cls/logpipeline-istio-logs.yaml
     ```
     ```yaml
     ## istio-trace-default.yaml ##
@@ -170,7 +177,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     kind: Telemetry
     metadata:
       name: istio-trace-default
-      namespace: susaas
+      namespace: mtenant
     spec:
       accessLogging:
       - providers:
@@ -194,7 +201,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
               - istio-proxy
           namespaces:
             include:
-              - susaas
+              - mtenant
       output:
         http:
           dedot: true
@@ -202,20 +209,20 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
             valueFrom:
               secretKeyRef:
                 name: susaas-logging
-                namespace: susaas
+                namespace: mtenant
                 key: ingest-mtls-endpoint
           tls:
             cert:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-mtls-cert
             key:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-mtls-key
           uri: /customindex/istio-envoy-kyma
     ```
@@ -230,7 +237,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     kind: Telemetry
     metadata:
       name: istio-trace-default
-      namespace: susaas
+      namespace: mtenant
     spec:
       accessLogging:
       - providers:
@@ -244,8 +251,8 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
 
     To ship trace logs to SAP Cloud Logging following TracePipeline needs to be created.
     ```cmd
-    ## Run in ./deploy/kyma ##
-    kubectl apply -f ./cls/tracepipeline-app-traces.yaml
+    ## Run in ./code ##
+    kubectl apply -f ../docu/3-advanced/5-kyma-add-cls/cls/tracepipeline-app-traces.yaml
     ```
     ```yaml
     ## tracepipeline-app-traces.yaml ##
@@ -260,20 +267,20 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
             valueFrom:
               secretKeyRef:
                 name: susaas-logging
-                namespace: susaas
+                namespace: mtenant
                 key: ingest-otlp-endpoint
           tls:
             cert:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-otlp-cert
             key:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-otlp-key
     ```
     Telemetry Manager configures the gateway according to the TracePipeline resource, including the target backend for the trace gateway.The trace gateway sends the data to the observability system that’s specified in your TracePipeline resource. 
@@ -289,7 +296,7 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
     To metrices to SAP Cloud Logging following MetricPipeline needs to be created.
     ```cmd
     ## Run in ./deploy/kyma ##
-    kubectl apply -f ./cls/metricpipeline-app-metrics.yaml
+    kubectl apply -f ../docu/3-advanced/5-kyma-add-cls/cls/metricpipeline-app-metrics.yaml
     ```
     ```yaml
     ## metricpipeline-app-metrics.yaml ##
@@ -308,27 +315,27 @@ Let's add the Telemetry plugin to the project and enable it by customizing few c
         otlp:
           namespaces:
             include:
-              - susaas
+              - mtenant
       output:
         otlp:
           endpoint:
             valueFrom:
               secretKeyRef:
                 name: susaas-logging
-                namespace: susaas
+                namespace: mtenant
                 key: ingest-otlp-endpoint
           tls:
             cert:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-otlp-cert
             key:
               valueFrom:
                 secretKeyRef:
                   name: susaas-logging
-                  namespace: susaas
+                  namespace: mtenant
                   key: ingest-otlp-key
     ```
     This configuration will collect metrices from susaas namespace and send to SAP Cloud Logging. Telemetry Manager configures the agent and gateway according to the MetricPipeline resource specification, including the target backend for the metric gateway. The metric gateway sends the data to the observability system that’s specified in your MetricPipeline resource . You can enable metrics for istio by changing the resource specification. See more details on [Setting up a MetricPipeline](https://help.sap.com/docs/btp/sap-business-technology-platform/metrics#setting-up-a-metricpipeline)
