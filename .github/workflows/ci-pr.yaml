@@ -91,5 +91,69 @@ jobs:
         BTP_SUBDOMAIN: ${{ secrets.BTP_SUBDOMAIN }}
         CF_SPACE: ${{ secrets.CF_SPACE }}
         CF_ORG: ${{ secrets.CF_ORG}}
+  
+  kyma:
+    if: github.event.pull_request.draft == false  #Skip on draft PRs
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.pull_request.head.repo.fork == true && 'ci-forked' || 'ci-owner' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{github.event.pull_request.head.sha}}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin
+
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+    - name: Install pack CLI
+      run: |
+        sudo add-apt-repository ppa:cncf-buildpacks/pack-cli
+        sudo apt-get update
+        sudo apt-get install pack-cli
+
+    - name: Install BTP CLI
+      run: |
+        dpkg --print-architecture
+        curl -LJO https://tools.hana.ondemand.com/additional/btp-cli-linux-amd64-latest.tar.gz --cookie "eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt"
+        tar -xzf btp-cli-linux-amd64-latest.tar.gz
+        ls -a
+        mv linux-amd64/btp /usr/local/bin
+        chmod +x /usr/local/bin/btp
+
+    - name: Set up kubeconfig from secret
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+    - name: Build and Push Images
+      run: |
+        cd code
+        make install
+        make build
+        make pack IMAGE_PREFIX= "${{ secrets.DOCKERHUB_USERNAME }}"
+        make push IMAGE_PREFIX= "${{ secrets.DOCKERHUB_USERNAME }}"
+    
+        
+
         
 
