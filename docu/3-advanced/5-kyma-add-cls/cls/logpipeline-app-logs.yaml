@@ -1,0 +1,36 @@
+apiVersion: telemetry.kyma-project.io/v1alpha1
+kind: LogPipeline
+metadata:
+  name: susaas-app-logs
+spec:
+  input:
+    application:
+      containers:
+        exclude:
+          - istio-proxy
+      namespaces:
+        include:
+          - mtenant
+  output:
+    http:
+      dedot: true
+      host:
+        valueFrom:
+          secretKeyRef:
+            name: susaas-logging
+            namespace: mtenant
+            key: ingest-mtls-endpoint
+      tls:
+        cert:
+          valueFrom:
+            secretKeyRef:
+              name: susaas-logging
+              namespace: mtenant
+              key: ingest-mtls-cert
+        key:
+          valueFrom:
+            secretKeyRef:
+              name: susaas-logging
+              namespace: mtenant
+              key: ingest-mtls-key
+      uri: /customindex/kyma

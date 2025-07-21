@@ -135,18 +135,20 @@ To enable the Central User Management leveraging SAP Identity Authentication Ser
 
 > **Important** - Please make sure, you successfully configured the trust between your SAP Identity Authentication Service tenant, and both, the Provider and Subscriber Subaccount.
 
-For this Advanced feature, please add the provided [*./files/values-ias.yaml*](./files/values-ias.yaml) details of this **Advanced Version** section to your main **values-private.yaml** file (located in [*/deploy/kyma/charts/sustainable-saas/*](../../../deploy/kyma/charts/sustainable-saas/)). Your *values-private.yaml* should look similar to this (some values replaced by ... to increase readability). 
+Add the service binding as shown below to your srv, service instance ias has been already included in your helm charts and values.yaml.
 
 ```yaml
 srv:
   ###################### Existing Configuration #######################
   image:
-    repository: sap-demo/susaas-srv
+    repository: susaas-srv
     tag: latest
   ######################## Added Configuration ######################## 
   bindings:
-    identity:
-      serviceInstanceName: identity
+    ias:
+      # Only enable if Cloud Identity Service instance is enabled in Umbrella Chart 
+      serviceInstanceName: ias
+      # SAP IAS binding requires X.509 certificate based credentials
       parameters:
         credential-type: X509_GENERATED
       credentialsRotationPolicy:
@@ -154,29 +156,17 @@ srv:
         rotatedBindingTTL: 1h
         rotationFrequency: 24h
 
-######################## Added Configuration ######################## 
-identity:
-  serviceOfferingName: identity
-  servicePlanName: application
-  parameters:
-    display-name: [...]
-    oauth2-configuration:
-      redirect-uris: [...]
-      post-logout-redirect-uris: [...]
-      grant-types: ["authorization_code"]
-      credential-types: ["binding-secret", "x509"]
-    xsuaa-cross-consumption: false
-    multi-tenant: false
 ```
 
 After updating your **values-private.yaml** file, please start an upgrade of your existing Sustainable SaaS deployment, by running the following command. This will create the new Service Instance and requires Service Bindings. 
 
 ```sh
-## Run in ./deploy/kyma ##
-helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n <Namespace>
+## Run in ./code ##
+cds build --production
+helm upgrade susaas gen/chart -n <Namespace>
 
 # Example #
-helm upgrade susaas ./charts/sustainable-saas -f ./charts/sustainable-saas/values-private.yaml -n default
+helm upgrade susaas gen/chart -n mtenant
 ```
 
 In your **Service Instances** you should now see a new instance of type **identity** and plan **application**, which has a **Service Binding** to your Backend Service. 
@@ -192,23 +182,20 @@ Below, you can find the Service Instance definition of the SAP Cloud Identity Se
 ```yaml
 # SAP Cloud Identity Service Instance #
 # Provides an SAP IAS integration for central user management #
-identity:
+ias:
   serviceOfferingName: identity
   servicePlanName: application
-  externalName: default-susaas-identity
   parameters:
-    display-name: SusaaS (susaas-default-a1b2c3)
+    display-name: Susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    xsuaa-cross-consumption: false
     multi-tenant: false
-    oauth2-configuration:
-      credential-types:
-      - binding-secret
-      - x509
-      grant-types:
-      - authorization_code
-      post-logout-redirect-uris:
-      - https://*.susaas-router-default.a1b2c3.kyma.ondemand.com/logout/**
+    oauth2-configuration: 
       redirect-uris:
-      - https://*.susaas-router-default.a1b2c3.kyma.ondemand.com/login/callback?authType=ias
+        - https://*.{{ .Values.global.domain }}/login/callback?authType=ias
+      post-logout-redirect-uris:
+        - https://*.{{ .Values.global.domain }}/logout/**
+      grant-types: ["authorization_code"]
+      credential-types: ["binding-secret","x509"]
 ```
 
 Besides the new Service Instance, also a new Service Binding between the **SaaS Backend Service** and the **Cloud Identity** Service Instance is configured. In this case a special binding type (X.509) is required, while for all other Service Bindings we are using the standard Client Credential binding. 
@@ -218,8 +205,8 @@ Besides the new Service Instance, also a new Service Binding between the **SaaS 
 # Creates a binding between the Service Instance and the SaaS Backend Service #
 srv:
   bindings:
-    identity:
-      serviceInstanceName: susaas-identity
+    ias:
+      serviceInstanceName: ias
       parameters: 
         credential-type: X509_GENERATED
       credentialsRotationPolicy: 

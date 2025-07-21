@@ -1,0 +1,37 @@
+apiVersion: telemetry.kyma-project.io/v1alpha1
+kind: MetricPipeline
+metadata:
+  name: susaas-metrices
+spec:
+  input:
+    prometheus:
+      enabled: false
+    istio:
+      enabled: false
+    runtime:
+      enabled: false
+    otlp:
+      namespaces:
+        include:
+          - mtenant
+  output:
+    otlp:
+      endpoint:
+        valueFrom:
+          secretKeyRef:
+            name: susaas-logging
+            namespace: mtenant
+            key: ingest-otlp-endpoint
+      tls:
+        cert:
+          valueFrom:
+            secretKeyRef:
+              name: susaas-logging
+              namespace: mtenant
+              key: ingest-otlp-cert
+        key:
+          valueFrom:
+            secretKeyRef:
+              name: susaas-logging
+              namespace: mtenant
+              key: ingest-otlp-key

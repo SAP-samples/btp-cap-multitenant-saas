@@ -1,0 +1,13 @@
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: istio-trace-default
+  namespace: mtenant
+spec:
+  accessLogging:
+  - providers:
+    - name: stdout-json
+  tracing:
+  - providers:
+    - name: "kyma-traces"
+    randomSamplingPercentage: 100.0

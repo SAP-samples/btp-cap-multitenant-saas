@@ -1,6 +1,0 @@
-# Make sure to apply tpl functions in parameters of values.yaml 
-{{- $defaultParameters := dict "parameters" (
-        include "template-value" ( dict "value" .Values.xsuaa_api.parameters "context" . ) | fromYaml
-    )
-}}
-{{- include "cap.service-instance" (mergeOverwrite (dict "defaultParameters" $defaultParameters.parameters "useDefaults" true ) .) }}

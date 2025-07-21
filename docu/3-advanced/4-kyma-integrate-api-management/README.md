@@ -3,7 +3,8 @@
 - **Kyma** ✅
 - **Cloud Foundry** ❌
 
-**Important** - This part of the tutorial is required for **Kyma** deployments only!
+## **Important** - This part of the tutorial is deprecated will be updated soon!! ❌
+
 
 As your SaaS application contains an API that allows your Subscriber to interact programmatically with their Tenant database containers, you need to ensure that your API endpoints are properly managed and monitored. For this purpose, you should implement features like **Rate Limiting** to prevent DoS attacks. Furthermore, you can ensure fair usage of the resources among your consumers by setting up a **Quota** based on the chosen service plan. A premium Subscriber can be eligible to send more requests per second than a standard Consumer. Proper monitoring of your API will help you analyze performance issues and to identify problems of your consumers. 
 

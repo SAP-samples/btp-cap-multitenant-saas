@@ -1,7 +1,0 @@
-{{- if hasKey .Values "identity" }}
-  {{- $defaultParameters := dict "parameters" (
-          include "template-value" ( dict "value" .Values.identity.parameters "context" . ) | fromYaml
-      )
-  }}
-  {{- include "cap.service-instance" (mergeOverwrite (dict "defaultParameters" $defaultParameters.parameters "useDefaults" true ) .) }}
-{{- end }}

@@ -155,7 +155,7 @@ To install the Helm chart, follow these steps:
 2. Use the following command to install the Helm chart from your root directory:
 
 ```sh
-helm install cdomain ./docu/4-expert/-Kyma-/custom-domain/chart -n default --wait 
+helm install cdomain ./docu/4-expert/-Kyma-/custom-domain/chart -n default--wait 
 ```
 
 3. Check if everything went well with commands below. All the objects should be in ready state.
@@ -371,41 +371,32 @@ EOF
 
 ### 4.3. Expose Your SusaaS Application with your Custom Domain
 
-Go to your [sustainable-saas chart values-private.yaml](../../../../deploy/kyma/charts/sustainable-saas/values-private.yaml), and modify it as shown below. You need to change the **global.gateway** value to **default/cdomain-gateway**. Second thing you need to change is the domain value. You need to set your domain to **kyma.example.com** as shown below.
+Go to your [values.yaml](../../../../code/chart/values.yaml), and modify it as shown below. You need to change the **global.gateway** value to **default/cdomain-gateway**. Second thing you need to change is the domain value. You need to set your domain to **kyma.example.com** as shown below.
+
+Additionally, exposing approuter under your custom domain has been provided as example. 
 
 ```yaml
 
 global:
   imagePullSecret: {}
   domain: kyma.example.com  
-  shootName: a1b2c3 
-  gateway: default/cdomain-gateway 
+
+## expose approuter under your gateway in your values.yaml
+approuter:
+  expose:
+    gateway: default/cdomain-gateway 
 
 ```
 
-Last but not least, also provide a new redirect URL as part of the **xsuaa** OAuth2 Configuration, which is also part of your existing **values-private.yaml** file. 
-
-```yaml
-...
-
-xsuaa:
-  parameters:
-   oauth2-configuration:
-    redirect-uris:
-      # Provide domain here with the wildcard and "https://" prefix as shown
-      - https://*.kyma.example.com/**  
-      - https://*.a1b2c3.kyma.ondemand.com/**
-      - http://*.localhost:5000/**
-      - http://localhost:5000/**
-```
 
 If you have done the changes, last step is upgrading the helm release so that you application uses the new domain and gateway you created.
 
-On your root directory, run the command below: 
+On your ./code directory, run the command below: 
 
 ```sh
-## Run in root directory #
-helm upgrade susaas deploy/kyma/charts/sustainable-saas -f deploy/kyma/charts/sustainable-saas/values-private.yaml -n default 
+## Run in ./code directory #
+cds build --production
+helm upgrade susaas gen/chart -n default 
 ```
 
 Now you can go ahead and [subscribe](../../../2-basic/4-subscribe-consumer-subaccount/README.md), you should see that your application is using your new domain.

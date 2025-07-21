@@ -1,0 +1,26 @@
+apiVersion: telemetry.kyma-project.io/v1alpha1
+kind: TracePipeline
+metadata:
+  name: susaas-traces
+spec:
+  output:
+    otlp:
+      endpoint:
+        valueFrom:
+          secretKeyRef:
+            name: susaas-logging
+            namespace: mtenant
+            key: ingest-otlp-endpoint
+      tls:
+        cert:
+          valueFrom:
+            secretKeyRef:
+              name: susaas-logging
+              namespace: mtenant
+              key: ingest-otlp-cert
+        key:
+          valueFrom:
+            secretKeyRef:
+              name: susaas-logging
+              namespace: mtenant
+              key: ingest-otlp-key
