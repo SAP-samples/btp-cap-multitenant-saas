@@ -134,11 +134,39 @@ jobs:
         mv linux-amd64/btp /usr/local/bin
         chmod +x /usr/local/bin/btp
 
-    - name: Set up kubeconfig from secret
+    - name: Create kubeconfig file
       run: |
         mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG_CONTENT }}" > ~/.kube/config
+        cat <<EOF > ~/.kube/config
+        apiVersion: v1
+        kind: Config
+        current-context: susaas-gh-action
+        users:
+          - name: susaas-gh-action
+            user:
+              token: ${TOKEN}
+        clusters:
+          - name: ${CLUSTER_NAME}
+            cluster:
+              certificate-authority-data: ${CERTIFICATE}
+              server: ${SERVER}
+        contexts:
+          - context:
+              cluster:  ${CLUSTER_NAME}
+              user: susaas-gh-action
+              namespace: default
+            name: susaas-gh-action
+        EOF
+      env:
+        TOKEN: ${{ secrets.CLUSTER_TOKEN}}
+        CERTIFICATE: ${{ secrets.CLUSTER_CA_DATA }}
+        SERVER:  ${{ secrets.CLUSTER_API }}
+        CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
 
+    - name: Test Kubectl
+      run: |
+        kubectl get namespaces
+      
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:

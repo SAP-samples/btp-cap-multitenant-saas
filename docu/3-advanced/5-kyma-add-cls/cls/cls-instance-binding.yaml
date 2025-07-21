@@ -4,7 +4,7 @@ metadata:
   name: susaas-logging
   labels:
     app.kubernetes.io/name: cloud-logging
-  namespace: susaas
+  namespace: mtenant
 spec:
     serviceOfferingName: cloud-logging
     servicePlanName: standard
@@ -21,7 +21,7 @@ metadata:
   name: susaas-logging
   labels:
     app.kubernetes.io/name: susaas
-  namespace: susaas
+  namespace: mtenant
 spec:
   serviceInstanceName: susaas-logging
   credentialsRotationPolicy:
