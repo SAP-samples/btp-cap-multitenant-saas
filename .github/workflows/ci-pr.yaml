@@ -110,14 +110,12 @@ jobs:
         node-version: '20.x'
 
     - name: Install kubectl
-      run: |
-        curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin
+      uses: azure/setup-kubectl@v4
+      id: install-kctl
 
     - name: Install Helm
-      run: |
-        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      uses: azure/setup-helm@v4.3.0
+      id: install-helm
 
     - name: Install pack CLI
       run: |
