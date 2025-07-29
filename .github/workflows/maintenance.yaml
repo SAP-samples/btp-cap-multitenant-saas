@@ -1,0 +1,48 @@
+name: Weekly Maintenance PR
+
+on:
+  schedule:
+    - cron: '0 6 * * FRI'  
+  workflow_dispatch:
+
+jobs:
+  update-deps:
+    runs-on: ubuntu-latest
+    environment: ci-owner
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true  
+          fetch-depth: 0
+
+      - name: Configure Git identity
+        run: |
+          git config --global user.name "ci-bot"
+          git config --global user.email "ci-bot@your-org.com"
+
+      - name: Update deps in selected directories
+        run: |
+          BRANCH="chore/weekly-update-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          for dir in code/ui/main-app code/broker; do
+            echo "Updating deps in $dir"
+            cd "$dir"
+            npm update || true
+            cd - > /dev/null
+          done
+          git add .
+          git diff --cached --exit-code && echo "No changes" && exit 0
+          git commit -m "chore: weekly dependency updates"
+          git push origin "$BRANCH"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --title "chore: weekly dependency updates" \
+            --body "Automated dependency updates by maintenance job." \
+            --base main \
+            --head "$BRANCH"
