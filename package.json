@@ -8,6 +8,6 @@
         "node": "^20.x"
     },
     "scripts": {
-        "cds-build": "npm --prefix ./deploy/kyma run install && npm --prefix ./deploy/kyma run build && npm --prefix ./deploy/kyma run ui:apps"
+        "cds-build": "cd code && make build"
     }
 }
