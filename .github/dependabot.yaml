@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/code/broker"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "06:00"
+    commit-message:
+      prefix: "chore"
+    open-pull-requests-limit: 5
