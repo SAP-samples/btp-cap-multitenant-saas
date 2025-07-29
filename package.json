@@ -8,6 +8,6 @@
         "node": "^20.x"
     },
     "scripts": {
-        "cds-build": "cd code && make build"
+        "cds-build": "cd code && npm install && make build"
     }
 }
