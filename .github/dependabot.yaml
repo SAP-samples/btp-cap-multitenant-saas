@@ -11,18 +11,3 @@ updates:
     open-pull-requests-limit: 5
     versioning-strategy: increase-if-necessary
 
-
-  - package-ecosystem: "npm"
-    directory: "/code"
-    schedule:
-      interval: "weekly"
-      day: "friday"
-      time: "06:00"
-    commit-message:
-      prefix: "chore"
-    versioning-strategy: widen    # major/minor/patch 
-    open-pull-requests-limit: 5
-    groups:
-      sap-cds:
-        patterns:
-          - "@sap/cds*"
