@@ -134,13 +134,26 @@ jobs:
 
     - name: Create kubeconfig file
       run: |
+        echo "🔐 Fetching token from IAS..."
+
+        TOKEN=$(curl -s -u "$IAS_CLIENT_ID:$IAS_CLIENT_SECRET" \
+        -X POST "$IAS_TOKEN_URL" \
+        -H "Content-Type: application/x-www-form-urlencoded" \
+        -d "grant_type=client_credentials" | jq -r '.access_token')
+
+        if [ -z "$TOKEN" ] || [ "$TOKEN" = "null" ]; then
+          echo "❌ Failed to retrieve access token"
+        exit 1
+        fi
+
+        echo "::add-mask::$TOKEN"
         mkdir -p ~/.kube
         cat <<EOF > ~/.kube/config
         apiVersion: v1
         kind: Config
-        current-context: susaas-gh-action
+        current-context: ${CLUSTER_NAME}
         users:
-          - name: susaas-gh-action
+          - name: ${CLUSTER_NAME}
             user:
               token: ${TOKEN}
         clusters:
@@ -151,15 +164,17 @@ jobs:
         contexts:
           - context:
               cluster:  ${CLUSTER_NAME}
-              user: susaas-gh-action
-              namespace: default
-            name: susaas-gh-action
+              user: ${CLUSTER_NAME}
+              namespace: mtenant
+            name: ${CLUSTER_NAME}
         EOF
       env:
-        TOKEN: ${{ secrets.CLUSTER_TOKEN}}
         CERTIFICATE: ${{ secrets.CLUSTER_CA_DATA }}
         SERVER:  ${{ secrets.CLUSTER_API }}
         CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+        IAS_CLIENT_ID: ${{ secrets.IAS_CLIENT_ID }}
+        IAS_CLIENT_SECRET: ${{ secrets.IAS_CLIENT_SECRET }}
+        IAS_TOKEN_URL: ${{ secrets.IAS_TOKEN_URL }
 
     - name: Test Kubectl
       run: |
