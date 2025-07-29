@@ -10,7 +10,7 @@
   "dependencies": {
     "@cap-js-community/odata-v2-adapter": "^1.14.4",
     "@cap-js/hana": "^1.6",
-    "@kubernetes/client-node": "^0.22.1",
+    "@kubernetes/client-node": "^1.3.0",
     "@sap_oss/alert-notification-client": "^1.9.0",
     "@sap/cds": "^8.9.4",
     "@sap/cds-mtxs": "^2.7.2",
