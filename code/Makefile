@@ -1,5 +1,6 @@
 IMAGE_PREFIX ?= sap-demo
 RELEASE ?= susaas
+KYMA_DOMAIN ?= kyma.dummydomain.com 
 # Paths
 CODE_DIR := .
 GEN_DIR := $(CODE_DIR)/gen
@@ -95,3 +96,9 @@ push-broker:
 
 push-html5-deployer:
 	$(PUSH) $(IMAGE_PREFIX)/susaas-html5-deployer
+
+# ---------- Release ----------
+deploy:
+	helm upgrade --install susaas $(GEN_DIR)/chart --namespace mtenant --wait --timeout 10m0s --set global.domain=$(KYMA_DOMAIN) --set global.image.registry=$(IMAGE_PREFIX)
+
+release: install build pack deploy

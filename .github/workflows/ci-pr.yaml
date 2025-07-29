@@ -186,14 +186,23 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-    - name: Build and Push Images
+    - name: Build and Deploy
       run: |
         cd code
-        make install
-        make build
-        make pack IMAGE_PREFIX=${DOCKERHUB_USER}
+        make release IMAGE_PREFIX=${DOCKERHUB_USER} KYMA_DOMAIN=${KYMA_DOMAIN}
       env:
         DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+        KYMA_DOMAIN: ${{ secrets.KYMA_DOMAIN }}
+    
+    - name: Run Subscription Test Script 
+      run: |
+        chmod +x ./code/test/subscription-test.sh
+        ./code/test/subscription-test.sh
+      env:
+        BTP_USERNAME: ${{ secrets.CF_USERNAME }}
+        BTP_PASSWORD: ${{ secrets.CF_PASSWORD }}
+        BTP_SUBDOMAIN: ${{ secrets.BTP_SUBDOMAIN }}
+
 
     
         

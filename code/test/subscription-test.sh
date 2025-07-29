@@ -24,6 +24,18 @@ btp_login() {
   echo "Successfully logged into BTP."
 }
 
+detect_platform() {
+  if command -v kubectl &> /dev/null && kubectl get ns kyma-system &> /dev/null; then
+    PLATFORM="kyma"
+    APPLICATION_NAME="susaas-kyma-mtenant-susaas"
+    echo "🔍 Platform detected: Kyma"
+  else
+    PLATFORM="cf"
+    echo "🔍 Platform detected: Cloud Foundry"
+  fi
+}
+
+
 # Function to create a subaccount
 create_subaccount() {
   local START_TIME=$(date +%s)
@@ -311,11 +323,20 @@ APP_GUID=$(cf curl "/v3/apps?names=$APP_NAME" | jq -r '.resources[0].guid')
 }
 
 # Main script execution
+detect_platform
 btp_login
 create_subaccount
 check_subaccount_status
 subscribe_to_application
-validate_osb_registration
-validate_common_db_entity
+
+# Run platform-specific validation only if not Kyma
+if [[ "$PLATFORM" != "kyma" ]]; then
+  validate_osb_registration
+  validate_common_db_entity
+else
+  echo "Skipping OSB and Common DB validation for Kyma platform, for now.."
+fi
+
+# Run shared cleanup steps
 unsubscribe_from_application
 delete_subaccount

@@ -273,7 +273,7 @@ xsuaa:
    servicePlanName: application
    serviceOfferingName: xsuaa
    parameters:
-    xsappname: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    xsappname: susaas-kyma-{{ .Release.Namespace }}-{{ .Release.Name }}
     tenant-mode: shared
 
     oauth2-configuration:
@@ -420,8 +420,8 @@ saas-registry:
       onUpdateDependenciesAsync: false
       getDependencies: https://{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }}/-/cds/saas-provisioning/dependencies
       onSubscription: https://{{ .Release.Name }}-approuter-{{ .Release.Namespace }}.{{ .Values.global.domain }}/-/cds/saas-provisioning/tenant/{tenantId}
-    xsappname: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
-    appName: susaas-{{ .Release.Namespace }}-{{ .Release.Name }}
+    xsappname: susaas-kyma-{{ .Release.Namespace }}-{{ .Release.Name }}
+    appName: susaas-kyma-{{ .Release.Namespace }}-{{ .Release.Name }}
     appPlans:
       - name: trial
         description: Sustainable SaaS trial plan
