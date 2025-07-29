@@ -174,7 +174,7 @@ jobs:
         CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
         IAS_CLIENT_ID: ${{ secrets.IAS_CLIENT_ID }}
         IAS_CLIENT_SECRET: ${{ secrets.IAS_CLIENT_SECRET }}
-        IAS_TOKEN_URL: ${{ secrets.IAS_TOKEN_URL }
+        IAS_TOKEN_URL: ${{ secrets.IAS_TOKEN_URL }}
 
     - name: Test Kubectl
       run: |
