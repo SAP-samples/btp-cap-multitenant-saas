@@ -58,6 +58,3 @@ dependencies:
   - name: service-instance
     alias: common-db
     version: ">0.0.0"
-  - name: service-instance
-    alias: xsuaa
-    version: ">0.0.0"
