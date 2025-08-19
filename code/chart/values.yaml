@@ -3,7 +3,7 @@
 global:
   domain:  # here comes your kyma cluster domain c-12312312.com
   image:
-    registry:  # here comes your dockerhub username example:alper1903
+    #registry:  # here comes your dockerhub username example:alper1903
     tag: latest
     
 
