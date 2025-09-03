@@ -27,6 +27,7 @@
   "devDependencies": {
     "@sap/approuter": "^20.5.0",
     "@sap/cds-common-content": "^1.4.0",
+    "@sap/cds-dk": "^8.9.8",
     "@sap/html5-app-deployer": "^7.0.2",
     "@sap/html5-repo-mock": "^2.1.9",
     "@sap/ui5-builder-webide-extension": "^1.1.9",
