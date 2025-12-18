@@ -1,6 +1,6 @@
 IMAGE_PREFIX ?= sap-demo
 RELEASE ?= susaas
-KYMA_DOMAIN ?= kyma.dummydomain.com 
+KYMA_DOMAIN ?= kyma.dummydomain.com
 # Paths
 CODE_DIR := .
 GEN_DIR := $(CODE_DIR)/gen
@@ -27,25 +27,25 @@ ui-build: ui-admin ui-public
 ui-admin: ui-admin-projects ui-admin-users
 
 ui-admin-projects:
-	cd $(APP_DIR)/ui-admin-projects && npm run build
+	cd $(APP_DIR)/ui-admin-projects && npm run build:copy
 	cp -r $(APP_DIR)/ui-admin-projects/dist $(APP_DIR)/ui-admin-projects/build
 
 ui-admin-users:
-	cd $(APP_DIR)/ui-admin-users && npm run build
+	cd $(APP_DIR)/ui-admin-users && npm run build:copy
 	cp -r $(APP_DIR)/ui-admin-users/dist $(APP_DIR)/ui-admin-users/build
 
 ui-public: ui-public-assessments ui-public-flp ui-public-projects
 
 ui-public-assessments:
-	cd $(APP_DIR)/ui-public-assessments && npm run build
+	cd $(APP_DIR)/ui-public-assessments && npm run build:copy
 	cp -r $(APP_DIR)/ui-public-assessments/dist $(APP_DIR)/ui-public-assessments/build
 
 ui-public-flp:
-	cd $(APP_DIR)/ui-public-flp && npm run build
+	cd $(APP_DIR)/ui-public-flp && npm run build:copy
 	cp -r $(APP_DIR)/ui-public-flp/dist $(APP_DIR)/ui-public-flp/build
 
 ui-public-projects:
-	cd $(APP_DIR)/ui-public-projects && npm run build
+	cd $(APP_DIR)/ui-public-projects && npm run build:copy
 	cp -r $(APP_DIR)/ui-public-projects/dist $(APP_DIR)/ui-public-projects/build
 
 # ---------- HTML5 Deployer ----------
