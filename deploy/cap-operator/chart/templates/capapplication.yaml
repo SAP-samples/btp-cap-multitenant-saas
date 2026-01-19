@@ -8,19 +8,13 @@ metadata:
     {{- end }}
   name: cap-{{.Values.app.name}}
 spec:
-  domains:
-    primary: {{.Values.app.domains.primary}}
-    {{- if .Values.app.domains.secondary }}
-    secondary:
-      {{- range .Values.app.domains.secondary }}
-      - {{.}}
-      {{- end }}
+  domainRefs:
+    - kind: Domain
+      name: dom-{{$.Values.app.name}}
+    {{- range $index, $domain := $.Values.app.domains.secondary }}
+    - kind: Domain
+      name: dom-{{$.Values.app.name}}-sec-{{$index}}
     {{- end }}
-    istioIngressGatewayLabels:
-    {{- range $k, $v := .Values.ingressGatewayLabels }}
-    - name: {{ $k }}
-      value: {{ $v | default "invalidValue"}}
-    {{ end }}
   btpAppName: "{{.Values.app.name}}"
   globalAccountId: "{{.Values.btp.globalAccountId}}"
   provider:
