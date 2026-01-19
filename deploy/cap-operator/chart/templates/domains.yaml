@@ -1,0 +1,28 @@
+apiVersion: sme.sap.com/v1alpha1
+kind: Domain
+metadata:
+  name: dom-{{.Values.app.name}}
+spec:
+  domain: {{.Values.app.domains.primary}}
+  ingressSelector:
+  {{- range $k, $v := .Values.ingressGatewayLabels }}
+    {{$k}}: {{$v}}
+  {{ end }}
+  tlsMode: Simple
+  dnsMode: Wildcard
+
+{{- range $index, $domain := $.Values.app.domains.secondary }}
+---
+apiVersion: sme.sap.com/v1alpha1
+kind: Domain
+metadata:
+  name: dom-{{$.Values.app.name}}-sec-{{$index}}
+spec:
+  domain: {{$domain}}
+  ingressSelector:
+  {{- range $k, $v := $.Values.ingressGatewayLabels }}
+    {{$k}}: {{$v}}
+  {{ end }}
+  tlsMode: Simple
+  dnsMode: Subdomain
+{{- end }}
