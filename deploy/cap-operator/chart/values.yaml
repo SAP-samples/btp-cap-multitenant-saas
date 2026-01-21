@@ -259,10 +259,6 @@ broker:
         id:
       premium:
         id:
-  credentials:
-    user:
-    password:
-  
 
 hdiDeployer:
   # -- Container image for HDI Deployer (db-com)
