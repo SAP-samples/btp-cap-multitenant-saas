@@ -523,4 +523,3 @@ resources:
           grant-types: ["authorization_code"]
           credential-types: ["binding-secret","x509"]
         xsuaa-cross-consumption: false
-        multi-tenant: false
