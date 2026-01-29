@@ -43,6 +43,12 @@ kubectl apply -n cap-operator-system -f https://github.com/SAP/cap-operator-life
 
 This section uses [Docker](https://docs.docker.com/get-started/get-docker/) to build you container images.
 
+Install `npm` packages (required to execute scripts independent of the OS).
+```
+## execute from deploy/cap-operator ##
+npm install
+```
+
 To build your images execute the following command:
 ```
 ## execute from deploy/cap-operator ##

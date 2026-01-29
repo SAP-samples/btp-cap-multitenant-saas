@@ -352,11 +352,15 @@ const deregisterServiceBroker = async (context) => {
 }
 
 const createKymaApiRule = async (context) => {
-    await kyma.createApiRule(kyma.getApiRuleTmpl(context.subdomain))
+    if (process.env.KYMA_GATEWAY) {
+        await kyma.createApiRule(kyma.getApiRuleTmpl(context.subdomain))
+    }
 }
 
 const deleteKymaApiRule = async (context) => {
-    await kyma.deleteApiRule(kyma.getApiRuleTmpl(context.subdomain))
+    if (process.env.KYMA_GATEWAY) {
+        await kyma.deleteApiRule(kyma.getApiRuleTmpl(context.subdomain))
+    }
 }
 
 const workflowStepsCFOnboarding = [

@@ -263,17 +263,25 @@ spec:
             key: config.json
       - name: SBF_CATALOG_FILE
         value: "/etc/config/catalog.json"
-      - name: SBF_BROKER_CREDENTIALS
+      - name: SBF_CREDENTIALS_PROVIDER_SERVICE
+        value: "{{ include "xsuaaApiInstance" . }}"
+      - name: NODE_ENV
+        value: production
+      - name: BROKER_USER
         valueFrom:
           secretKeyRef:
             name: {{ template "capApplicationVersionName" . }}-brk-cred
-            key: credentials.json
-      - name: SBF_CREDENTIALS_PROVIDER_SERVICE
-        value: "{{ include "xsuaaApiInstance" . }}"
-      - name: VCAP_APPLICATION # TODO - remove unnecessary workaround after fixing broker/start.js
-        value: "{}"
-      - name: NODE_ENV
-        value: production
+            key: BROKER_USER
+      - name: BROKER_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: BROKER_PASSWORD
+      - name: BROKER_HASH
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: BROKER_HASH
       volumeMounts:
       - name: tmp
         mountPath: /tmp
@@ -477,11 +485,6 @@ spec:
         value: production
       - name: MTX_COLLECT_LOGS
         value: "true"
-      - name: SBF_BROKER_CREDENTIALS
-        valueFrom:
-          secretKeyRef:
-            name: {{ template "capApplicationVersionName" . }}-brk-cred
-            key: credentials.json
       - name: BROKER_NAME
         value: "{{.Values.app.name}}-broker"
       - name: BROKER_URL
@@ -492,6 +495,21 @@ spec:
         value: "{{.Values.app.name}}"
       - name: PROVIDER_TENANT_ID
         value: {{.Values.btp.provider.tenantId}}
+      - name: BROKER_USER
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: BROKER_USER
+      - name: BROKER_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: BROKER_PASSWORD
+      - name: BROKER_HASH
+        valueFrom:
+          secretKeyRef:
+            name: {{ template "capApplicationVersionName" . }}-brk-cred
+            key: BROKER_HASH
       volumeMounts:
       - name: tmp
         mountPath: /tmp
